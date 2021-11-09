@@ -104,10 +104,7 @@ class BaseController extends Controller
 		
 		$settings=$this->SettingModel->getByMetaKey();
 		$common_data['settings']=$settings;
-		$common_data['ItemType']=$this->ItemType;
-		$common_data['AutoCarburant']=$this->AutoCarburant;
-		$common_data['BookingStatus']=$this->BookingStatus;
-		$common_data['BookingPriority']=$this->BookingPriority;
+	
 		$user_loginas=$this->session->get('user_loginas');	
 		if(!empty($user_loginas)) $common_data['user_loginas']=$user_loginas;
 		/* query to extract idEnte from server name 
