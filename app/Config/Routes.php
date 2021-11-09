@@ -49,6 +49,13 @@ $routes->add('/admin/ResetPassword/(:any)/(:any)', 'Users::resetPassword/$1/$2')
 $routes->get('/admin/ResetPassword/(:any)/(:any)', 'Users::resetPassword/$1/$2');
 
 
+###################" SUPERADMIN #########################
+
+$routes->add('/superadmin/login', 'Users::login');
+$routes->get('/superadmin/login', 'Users::login');
+
+$routes->add('/superadmin/dashboard', 'Superadmin::dashboard');
+$routes->get('/superadmin/dashboard', 'Superadmin::dashboard');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
