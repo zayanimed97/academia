@@ -8,12 +8,12 @@
         <meta content="Sam Benia" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <?= csrf_meta() ?>
-        <link rel="shortcut icon" href="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/images/favicon.ico">
-		<link href="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
-		<link href="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-default-stylesheet" />
-		<link href="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/css/bootstrap-dark.min.css" rel="stylesheet" type="text/css" id="bs-dark-stylesheet" />
-		<link href="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="app-dark-stylesheet" />
-		<link href="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="<?php echo base_url('UBold_v4.1.0')?>/assets/images/favicon.ico">
+		<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
+		<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-default-stylesheet" />
+		<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/bootstrap-dark.min.css" rel="stylesheet" type="text/css" id="bs-dark-stylesheet" />
+		<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="app-dark-stylesheet" />
+		<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     </head>
 
     <body class="loading auth-fluid-pages pb-0">
@@ -163,7 +163,7 @@
                         </form-->
                         
                         <footer class="footer footer-alt">
-                            <?php echo view('copyright')?>
+                            <?php echo view('admin/copyright')?>
                         </footer>
 
                     </div> <!-- end .card-body -->
@@ -187,10 +187,10 @@
         <!-- end auth-fluid-->
 
         <!-- Vendor js -->
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/js/vendor.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/vendor.min.js"></script>
 
         <!-- App js -->
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/js/app.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/app.min.js"></script>
         
     </body>
 </html>

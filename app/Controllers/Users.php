@@ -9,11 +9,12 @@ class Users extends BaseController
 	{ 	
 		$settings=$this->SettingModel->getByMetaKey();
 		$user_data=$this->session->get('user_data');
-		if($user_data['role']=='A') return redirect()->to( base_url('/admin/dashboard') );
-		return view('login.php',array('settings'=>$settings));
+		// if($user_data['role'] ?? ''=='A') return redirect()->to( base_url('/admin/dashboard') );
+		return view('admin/login.php',array('settings'=>$settings));
 	}
 	
-		public function logout(){
+	public function logout()
+	{
 		$this->session->destroy();
 		return redirect()->to( base_url() );
 	}
@@ -42,13 +43,13 @@ class Users extends BaseController
 		$val = $this->validate([
            
             'email' => 'required|valid_email',
-          'password' => 'required'
+          	'password' => 'required'
         ]);
 		//var_dump($this->validator->listErrors());
 		if (!$val)
         {
 			
-            return view('login.php', [
+            return view('admin/login.php', [
                    'validation' => $this->validator,'settings'=>$settings
             ]);
 		
@@ -79,15 +80,16 @@ class Users extends BaseController
 				else return redirect()->to( base_url($redirect_url) );
 			*/
 			}
-			elseif($users[0]['first_log']!='yes' && $users[0]['role']!='A'){
-				$error=lang('app.error_not_reset_password_first_time');
-				return view($url, ['error' => $error,'settings'=>$settings]);
-			}
+			// elseif($users[0]['first_log']!='yes' && $users[0]['role']!='ente'){
+			// 	$error=lang('app.error_not_reset_password_first_time');
+			// 	return view($url, ['error' => $error,'settings'=>$settings]);
+			// }
 			else{
 				
 				$this->session->set(array('user_data'=>$users[0]));
+				die(var_dump($this->session->get()));
 				switch($users[0]['role']){
-					case 'A':$redirect_url='admin/dashboard'; break;					
+					case 'ente':$redirect_url='admin/dashboard'; break;					
 					default:$redirect_url='user/dashboard';
 				}
 				//var_dump($users[0]);
@@ -110,7 +112,7 @@ class Users extends BaseController
 			if (!$val)
 			{
 				
-				return view('forgot.php', [
+				return view('admin/forgot.php', [
 					   'validation' => $this->validator,'settings'=>$settings
 				]);
 			
@@ -123,7 +125,7 @@ class Users extends BaseController
 						
 				if(empty($users)){
 					$error=lang('app.error_not_exist_email');
-					 return view('forgot.php', [
+					 return view('admin/forgot.php', [
 					   'error' => $error,'settings'=>$settings
 					]);
 				}
@@ -164,7 +166,7 @@ class Users extends BaseController
 		
 		
 	
-		return view('forgot.php',array("settings"=>$settings,"success"=>$success));
+		return view('admin/forgot.php',array("settings"=>$settings,"success"=>$success));
 	}
 	
 	public function resetPassword($email,$token){
@@ -175,7 +177,7 @@ class Users extends BaseController
 						->where('email', $email)
 						->find();
 		if(empty($exist)){
-			return view('reset_error.php',array("settings"=>$settings));
+			return view('admin/reset_error.php',array("settings"=>$settings));
 		}
 		else{
 			
@@ -188,7 +190,7 @@ class Users extends BaseController
 				]);
 				if (!$val)
 				{				
-					return view('reset_password.php', [
+					return view('admin/reset_password.php', [
 						   'validation' => $this->validator,'settings'=>$settings,"email"=>$email,"token"=>$token
 					]);
 				
@@ -211,7 +213,7 @@ class Users extends BaseController
 						return redirect()->to( base_url($redirect_url) );
 				}
 			}
-			return view('reset_password.php',array("settings"=>$settings,"email"=>$email,"token"=>$token));
+			return view('admin/reset_password.php',array("settings"=>$settings,"email"=>$email,"token"=>$token));
 		}
 		
 	}
@@ -228,7 +230,7 @@ class Users extends BaseController
 						->find();
 		if(empty($exist)){
 			$data['error']=lang('app.error_access');
-			return view('reset_error.php',$data);
+			return view('admin/reset_error.php',$data);
 		}
 		else{
 			
@@ -241,7 +243,7 @@ class Users extends BaseController
 				]);
 				if (!$val)
 				{				
-					return view('new_password.php', [
+					return view('admin/new_password.php', [
 						   'validation' => $this->validator,'settings'=>$settings,"email"=>$email,"token"=>$token
 					]);
 				
@@ -266,7 +268,7 @@ class Users extends BaseController
 			}
 			$data['token']=$token;
 			$data['email']=$email;
-			return view('new_password.php',$data);
+			return view('admin/new_password.php',$data);
 		}
 		
 	}
@@ -427,7 +429,7 @@ class Users extends BaseController
 			
 			
 			$data['profile_data']=$profile_data;
-			echo view('profile.php',$data);
+			echo view('admin/profile.php',$data);
 		
 	}
 	public function list_users(){
