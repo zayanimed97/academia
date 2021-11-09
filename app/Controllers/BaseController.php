@@ -1,18 +1,28 @@
 <?php
 namespace App\Controllers;
-use App\Models\SettingModel;
-use App\Models\TemplatesModel;
+use App\Models\ArgomentiModel;
+use App\Models\CategorieModel;
 use App\Models\ComuniModel;
+use App\Models\DisciplineModel;
+use App\Models\EntePackageModel;
+use App\Models\MethodPaymentModel;
 use App\Models\NazioniModel;
+use App\Models\NotifLogModel;
+use App\Models\ProfessioneModel;
 use App\Models\ProvinceModel;
+use App\Models\RegioneModel;
+use App\Models\SettingModel;
+use App\Models\SottoargomentiModel; 
+use App\Models\TemplatesModel;
+
+
+use App\Models\UserCvModel;
 use App\Models\UserModel;
 use App\Models\UserProfileModel;
+use App\Models\UsersLogModel;
 
-use App\Models\BookingModel;
-use App\Models\BookingNoteModel;
-use App\Models\ItemsModel;
-use App\Models\ItemsCategoryModel;
-use App\Models\NotifLogModel;
+
+
 /**
  * Class BaseController
  *
@@ -55,30 +65,30 @@ class BaseController extends Controller
 		// $this->session = \Config\Services::session();
 		$security = \Config\Services::security();
 		$this->session = \Config\Services::session();
-		 $session = session()->start();
-		$email = \Config\Services::email();
-		$email->SMTPHost="google.com";
-	
-		// $this->SettingModel =  new SettingModel();
-		// $this->TemplatesModel =  new TemplatesModel();
-		// $this->ComuniModel =  new ComuniModel();
-		// $this->NazioniModel =  new NazioniModel();
-		// $this->ProvinceModel =  new ProvinceModel();
-		// $this->NotifLogModel= new NotifLogModel();
-		// $this->UserModel =  new UserModel();
-		// $this->UserProfileModel =  new UserProfileModel();
+		$session = session()->start();
 		
-		// $this->BookingModel =  new BookingModel();
-		// $this->BookingNoteModel =  new BookingNoteModel();
-		// $this->ItemsModel =  new ItemsModel();
-		// $this->ItemsCategoryModel =  new ItemsCategoryModel();
-		$this->ItemType=array(1=>'Auto',2=>'Instrumenti');
-		$this->AutoCarburant=array('Diesel','Essence','GPL','Metano');
-		$this->BookingStatus=array( 1=>array('label'=>'in sospeso','bg'=>'bg-warning'),
-									2=>array('label'=>'accettato','bg'=>'bg-success'),
-									3=>array('label'=>'rifiutato','bg'=>'bg-danger'),
-								);
-		$this->BookingPriority=array(1=>'basso',2=>'medio',3=>'alto');
+		 $this->ArgomentiModel =  new ArgomentiModel();
+		 $this->CategorieModel =  new CategorieModel();
+		  $this->DisciplineModel =  new DisciplineModel();
+		  $this->EntePackageModel=new EntePackageModel();
+		
+		 $this->TemplatesModel =  new TemplatesModel();
+		 $this->ComuniModel =  new ComuniModel();
+		  $this->MethodPaymentModel=new MethodPaymentModel();
+		 $this->NazioniModel =  new NazioniModel();
+		
+		 $this->NotifLogModel= new NotifLogModel();
+		  $this->ProfessioneModel =  new ProfessioneModel();
+		 $this->ProvinceModel =  new ProvinceModel();
+		  $this->RegioneModel =  new RegioneModel();
+		   $this->SettingModel =  new SettingModel();
+		    $this->SottoargomentiModel =  new SottoargomentiModel();
+			  $this->UserCvModel =  new UserCvModel();
+		 $this->UserModel =  new UserModel();
+		 $this->UserProfileModel =  new UserProfileModel();
+		  $this->UsersLogModel =  new UsersLogModel();
+		
+	
 	}
 	
 	public function common_data(){
