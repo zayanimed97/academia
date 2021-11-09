@@ -33,6 +33,22 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+$routes->add('/logout', 'Users::logout');
+$routes->get('/logout', 'Users::logout');
+
+
+$routes->add('/admin/login', 'Users::login');
+$routes->get('/admin/login', 'Users::login');
+
+ 
+$routes->add('/admin/forgotPassword', 'Users::forgotPassword');
+$routes->get('/admin/forgotPassword', 'Users::forgotPassword');
+ 
+
+$routes->add('/admin/ResetPassword/(:any)/(:any)', 'Users::resetPassword/$1/$2');
+$routes->get('/admin/ResetPassword/(:any)/(:any)', 'Users::resetPassword/$1/$2');
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

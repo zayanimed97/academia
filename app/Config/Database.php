@@ -32,10 +32,10 @@ class Database extends Config
      */
     public $default = [
         'DSN'      => '',
-        'hostname' => '141.94.16.40',
-        'username' => 'auledigit',
-        'password' => 'fA92xg9^',
-        'database' => 'auledigit',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'academia',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
