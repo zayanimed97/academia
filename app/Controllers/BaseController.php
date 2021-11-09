@@ -98,6 +98,10 @@ class BaseController extends Controller
 		if(!empty($user_data)) $is_logged=true;
 		$common_data['is_logged']=$is_logged;
 		$common_data['user_data']=$user_data;
+		
+		$selected_ente=$this->UserModel->where('role','ente')->where('domain_ente',$_SERVER['SERVER_NAME'])->first();
+		if(!empty($selected_ente)) $common_data['selected_ente']=$selected_ente['id'];
+		
 		$settings=$this->SettingModel->getByMetaKey();
 		$common_data['settings']=$settings;
 		$common_data['ItemType']=$this->ItemType;
