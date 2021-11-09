@@ -48,13 +48,14 @@ class BaseController extends Controller
 	 *
 	 * @var array
 	 */
-	protected $helpers = ['form','url','text'];
+	protected $helpers = ['form','url','text','language'];
 
 	/**
 	 * Constructor.
 	 */
 	public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
 	{
+
 		// Do Not Edit This Line
 		parent::initController($request, $response, $logger);
 
@@ -99,7 +100,7 @@ class BaseController extends Controller
 		$common_data['is_logged']=$is_logged;
 		$common_data['user_data']=$user_data;
 		
-		$selected_ente=$this->UserModel->where('role','ente')->where('domain_ente',$_SERVER['SERVER_NAME'])->first();
+		$selected_ente=$this->UserModel->where('role','ente')->where('domain_ente',$_SERVER['SERVER_NAME'] ?? 'localhost')->first();
 		if(!empty($selected_ente)) $common_data['selected_ente']=$selected_ente['id'];
 		
 		$settings=$this->SettingModel->getByMetaKey();
