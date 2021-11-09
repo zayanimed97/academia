@@ -60,8 +60,16 @@ $routes->get('/admin/ResetPassword/(:any)/(:any)', 'Users::resetPassword/$1/$2')
 $routes->add('/superadmin/login', 'Users::login');
 $routes->get('/superadmin/login', 'Users::login');
 
-$routes->add('/superadmin/dashboard', 'Superadmin::dashboard');
-$routes->get('/superadmin/dashboard', 'Superadmin::dashboard');
+$routes->group("superadmin", ["filter" => "auth:admin"], function ($routes) {
+   $routes->add('dashboard', 'Superadmin::dashboard');
+	$routes->get('dashboard', 'Superadmin::dashboard');
+	
+	 $routes->add('profile', 'Superadmin::profile');
+	$routes->get('profile', 'Superadmin::profile');
+});
+
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

@@ -39,7 +39,7 @@ class Users extends BaseController
 		$settings=$this->SettingModel->getByMetaKey();
 		$email=$this->request->getVar('email');
 		$password=$this->request->getVar('password');
-	
+	 $url=uri_string();
 		$val = $this->validate([
            
             'email' => 'required|valid_email',
@@ -49,7 +49,7 @@ class Users extends BaseController
 		if (!$val)
         {
 			
-            return view('admin/login.php', [
+            return view($url, [
                    'validation' => $this->validator,'settings'=>$settings
             ]);
 		
@@ -87,9 +87,10 @@ class Users extends BaseController
 			else{
 				
 				$this->session->set(array('user_data'=>$users[0]));
-				die(var_dump($this->session->get()));
+				
 				switch($users[0]['role']){
-					case 'ente':$redirect_url='admin/dashboard'; break;					
+					case 'ente':$redirect_url='admin/dashboard'; break;				
+					case 'admin':$redirect_url='superadmin/dashboard'; break;									
 					default:$redirect_url='user/dashboard';
 				}
 				//var_dump($users[0]);
