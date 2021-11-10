@@ -304,7 +304,8 @@ $lang['menu_logout']="Logout";
 $lang['menu_admin']="Administratore";
 
 ############" titles ###################
-
+$lang['title_page_profile']="Profilo";
+$lang['title_section_menu_account']="Account informazioni";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";

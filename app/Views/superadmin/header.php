@@ -30,7 +30,7 @@
                                 </div>
     
                                 <!-- item-->
-                                <a href="<?php echo base_url('/user/profile')?>" class="dropdown-item notify-item">
+                                <a href="<?php echo base_url('/superadmin/profile')?>" class="dropdown-item notify-item">
                                     <i class="fe-user"></i>
                                     <span><?php echo  lang('app.menu_profile')?></span>
                                 </a>
@@ -55,7 +55,7 @@
     
                     <!-- LOGO -->
                     <div class="logo-box">
-                        <a href="<?php echo base_url('user/dashboard')?>" class="logo logo-dark text-center">
+                        <a href="<?php echo base_url('superadmin/dashboard')?>" class="logo logo-dark text-center">
                             <span class="logo-sm">
                                 <img src="<?php echo base_url('uploads/'.$settings['logo'])?>" alt="" height="30">
                                 <!-- <span class="logo-lg-text-light">UBold</span> -->
@@ -66,7 +66,7 @@
                             </span>
                         </a>
     
-                        <a href="<?php echo base_url('user/dashboard')?>" class="logo logo-light text-center">
+                        <a href="<?php echo base_url('superadmin/dashboard')?>" class="logo logo-light text-center">
                             <span class="logo-sm">
                                 <img src="<?php echo base_url('uploads/'.$settings['logo'])?>" alt="" height="30">
                             </span>
@@ -117,7 +117,7 @@
                             <div class="dropdown-menu user-pro-dropdown">
 
                                 <!-- item-->
-								<a href="<?php echo base_url('/user/profile')?>" class="dropdown-item notify-item">
+								<a href="<?php echo base_url('/superadmin/profile')?>" class="dropdown-item notify-item">
                                     <i class="fe-user"></i>
                                     <span><?php echo  lang('app.menu_profile')?></span>
                                 </a>
@@ -144,16 +144,16 @@
                             <li class="menu-title"><?php echo lang('app.menu')?></li>               
 
                             <li>
-                                <a href="<?php echo base_url('user/dashboard')?>">
+                                <a href="<?php echo base_url('superadmin/dashboard')?>">
                                    <i data-feather="airplay"></i>
                                     <span> <?php echo lang('app.menu_dashboard')?> </span>
                                 </a>
                             </li>
 							
 							 <li>
-                                <a href="<?php echo base_url('user/bookings')?>">
+                                <a href="<?php echo base_url('superadmin/ente')?>">
                                    <i data-feather="list"></i>
-                                    <span> <?php echo lang('app.menu_bookings')?> </span>
+                                    <span> <?php echo lang('app.menu_ente')?> </span>
                                 </a>
                             </li>
                             
