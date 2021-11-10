@@ -18,13 +18,34 @@ class CategoriesController extends BaseController
 		$user_data=$this->session->get('user_data');
 		// die(var_dump($user_data));
 		$settings=$this->SettingModel->getByMetaKey();
-		return view('admin/categories.php',array('settings'=>$settings));
+		$categories = $this->CategorieModel->where('id_ente', $user_data['id'])->find();
+		return view('admin/categories.php',array('settings'=>$settings, 'categories'=>$categories));
+	}
+
+	public function new()
+	{
+		$this->CategorieModel->insert	([
+											'titolo' => $this->request->getVar('name'),
+											'status' => 'enable',
+											'url' => base_url().'/'.url_title($this->request->getVar('name')),
+											'id_ente'=> $this->session->get('user_data')['id']
+										]);
+		return redirect()->to($_SERVER['HTTP_REFERER']);
+	}
+
+	public function update()
+	{
+		$this->CategorieModel->where('id_ente', $this->session->get('user_data')['id'])->update	($this->request->getVar('catId'),[
+											'titolo' => $this->request->getVar('name'),
+											'url' => base_url().'/'.url_title($this->request->getVar('name')),
+										]);
+		return redirect()->to($_SERVER['HTTP_REFERER']);
 	}
 	
-	public function logout()
+	public function delete($id)
 	{
-		$this->session->destroy();
-		return redirect()->to( base_url() );
+		$this->CategorieModel->where('id_ente', $this->session->get('user_data')['id'])->where('id', $id)->delete();
+		return redirect()->to($_SERVER['HTTP_REFERER']);
 	}
 	
 	

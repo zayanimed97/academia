@@ -36,6 +36,9 @@ $routes->get('/login', 'Users::index');
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
     $routes->get('categories', 'CategoriesController::show');
+    $routes->add('newCategory', 'CategoriesController::new');
+    $routes->add('updateCategory', 'CategoriesController::update');
+    $routes->add('deleteCategory/(:any)', 'CategoriesController::delete/$1');
 });
 
 

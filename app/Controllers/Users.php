@@ -87,7 +87,6 @@ class Users extends BaseController
 			else{
 				
 				$this->session->set(array('user_data'=>$users[0]));
-				
 				switch($users[0]['role']){
 					case 'ente':$redirect_url='admin/dashboard'; break;				
 					case 'admin':$redirect_url='superadmin/dashboard'; break;									

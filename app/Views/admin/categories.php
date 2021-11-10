@@ -1,5 +1,8 @@
 <?= view('admin/common/header') ?>
-
+<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
             <!-- ============================================================== -->
             <!-- Start Page Content here -->
             <!-- ============================================================== -->
@@ -21,10 +24,10 @@
                                             <li class="breadcrumb-item active">Editable</li>
                                         </ol>
                                     </div>
-                                    <div class="row">
+                                    <div class="row align-items-center">
                                         <h4 class="page-title">Table Editable</h4>
-                                        <button type="button" class="btn btn-info btn-rounded waves-effect waves-light">
-                                            <span class="btn-label"><i class="mdi mdi-alert-circle-outline"></i></span>Info
+                                        <button type="button" data-toggle="modal" data-target="#new-category-modal" class="btn btn-info btn-rounded waves-effect waves-light ml-4" style="height: fit-content;">
+                                            <span class="btn-label"><i class="mdi mdi-database-plus"></i></span><?= lang('app.new_category') ?>
                                         </button>
                                     </div>
                                 </div>
@@ -40,110 +43,35 @@
                                         <h5 class="mt-0">Inline edit with Button</h5>
                                         <p class="sub-header">Inline edit like a spreadsheet, toolbar column with edit button only and without focus on first input.</p>
                                         <div class="table-responsive">
-                                            <table class="table table-centered mb-0" id="btn-editable">
+                                            <table id="basic-datatable" class="table dt-responsive nowrap w-100">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Name</th>
-                                                        <th>Position</th>
-                                                        <th>Office</th>
-                                                        <th>Age</th>
-                                                        <th>Start date</th>
-                                                        <th>Salary</th>
+                                                        <th>title</th>
+                                                        <th>url</th>
+                                                        <th>status</th>
+                                                        <th>action</th>
                                                     </tr>
                                                 </thead>
                                             
                                                 <tbody>
+                                                    <?php foreach($categories as $cat) { ?>
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>Tiger Nixon</td>
-                                                        <td>System Architect</td>
-                                                        <td>Edinburgh</td>
-                                                        <td>61</td>
-                                                        <td>2011/04/25</td>
-                                                        <td>$320,800</td>
+                                                        <td><?= $cat['id'] ?></td>
+                                                        <td><?= $cat['titolo'] ?></td>
+                                                        <td><?= $cat['url'] ?></td>
+                                                        <td><?= $cat['status'] ?></td>
+                                                        <td class="row pt-1">
+                                                            <button type="button" data-toggle="modal" data-target="#update-category-modal" onclick="updateID(<?= $cat['id'] ?>, '<?= $cat['titolo'] ?>')" class="btn p-1 mr-2" style="font-size: 1rem">
+                                                                <i class="fe-edit"></i>
+                                                            </button>
+
+                                                            <a href="<?= base_url() ?>/admin/deleteCategory/<?= $cat['id'] ?>" class="p-1" style="height: fit-content; font-size: 1rem; color: red">
+                                                                <i class="fe-x-circle"></i>
+                                                            </a>
+                                                        </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>Garrett Winters</td>
-                                                        <td>Accountant</td>
-                                                        <td>Tokyo</td>
-                                                        <td>63</td>
-                                                        <td>2011/07/25</td>
-                                                        <td>$170,750</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>Ashton Cox</td>
-                                                        <td>Junior Technical Author</td>
-                                                        <td>San Francisco</td>
-                                                        <td>66</td>
-                                                        <td>2009/01/12</td>
-                                                        <td>$86,000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>4</td>
-                                                        <td>Cedric Kelly</td>
-                                                        <td>Senior Javascript Developer</td>
-                                                        <td>Edinburgh</td>
-                                                        <td>22</td>
-                                                        <td>2012/03/29</td>
-                                                        <td>$433,060</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>5</td>
-                                                        <td>Airi Satou</td>
-                                                        <td>Accountant</td>
-                                                        <td>Tokyo</td>
-                                                        <td>33</td>
-                                                        <td>2008/11/28</td>
-                                                        <td>$162,700</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>6</td>
-                                                        <td>Brielle Williamson</td>
-                                                        <td>Integration Specialist</td>
-                                                        <td>New York</td>
-                                                        <td>61</td>
-                                                        <td>2012/12/02</td>
-                                                        <td>$372,000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>7</td>
-                                                        <td>Herrod Chandler</td>
-                                                        <td>Sales Assistant</td>
-                                                        <td>San Francisco</td>
-                                                        <td>59</td>
-                                                        <td>2012/08/06</td>
-                                                        <td>$137,500</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>8</td>
-                                                        <td>Rhona Davidson</td>
-                                                        <td>Integration Specialist</td>
-                                                        <td>Tokyo</td>
-                                                        <td>55</td>
-                                                        <td>2010/10/14</td>
-                                                        <td>$327,900</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>9</td>
-                                                        <td>Colleen Hurst</td>
-                                                        <td>Javascript Developer</td>
-                                                        <td>San Francisco</td>
-                                                        <td>39</td>
-                                                        <td>2009/09/15</td>
-                                                        <td>$205,500</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>10</td>
-                                                        <td>Sonya Frost</td>
-                                                        <td>Software Engineer</td>
-                                                        <td>Edinburgh</td>
-                                                        <td>23</td>
-                                                        <td>2008/12/13</td>
-                                                        <td>$103,600</td>
-                                                    </tr>
+                                                    <?php } ?>
                                                 </tbody>
                                             </table>
                                         </div> <!-- end .table-responsive-->
@@ -181,13 +109,83 @@
             <!-- End Page content -->
             <!-- ============================================================== -->
 
+            <!-- add new modal content -->
+            <div id="new-category-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.new_category') ?></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="px-3" method="post" action="<?= base_url() ?>/admin/newCategory" data-parsley-validate="">
+
+                                <div class="form-group">
+                                    <label for="username"><?= lang('app.field_category_name') ?></label>
+                                    <input class="form-control" type="text" id="username" name="name" required placeholder="<?= lang('app.field_category_name') ?>">
+                                </div>
+
+                                <div class="form-group text-center">
+                                    <button class="btn btn-primary" type="submit"><?= lang('app.btn_add') ?></button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+
+            <!-- update category modal content -->
+            <div id="update-category-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.new_category') ?></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="px-3" method="post" action="<?= base_url() ?>/admin/updateCategory" data-parsley-validate="">
+                                <input type="hidden" value="" id="updateId" name="catId">
+                                <div class="form-group">
+                                    <label for="username"><?= lang('app.field_category_name') ?></label>
+                                    <input class="form-control" type="text" id="updatename" name="name" required placeholder="<?= lang('app.field_category_name') ?>">
+                                </div>
+
+                                <div class="form-group text-center">
+                                    <button class="btn btn-primary" type="submit"><?= lang('app.btn_add') ?></button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
 
 <?= view('admin/common/footer') ?>
 
-<!-- Table Editable plugin-->
-<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/jquery-tabledit/jquery.tabledit.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/pdfmake/build/vfs_fonts.js"></script>
 
-<!-- Table editable init-->
-<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/tabledit.init.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/datatables.init.js"></script>
 
+<script>
+    function updateID(id, name){
+        $('#updatename').val(name)
+        $('#updateId').val(id)
+    }
+</script>
 <?= view('admin/common/endtag') ?>
