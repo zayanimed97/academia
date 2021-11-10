@@ -149,13 +149,24 @@
                                     <span> <?php echo lang('app.menu_dashboard')?> </span>
                                 </a>
                             </li>
-							
-							 <li>
-                                <a href="<?php echo base_url('superadmin/ente')?>">
-                                   <i data-feather="list"></i>
-                                    <span> <?php echo lang('app.menu_ente')?> </span>
+							<li>
+                                <a href="#menu_clients" data-toggle="collapse" >
+                                    <i data-feather="users"></i>
+                                    <span>  <?php echo lang('app.menu_ente')?> </span>
+                                    <span class="menu-arrow"></span>
                                 </a>
+                                <div class="collapse" id="menu_clients">
+                                    <ul class="nav-second-level">
+                                        <li>
+                                            <a href="<?php echo base_url('superadmin/ente/new')?>"><?php echo lang('app.menu_new')?></a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo base_url('superadmin/ente')?>"><?php echo lang('app.menu_list')?></a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
+							
                             
 							
 
