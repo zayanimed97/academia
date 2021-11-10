@@ -46,6 +46,12 @@ $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
     $routes->add('newArgomenti', 'ArgomentiController::new');
     $routes->add('updateArgomenti', 'ArgomentiController::update');
     $routes->add('deleteArgomenti/(:any)', 'ArgomentiController::delete/$1');
+
+    //argomenti
+    $routes->get('sottoargomenti/(:any)', 'SottoargomentiController::show/$1');
+    $routes->add('newSottoargomenti', 'SottoargomentiController::new');
+    $routes->add('updateSottoargomenti', 'SottoargomentiController::update');
+    $routes->add('deleteSottoargomenti/(:any)', 'SottoargomentiController::delete/$1');
 });
 
 
