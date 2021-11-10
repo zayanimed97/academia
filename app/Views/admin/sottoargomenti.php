@@ -25,9 +25,9 @@
                                         </ol>
                                     </div>
                                     <div class="row align-items-center">
-                                        <h4 class="page-title"><?= lang('app.dashboard_argomenti') ?></h4>
-                                        <button type="button" data-toggle="modal" data-target="#new-argomenti-modal" class="btn btn-info btn-rounded waves-effect waves-light ml-4" style="height: fit-content;">
-                                            <span class="btn-label"><i class="mdi mdi-database-plus"></i></span><?= lang('app.new_argomenti') ?>
+                                        <h4 class="page-title"><?= lang('app.dashboard_sottoargomenti') ?></h4>
+                                        <button type="button" data-toggle="modal" data-target="#new-sottoargomenti-modal" class="btn btn-info btn-rounded waves-effect waves-light ml-4" style="height: fit-content;">
+                                            <span class="btn-label"><i class="mdi mdi-database-plus"></i></span><?= lang('app.new_sottoargomenti') ?>
                                         </button>
                                     </div>
                                 </div>
@@ -40,7 +40,7 @@
                                 <div class="card">
                                     <div class="card-body">
         
-                                        <h5 class="mt-0"><?= lang('app.field_argomenti') ?></h5>
+                                        <h5 class="mt-0"><?= lang('app.field_sottoargomenti') ?></h5>
                                         <!-- <p class="sub-header">Inline edit like a spreadsheet, toolbar column with edit button only and without focus on first input.</p> -->
                                         <div class="table-responsive">
                                             <table id="basic-datatable" class="table dt-responsive nowrap w-100">
@@ -54,22 +54,18 @@
                                                 </thead>
                                             
                                                 <tbody>
-                                                    <?php foreach($argomenti as $arg) { ?>
+                                                    <?php foreach($sottoargomenti as $arg) { ?>
                                                     <tr>
-                                                        <td><?= $arg['idargomenti'] ?></td>
-                                                        <td><?= $arg['nomeargomento'] ?></td>
+                                                        <td><?= $arg['id'] ?></td>
+                                                        <td><?= $arg['titolo'] ?></td>
                                                         <td><?= $arg['url'] ?></td>
                                                         <td class="row pt-1">
-                                                            <button type="button" data-toggle="modal" data-target="#update-argomenti-modal" onclick="updateID(<?= $arg['idargomenti'] ?>, '<?= $arg['nomeargomento'] ?>')" class="btn p-1 mr-2" style="font-size: 1rem">
+                                                            <button type="button" data-toggle="modal" data-target="#update-sottoargomenti-modal" onclick="updateID(<?= $arg['id'] ?>, '<?= $arg['titolo'] ?>')" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-edit"></i>
                                                             </button>
 
-                                                            <a href="<?= base_url() ?>/admin/deleteArgomenti/<?= $arg['idargomenti'] ?>" class="p-1" style="height: fit-content; font-size: 1rem; color: red">
+                                                            <a href="<?= base_url() ?>/admin/deleteSottoargomenti/<?= $arg['id'] ?>" class="p-1" style="height: fit-content; font-size: 1rem; color: red">
                                                                 <i class="fe-x-circle"></i>
-                                                            </a>
-
-                                                            <a href="<?= base_url() ?>/admin/sottoargomenti/<?= $arg['idargomenti'] ?>" class="p-1" style="height: fit-content; font-size: 1rem">
-                                                                <i class="fe-arrow-right"></i>
                                                             </a>
                                                         </td>
                                                     </tr>
@@ -112,19 +108,19 @@
             <!-- ============================================================== -->
 
             <!-- add new modal content -->
-            <div id="new-argomenti-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div id="new-sottoargomenti-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog  modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.new_argomenti') ?></h4>
+                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.new_sottoargomenti') ?></h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                         <div class="modal-body">
-                            <form class="px-3" method="post" action="<?= base_url() ?>/admin/newArgomenti" data-parsley-validate="">
-
+                            <form class="px-3" method="post" action="<?= base_url() ?>/admin/newSottoargomenti" data-parsley-validate="">
+                                <input type="hidden" name="id_argomenti" value="<?= $id_argomenti ?>">
                                 <div class="form-group">
-                                    <label for="username"><?= lang('app.field_argomenti_name') ?></label>
-                                    <input class="form-control" type="text" id="username" name="name" required placeholder="<?= lang('app.field_argomenti_name') ?>">
+                                    <label for="username"><?= lang('app.field_sottoargomenti_name') ?></label>
+                                    <input class="form-control" type="text" id="username" name="name" required placeholder="<?= lang('app.field_sottoargomenti_name') ?>">
                                 </div>
 
                                 <div class="form-group text-center">
@@ -140,19 +136,19 @@
 
 
             <!-- update argomenti modal content -->
-            <div id="update-argomenti-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div id="update-sottoargomenti-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog  modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.update_argomenti') ?></h4>
+                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.update_sottoargomenti') ?></h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                         <div class="modal-body">
-                            <form class="px-3" method="post" action="<?= base_url() ?>/admin/updateArgomenti" data-parsley-validate="">
+                            <form class="px-3" method="post" action="<?= base_url() ?>/admin/updateSottoargomenti" data-parsley-validate="">
                                 <input type="hidden" value="" id="updateId" name="catId">
                                 <div class="form-group">
-                                    <label for="username"><?= lang('app.field_argomenti_name') ?></label>
-                                    <input class="form-control" type="text" id="updatename" name="name" required placeholder="<?= lang('app.field_argomenti_name') ?>">
+                                    <label for="username"><?= lang('app.field_sottoargomenti_name') ?></label>
+                                    <input class="form-control" type="text" id="updatename" name="name" required placeholder="<?= lang('app.field_sottoargomenti_name') ?>">
                                 </div>
 
                                 <div class="form-group text-center">
