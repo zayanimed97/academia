@@ -47,11 +47,23 @@ $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
     $routes->add('updateArgomenti', 'ArgomentiController::update');
     $routes->add('deleteArgomenti/(:any)', 'ArgomentiController::delete/$1');
 
-    //argomenti
+    //sottoargomenti
     $routes->get('sottoargomenti/(:any)', 'SottoargomentiController::show/$1');
     $routes->add('newSottoargomenti', 'SottoargomentiController::new');
     $routes->add('updateSottoargomenti', 'SottoargomentiController::update');
     $routes->add('deleteSottoargomenti/(:any)', 'SottoargomentiController::delete/$1');
+
+    //professione
+    $routes->get('professione', 'ProfessioneController::show');
+    $routes->add('newProfessione', 'ProfessioneController::new');
+    $routes->add('updateProfessione', 'ProfessioneController::update');
+    $routes->add('deleteProfessione/(:any)', 'ProfessioneController::delete/$1');
+
+    //discipline
+    $routes->get('discipline/(:any)', 'DisciplineController::show/$1');
+    $routes->add('newDiscipline', 'DisciplineController::new');
+    $routes->add('updateDiscipline', 'DisciplineController::update');
+    $routes->add('deleteDiscipline/(:any)', 'DisciplineController::delete/$1');
 });
 
 
