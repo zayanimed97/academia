@@ -55,6 +55,9 @@ $lang['link_all']="Tutti";
 $lang['btn_subscribe']="Invia";
 $lang['title_newsletter']="Iscriviti alla newsletter";
 $lang['help_newsletter']="Riceverai le nostre promozioni e aggiornamenti!";
+$lang['btn_next']="successivo";
+$lang['btn_prev']="precedente";
+$lang['btn_finish']="finire";
 ########## Fields ################
 $lang['field_password']= "password";
 $lang['field_confirm_password']="Conferma password";
@@ -300,6 +303,12 @@ $lang['field_incontro']="Incontro";
 $lang['field_cuors_title']="Corso";
 $lang['field_docente']="Docente";
 $lang['field_list_attachment_cours']="Materiali pdf";
+$lang['field_server_name']="Ente Domain";
+$lang['field_package_extra']="Pacchetti aggiuntivi";
+$lang['field_test']="Test apprentimento";
+$lang['field_test_quality']="Test di qualità";
+$lang['field_coupon']="Coupon";
+$lang['field_fatture_cloud']="Fattura in cloud (API)";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -307,18 +316,21 @@ $lang['menu_register']="Registrati";
 $lang['menu_login']="Login";
 $lang['menu_dashboard']="Dashboard";
 $lang['menu_profile']="Profilo";
-$lang['menu_account']="mio account";
-
-
+$lang['menu_account']="account";
+$lang['menu_new']="Nuovo";
+$lang['menu_list']="Lista";
 $lang['menu_setting']="impostazioni";
 $lang['menu_setting_info']="Informazioni";
 $lang['menu_setting_email']="Sistema Emails";
 $lang['menu_logout']="Logout";
 $lang['menu_admin']="Administratore";
-
+$lang['menu_ente']="Ente";
+$lang['menu_package']="Pocchetto";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
+$lang['title_page_list_ente']="Ente";
+$lang['title_page_new_ente']="Crea Ente";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
@@ -354,5 +366,7 @@ $lang['success_genrerate_certificat']="i certificati vengono generati";
 $lang['scc_mail_subscribed_newsletter']="la tua email è iscritta nel sistema di newsletter";
 #############alert msg ####################
 
+
+$lang['help_server_name']="i.e: mydomain.it (escluso http://)";
 return $lang;
 ?>

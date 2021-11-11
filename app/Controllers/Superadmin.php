@@ -6,8 +6,9 @@ class Superadmin extends BaseController
 	{ 	
 		$settings=$this->SettingModel->getByMetaKey();
 		$user_data=$this->session->get('user_data');
-		if($user_data['role']=='A') return redirect()->to( base_url('/admin/dashboard') );
-		return view('login.php',array('settings'=>$settings));
+		if(empty($user_data)) return redirect()->to( base_url('/superadmin/login') );
+		if($user_data['role']=='A') return redirect()->to( base_url('/superadmin/dashboard') );
+		return view('superadmin/login.php',array('settings'=>$settings));
 	}
 	
 	public function dashboard()
