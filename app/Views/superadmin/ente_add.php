@@ -17,6 +17,7 @@
         <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/selectize/css/selectize.bootstrap3.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
          <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+		 
 		<!-- App css -->
         <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
         <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-default-stylesheet" />
@@ -72,7 +73,8 @@
                                     <div class="card-body">
 
                                       
-
+<?php $attributes = ['class' => 'form-input-flat', 'id' => 'add_ente_form','method'=>'post'];
+													echo form_open('', $attributes);?>
                                         <div id="rootwizard">
                                             <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-3">
                                                 <li class="nav-item" data-target-form="#accountForm">
@@ -93,18 +95,13 @@
                                                         <span class="d-none d-sm-inline"><?php echo lang('app.menu_profile')?></span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item" data-target-form="#otherForm">
-                                                    <a href="#fourth" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
-                                                        <i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>
-                                                        <span class="d-none d-sm-inline">Finish</span>
-                                                    </a>
-                                                </li>
+                                               
                                             </ul>
 
                                             <div class="tab-content mb-0 b-0 pt-0">
 
                                                 <div class="tab-pane" id="first">
-                                                    <form id="accountForm" method="post" action="#" class="form-horizontal">
+                                                    <div id="accountForm" >
                                                         <div class="row">
                                                             <div class="col-12">
                                                                 <div class="form-group row mb-3">
@@ -123,103 +120,305 @@
                                                                 
                                                             </div> <!-- end col -->
                                                         </div> <!-- end row -->
-                                                    </form>
+                                                    </div>
                                                 </div>
 											<div class="tab-pane fade" id="second">
-                                                    <form id="packageForm" method="post" action="#" class="form-horizontal">
+                                                    <div id="packageForm" >
                                                         <div class="row">
+														<div class="col-12">
+														   <div class="form-group row mb-3">
+																<label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_type_cours')?></label>
+																<div class="col-md-9">
+																	<input type="text" class="form-control" name="expired_date" id="expired_date">
+																</div>
+															</div>
+														</div>
                                                             <div class="col-12">
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="name3"> First name</label>
+                                                                    <label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_type_cours')?></label>
                                                                     <div class="col-md-9">
-                                                                        <input type="text" id="name3" name="name3" class="form-control" required>
+                                                                        <div class="checkbox form-check-inline">
+																			<input type="checkbox" name="type_cours[]" id="aula" value="aula">
+																			<label for="aula"> aula </label>
+																		</div>
+																		<div class="checkbox form-check-inline">
+																			<input type="checkbox" name="type_cours[]" id="online" value="online">
+																			<label for="online"> online </label>
+																		</div>
+																		<div class="checkbox form-check-inline">
+																			<input type="checkbox" name="type_cours[]" id="webinar" value="webinar">
+																			<label for="webinar"> webinar </label>
+																		</div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="surname3"> Last name</label>
-                                                                    <div class="col-md-9">
-                                                                        <input type="text" id="surname3" name="surname3" class="form-control" required>
-                                                                    </div>
-                                                                </div>
-                                                    
-                                                                <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="email3">Email</label>
-                                                                    <div class="col-md-9">
-                                                                        <input type="email" id="email3" name="email3" class="form-control" required>
-                                                                    </div>
-                                                                </div>
+                                                                
                                                             </div>
                                                             <!-- end col -->
+															 <div class="col-12">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_package_extra')?></label>
+                                                                    <div class="col-md-9">
+                                                                        <div class="checkbox form-check-inline">
+																			<input type="checkbox" name="extra[]" id="test" value="test">
+																			<label for="test"> <?php echo lang('app.field_test')?> </label>
+																		</div>
+																		 <div class="checkbox form-check-inline">
+																			<input type="checkbox" name="extra[]" id="test_quality" value="test_quality">
+																			<label for="test_quality"> <?php echo lang('app.field_test_quality')?> </label>
+																		</div>
+																		 <div class="checkbox form-check-inline">
+																			<input type="checkbox" name="extra[]" id="certificat" value="certificat">
+																			<label for="certificat"> <?php echo lang('app.field_attesto')?> </label>
+																		</div>
+																		 <div class="checkbox form-check-inline">
+																			<input type="checkbox" name="extra[]" id="coupon" value="coupon">
+																			<label for="coupon"> <?php echo lang('app.field_coupon')?> </label>
+																		</div>
+																		<div class="checkbox form-check-inline">
+																			<input type="checkbox" name="extra[]" id="fatturecloud" value="fatturecloud">
+																			<label for="fatturecloud"> <?php echo lang('app.field_fatture_cloud')?> </label>
+																		</div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
                                                         </div>
                                                         <!-- end row -->
-                                                    </form>
+											
+                                                    </div>
                                                 </div>
                                                 <div class="tab-pane fade" id="third">
-                                                    <form id="profileForm" method="post" action="#" class="form-horizontal">
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="name3"> First name</label>
-                                                                    <div class="col-md-9">
-                                                                        <input type="text" id="name3" name="name3" class="form-control" required>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="surname3"> Last name</label>
-                                                                    <div class="col-md-9">
-                                                                        <input type="text" id="surname3" name="surname3" class="form-control" required>
-                                                                    </div>
-                                                                </div>
-                                                    
-                                                                <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="email3">Email</label>
-                                                                    <div class="col-md-9">
-                                                                        <input type="email" id="email3" name="email3" class="form-control" required>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- end col -->
-                                                        </div>
+                                                    <div id="profileForm" >
+													
+                                                       			<div class="row">
+																  <div class="col-6">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_first_name')?></label>
+									<div class="col-md-9">
+										<?php $val=""; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'nome',
+												'id'    => 'nome',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_first_name'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+                                  <div class="col-6">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_last_name')?></label>
+                                   <div class="col-md-9">
+								        <?php $val=""; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'cognome',
+												'id'    => 'cognome',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_last_name'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+                               <div class="col-6">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_phone')?></label>
+                                    <div class="col-md-9">
+										<?php $val=""; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'telefono',
+												'id'    => 'telefono',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_phone'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+							</div>
+								<div class="col-6">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_mobile')?></label>
+                                    <div class="col-md-9">
+										<?php $val=""; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'mobile',
+												'id'    => 'mobile',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_mobile'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+                               </div>
+								<div class="col-4">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_country')?></label>
+                                    <div class="col-md-9">
+										<?php $input = [
+												
+												'name'  => 'residenza_stato',
+												'id'    => 'residenza_stato',
+												'placeholder' =>lang('app.field_country'),
+												'class' => 'form-control'
+										];
+										$options=array();
+										$options['']=lang('app.field_select');
+										foreach($list_nazioni as $k=>$v){
+											$options[$v['id']]=$v['nazione'];
+										}
+										$js = ' onChange="get_provincia(\'residenza_stato\',this.value);"';
+										echo form_dropdown($input, $options,'',$js);
+										?>
+
+									</div>
+								</div>
+                               </div>
+                                   <div class="col-4" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_provincia')?></label>
+                                    <div class="col-md-9" id="div_residenza_provincia">
+										<?php $input = [
+												
+												'name'  => 'residenza_provincia',
+												'id'    => 'residenza_provincia',
+												'placeholder' =>lang('app.field_provincia'),
+												'class' => 'form-control'
+										];
+										
+											$input['value']='';
+											echo form_input($input);
+										
+										?>
+									</div>
+								</div>
+							</div>
+                                   <div class="col-4" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_city')?></label>
+									<div class="col-md-9" >
+										<?php $input = [
+												
+												'name'  => 'residenza_comune',
+												'id'    => 'residenza_comune',
+												'placeholder' =>lang('app.field_city'),
+												'class' => 'form-control'
+										];
+										
+											$input['value']='';
+											echo form_input($input);
+									
+										?>
+                                    </div>
+								</div>
+								</div>
+                                 <div class="col-6" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_address')?></label>
+                                    <div class="col-md-9">
+										<?php $val=""; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'residenza_indirizzo',
+												'id'    => 'residenza_indirizzo',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_address'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+                                   <div class="col-6" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_zip')?></label>
+                                    <div class="col-md-9">
+										<?php $val=""; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'residenza_cap',
+												'id'    => 'residenza_cap',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_zip'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+                               </div>
+										
+								
+								
+								   <div class="col-6" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_cf')?></label>
+                                    <div class="col-md-9">
+										<?php $val=""; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'cf',
+												'id'    => 'cf',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_cf'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+										</div>				
+														</div>
                                                         <!-- end row -->
-                                                    </form>
+                                                    </div>
                                                 </div>
 
-                                                <div class="tab-pane fade" id="fourth">
-                                                    <form id="otherForm" method="post" action="#" class="form-horizontal">
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <div class="text-center">
-                                                                    <h2 class="mt-0">
-                                                                        <i class="mdi mdi-check-all"></i>
-                                                                    </h2>
-                                                                    <h3 class="mt-0">Thank you !</h3>
-                                                    
-                                                                    <p class="w-75 mb-2 mx-auto">Quisque nec turpis at urna dictum luctus. Suspendisse convallis dignissim eros at volutpat. In egestas mattis
-                                                                        dui. Aliquam mattis dictum aliquet.</p>
-                                                    
-                                                                    <div class="mb-3">
-                                                                        <div class="custom-control custom-checkbox">
-                                                                            <input type="checkbox" class="custom-control-input" id="customCheck4" required>
-                                                                            <label class="custom-control-label" for="customCheck4">I agree with the Terms and Conditions</label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- end col -->
-                                                        </div>
-                                                        <!-- end row -->
-                                                    </form>
-                                                </div>
+                                              
 
                                                 <ul class="list-inline wizard mb-0">
-                                                    <li class="previous list-inline-item"><a href="javascript: void(0);" class="btn btn-secondary">Previous</a>
+                                                    <li class="previous list-inline-item"><a href="javascript: void(0);" class="btn btn-secondary"><?php echo lang('app.btn_prev');?></a>
                                                     </li>
-                                                    <li class="next list-inline-item float-right"><a href="javascript: void(0);" class="btn btn-secondary">Next</a></li>
+                                                    <li class="next list-inline-item float-right"><a href="javascript: void(0);" class="btn btn-secondary btn-next"><?php echo lang('app.btn_next');?></a></li>
+													 <li class="next list-inline-item float-right"><a href="javascript: void(0);" onclick="save_ente();" class="btn btn-success btn-finish"><?php echo lang('app.btn_finish');?></a></li>
                                                 </ul>
 
                                             </div> <!-- tab-content -->
                                         </div> <!-- end #rootwizard-->
-
+									<?php echo form_close()?>
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card-->
                             </div> <!-- end col -->
@@ -234,7 +433,20 @@
                 </div> <!-- content -->
 	
 	
-	
+	<div id="success-alert-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                                            <div class="modal-dialog modal-sm">
+                                                <div class="modal-content modal-filled bg-success">
+                                                    <div class="modal-body p-4">
+                                                        <div class="text-center">
+                                                            <i class="dripicons-checkmark h1 text-white"></i>
+                                                            <h4 class="mt-2 text-white"><?php echo lang('app.success_add')?></h4>
+                                                           
+															<a href="<?php echo base_url('superadmin/ente')?>" class="btn btn-light my-2" ><?php echo lang('app.btn_continue')?></a>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
 		   
                 <!-- Footer Start -->
                <?php echo view('superadmin/footer');?> 
@@ -262,7 +474,7 @@
 
         <!-- plugin js -->
 		   <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/flatpickr.min.js"></script>
-		   <!--script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/I10n/it.js"></script-->
+		   <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/l10n/it.js"></script>
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/moment/min/moment.min.js"></script>
         
 		
@@ -275,12 +487,18 @@
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/bootstrap-select/js/bootstrap-select.min.js"></script>
 		  <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/sweetalert2/sweetalert2.min.js"></script>
     <!-- Todo app -->
-       
+        
     <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
         <!-- Sweet alert init js-->
      <script>
 		$(document).ready(function(){
 			"use strict";
+			$("#expired_date").flatpickr({
+				dateFormat: "Y-m-d",
+				 altFormat: "F j, Y",
+				 altInput:!0,
+				 locale: "it",
+			});
 			/*$("#basicwizard").bootstrapWizard(),
 			$("#progressbarwizard").bootstrapWizard({onTabShow:function(t,r,a){var o=(a+1)/r.find("li").length*100;$("#progressbarwizard").find(".bar").css({width:o+"%"})}}),
 			$("#btnwizard").bootstrapWizard({nextSelector:".button-next",previousSelector:".button-previous",firstSelector:".button-first",lastSelector:".button-last"}),*/
@@ -308,6 +526,29 @@
 				}
 			})
 		});
+function save_ente(){
+	var fields = $( "#add_ente_form" ).serializeArray();
+	$.ajax({
+				  url:"<?php echo base_url('Ente/add_form_submit')?>",
+				  method:"POST",
+				  data:fields
+				  
+			}).done(function(data){
+				
+				
+				var obj=JSON.parse(data);
+				if(obj.error==true){
+					$("#error_alert").html(obj.validation);
+					$("#error_alert").show('slow');
+				
+				}
+				else{
+					$("#error_alert").hide('slow');
+					$( "#success-alert-modal" ).modal('show');
+				//	return true;
+				}
+			});
+}
 	</script>
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/app.min.js"></script>
     </body>

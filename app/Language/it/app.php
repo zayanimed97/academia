@@ -46,6 +46,9 @@ $lang['link_all']="Tutti";
 $lang['btn_subscribe']="Invia";
 $lang['title_newsletter']="Iscriviti alla newsletter";
 $lang['help_newsletter']="Riceverai le nostre promozioni e aggiornamenti!";
+$lang['btn_next']="successivo";
+$lang['btn_prev']="precedente";
+$lang['btn_finish']="finire";
 ########## Fields ################
 $lang['field_password']= "password";
 $lang['field_confirm_password']="Conferma password";
@@ -286,6 +289,11 @@ $lang['field_cuors_title']="Corso";
 $lang['field_docente']="Docente";
 $lang['field_list_attachment_cours']="Materiali pdf";
 $lang['field_server_name']="Ente Domain";
+$lang['field_package_extra']="Pacchetti aggiuntivi";
+$lang['field_test']="Test apprentimento";
+$lang['field_test_quality']="Test di qualità";
+$lang['field_coupon']="Coupon";
+$lang['field_fatture_cloud']="Fattura in cloud (API)";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
