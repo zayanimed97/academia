@@ -58,6 +58,7 @@ $lang['help_newsletter']="Riceverai le nostre promozioni e aggiornamenti!";
 $lang['btn_next']="successivo";
 $lang['btn_prev']="precedente";
 $lang['btn_finish']="finire";
+$lang['btn_clear']="chiaro";
 ########## Fields ################
 $lang['field_password']= "password";
 $lang['field_confirm_password']="Conferma password";
@@ -309,6 +310,10 @@ $lang['field_test']="Test apprentimento";
 $lang['field_test_quality']="Test di qualità";
 $lang['field_coupon']="Coupon";
 $lang['field_fatture_cloud']="Fattura in cloud (API)";
+$lang['field_type_private']="Privato";
+$lang['field_type_company']="Azienda";
+$lang['field_piva']="P.iva";
+$lang['field_expired_date']="data di scadenza";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -331,6 +336,8 @@ $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
 $lang['title_page_list_ente']="Ente";
 $lang['title_page_new_ente']="Crea Ente";
+$lang['modal_title_delete_ente']="Eliminare ente";
+$lang['title_page_edit_ente']="Modifica Ente";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
@@ -348,7 +355,7 @@ $lang['error_not_active_account']="il tuo account non è attivo!";
 $lang['error_piva_format']="solo 11 caratteri numerici";
 $lang['error_cf_format']="solo 16 caratteri alfanumerici";
 $lang['error_extension_pdf']="il documento caricato deve essere pdf!";
-
+$lang['error_at_least_type_cours']="devi selezionare almeno un tipo di corso!";
 ###########success ##########################"
 $lang['success_activation_account']="Complimenti, il tuo account è ora attivo.  Per accedere al tuo profile, devi inserire la tua email e password qui sotto.”";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
@@ -365,7 +372,7 @@ $lang['success_checkout']="Registrazione avvenuta con successo! Ti abbiamo invia
 $lang['success_genrerate_certificat']="i certificati vengono generati";
 $lang['scc_mail_subscribed_newsletter']="la tua email è iscritta nel sistema di newsletter";
 #############alert msg ####################
-
+$lang['alert_msg_delete_user']="sei sicuro di eliminare utente?";
 
 $lang['help_server_name']="i.e: mydomain.it (escluso http://)";
 return $lang;
