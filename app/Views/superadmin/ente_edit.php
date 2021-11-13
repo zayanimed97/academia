@@ -63,7 +63,7 @@
 											  <li class="breadcrumb-item active"><?php echo lang('app.menu_new')?></li>
                                         </ol>
                                     </div>
-                                    <h4 class="page-title"><?php echo lang('app.title_page_new_ente')?></h4>
+                                    <h4 class="page-title"><?php echo lang('app.title_page_edit_ente')?></h4>
                                 </div>
                             </div>
                         </div>     
@@ -76,6 +76,9 @@
                                   	<div class="alert alert-danger" role="alert" id="error_alert" style="display:none"></div>    
 <?php $attributes = ['class' => 'form-input-flat', 'id' => 'add_ente_form','method'=>'post'];
 													echo form_open('', $attributes);?>
+													<input type="hidden" name="id" value="<?php echo $inf['id']?>">
+													<input type="hidden" name="id_profile" value="<?php echo $inf_profile['id']?>">
+													<input type="hidden" name="id_package" value="<?php echo $inf_package['id']?>">
                                         <div id="rootwizard">
                                             <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-3">
                                                 <li class="nav-item" data-target-form="#accountForm">
@@ -108,13 +111,13 @@
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="email">Email <span class="text-danger">*</span></label>
                                                                     <div class="col-md-9">
-                                                                        <input type="email" class="form-control" id="email" name="email" required>
+                                                                        <input type="email" class="form-control" id="email" name="email" required value="<?php echo $inf['email']?>">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="domain_ente"> <?php echo lang('app.field_server_name')?> <span class="text-danger">*</span></label>
                                                                     <div class="col-md-9">
-                                                                        <input type="text" id="domain_ente" name="domain_ente" class="form-control" placeholder="<?php echo lang('app.help_server_name')?>" required>
+                                                                        <input type="text" id="domain_ente" name="domain_ente" class="form-control" value="<?php echo $inf['domain_ente']?>" placeholder="<?php echo lang('app.help_server_name')?>" required>
                                                                     </div>
                                                                 </div>
                                                                 
@@ -130,24 +133,26 @@
 														   <div class="form-group row mb-3">
 																<label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_expired_date')?> <span class="text-danger">*</span></label>
 																<div class="col-md-9">
-																	<input type="text" class="form-control" name="expired_date" id="expired_date">
+																	<input type="text" class="form-control" name="expired_date" id="expired_date" >
 																</div>
 															</div>
 														</div>
+														<?php $tab=json_decode($inf_package['package'],true);
+														?>
                                                             <div class="col-12">
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_type_cours')?> <span class="text-danger">*</span></label>
                                                                     <div class="col-md-9">
                                                                         <div class="checkbox form-check-inline">
-																			<input type="checkbox" name="type_cours[]" id="aula" value="aula">
+																			<input type="checkbox" name="type_cours[]" id="aula" value="aula" <?php if(in_array('aula',$tab['type_cours'])) echo 'checked'?>>
 																			<label for="aula"> aula </label>
 																		</div>
 																		<div class="checkbox form-check-inline">
-																			<input type="checkbox" name="type_cours[]" id="online" value="online">
+																			<input type="checkbox" name="type_cours[]" id="online" value="online" <?php if(in_array('online',$tab['type_cours'])) echo 'checked'?>>
 																			<label for="online"> online </label>
 																		</div>
 																		<div class="checkbox form-check-inline">
-																			<input type="checkbox" name="type_cours[]" id="webinar" value="webinar">
+																			<input type="checkbox" name="type_cours[]" id="webinar" value="webinar" <?php if(in_array('webinar',$tab['type_cours'])) echo 'checked'?>>
 																			<label for="webinar"> webinar </label>
 																		</div>
                                                                     </div>
@@ -160,23 +165,23 @@
                                                                     <label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_package_extra')?></label>
                                                                     <div class="col-md-9">
                                                                         <div class="checkbox form-check-inline">
-																			<input type="checkbox" name="extra[]" id="test" value="test">
+																			<input type="checkbox" name="extra[]" id="test" value="test"  <?php if(in_array('test',$tab['extra'])) echo 'checked'?>>
 																			<label for="test"> <?php echo lang('app.field_test')?> </label>
 																		</div>
 																		 <div class="checkbox form-check-inline">
-																			<input type="checkbox" name="extra[]" id="test_quality" value="test_quality">
+																			<input type="checkbox" name="extra[]" id="test_quality" value="test_quality" <?php if(in_array('test_quality',$tab['extra'])) echo 'checked'?>>
 																			<label for="test_quality"> <?php echo lang('app.field_test_quality')?> </label>
 																		</div>
 																		 <div class="checkbox form-check-inline">
-																			<input type="checkbox" name="extra[]" id="certificat" value="certificat">
+																			<input type="checkbox" name="extra[]" id="certificat" value="certificat" <?php if(in_array('certificat',$tab['extra'])) echo 'checked'?>>
 																			<label for="certificat"> <?php echo lang('app.field_attesto')?> </label>
 																		</div>
 																		 <div class="checkbox form-check-inline">
-																			<input type="checkbox" name="extra[]" id="coupon" value="coupon">
+																			<input type="checkbox" name="extra[]" id="coupon" value="coupon" <?php if(in_array('coupon',$tab['extra'])) echo 'checked'?>>
 																			<label for="coupon"> <?php echo lang('app.field_coupon')?> </label>
 																		</div>
 																		<div class="checkbox form-check-inline">
-																			<input type="checkbox" name="extra[]" id="fatturecloud" value="fatturecloud">
+																			<input type="checkbox" name="extra[]" id="fatturecloud" value="fatturecloud" <?php if(in_array('fatturecloud',$tab['extra'])) echo 'checked'?>>
 																			<label for="fatturecloud"> <?php echo lang('app.field_fatture_cloud')?> </label>
 																		</div>
                                                                     </div>
@@ -194,23 +199,23 @@
 															<div class="col-12">
                                                                 
                                                                         <div class="radio form-check-inline">
-																			<input type="radio" name="type" id="type_private" value="private" checked onclick="return get_type('private')">
+																			<input type="radio" name="type" id="type_private" value="private" <?php if($inf_profile['type']=='private') echo 'checked'?> onclick="return get_type('private')">
 																			<label for="type_private"> <?php echo lang('app.field_type_private')?> </label>
 																		
 																		</div>
 																		 <div class="radio form-check-inline">
-																		<input type="radio" name="type" id="type_company" value="company" onclick="return get_type('company')">
+																		<input type="radio" name="type" id="type_company" value="company" <?php if($inf_profile['type']=='company') echo 'checked'?> onclick="return get_type('company')">
 																			<label for="type_company"> <?php echo lang('app.field_type_company')?> </label>
 																		
 																		</div>
 															</div>
 														</div>
                                                        			<div class="row">
-																  <div class="col-6 div_company" style="display:none">
+																  <div class="col-6 div_company" <?php if($inf_profile['type']!='company'){?>style="display:none" <?php } ?>>
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_company_name')?></label>
 									<div class="col-md-9">
-										<?php $val=""; 
+										<?php $val=$inf_profile['ragione_sociale']; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'ragione_sociale',
@@ -227,11 +232,11 @@
 									</div>
 								</div>
 								</div>
-                                  <div class="col-6 div_company" style="display:none">
+                                  <div class="col-6 div_company" <?php if($inf_profile['type']!='company'){?>style="display:none" <?php } ?>>
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_piva')?></label>
                                    <div class="col-md-9">
-								        <?php $val=""; 
+								        <?php $val=$inf_profile['piva']; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'piva',
@@ -252,7 +257,7 @@
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_first_name')?></label>
 									<div class="col-md-9">
-										<?php $val=""; 
+										<?php $val=$inf_profile['nome']; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'nome',
@@ -273,7 +278,7 @@
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_last_name')?></label>
                                    <div class="col-md-9">
-								        <?php $val=""; 
+								        <?php $val=$inf_profile['cognome']; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'cognome',
@@ -294,7 +299,7 @@
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_phone')?></label>
                                     <div class="col-md-9">
-										<?php $val=""; 
+										<?php $val=$inf_profile['telefono']; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'telefono',
@@ -315,7 +320,7 @@
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_mobile')?></label>
                                     <div class="col-md-9">
-										<?php $val=""; 
+										<?php $val=$inf_profile['mobile']; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'mobile',
@@ -336,11 +341,14 @@
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_country')?></label>
                                     <div class="col-md-9">
-										<?php $input = [
+										<?php 
+										$val=$inf_profile['residenza_stato']; 
+										$input = [
 												
 												'name'  => 'residenza_stato',
 												'id'    => 'residenza_stato',
 												'placeholder' =>lang('app.field_country'),
+												
 												'class' => 'form-control'
 										];
 										$options=array();
@@ -349,7 +357,7 @@
 											$options[$v['id']]=$v['nazione'];
 										}
 										$js = ' onChange="get_provincia(\'residenza_stato\',this.value);"';
-										echo form_dropdown($input, $options,'',$js);
+										echo form_dropdown($input, $options,$val,$js);
 										?>
 
 									</div>
@@ -367,8 +375,22 @@
 												'class' => 'form-control'
 										];
 										
-											$input['value']='';
+											if($inf_profile['residenza_stato']==106){
+										$options=array();
+										$options['']=lang('app.field_select');
+										if(!empty($list_provincia)){
+										foreach($list_provincia as $k=>$v){
+											$options[$v['id']]=$v['provincia'];
+										}
+										}
+										$js = ' onChange="get_comune(\'residenza_provincia\',this.value);"';
+										echo form_dropdown($input, $options,$inf_profile['residenza_provincia'],$js);
+										}
+										else{
+											$input['value']=$inf_profile['residenza_provincia'];
 											echo form_input($input);
+										}
+											
 										
 										?>
 									</div>
@@ -386,8 +408,20 @@
 												'class' => 'form-control'
 										];
 										
-											$input['value']='';
+											if($inf_profile['residenza_stato']==106){
+											$options=array();
+											$options['']=lang('app.field_select');
+											if(!empty($list_comuni)){
+											foreach($list_comuni as $k=>$v){
+												$options[$v['id']]=$v['comune'];
+											}
+											}
+											echo form_dropdown($input, $options,$inf_profile['residenza_comune']);
+										}
+										else{
+											$input['value']=$inf_profile['residenza_comune'];
 											echo form_input($input);
+										}
 									
 										?>
                                     </div>
@@ -438,7 +472,7 @@
 										
 								
 								
-								   <div class="col-6 div_private" >
+								   <div class="col-6 div_private" <?php if($inf_profile['type']!='private'){?>style="display:none" <?php } ?>>
 														 <div class="form-group row mb-3">
 													<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_cf')?></label>
 													<div class="col-md-9">
@@ -553,6 +587,7 @@
 			$("#expired_date").flatpickr({
 				dateFormat: "Y-m-d",
 				 altFormat: "F j, Y",
+				 defaultDate:"<?php echo $inf_package['expired_date']?>",
 				 altInput:!0,
 				 locale: "it",
 			});
@@ -586,7 +621,7 @@
 function save_ente(){
 	var fields = $( "#add_ente_form" ).serializeArray();
 	$.ajax({
-				  url:"<?php echo base_url('Ente/add_form_submit')?>",
+				  url:"<?php echo base_url('Ente/edit_form_submit')?>",
 				  method:"POST",
 				  data:fields
 				  
