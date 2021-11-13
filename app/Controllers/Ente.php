@@ -61,11 +61,11 @@ class Ente extends BaseController
 				'email' => ['label' => 'Email' ,'rules' => 'trim|required|valid_email|is_unique[users.email]'],	
 				'domain_ente' => ['label' => lang('app.field_server_name'), 'rules' => 'trim|required|is_unique[users.domain_ente]'],
 				'expired_date' => ['label' =>  lang('app.field_expired_date') ,'rules' => 'trim|required'],	
-				//'type_cours' => ['label' =>  lang('app.field_type_cours') ,'rules' => 'trim|require'],
+				
 		]);
 		if (!$val)
 		{
-				//var_dump($this->validator);
+			
 				$validation=$this->validator;
 				$error_msg=$validation->listErrors();
 				$res=array("error"=>true,"validation"=>$error_msg);
@@ -75,7 +75,8 @@ class Ente extends BaseController
 		}
 		else{ 
 				$password=random_string();
-				$subscribe_name=$this->request->getVar('nome').' '.$this->request->getVar('cognome');
+				if($this->request->getVar('type')=='company') $subscribe_name=$this->request->getVar('ragione_sociale');
+				else $subscribe_name=$this->request->getVar('nome').' '.$this->request->getVar('cognome');
 				$id_user =$this->UserModel->add('ente',$this->request->getVar('email'),$password,$subscribe_name,'yes','','',$this->request->getVar('domain_ente'));
 				$tab=array( 		
 				'user_id'=>$id_user,
@@ -114,18 +115,35 @@ class Ente extends BaseController
 				'fattura_piva' => $this->request->getVar('fattura_piva'),
 				'dettagli' => $this->request->getVar('dettagli'),
 				'description' => $this->request->getVar('description'),
-				//'argomenti' => $argo,
 				'del' =>$this->request->getVar('del'),
 				'logo' => ''
 				);
 
 				$this->UserProfileModel->save($tab);
-				
-				//if(!is_null($this->request->getVar('type_cours'))) 
-					$tt=json_encode(array('type_cours'=>$this->request->getVar('type_cours'),'extra'=>$this->request->getVar('extra')),true);
+				 
+				$tt=json_encode(array('type_cours'=>$this->request->getVar('type_cours'),'extra'=>$this->request->getVar('extra')),true);
 				$expired_date=$this->request->getVar('expired_date');
 				$this->EntePackageModel->insert(array("id_ente"=>$id_user,"package"=>$tt,"expired_date"=>$expired_date));
-					$res=array("error"=>false);
+				
+				############# send Email ################
+				$common_data=$this->common_data();			
+				$email = \Config\Services::email();
+				$z=$email->setFrom($common_data['settings']['sender_email'],$common_data['settings']['sender_name']);		
+				$email->setTo($inf['email']);
+				if($common_data['settings']['bcc']!="") $email->setBCC($common_data['settings']['bcc']);
+				$link='https://'.$this->request->getVar('doamin_ente').'/admin';
+				$temp=$this->TemplatesModel->where('module','send_credential')->where('id_ente IS NULL')->find();
+				$html=str_replace(array("{var_link}","{var_password}","{var_email}","{var_name}"),
+				array($link,$password,$this->request->getVar('email'),$subscribe_name),
+				$temp[0]['html']);
+				$email->setSubject($temp[0]['subject']);
+				$email->setMessage($html);
+				$email->setAltMessage(strip_tags($html));
+				$xxx=$email->send();
+				$yy=$this->NotifLogModel->insert(array('id_participant'=>$id_user,'type'=>'email','user_to'=>$inf['email'],'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+					
+				
+				$res=array("error"=>false);
 		}
 		
 		echo json_encode($res,true);
@@ -162,7 +180,7 @@ class Ente extends BaseController
 		]);
 		if (!$val)
 		{
-				//var_dump($this->validator);
+				
 				$validation=$this->validator;
 				$error_msg=$validation->listErrors();
 				$res=array("error"=>true,"validation"=>$error_msg);
@@ -172,7 +190,8 @@ class Ente extends BaseController
 		}
 		else{ 
 				
-				$subscribe_name=$this->request->getVar('nome').' '.$this->request->getVar('cognome');
+				if($this->request->getVar('type')=='company') $subscribe_name=$this->request->getVar('ragione_sociale');
+				else $subscribe_name=$this->request->getVar('nome').' '.$this->request->getVar('cognome');
 				$id_user =$this->UserModel->edit($this->request->getVar('id'),array('email'=>$this->request->getVar('email'),'display_name'=>$subscribe_name,'domain_ente'=>$this->request->getVar('domain_ente')));
 				$tab=array( 		
 				
@@ -211,18 +230,16 @@ class Ente extends BaseController
 				'fattura_piva' => $this->request->getVar('fattura_piva'),
 				'dettagli' => $this->request->getVar('dettagli'),
 				'description' => $this->request->getVar('description'),
-				//'argomenti' => $argo,
 				'del' =>$this->request->getVar('del'),
 				'logo' => ''
 				);
 
 				$this->UserProfileModel->update($this->request->getVar('id_profile'),$tab);
 				
-				//if(!is_null($this->request->getVar('type_cours'))) 
-					$tt=json_encode(array('type_cours'=>$this->request->getVar('type_cours'),'extra'=>$this->request->getVar('extra')),true);
+				$tt=json_encode(array('type_cours'=>$this->request->getVar('type_cours'),'extra'=>$this->request->getVar('extra')),true);
 				$expired_date=$this->request->getVar('expired_date');
 				$this->EntePackageModel->update($this->request->getVar('id_package'),array("package"=>$tt,"expired_date"=>$expired_date));
-					$res=array("error"=>false);
+				$res=array("error"=>false);
 		}
 		
 		echo json_encode($res,true);
