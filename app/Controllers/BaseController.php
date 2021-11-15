@@ -14,13 +14,24 @@ use App\Models\RegioneModel;
 use App\Models\SettingModel;
 use App\Models\SottoargomentiModel; 
 use App\Models\TemplatesModel;
-
-
 use App\Models\UserCvModel;
 use App\Models\UserModel;
 use App\Models\UserProfileModel;
 use App\Models\UsersLogModel;
 
+use App\Models\ObiettiviFormazioneModel;
+
+use App\Models\CorsiModel;
+use App\Models\CorsiModuloModel;
+use App\Models\CorsiGalleriaModel;
+use App\Models\CorsiModuloDateModel;
+use App\Models\CorsiModuloVimeoModel;
+use App\Models\CorsiPDFLibModel;
+use App\Models\CorsiPrezzoProfModel;
+use App\Models\CorsiModuloPrezzoProfModel;
+use App\Models\CorsiModuloTestModel;
+use App\Models\CorsiModuloTestQuestionsModel;
+use App\Models\CorsiModuloTestResponsesModel;
 
 
 /**
@@ -67,29 +78,40 @@ class BaseController extends Controller
 		$security = \Config\Services::security();
 		$this->session = \Config\Services::session();
 		$session = session()->start();
+
+		$this->ArgomentiModel =  new ArgomentiModel();
+		$this->CategorieModel =  new CategorieModel();
+		$this->DisciplineModel =  new DisciplineModel();
+		$this->EntePackageModel=new EntePackageModel();
+
+		$this->TemplatesModel =  new TemplatesModel();
+		$this->ComuniModel =  new ComuniModel();
+		$this->MethodPaymentModel=new MethodPaymentModel();
+		$this->NazioniModel =  new NazioniModel();
+
+		$this->NotifLogModel= new NotifLogModel();
+		$this->ProfessioneModel =  new ProfessioneModel();
+		$this->ProvinceModel =  new ProvinceModel();
+		$this->RegioneModel =  new RegioneModel();
+		$this->SettingModel =  new SettingModel();
+		$this->SottoargomentiModel =  new SottoargomentiModel();
+		$this->UserCvModel =  new UserCvModel();
+		$this->UserModel =  new UserModel();
+		$this->UserProfileModel =  new UserProfileModel();
+		$this->UsersLogModel =  new UsersLogModel();
 		
-		 $this->ArgomentiModel =  new ArgomentiModel();
-		 $this->CategorieModel =  new CategorieModel();
-		  $this->DisciplineModel =  new DisciplineModel();
-		  $this->EntePackageModel=new EntePackageModel();
-		
-		 $this->TemplatesModel =  new TemplatesModel();
-		 $this->ComuniModel =  new ComuniModel();
-		  $this->MethodPaymentModel=new MethodPaymentModel();
-		 $this->NazioniModel =  new NazioniModel();
-		
-		 $this->NotifLogModel= new NotifLogModel();
-		  $this->ProfessioneModel =  new ProfessioneModel();
-		 $this->ProvinceModel =  new ProvinceModel();
-		  $this->RegioneModel =  new RegioneModel();
-		   $this->SettingModel =  new SettingModel();
-		    $this->SottoargomentiModel =  new SottoargomentiModel();
-			  $this->UserCvModel =  new UserCvModel();
-		 $this->UserModel =  new UserModel();
-		 $this->UserProfileModel =  new UserProfileModel();
-		  $this->UsersLogModel =  new UsersLogModel();
-		
-	
+		$this->ObiettiviFormazioneModel =  new ObiettiviFormazioneModel();
+		$this->CorsiModel =  new CorsiModel();
+		$this->CorsiModuloModel =  new CorsiModuloModel();
+		$this->CorsiGalleriaModel =  new CorsiGalleriaModel();
+		$this->CorsiModuloDateModel =  new CorsiModuloDateModel();
+		$this->CorsiModuloVimeoModel =  new CorsiModuloVimeoModel();
+		$this->CorsiPDFLibModel =  new CorsiPDFLibModel();
+		$this->CorsiPrezzoProfModel =  new CorsiPrezzoProfModel();
+		$this->CorsiModuloPrezzoProfModel =  new CorsiModuloPrezzoProfModel();
+		$this->CorsiModuloTestModel =  new CorsiModuloTestModel();
+		$this->CorsiModuloTestQuestionsModel =  new CorsiModuloTestQuestionsModel();
+		$this->CorsiModuloTestResponsesModel =  new CorsiModuloTestResponsesModel();
 	}
 	
 	public function common_data(){
