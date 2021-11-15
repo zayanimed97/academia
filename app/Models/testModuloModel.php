@@ -7,7 +7,7 @@ class CorsiModuloTestModel extends Model
 	
     protected $table = 'corsi_modulo_test';
 	protected $primaryKey = 'id';
-    protected $allowedFields = ['title','type','auto_score','enable','banned','ord','nb_repeat','min_points'];
+    protected $allowedFields = ['id_test','id_corsi','id_modulo','banned'];
 	
 	protected $returnType = 'array';
 	
