@@ -64,8 +64,16 @@ $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
     $routes->add('newDiscipline', 'DisciplineController::new');
     $routes->add('updateDiscipline', 'DisciplineController::update');
     $routes->add('deleteDiscipline/(:any)', 'DisciplineController::delete/$1');
+
+
+    //profile
+    $routes->get('profile', 'ProfileController::show');
+    $routes->post('updateProfile', 'ProfileController::update');
+
 });
 
+$routes->get('/getProv', 'Home::getProv');
+$routes->get('/getComm', 'Home::getComm');
 
 $routes->add('/logout', 'Users::logout');
 $routes->get('/logout', 'Users::logout');
