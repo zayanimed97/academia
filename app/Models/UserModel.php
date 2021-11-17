@@ -60,7 +60,7 @@ class UserModel extends Model
 		return true;
 	}
 	
-	public function search($role=null,$display_name=null,$email=null,$active=null,$cf=null){
+	public function search($role=null,$display_name=null,$email=null,$active=null,$cf=null,$id_ente=null){
 		/** find data related to variables **/
 		$db = \Config\Database::connect();
 		$req="SELECT * FROM ".$this->table." where deleted_at is NULL";
@@ -68,7 +68,7 @@ class UserModel extends Model
 		if(!is_null($display_name)) $req.=" and display_name LIKE '%".$db->escapeLikeString($display_name)."%' ESCAPE '!'";
 		if(!is_null($email)) $req.=" and email LIKE '%".$db->escapeLikeString($email)."%' ESCAPE '!'";		
 		if(!is_null($active)) $req.=" and active='".$active."'";
-		
+		if(!is_null($id_ente)) $req.=" and id_ente='".$id_ente."'";
 		if(!is_null($cf)) $req.=" and id IN (select user_id from user_profile where cf LIKE '%".$db->escapeLikeString($cf)."%' ESCAPE '!')";
 		
 		//echo $req;

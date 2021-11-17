@@ -64,6 +64,9 @@ $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
     $routes->add('newDiscipline', 'DisciplineController::new');
     $routes->add('updateDiscipline', 'DisciplineController::update');
     $routes->add('deleteDiscipline/(:any)', 'DisciplineController::delete/$1');
+	
+	$routes->add('corsi/add', 'Corsi::corsi_add');
+	$routes->add('corsi', 'Corsi::index');
 });
 
 
