@@ -123,12 +123,18 @@ class BaseController extends Controller
 		$common_data['is_logged']=$is_logged;
 		$common_data['user_data']=$user_data;
 		
+		if($user_data['role']=='ente'){
+			$inf_package=$this->EntePackageModel->where('id_ente',$user_data['id'])->orderBy('expired_date','DESC')->first();
+			$det=json_decode($inf_package['package'],true);
+			$common_data['ente_package']=array("expired_date"=>$inf_package['expired_date'],"type_cours"=>$det['type_cours'],"extra"=>$det['extra']);
+		}
+		
 		$selected_ente=$this->UserModel->where('role','ente')->where('domain_ente',$_SERVER['SERVER_NAME'] ?? 'localhost')->first();
 		if(!empty($selected_ente)) $common_data['selected_ente']=$selected_ente['id'];
 		
 		$settings=$this->SettingModel->getByMetaKey();
 		$common_data['settings']=$settings;
-	
+		
 		$user_loginas=$this->session->get('user_loginas');	
 		if(!empty($user_loginas)) $common_data['user_loginas']=$user_loginas;
 		/* query to extract idEnte from server name 

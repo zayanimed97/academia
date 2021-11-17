@@ -2,7 +2,7 @@
 use CodeIgniter\Database\ConnectionInterface;
 use CodeIgniter\Model;
 
-class CorsiModuloTestModel extends Model
+class TestModuloModel extends Model
 {
 	
     protected $table = 'corsi_modulo_test';

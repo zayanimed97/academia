@@ -65,11 +65,17 @@ $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
     $routes->add('updateDiscipline', 'DisciplineController::update');
     $routes->add('deleteDiscipline/(:any)', 'DisciplineController::delete/$1');
 
+	
+	
+
+
 
     //profile
     $routes->get('profile', 'ProfileController::show');
     $routes->post('updateProfile', 'ProfileController::update');
 
+$routes->add('corsi/add', 'Corsi::corsi_add');
+	$routes->add('corsi', 'Corsi::index');
 });
 
 $routes->get('/getProv', 'Home::getProv');
