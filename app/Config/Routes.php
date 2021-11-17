@@ -108,6 +108,9 @@ $routes->group("superadmin", ["filter" => "auth:admin"], function ($routes) {
 		
 	$routes->add('ente/new', 'Ente::add');
 	$routes->get('ente/new', 'Ente::add');
+	
+	$routes->add('ente/edit/(:any)', 'Ente::edit/$1');
+	$routes->get('ente/edit/(:any)', 'Ente::edit/$1');
 });
 
 

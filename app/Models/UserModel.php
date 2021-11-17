@@ -28,14 +28,14 @@ class UserModel extends Model
 		return $results;
 	}
 	
-	public function add($role,$email,$password,$display_name,$active,$token='',$id_ente=null){
+	public function add($role,$email,$password,$display_name,$active,$token='',$id_ente=null,$domain_ente=''){
 		$db = \Config\Database::connect();
 		$ordring=0;
 		$rr="select count(*) as c from ".$this->table." where role='".$role."'";
 		$query = $db->query($rr);
 		$results = $query->getResultArray();
 		$ordring=$results[0]['c']+1;
-		 $req="INSERT INTO ".$this->table."(role,email,password,display_name,active,token,ordring,pass,id_ente) VALUES('".$db->escapeString($role)."','".$db->escapeString($email)."','".md5($password)."','".$db->escapeString($display_name)."','".$active."','".$token."','".$ordring."','".$password."','".$id_ente."')";
+		 $req="INSERT INTO ".$this->table."(role,email,password,display_name,active,token,ordring,pass,id_ente,domain_ente) VALUES('".$db->escapeString($role)."','".$db->escapeString($email)."','".md5($password)."','".$db->escapeString($display_name)."','".$active."','".$token."','".$ordring."','".$password."','".$id_ente."','".$db->escapeString($domain_ente)."')";
 		$query = $db->query($req);
 		return $db->insertID();
 	}
