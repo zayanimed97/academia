@@ -350,6 +350,8 @@ $lang['menu_corsi_attachment']="Materiali";
 $lang['field_access']="Accesso";
 $lang['field_access_public']="Publica";
 $lang['field_access_private']="Privato";
+$lang['new_modulo']="Nuovo Modulo";
+$lang['menu_corsi_modulo']="Modulo";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -365,6 +367,10 @@ $lang['title_page_pdflib']="Corsi PDF Biblioteca";
 $lang['modal_title_add_pdflib']="Nuovo documento";
 $lang['modal_title_edit_pdflib']="Modifica documento";
 $lang['modal_title_list_pdflib']="AGGIUNGI MATERIALE";
+$lang['title_page_cours_modulo_new']="Nuovo Modulo";
+$lang['title_page_cours_modulo']="Lista Modulo";
+$lang['title_modal_delete_corsi']="Elemina Corso";
+$lang['title_modal_delete_corsi_modulo']="Elemina Modulo";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
@@ -401,7 +407,8 @@ $lang['scc_mail_subscribed_newsletter']="la tua email è iscritta nel sistema di
 #############alert msg ####################
 $lang['alert_msg_delete_user']="sei sicuro di eliminare utente?";
 $lang['alert_msg_delete_price_prof']="sei sicuro di voler cancellare questo prezzo per profesisone?";
-
+$lang['msg_delete_corso']="sei sicuro di eliminare corso?";
+$lang['msg_delete_corso_modulo']="sei sicuro di eliminare modulo?";
 
 $lang['help_server_name']="i.e: mydomain.it (escluso http://)";
 return $lang;

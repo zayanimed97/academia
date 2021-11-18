@@ -19,15 +19,17 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                             <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard')?>"><?php echo lang('app.menu_dashboard')?></a></li>
+                                          <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard')?>"><?php echo lang('app.menu_dashboard')?></a></li>
+											 <li class="breadcrumb-item"><a href="<?php echo base_url('admin/corsi')?>"><?php echo lang('app.menu_corsi')?></a></li>
+											  <li class="breadcrumb-item active"><?php echo lang('app.menu_corsi_modulo')?></li>
 											
-											  <li class="breadcrumb-item active"><?php echo lang('app.menu_corsi')?></li>
                                         </ol>
                                     </div>
                                     <div class="row align-items-center">
-                                        <h4 class="page-title"><?= lang('app.title_page_cours') ?></h4>
-                                        <a href="<?php echo base_url('admin/corsi/add')?>" class="btn btn-info btn-rounded waves-effect waves-light ml-4" style="height: fit-content;">
-                                            <span class="btn-label"><i class="mdi mdi-database-plus"></i></span><?= lang('app.new_cours') ?>
+                                        <h4 class="page-title"><?= lang('app.title_page_cours_modulo') ?></h4>
+										:&nbsp;  <h5><?php echo $inf_corsi['sotto_titolo']?></h5>
+                                        <a href="<?php echo base_url('admin/corsi/'.$inf_corsi['id'].'/modulo/add')?>" class="btn btn-info btn-rounded waves-effect waves-light ml-4" style="height: fit-content;">
+                                            <span class="btn-label"><i class="mdi mdi-database-plus"></i></span><?= lang('app.new_modulo') ?>
                                         </a>
                                     </div>
                                 </div>
@@ -40,7 +42,7 @@
                                 <div class="card">
                                     <div class="card-body">
         
-                                        <h5 class="mt-0"><?= lang('app.field_argomenti') ?></h5>
+                                     
                                         <!-- <p class="sub-header">Inline edit like a spreadsheet, toolbar column with edit button only and without focus on first input.</p> -->
                                         <div class="table-responsive">
                                             <table id="basic-datatable" class="table dt-responsive nowrap w-100">
@@ -48,7 +50,7 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th><?php echo lang('app.field_title')?></th>
-                                                        <th><?php echo lang('app.field_type_cours')?></th>
+                                                      
                                                         <th>actions</th>
                                                     </tr>
                                                 </thead>
@@ -58,16 +60,15 @@
                                                     <tr>
                                                         <td><?= $arg['id'] ?></td>
                                                         <td><?= $arg['sotto_titolo'] ?></td>
-                                                        <td><?= $arg['tipologia_corsi'] ?></td>
+                                                       
                                                         <td class="row pt-1">
-                                                            <a href="<?php echo base_url('admin/corsi/edit/'.$arg['id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
+                                                          <a href="<?php echo base_url('admin/corsi/'.$arg['id_corsi'].'/modulo/edit/'.$arg['id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-edit"></i>
                                                             </a>
 
                                                             <a data-toggle="modal" data-target="#delete-modal" onclick="get_del('<?php echo $arg['id']?>')" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
                                                                 <i class="fe-x-circle"></i>
                                                             </a>
-
                                                            
                                                         </td>
                                                     </tr>
@@ -109,48 +110,20 @@
             <!-- End Page content -->
             <!-- ============================================================== -->
 
-            <!-- add new modal content -->
-            <div id="new-argomenti-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog  modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.new_argomenti') ?></h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="px-3" method="post" action="<?= base_url() ?>/admin/newArgomenti" data-parsley-validate="">
-
-                                <div class="form-group">
-                                    <label for="username"><?= lang('app.field_argomenti_name') ?></label>
-                                    <input class="form-control" type="text" id="username" name="name" required placeholder="<?= lang('app.field_argomenti_name') ?>">
-                                </div>
-
-                                <div class="form-group text-center">
-                                    <button class="btn btn-primary" type="submit"><?= lang('app.btn_add') ?></button>
-                                </div>
-
-                            </form>
-
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-
-
-           <?php $attributes = ['class' => '', 'id' => 'pdf_form_list','method'=>'post'];
-				echo form_open_multipart( base_url('admin/corsi'), $attributes);?>
+             <?php $attributes = ['class' => '', 'id' => 'pdf_form_list','method'=>'post'];
+				echo form_open_multipart( base_url('admin/corsi/'.$inf_corsi['id'].'/modulo'), $attributes);?>
 				  <input type="hidden" value="" id="deleteID" name="id">
 				    <input type="hidden" value="delete" id="action" name="action">
             <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog  modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.title_modal_delete_corsi') ?></h4>
+                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.title_modal_delete_corsi_modulo') ?></h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                         <div class="modal-body">
 
-                                <?php echo lang('app.msg_delete_corso')?>
+                                <?php echo lang('app.msg_delete_corso_modulo')?>
 
                         </div>
 						<div class="modal-footer">
@@ -186,7 +159,7 @@
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/datatables.init.js"></script>
 
 <script>
-    function get_del(id){
+     function get_del(id){
       
         $('#deleteID').val(id)
     }
