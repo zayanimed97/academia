@@ -85,7 +85,15 @@ class Users extends BaseController
 			// 	return view($url, ['error' => $error,'settings'=>$settings]);
 			// }
 			else{
-				
+
+
+				if($users[0]['role']=='ente'){
+					$inf_package=$this->EntePackageModel->where('id_ente',$users[0]['id'])->orderBy('expired_date','DESC')->first();
+					$det=json_decode($inf_package['package'] ?? '[]',true);
+					$users[0]['ente_package']=array("expired_date"=>$inf_package['expired_date'],"type_cours"=>$det['type_cours'] ?? '',"extra"=>$det['extra'] ?? '');
+				}
+
+
 				$this->session->set(array('user_data'=>$users[0]));
 				switch($users[0]['role']){
 					case 'ente':$redirect_url='admin/dashboard'; break;				

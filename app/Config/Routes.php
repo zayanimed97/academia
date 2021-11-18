@@ -34,7 +34,7 @@ $routes->setAutoRoute(true);
 $routes->add('/login', 'Users::login');
 $routes->get('/login', 'Users::index');
 
-$routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
+$routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes) {
     //CATEGORIES
     $routes->get('categories', 'CategoriesController::show');
     $routes->add('newCategory', 'CategoriesController::new');
@@ -76,6 +76,10 @@ $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
 
 $routes->add('corsi/add', 'Corsi::corsi_add');
 	$routes->add('corsi', 'Corsi::index');
+});
+
+$routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
+    $routes->get('dashboard', 'DashboardController::show');
 });
 
 $routes->get('/getProv', 'Home::getProv');
