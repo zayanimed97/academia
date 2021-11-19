@@ -25,7 +25,11 @@ class Home extends BaseController
                 $selectName = 'residenza_comune';
             }
 
-            $html = '<select name="'.$this->request->getVar('name').'" class="form-control" @change="fetch(`'.base_url().'/getComm?prov=${$event.target.value}&name='.$selectName.'`, {method: &quot;get&quot;,  headers: {&quot;Content-Type&quot;: &quot;application/json&quot;, &quot;X-Requested-With&quot;: &quot;XMLHttpRequest&quot; }}).then( el => el.text() ).then(res => '.$fieldName.' = res)"><option value="0"> Select Provincia </option>';
+            $html = '<select name="'.$this->request->getVar('name').'" class="form-control"';
+            if (!(($this->request->getVar('name') ?? '') == "nascita_provincia")) {
+                $html .= '@change="fetch(`'.base_url().'/getComm?prov=${$event.target.value}&name='.$selectName.'`, {method: &quot;get&quot;,  headers: {&quot;Content-Type&quot;: &quot;application/json&quot;, &quot;X-Requested-With&quot;: &quot;XMLHttpRequest&quot; }}).then( el => el.text() ).then(res => '.$fieldName.' = res)"';
+            }
+            $html .= '><option value="0"> Select Provincia </option>';
             foreach ($provs as $prov) {
                 $html .= '<option ';
                 if ($this->request->getVar('selected') == $prov['id']) {

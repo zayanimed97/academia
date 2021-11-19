@@ -73,11 +73,20 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
     //profile
     $routes->get('profile', 'ProfileController::show');
     $routes->post('updateProfile', 'ProfileController::update');
-	
+
+    //user list
+    $routes->get('user_list', 'userListController::show');
+    $routes->get('edit_user/(:any)', 'userListController::edit/$1');
+    $routes->post('updateUser', 'userListController::update');
+    $routes->get('new_user', 'userListController::new');
+    $routes->post('createUser', 'userListController::create');
+    
+  //corsi
 	$routes->add('corsi/(:any)/modulo/add', 'Corsi::corsi_modulo_add/$1');
 	$routes->add('corsi/(:any)/modulo', 'Corsi::corsi_modulo/$1');
 	$routes->add('corsi/add', 'Corsi::corsi_add');
 	$routes->add('corsi', 'Corsi::index');
+
 });
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
