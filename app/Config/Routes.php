@@ -65,6 +65,10 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
     $routes->add('updateDiscipline', 'DisciplineController::update');
     $routes->add('deleteDiscipline/(:any)', 'DisciplineController::delete/$1');
 
+	
+	
+
+
 
     //profile
     $routes->get('profile', 'ProfileController::show');
@@ -76,6 +80,13 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
     $routes->post('updateUser', 'userListController::update');
     $routes->get('new_user', 'userListController::new');
     $routes->post('createUser', 'userListController::create');
+    
+  //corsi
+	$routes->add('corsi/(:any)/modulo/add', 'Corsi::corsi_modulo_add/$1');
+	$routes->add('corsi/(:any)/modulo', 'Corsi::corsi_modulo/$1');
+	$routes->add('corsi/add', 'Corsi::corsi_add');
+	$routes->add('corsi', 'Corsi::index');
+
 });
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
