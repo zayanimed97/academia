@@ -352,6 +352,7 @@ $lang['field_access_public']="Publica";
 $lang['field_access_private']="Privato";
 $lang['new_modulo']="Nuovo Modulo";
 $lang['menu_corsi_modulo']="Modulo";
+$lang['welcome']="Benvenuto";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
