@@ -4,6 +4,7 @@
         <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/selectize/css/selectize.bootstrap3.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
 		  <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
+		  	<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
            <!-- ============================================================== -->
             <!-- Start Page Content here -->
             <!-- ============================================================== -->
@@ -36,7 +37,7 @@
                         <!-- end page title --> 
 
                      <div class="row">
-                             <div class="col-xl-6">
+                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
 
@@ -58,14 +59,39 @@
                                                         <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi_details')?></span>
                                                     </a>
                                                 </li>
-												<?php if($inf_corsi['buy_type']=='module'){?>
+												
 												 <li class="nav-item" data-target-form="#packageForm">
                                                     <a href="#tab_price" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                                         <i class="mdi mdi-currency-eur mr-1"></i>
                                                         <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi_price')?></span>
                                                     </a>
                                                 </li>
-												<?php } ?>
+												<?php switch($inf_corsi['tipologia_corsi']){
+													case 'aula':?>
+												<li class="nav-item" data-target-form="#aulaDateForm">
+                                                    <a href="#tab_aula_date" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-calendar mr-1"></i>
+                                                        <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi_date')?></span>
+                                                    </a>
+                                                </li>
+												<?php break;
+												case 'webinar':?>
+												<li class="nav-item" data-target-form="#webinarDateForm">
+                                                    <a href="#tab_webinar_date" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-calendar mr-1"></i>
+                                                        <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi_date')?></span>
+                                                    </a>
+                                                </li>
+												<?php break;
+												case 'online':?>
+												<li class="nav-item" data-target-form="#onlineForm">
+                                                    <a href="#tab_vimeo" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-video mr-1"></i>
+                                                        <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi_vimeo')?></span>
+                                                    </a>
+                                                </li>
+												<?php break;
+												}?>
 												 <li class="nav-item" data-target-form="#packageForm">
                                                     <a href="#tab_gallery" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                                         <i class="mdi mdi-folder-multiple-image mr-1"></i>
@@ -242,7 +268,7 @@
                                 <li class="nav-item"><a class="nav-link" href="#default-tab-6" data-toggle="tab"><?php echo lang('app.field_riferimenti')?></a></li>
 								
 								 <li class="nav-item"><a class="nav-link" href="#default-tab-7" data-toggle="tab"><?php echo lang('app.field_indrizzato_a')?></a></li>
-								  <li class="nav-item"><a class="nav-link" href="#default-tab-8" data-toggle="tab"><?php echo lang('app.field_avvisi')?></a></li>
+								 <li class="nav-item"><a class="nav-link" href="#default-tab-8" data-toggle="tab"><?php echo lang('app.field_avvisi')?></a></li>
 								 
                             </ul>
                             <div class="tab-content m-b-0">
@@ -367,11 +393,11 @@
 											
                                                     </div>
                                                 </div>
-												<?php if($inf_corsi['buy_type']=='module'){?>
+												
                                                 <div class="tab-pane fade" id="tab_price">
                                                     <div id="profileForm" >
 														   
-														 
+													<?php if($inf_corsi['buy_type']=='module'){?>	 
 														
 																		
 											 <div class="row">
@@ -471,7 +497,7 @@
 																			
 																		</div>
 																	</div>
-																 <div class="col-md-4 m-t-25" >
+																 <div class="col-md-4 m-t-25" style="margin-top:25px">
 																	 <input class="btn btn-danger" data-repeater-delete type="button" value="<?php echo lang('app.btn_delete')?>"/>
 																</div>
 															</div>
@@ -480,9 +506,170 @@
 														<input data-repeater-create class="btn btn-warning" type="button" value="<?php echo lang('app.btn_add')?>"/>
 													</div>
 									</div>
+									<?php } else{?>
+										<div class="row">
+											<div class="alert alert-warning"><?php echo lang('app.help_tabprice_buy_type')?></div>
+										</div>
+									<?php } ?>
                                                     </div>
                                                 </div>
-												<?php } ?>
+												
+												<?php switch($inf_corsi['tipologia_corsi']){
+												case 'aula':?>
+													<div class="tab-pane fade" id="tab_aula_date">
+                                                    <div id="aulaDateForm" >
+													<div class="row">
+														<div class="repeater-corsidate m-t-30 col-md-12">
+														<div data-repeater-list="corsidate">
+															<div data-repeater-item="">
+															<div class="row">
+																  <div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_incontro')?></label>
+															<input type="number" name="incontro" class="form-control" value="1" min="1">
+														</div>
+													</div>
+													 <div class="col-md-2" >
+																	<div class="form-group">
+																		<label for="acc-mname"><?php echo lang('app.field_date')?></label>
+																		<input type="text" name="date" class="form-control corsidate_date_input">
+																	</div>
+																</div>
+																<div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_start_time')?></label>
+															<input type="text" class="form-control corsidate_time_input" placeholder="HH:mm"  name="start_time"/> 
+														</div>
+													</div>
+													<div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_end_time')?></label>
+															<input type="text" class="form-control corsidate_time_input" placeholder="HH:mm"  name="end_time" />	
+														</div>
+													</div>
+													
+																 <div class="col-md-1" style="margin-top:25px">
+																	 <input class="btn btn-danger" data-repeater-delete type="button" value="<?php echo lang('app.btn_delete')?>"/>
+																</div>
+															</div>
+															</div>
+														</div>
+														<input data-repeater-create class="btn btn-warning" type="button" value="<?php echo lang('app.btn_add')?>"/>
+													</div>
+													</div>
+													
+                                                    </div>
+                                                </div>
+												<?php break;
+												case 'webinar':?>
+												<div class="tab-pane fade" id="tab_webinar_date">
+                                                    <div id="aulaDateForm" >
+													<div class="row">
+														<div class="repeater-corsidate m-t-30 col-md-12">
+														<div data-repeater-list="corsidate">
+															<div data-repeater-item="">
+															<div class="row">
+																  <div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_incontro')?></label>
+															<input type="number" name="incontro" class="form-control" value="1" min="1">
+														</div>
+													</div>
+													 <div class="col-md-2" >
+																	<div class="form-group">
+																		<label for="acc-mname"><?php echo lang('app.field_date')?></label>
+																		<input type="text" name="date" class="form-control corsidate_date_input">
+																	</div>
+																</div>
+																<div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_start_time')?></label>
+															<input type="text" class="form-control corsidate_time_input" placeholder="HH:mm"  name="start_time"/> 
+														</div>
+													</div>
+													<div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_end_time')?></label>
+															<input type="text" class="form-control corsidate_time_input" placeholder="HH:mm"  name="end_time" />	
+														</div>
+													</div>
+													<div class="col-md-3" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_zoom_url')?></label>
+															<input type="text" name="zoom_url" class="form-control">
+														</div>
+													</div>
+																 <div class="col-md-1" style="margin-top:25px">
+																	 <input class="btn btn-danger" data-repeater-delete type="button" value="<?php echo lang('app.btn_delete')?>"/>
+																</div>
+															</div>
+															</div>
+														</div>
+														<input data-repeater-create class="btn btn-warning" type="button" value="<?php echo lang('app.btn_add')?>"/>
+													</div>
+													</div>
+													
+                                                    </div>
+                                                </div>
+												<?php break;
+												case 'online':?>
+												<div class="tab-pane fade" id="tab_vimeo">
+                                                    <div id="aulaDateForm" >
+													<div class="row">
+														<div class="repeater-corsivimeo m-t-30 col-md-12">
+														<div data-repeater-list="corsivimeo">
+															<div data-repeater-item="">
+															<div class="row">
+																  <div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_sort')?></label>
+															<input type="number" name="ord" class="form-control" value="1" min="1">
+														</div>
+													</div>
+													 <div class="col-md-3" >
+																	<div class="form-group">
+																		<label for="acc-mname"><?php echo lang('app.field_vimeo')?></label>
+																		<input type="text" name="vimeo" class="form-control">
+																	</div>
+																</div>
+																
+													<div class="col-md-2">
+													  <div class="form-check form-check-inline m-t-20" style="margin-top:25px">
+														<?php 
+														$chk=true;
+														
+														$data = [
+														'name'    => "vimeo_enable",
+														'id'      => 'vimeo_enable',
+														'value'   =>'enable',
+														'checked' => $chk,
+														'class' => 'form-check-input',
+														
+															];
+
+															echo form_checkbox($data);
+															?>
+														  <label class="form-check-label" for="inlineCheckbox1"><?php echo lang("app.field_enable")?></label>
+														</div>
+													 </div>
+													
+																 <div class="col-md-1" style="margin-top:25px">
+																	 <input class="btn btn-danger" data-repeater-delete type="button" value="<?php echo lang('app.btn_delete')?>"/>
+																</div>
+															</div>
+															</div>
+														</div>
+														<input data-repeater-create class="btn btn-warning" type="button" value="<?php echo lang('app.btn_add')?>"/>
+													</div>
+													</div>
+													
+                                                    </div>
+                                                </div>
+												<?php break;
+												}?>
+												
+												
+												
 												<div class="tab-pane fade" id="tab_gallery">
                                                     <div id="profileForm" >
 													<div class="row">
@@ -858,6 +1045,8 @@
     <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.js"></script>
 		<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/lang/summernote-it-IT.min.js"></script>
 	<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/jquery.repeater/jquery.repeater.min.js"></script>
+	 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/flatpickr.min.js"></script>
+		   <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/l10n/it.js"></script>
         <!-- Sweet alert init js-->
      <script>
 		$(document).ready(function(){
@@ -1112,6 +1301,72 @@ $('.repeater-prezzo-prof').repeater({
 
             }
         });  
+		$('.repeater-corsivimeo').repeater({
+            isFirstItemUndeletable: false,
+            show: function () {
+				
+				
+                $(this).slideDown();
+            },
+            hide: function (deleteElement) {
+                if(confirm("<?php echo lang('app.alert_msg_delete_row')?>")) {
+                    $(this).slideUp(deleteElement);
+                }
+            },
+            ready: function (setIndexes) {
+
+            }
+        });  
+
+$('.repeater-corsidate').repeater({
+            isFirstItemUndeletable: false,
+            show: function () {
+				
+				
+                $(this).slideDown();
+				  var selfRepeaterItem = this;
+                  
+
+                    var repeaterItems = $("div[data-repeater-item] > div.panel");
+                    $(selfRepeaterItem).attr('data-index', repeaterItems.length - 1);
+                    $(selfRepeaterItem).find('.corsidate_date_input').flatpickr({
+						dateFormat: "Y-m-d",
+						 altFormat: "d/m/Y",
+						 altInput:!0,
+						 locale: "it",
+					});	
+					 $(selfRepeaterItem).find('.corsidate_time_input').flatpickr({
+						 enableTime:!0,
+						noCalendar:!0,
+						dateFormat:"H:i",
+						time_24hr:!0,
+						locale: "it",
+					});
+			
+            },
+            hide: function (deleteElement) {
+                if(confirm("<?php echo lang('app.alert_msg_delete_row')?>")) {
+                    $(this).slideUp(deleteElement);
+                }
+            },
+            ready: function (setIndexes) {
+				
+            }
+        });
+
+$(".corsidate_date_input").flatpickr({
+				dateFormat: "Y-m-d",
+				 altFormat: "d/m/Y",
+				 altInput:!0,
+				 locale: "it",
+			});	
+$(".corsidate_time_input").flatpickr({
+					 enableTime:!0,
+					  noCalendar:!0,
+					  dateFormat:"H:i",
+					  time_24hr:!0,
+					 locale: "it",
+				});				
 		</script>
 <script>
    function get_sottoargomenti(id_argomenti){

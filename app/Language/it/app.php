@@ -321,6 +321,9 @@ $lang['field_attestato']="Attestato";
 $lang['field_buy_type']="Tipo di vendita";
 $lang['field_buy_type_modulo']="per modulo";
 $lang['field_buy_type_cours']="per corso";
+$lang['field_zoom_url']="Zoom URL";
+$lang['field_sort']="ordinare";
+$lang['field_enable']="abilitare";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -353,6 +356,7 @@ $lang['field_access_private']="Privato";
 $lang['new_modulo']="Nuovo Modulo";
 $lang['menu_corsi_modulo']="Modulo";
 $lang['welcome']="Benvenuto";
+$lang['menu_corsi_vimeo']="Vimeo";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -408,9 +412,11 @@ $lang['scc_mail_subscribed_newsletter']="la tua email è iscritta nel sistema di
 #############alert msg ####################
 $lang['alert_msg_delete_user']="sei sicuro di eliminare utente?";
 $lang['alert_msg_delete_price_prof']="sei sicuro di voler cancellare questo prezzo per profesisone?";
+$lang['alert_msg_delete_row']="sei sicuro di righe?";
 $lang['msg_delete_corso']="sei sicuro di eliminare corso?";
 $lang['msg_delete_corso_modulo']="sei sicuro di eliminare modulo?";
 
 $lang['help_server_name']="i.e: mydomain.it (escluso http://)";
+$lang['help_tabprice_buy_type']="scegli di acquistare il tipo di corso per corso, quindi non puoi impostare i prezzi del modulo";
 return $lang;
 ?>

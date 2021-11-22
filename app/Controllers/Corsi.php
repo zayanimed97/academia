@@ -190,7 +190,9 @@ class Corsi extends BaseController
 							}
 						}
 					}
-							
+			
+			
+			
 			if ($this->request->getFileMultiple('gallery')) {
  
 					 foreach($this->request->getFileMultiple('gallery') as $file)
@@ -299,12 +301,7 @@ class Corsi extends BaseController
 			
 			else{
 				
-			
-					
-			
-				
-				
-				
+
 				 $validated = $this->validate([
 							'logo' => [
 								'uploaded[logo]',
@@ -395,28 +392,41 @@ class Corsi extends BaseController
 							}
 						}
 					}
+					
+					if(null !==$this->request->getVar('corsidate')){
+						foreach($this->request->getVar('corsidate') as $kk=>$vv){
 							
-			/*if ($this->request->getFileMultiple('gallery')) {
- 
-					 foreach($this->request->getFileMultiple('gallery') as $file)
-					 {   
-						$type = $file->getMimeType();
-						 if(in_array($type,array('image/jpg','image/jpeg','image/gif','image/png'))){
-							$logo_name = $file->getRandomName();
-							$file->move(ROOTPATH.'public/uploads/corsi/'.$id_corsi.'/',$logo_name);
-							  $data = [
-								'foto' =>  $logo_name,
-								'id_corsi'  => $id_corsi
-							  ];
-				 
-							  $save = $this->CorsiGalleriaModel->insert($data);
-						 }
-					 }
-				}
-			*/
-				
-				
-				
+							if($vv['date']!=""){ 
+								/*$dt=explode("/",$vv['date']);
+								$date=$dt[2]."-".$dt[1]."-".$dt[0];*/
+								$date=$vv['date'];
+								$this->CorsiModuloDateModel->insert(array(
+									'id_modulo'=>$id_modulo,
+									'date'=>$date,
+									'incontro'=>$vv['incontro'],
+									'start_time'=>$vv['start_time'],
+									'end_time'=>$vv['end_time'],
+									'zoom_url'=>$vv['zoom_url'],
+								));
+							}
+						}
+					}			
+				if(null !==$this->request->getVar('corsivimeo')){
+						foreach($this->request->getVar('corsivimeo') as $kk=>$vv){
+							
+							if($vv['vimeo']!=""){ 
+								if(isset($vv['vimeo_enable'])) $vimeo_enable='yes'; else $vimeo_enable='no';
+								$this->CorsiModuloVimeoModel->insert(array(
+									'id_modulo'=>$id_modulo,
+									'vimeo'=>$vv['vimeo'],
+									'ord'=>$vv['ord'],
+									'enable'=>$vimeo_enable,
+									'banned'=>'no'	
+								));
+							}
+						}
+					}							
+			
 				$res=array("error"=>false);
 			}
 		}
