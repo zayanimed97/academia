@@ -63,7 +63,9 @@
                                                             <a href="<?php echo base_url('admin/corsi/edit/'.$arg['id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-edit"></i>
                                                             </a>
-
+															<a href="<?php echo base_url('admin/corsi/'.$arg['id'].'/modulo')?>" class="btn p-1 mr-2" style="font-size: 1rem">
+                                                                <i class="fe-list"></i>
+                                                            </a>
                                                             <a data-toggle="modal" data-target="#delete-modal" onclick="get_del('<?php echo $arg['id']?>')" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
                                                                 <i class="fe-x-circle"></i>
                                                             </a>

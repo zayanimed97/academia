@@ -41,32 +41,29 @@
                             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <img src="<?php echo base_url('UBold_v4.1.0')?>/assets/images/users/user-1.jpg" alt="user-image" class="rounded-circle">
                                 <span class="pro-user-name ml-1">
-                                    Geneva <i class="mdi mdi-chevron-down"></i> 
+                                    <?php echo $user_data['display_name']?> <i class="mdi mdi-chevron-down"></i> 
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                 <!-- item-->
                                 <div class="dropdown-header noti-title">
-                                    <h6 class="text-overflow m-0">Welcome !</h6>
+                                    <h6 class="text-overflow m-0"><?php echo lang('app.welcome')?></h6>
                                 </div>
     
                                 <!-- item-->
                                 <a href="<?= base_url('admin/profile') ?>" class="dropdown-item notify-item">
                                     <i class="fe-user"></i>
-                                    <span>My Account</span>
+                                    <span><?php echo lang('app.menu_profile')?></span>
                                 </a>
     
                                 <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="fe-settings"></i>
-                                    <span>Settings</span>
-                                </a>
+                               
                                 <div class="dropdown-divider"></div>
     
                                 <!-- item-->
                                 <a href="<?= base_url('logout') ?>" class="dropdown-item notify-item">
                                     <i class="fe-log-out"></i>
-                                    <span>Logout</span>
+                                    <span><?php echo lang('app.menu_logout')?></span>
                                 </a>
     
                             </div>
@@ -121,25 +118,22 @@
                             class="rounded-circle avatar-md">
                         <div class="dropdown">
                             <a href="javascript: void(0);" class="text-dark dropdown-toggle h5 mt-2 mb-1 d-block"
-                                data-toggle="dropdown">Geneva Kennedy</a>
+                                data-toggle="dropdown"><?php echo $user_data['display_name']?></a>
                             <div class="dropdown-menu user-pro-dropdown">
 
                                 <!-- item-->
                                 <a href="<?= base_url('admin/profile') ?>" class="dropdown-item notify-item">
                                     <i class="fe-user mr-1"></i>
-                                    <span>My Account</span>
+                                    <span><?php echo lang('app.menu_profile')?></span>
                                 </a>
 
                                 <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="fe-settings mr-1"></i>
-                                    <span>Settings</span>
-                                </a>
+                              
 
                                 <!-- item-->
                                 <a href="<?= base_url('logout') ?>" class="dropdown-item notify-item">
                                     <i class="fe-log-out mr-1"></i>
-                                    <span>Logout</span>
+                                    <span><?php echo lang('app.menu_logout')?></span>
                                 </a>
 
                             </div>
@@ -157,11 +151,17 @@
                             <li>
                             
                                 
-                            <a href="<?= base_url('admin/dashboard') ?>"><i data-feather="airplay"></i> <span>Dashboard </span> 1</a>
+                            <a href="<?= base_url('admin/dashboard') ?>"><i data-feather="airplay"></i> <span><?php echo lang('app.menu_dashboard')?> </span> </a>
                                         
                             </li>
 
                             <li class="menu-title mt-2">Apps</li>
+							 <li>
+                            
+                                
+                            <a href="<?= base_url('admin/corsi') ?>"><i data-feather="book"></i> <span><?php echo lang('app.menu_corsi')?> </span></a>
+                                        
+                            </li>
 
                             <li>
                                 <a href="#sidebarCourses" data-toggle="collapse">
@@ -193,10 +193,10 @@
                                 <div class="collapse" id="sidebarDoctors">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/user_list?role=doctor') ?>">List</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/listDoctors') ?>">List</a>
                                         </li>
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/new_user?role=doctor') ?>">New</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/editDoctor') ?>">New</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -211,10 +211,10 @@
                                 <div class="collapse" id="sidebarParticipant">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/user_list?role=participant') ?>">List</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/listParticipant') ?>">List</a>
                                         </li>
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/new_user?role=participant') ?>">New</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/editParticipant') ?>">New</a>
                                         </li>
                                     </ul>
                                 </div>
