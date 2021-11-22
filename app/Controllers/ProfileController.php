@@ -7,15 +7,19 @@ class ProfileController extends BaseController
 	{ 	
 		$user_data=$this->session->get('user_data');
 		// die(var_dump($user_data));
-		$settings=$this->SettingModel->getByMetaKey($user_data['id']);
+		$common_data=$this->common_data();
+		$data=$common_data;
 		// die(var_dump($settings));
 		$user = $this->UserModel->join('user_profile up', 'up.user_id = users.id', 'left')->where('users.id', $user_data['id'])->select('users.*, up.*, users.email as user_email')->first();
 		$nazioni = $this->NazioniModel->where('status', 'enable')->find();
 		unset($user['password']);
+
+		$data['user'] = $user;
+		$data['nazioni'] = $nazioni;
 		// echo('<pre>');
 		// print_r();
 		// echo('</pre>');exit;
-		return view('admin/profile.php',array('settings'=>$settings, 'user'=>$user, 'nazioni' => $nazioni));
+		return view('admin/profile.php',$data);
 	}
 
 	public function update()

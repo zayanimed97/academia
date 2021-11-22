@@ -8,9 +8,12 @@ class DisciplineController extends BaseController
 	{ 	
 		$user_data=$this->session->get('user_data');
 		// die(var_dump($user_data));
-		$settings=$this->SettingModel->getByMetaKey();
+		$common_data=$this->common_data();
+		$data=$common_data;
 		$discipline = $this->DisciplineModel->join('professione p', 'p.idprof = discipline.idprofessione')->where('id_ente', $user_data['id'])->where('idprofessione', $id_professione)->select('discipline.*')->find();
-		return view('admin/discipline.php',array('settings'=>$settings, 'discipline'=>$discipline, 'id_professione' => $id_professione));
+		$data['discipline'] = $discipline;
+		$data['id_professione'] = $id_professione;
+		return view('admin/discipline.php',$data);
 	}
 
 	public function new()

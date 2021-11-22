@@ -7,7 +7,10 @@ class userListController extends BaseController
 	{ 	
 		$user_data=$this->session->get('user_data');
 		// die(var_dump($user_data));
-		$settings=$this->SettingModel->getByMetaKey();
+
+		$common_data=$this->common_data();
+		$data=$common_data;
+
 		$users = $users = $this->UserModel->where('id_ente', $user_data['id'])	->join('user_profile up', 'up.user_id = users.id', 'left')
 																				->join('comuni cr', 'cr.id = up.residenza_comune', 'left')
 																				->join('nazioni sr', 'sr.id = up.residenza_stato', 'left')
@@ -19,25 +22,43 @@ class userListController extends BaseController
             $users->where('role', $this->request->getVar('role'));
         }
         $users = $users->find();
-		return view('admin/list_user.php',array('settings'=>$settings, 'users'=>$users));
+		
+		$data['users'] = $users;
+
+		return view('admin/list_user.php',$data);
 	}
 
 	public function edit($id)
 	{
+
+		$common_data=$this->common_data();
+		$data=$common_data;
+
+
 		$nazioni = $this->NazioniModel->where('status', 'enable')->find();
 
 		$user = $this->UserModel->join('user_profile up', 'up.user_id = users.id', 'left')->where('users.id', $id)->where('users.id_ente', $this->session->get('user_data')['id'])->select('users.*, up.*, users.email as user_email')->first();
 
-		return view('admin/edit_user', ['user' => $user , 'nazioni' => $nazioni, 'id'=>$id]);
+		$data['user'] = $user;
+		$data['nazioni'] = $nazioni;
+		$data['id'] = $id;
+		return view('admin/edit_user', $data);
 	}
 
 	public function new()
 	{
+
+		$common_data=$this->common_data();
+		$data=$common_data;
+
+
 		$nazioni = $this->NazioniModel->where('status', 'enable')->find();
+
+		$data['nazioni'] = $nazioni;
 
 		// $user = $this->UserModel->join('user_profile up', 'up.user_id = users.id', 'left')->where('users.id', $id)->where('users.id_ente', $this->session->get('user_data')['id'])->select('users.*, up.*, users.email as user_email')->first();
 
-		return view('admin/new_user', ['nazioni' => $nazioni]);
+		return view('admin/new_user', $data);
 	}
 
 

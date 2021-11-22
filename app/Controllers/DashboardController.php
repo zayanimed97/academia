@@ -15,11 +15,12 @@ class DashboardController extends BaseController
 	
 	public function show()
 	{ 	
-		$user_data=$this->session->get('user_data');
+		$common_data=$this->common_data();
+		$data=$common_data;
+
 		// die(var_dump($user_data));
-		$settings=$this->SettingModel->getByMetaKey();
 		// $categories = $this->CategorieModel->where('id_ente', $user_data['id'])->find();
-		return view('admin/dashboard.php',array('settings'=>$settings));
+		return view('admin/dashboard.php',$data);
 	}
 
 	public function new()

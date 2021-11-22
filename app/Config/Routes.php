@@ -66,7 +66,11 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
     $routes->add('deleteDiscipline/(:any)', 'DisciplineController::delete/$1');
 
 	
-	
+    //obiettivi
+    $routes->get('obiettivi', 'ObiettiviController::show');
+    $routes->add('newObiettivi', 'ObiettiviController::new');
+    $routes->add('updateObiettivi', 'ObiettiviController::update');
+    $routes->add('deleteObiettivi/(:any)', 'ObiettiviController::delete/$1');	
 
 
 

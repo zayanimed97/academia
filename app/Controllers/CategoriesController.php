@@ -15,11 +15,13 @@ class CategoriesController extends BaseController
 	
 	public function show()
 	{ 	
+		$common_data=$this->common_data();
+		$data=$common_data;
 		$user_data=$this->session->get('user_data');
 		// die(var_dump($user_data));
-		$settings=$this->SettingModel->getByMetaKey();
 		$categories = $this->CategorieModel->where('id_ente', $user_data['id'])->find();
-		return view('admin/categories.php',array('settings'=>$settings, 'categories'=>$categories));
+		$data['categories'] = $categories;
+		return view('admin/categories.php',$data);
 	}
 
 	public function new()

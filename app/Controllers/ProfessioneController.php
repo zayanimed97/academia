@@ -7,9 +7,12 @@ class ProfessioneController extends BaseController
 	{ 	
 		$user_data=$this->session->get('user_data');
 		// die(var_dump($user_data));
-		$settings=$this->SettingModel->getByMetaKey();
+		$common_data=$this->common_data();
+		$data=$common_data;
+
 		$professione = $this->ProfessioneModel->where('id_ente', $user_data['id'])->find();
-		return view('admin/professione.php',array('settings'=>$settings, 'professione'=>$professione));
+		$data['professione'] = $professione;
+		return view('admin/professione.php',$data);
 	}
 
 	public function new()

@@ -180,6 +180,9 @@
                                         <li>
                                             <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/professione') ?>">professione</a>
                                         </li>
+                                        <li>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/obiettivi') ?>">Obiettivi</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
@@ -193,10 +196,10 @@
                                 <div class="collapse" id="sidebarDoctors">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/listDoctors') ?>">List</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/user_list') ?>?role=doctor">List</a>
                                         </li>
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/editDoctor') ?>">New</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/new_user') ?>?role=doctor">New</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -211,10 +214,10 @@
                                 <div class="collapse" id="sidebarParticipant">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/listParticipant') ?>">List</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/user_list') ?>?role=participant">List</a>
                                         </li>
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/editParticipant') ?>">New</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/new_user') ?>?role=participant">New</a>
                                         </li>
                                     </ul>
                                 </div>
