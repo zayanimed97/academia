@@ -324,6 +324,9 @@ $lang['field_buy_type_cours']="per corso";
 $lang['field_zoom_url']="Zoom URL";
 $lang['field_sort']="ordinare";
 $lang['field_enable']="abilitare";
+$lang['field_auto_score']="punteggio automatico";
+$lang['field_min_points']="punti minimi";
+$lang['field_nb_repeat']="numero di ripetizioni";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -357,6 +360,9 @@ $lang['new_modulo']="Nuovo Modulo";
 $lang['menu_corsi_modulo']="Modulo";
 $lang['welcome']="Benvenuto";
 $lang['menu_corsi_vimeo']="Vimeo";
+$lang['menu_corsi_test']="Test";
+$lang['new_test']="Nuovo Test";
+$lang['edit_test']="Modifica Test";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -376,6 +382,10 @@ $lang['title_page_cours_modulo_new']="Nuovo Modulo";
 $lang['title_page_cours_modulo']="Lista Modulo";
 $lang['title_modal_delete_corsi']="Elemina Corso";
 $lang['title_modal_delete_corsi_modulo']="Elemina Modulo";
+$lang['title_page_cours_test']="Lista Test";
+$lang['title_page_cours_test_add']="Nuovo Test";
+$lang['title_modal_delete_corsi_test']="Eliminare test";
+$lang['title_page_cours_test_edit']="Modifica Test";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
@@ -394,6 +404,10 @@ $lang['error_piva_format']="solo 11 caratteri numerici";
 $lang['error_cf_format']="solo 16 caratteri alfanumerici";
 $lang['error_extension_pdf']="il documento caricato deve essere pdf!";
 $lang['error_at_least_type_cours']="devi selezionare almeno un tipo di corso!";
+$lang['error_modulo_test_empty']="deve avere almeno una domanda!";
+$lang['error_modulo_test_question_required']="la data richiesta per questa domanda è vuota!";
+$lang['error_modulo_test_answer_required']="i dati richiesti per la risposta a questa domanda sono vuoti!";
+$lang['error_modulo_test_answer_points']="il punteggio totale delle risposte deve essere 100!";
 ###########success ##########################"
 $lang['success_activation_account']="Complimenti, il tuo account è ora attivo.  Per accedere al tuo profile, devi inserire la tua email e password qui sotto.”";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
@@ -415,8 +429,12 @@ $lang['alert_msg_delete_price_prof']="sei sicuro di voler cancellare questo prez
 $lang['alert_msg_delete_row']="sei sicuro di righe?";
 $lang['msg_delete_corso']="sei sicuro di eliminare corso?";
 $lang['msg_delete_corso_modulo']="sei sicuro di eliminare modulo?";
-
+$lang['msg_delete_corso_test']="sei sicuro di eliminare test?";
+$lang['alert_msg_delete_question']="sei sicuro di voler cancellare questi dati?";
+//$lang['alert_msg_delete_response']="sei sicuro di voler cancellare questa risposta?";
 $lang['help_server_name']="i.e: mydomain.it (escluso http://)";
 $lang['help_tabprice_buy_type']="scegli di acquistare il tipo di corso per corso, quindi non puoi impostare i prezzi del modulo";
+$lang['yes']="Si";
+$lang['no']="No";
 return $lang;
 ?>

@@ -162,7 +162,14 @@
                             <a href="<?= base_url('admin/corsi') ?>"><i data-feather="book"></i> <span><?php echo lang('app.menu_corsi')?> </span></a>
                                         
                             </li>
-
+							<?php if(in_array('test',$ente_package['extra'])){?>
+							 <li>
+                            
+                                
+                            <a href="<?= base_url('admin/test') ?>"><i data-feather="book"></i> <span><?php echo lang('app.menu_corsi_test')?> </span></a>
+                                        
+                            </li>
+							<?php } ?>
                             <li>
                                 <a href="#sidebarCourses" data-toggle="collapse">
                                     <i data-feather="shopping-cart"></i>
