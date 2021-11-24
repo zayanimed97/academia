@@ -29,7 +29,7 @@ class CategoriesController extends BaseController
 		$this->CategorieModel->insert	([
 											'titolo' => $this->request->getVar('name'),
 											'status' => 'enable',
-											'url' => base_url().'/'.url_title($this->request->getVar('name')),
+											'url' => url_title($this->request->getVar('name')),
 											'id_ente'=> $this->session->get('user_data')['id']
 										]);
 		return redirect()->to($_SERVER['HTTP_REFERER']);
@@ -39,7 +39,7 @@ class CategoriesController extends BaseController
 	{
 		$this->CategorieModel->where('id_ente', $this->session->get('user_data')['id'])->update	($this->request->getVar('catId'),[
 											'titolo' => $this->request->getVar('name'),
-											'url' => base_url().'/'.url_title($this->request->getVar('name')),
+											'url' => url_title($this->request->getVar('name')),
 										]);
 		return redirect()->to($_SERVER['HTTP_REFERER']);
 	}

@@ -144,6 +144,10 @@ $routes->group("superadmin", ["filter" => "auth:admin"], function ($routes) {
 
 
 
+
+
+$routes->get('/', 'Home::index');
+$routes->get('/getCourses', 'Home::getCourses');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
