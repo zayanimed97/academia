@@ -12,7 +12,7 @@ class SettingModel extends Model
 	public function getByMetaKey($id_ente=null){
 		$res=array();
 		$all=$this->findAll();
-		if(!is_null($id_ente)) $all=$this->where('id_ente',$id_ente)->findAll();
+		if(!is_null($id_ente)) $all=$this->where('id_ente',$id_ente)->orWhere('id_ente is null')->findAll();
 		foreach($all as $k=>$v){
 			$res[$v['meta_key']]=$v['meta_value'];
 		}

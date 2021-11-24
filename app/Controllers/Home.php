@@ -6,9 +6,20 @@ class Home extends BaseController
 {
     public function index()
     {
-        $test = $this->SettingModel->where('meta_value','>',4)->first();
-        die(var_dump($test));
-        return view('welcome_message');
+        // $test = $this->SettingModel->where('meta_value','>',4)->first();
+        
+        $data = $this->common_data();
+        $data['category'] = $this->CategorieModel->where('id_ente', $data['selected_ente']['id'])->where('status', 'enable')->find();
+        $data['courses'] =  $this->CorsiModel->where('id_categorie', $data['category'][0]['id'])->find();
+        // die(var_dump($data['category']));
+        return view('default/home', $data);
+    }
+
+    public function getCourses()
+    {
+        $courses = $this->CorsiModel->where('id_categorie', $this->request->getVar('category'))->find();
+
+        echo json_encode($courses);
     }
 
     public function getProv()
