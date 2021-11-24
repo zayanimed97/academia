@@ -131,7 +131,7 @@ class BaseController extends Controller
 		
 		$selected_ente=$this->UserModel->where('role','ente')->where('domain_ente',$_SERVER['SERVER_NAME'] ?? 'localhost')->first();
 		if(!empty($selected_ente)) $common_data['selected_ente']=$selected_ente;
-		
+		else $selected_ente['id']=null;
 		$settings=$this->SettingModel->getByMetaKey($selected_ente['id']);
 		$common_data['settings']=$settings;
 		
