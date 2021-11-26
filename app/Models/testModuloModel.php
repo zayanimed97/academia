@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class TestModuloModel extends Model
 {
 	
-    protected $table = 'corsi_modulo_test';
+    protected $table = 'test_modulo';
 	protected $primaryKey = 'id';
     protected $allowedFields = ['id_test','id_corsi','id_modulo','banned'];
 	

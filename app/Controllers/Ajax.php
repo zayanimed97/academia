@@ -220,4 +220,69 @@ class Ajax extends BaseController
 			
 	echo json_encode($res,true);
 }
+
+	
+	public function test_add_from_list(){
+	$common_data=$this->common_data();
+		
+		foreach($this->request->getVar('ids_test_list') as $pdf_id){
+			
+			$inf_pdf=$this->CorsiModuloTestModel->find($pdf_id);
+		?>
+		<tr>
+			<td><div class="form-check form-check-inline">
+				<?php 
+				
+			
+				$data = [
+				'name'    => "ids_test[]",
+				'id'      => 'ids_test_'.$pdf_id,
+				'value'   => $pdf_id,
+				'checked' => true,
+				'class' => 'form-check-input'
+					];
+
+					echo form_checkbox($data);
+					?>
+				  <label class="form-check-label" for="inlineCheckbox1"><?php echo $inf_pdf['title']?></label>
+		</div></td>
+			
+			<td class="text-center"><?php echo $inf_pdf['type']?></td>
+		</tr>
+		<?php }
+	}
+	
+	public function get_list_test(){
+		$common_data=$this->common_data();
+		$list_test=$this->CorsiModuloTestModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->findAll();
+		?>
+		<table class="table table-td-valign-middle m-b-0">
+								
+			<tbody id="list_modal_test">
+			<?php foreach($list_test as $kk=>$one_customer){?>
+				<tr>
+					<td><div class="form-check form-check-inline">
+						<?php 
+						$chk=false;
+					
+						$data = [
+						'name'    => "ids_test_list[]",
+						'id'      => 'ids_test_list_'.$one_customer['id'],
+						'value'   => $one_customer['id'],
+						'checked' => $chk,
+						'class' => 'form-check-input'
+							];
+
+							echo form_checkbox($data);
+							?>
+						  <label class="form-check-label" for="inlineCheckbox1"><?php echo $one_customer['title']?></label>
+				</div></td>
+					
+					<td class="text-center"><?php echo $one_customer['type']?></td>
+				</tr>
+			<?php }?>	
+			</tbody>
+		</table>
+	<?php
+	}
 }//end class

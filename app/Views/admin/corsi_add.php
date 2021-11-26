@@ -35,7 +35,7 @@
                         <!-- end page title --> 
 
                      <div class="row">
-                             <div class="col-6">
+                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
 
@@ -80,7 +80,14 @@
                                                         <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi_seo')?></span>
                                                     </a>
                                                 </li>
-                                               
+                                            	<?php if(in_array('test',$ente_package['extra'])){?>
+											   <li class="nav-item" data-target-form="#profileForm">
+                                                    <a href="#tab_test" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-format-list-checks mr-1"></i>
+                                                        <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi_test')?></span>
+                                                    </a>
+                                                </li>
+												<?php } ?>
                                             </ul>
 
                                             <div class="tab-content mb-0 b-0 pt-0">
@@ -170,26 +177,7 @@
 
 																	</div>
 															</div>
-															<div class="col-md-4">
-																<div class="form-group required-field">
-																	<label for="acc-name"><?php echo lang('app.field_edition')?></label>
-																	<?php $val=""; 
-															$input = [
-																	'type'  => 'text',
-																	'name'  => 'edition',
-																	'id'    => 'edition',
-																	'required' =>true,
-																	'value' => $val,
-																	'placeholder' =>lang('app.field_edition'),
-																	'class' => 'form-control'
-																	
-															];
-
-															echo form_input($input);
-															?>
-																  
-																</div>
-															</div>
+															
 															<div class="col-md-4">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_doctors')?>  <span class="text-danger">*</span></label>
@@ -382,13 +370,13 @@
 																		
 																		</div>
 																		<?php } ?>
-																		<?php if(in_array('test',$ente_package['extra'])){?>
+																		<?php /*if(in_array('test',$ente_package['extra'])){?>
 																		<div class="checkbox form-check-inline">
 																			<input type="checkbox" name="test_required" id="test_required" value="yes">
 																			<label for="test_required"> <?php echo lang("app.field_test_required")?> </label>
 																		
 																		</div>
-																		<?php } ?>
+																		<?php } */?>
                                                                     </div>
                                                                 </div>
                                                                 
@@ -606,6 +594,31 @@
                                         </div>
 									
 									</div>
+									<div class="row">
+									<div class="col-md-6" >
+                                             <div class="form-group row mb-3">
+                                                <label class="col-md-3 col-form-label" for="email"><?php echo lang('app.field_vat')?></label>
+												<div class="col-md-9">
+												<?php $val=""; 
+										$input = [
+												'type'  => 'number',
+												'step'=>1,
+												'min'=>0,
+												'name'  => 'vat',
+												'id'    => 'vat',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_vat'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+                                              </div>
+                                            </div>
+                                        </div>
+									</div>
 									<div class="row m-b-10"  >
 											
 												  
@@ -793,7 +806,93 @@
 									</div>
                                                     </div>
                                                 </div>
+												<?php if(in_array('test',$ente_package['extra'])){?>
+												<div class="tab-pane fade" id="tab_test">
+													<div id="profileForm" >
+														<div class="row">
+													
+														<div class="col-12">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_test_required')?> <span class="text-danger">*</span></label>
+                                                                    <div class="col-md-9">
+                                                                        <div class="radio form-check-inline">
+																			<input type="radio" name="test_required" id="no_test" value="no" checked>
+																			<label for="no_test"> <?php echo lang('app.no')?> </label>
+																		</div>
+																		<div class="radio form-check-inline">
+																			<input type="radio" name="test_required" id="corsi_test" value="per_corsi">
+																			<label for="corsi_test"> <?php echo lang('app.field_test_per_corsi')?> </label>
+																		</div>
+																		<div class="radio form-check-inline">
+																			<input type="radio" name="test_required" id="modulo_test" value="per_modulo">
+																			<label for="modulo_test"> <?php echo lang('app.field_test_per_modulo')?> </label>
+																		</div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+													
+														</div>
+														<div class="row" id="div_test_corsi" style="display:none">
+															<div class="col-12">
+														   <div class="form-group row mb-3">
+																<label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_min_points')?> <span class="text-danger">*</span></label>
+																<div class="col-md-6">
+																	<input type="number" min="1" max="100" class="form-control" name="min_points" id="min_points" placeholder="<?php echo lang('app.help_min_points')?>">
+																</div>
+															</div>
+														</div>
+														<div class="col-12">
+																
+																	<h4><?php echo lang('app.title_section_list_test')?></h4>
+																	<a href="<?php echo base_url('admin/test/add')?>" target="_blank"  name="add" class="btn btn-success float-right" style="margin-left:10px"><?php echo  lang('app.btn_add')?></a>&nbsp;
+																	<a href="#list-test-modal-dialog" data-toggle="modal"  name="list" class="btn btn-warning float-right" onclick="get_list_test();"><?php echo  lang('app.btn_list')?></a>
+																  
+																  <div class="row m-t-20" style="margin-top:20px">
+																	<div class="table-responsive">
+																		<table class="table table-td-valign-middle m-b-0">
+																			
+																			<tbody id="list_test">
+																			
+																			</tbody>
+																		</table>
+																	</div>
+																 
+															</div>
+														 </div>
+														</div>
+														<div class="row" id="div_test_modulo" style="display:none">
+															<div class="col-12">
+															   <div class="form-group row mb-3">
+																	<label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_min_modulo')?> <span class="text-danger">*</span></label>
+																	<div class="col-md-6">
+																		<input type="number" min="1" max="100" class="form-control" name="min_modulo" id="min_modulo" placeholder="<?php echo lang('app.help_min_modulo')?>">
+																	</div>
+																	<div class="col-md-3" style="display:none" id="div_stop_next_modulo">
+																		<div class="form-check form-check-inline">
+																			<?php 
+																			$chk=false;
+																			
+																			$data = [
+																			'name'    => "stop_next_modulo",
+																			'id'      => 'stop_next_modulo',
+																			'value'   =>'no',
+																			'checked' => $chk,
+																			'class' => 'form-check-input'
+																				];
 
+																				echo form_checkbox($data);
+																				?>
+																			  <label class="form-check-label" for="inlineCheckbox1"><?php echo lang("app.field_stop_next_modulo")?></label>
+																			</div>
+																	</div>
+																</div>
+															</div>
+															
+														</div>
+													</div>
+												</div>
+												<?php } ?>
                                                 <ul class="list-inline wizard mb-0" style="margin-top:10px">
                                                     <li class="previous list-inline-item"><a href="javascript: void(0);" class="btn btn-secondary"><?php echo lang('app.btn_prev');?></a>
                                                     </li>
@@ -990,7 +1089,35 @@
 			</div>
 		</div>
            <?php echo form_close();?>		        
-		
+	
+ <?php $attributes = ['class' => '', 'id' => 'test_form_list','method'=>'post'];
+				echo form_open_multipart( base_url('admin/PDFlib'), $attributes);?>
+		<input type="hidden" name="action" value="list_test">
+	
+		<div class="modal fade" id="list-test-modal-dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						
+						<h4 class="modal-title"><?php echo lang('app.modal_title_list_pdflib')?></h4>
+					</div>
+					<div class="modal-body" id="div_list_test" style="overflow: scroll; height:450px">
+					
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn width-100 btn-danger" data-dismiss="modal"><?php echo lang('app.btn_cancel')?></a>
+						<?php $data=["name"=>"save",
+											"value"=>lang('app.btn_save'),
+											'class' => 'btn btn-success'
+								];
+								$js = 'onClick="test_add_from_list()"';
+								echo form_button($data,lang('app.btn_save'),$js);?>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+           <?php echo form_close();?>		        	
 
 <div id="success-alert-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
                                             <div class="modal-dialog modal-sm">
@@ -1078,6 +1205,23 @@
 					if(o&&(o.addClass("was-validated"),!1===o[0].checkValidity()))return event.preventDefault(),event.stopPropagation(),!1
 				}*/
 			})
+			
+			$("input[name='test_required']").change(function(){
+				var v=$(this).val();
+				if(v=='no'){
+					$("#div_test_corsi").hide(0);
+					$("#div_test_modulo").hide(0);
+				}
+				if(v=='per_corsi'){
+					$("#div_test_modulo").hide(0);
+					$("#div_test_corsi").show(0);
+					
+				}
+				if(v=='per_modulo'){
+					$("#div_test_corsi").hide(0);
+					$("#div_test_modulo").show(0);
+				}
+			});
 		});
 </script>
 
@@ -1299,6 +1443,16 @@ $('.repeater-prezzo-prof').repeater({
 
             }
         });  
+		
+$("input[name='buy_type']").change(function(){ 
+ var v=$(this).val();
+ if(v=='cours'){
+	 $("#div_stop_next_modulo").show(0);
+ }
+ else{
+	  $("#div_stop_next_modulo").hide(0);
+ }
+});
 		</script>
 <script>
    function get_sottoargomenti(id_argomenti){
@@ -1387,9 +1541,44 @@ $('.repeater-prezzo-prof').repeater({
 			});
 	}
 	
+	function test_add_from_list(){
+		var myForm = document.getElementById('test_form_list');
+		var form_data = new FormData(myForm);
+		$.ajax({
+			url: '<?php echo base_url()?>/Ajax/test_add_from_list', // point to server-side controller method
+			//dataType: 'text', // what to expect back from the server
+			cache: false,
+			contentType: false,
+			processData: false,
+			data: form_data,
+			type: 'post'
+			
+		}).done(function(data){
+				
+				$("#list_test").html(data);
+				$("#list-test-modal-dialog").modal('hide');
+			});
+	}
+	
+	function get_list_test(){
+		$.ajax({
+			url: '<?php echo base_url()?>/Ajax/get_list_test', // point to server-side controller method
+			//dataType: 'text', // what to expect back from the server
+			cache: false,
+			contentType: false,
+			processData: false,
+			
+			type: 'post'
+			
+		}).done(function(data){
+				
+				$("#div_list_test").html(data);
+				
+			});
+	}
 function save_corsi(){
 	$(".nav-link").removeClass('text-danger');
-
+$("#error_alert").hide('slow');
 	$.ajax({
 				  url:"<?php echo base_url('Corsi/add_form_submit')?>",
 				  method:"POST",
