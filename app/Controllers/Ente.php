@@ -36,7 +36,7 @@ class Ente extends BaseController
 			ob_start();?>
 			<ul>
 				<li><?php echo lang('app.field_type_cours')?>: <?php echo implode(",",$pack['type_cours']);?></li>
-				<li><?php echo lang('app.field_package_extra')?>: <?php echo implode(",",$pack['extra']);?></li>
+				<li><?php echo lang('app.field_package_extra')?>: <?php if(!empty($pack['extra']))  echo implode(",",$pack['extra']);?></li>
 			</ul>
 			<?php 
 			$vv['package']=ob_get_clean();
@@ -72,6 +72,12 @@ class Ente extends BaseController
 		}
 		elseif(empty($this->request->getVar('type_cours'))){
 			$res=array("error"=>true,"validation"=>lang('app.error_at_least_type_cours'));
+		}
+		elseif(($this->request->getVar('type')=='private' || $this->request->getVar('type')=='professional') && $this->request->getVar('fattura_cf')!="" && strlen($this->request->getVar('fattura_cf'))>16){
+			$res=array("error"=>true,"validation"=>lang('app.error_cf_format'));
+		}
+		elseif(($this->request->getVar('type')=='company' || $this->request->getVar('type')=='professional') && $this->request->getVar('fattura_sdi')!="" && strlen($this->request->getVar('fattura_sdi'))>6){
+			$res=array("error"=>true,"validation"=>lang('app.error_sdi_format'));
 		}
 		else{ 
 				$password=random_string();
@@ -116,7 +122,9 @@ class Ente extends BaseController
 				'dettagli' => $this->request->getVar('dettagli'),
 				'description' => $this->request->getVar('description'),
 				'del' =>$this->request->getVar('del'),
-				'logo' => ''
+				'logo' => '',
+				'fattura_nome'=>$this->request->getVar('fattura_nome'),
+				'fattura_cognome'=>$this->request->getVar('fattura_cognome'),
 				);
 
 				$this->UserProfileModel->save($tab);
@@ -129,9 +137,9 @@ class Ente extends BaseController
 				$common_data=$this->common_data();			
 				$email = \Config\Services::email();
 				$z=$email->setFrom($common_data['settings']['sender_email'],$common_data['settings']['sender_name']);		
-				$email->setTo($inf['email']);
-				if($common_data['settings']['bcc']!="") $email->setBCC($common_data['settings']['bcc']);
-				$link='https://'.$this->request->getVar('doamin_ente').'/admin';
+				$email->setTo($this->request->getVar('email'));
+				if(isset($common_data['settings']['bcc']) && $common_data['settings']['bcc']!="") $email->setBCC($common_data['settings']['bcc']);
+				$link='https://'.$this->request->getVar('domain_ente').'/admin';
 				$temp=$this->TemplatesModel->where('module','send_credential')->where('id_ente IS NULL')->find();
 				$html=str_replace(array("{var_link}","{var_password}","{var_email}","{var_name}"),
 				array($link,$password,$this->request->getVar('email'),$subscribe_name),
@@ -140,7 +148,7 @@ class Ente extends BaseController
 				$email->setMessage($html);
 				$email->setAltMessage(strip_tags($html));
 				$xxx=$email->send();
-				$yy=$this->NotifLogModel->insert(array('id_participant'=>$id_user,'type'=>'email','user_to'=>$inf['email'],'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+				$yy=$this->NotifLogModel->insert(array('id_participant'=>$id_user,'type'=>'email','user_to'=>$this->request->getVar('email'),'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
 					
 				
 				$res=array("error"=>false);
@@ -188,6 +196,12 @@ class Ente extends BaseController
 		elseif(empty($this->request->getVar('type_cours'))){
 			$res=array("error"=>true,"validation"=>lang('app.error_at_least_type_cours'));
 		}
+		elseif(($this->request->getVar('type')=='private' || $this->request->getVar('type')=='professional') && $this->request->getVar('fattura_cf')!="" && strlen($this->request->getVar('fattura_cf'))>16){
+			$res=array("error"=>true,"validation"=>lang('app.error_cf_format'));
+		}
+		elseif(($this->request->getVar('type')=='company' || $this->request->getVar('type')=='professional') && $this->request->getVar('fattura_sdi')!="" && strlen($this->request->getVar('fattura_sdi'))>6){
+			$res=array("error"=>true,"validation"=>lang('app.error_sdi_format'));
+		}
 		else{ 
 				
 				if($this->request->getVar('type')=='company') $subscribe_name=$this->request->getVar('ragione_sociale');
@@ -231,7 +245,9 @@ class Ente extends BaseController
 				'dettagli' => $this->request->getVar('dettagli'),
 				'description' => $this->request->getVar('description'),
 				'del' =>$this->request->getVar('del'),
-				'logo' => ''
+				'logo' => '',
+				'fattura_nome'=>$this->request->getVar('fattura_nome'),
+				'fattura_cognome'=>$this->request->getVar('fattura_cognome'),
 				);
 
 				$this->UserProfileModel->update($this->request->getVar('id_profile'),$tab);
