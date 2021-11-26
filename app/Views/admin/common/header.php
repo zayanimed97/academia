@@ -166,7 +166,7 @@
 							 <li>
                             
                                 
-                            <a href="<?= base_url('admin/test') ?>"><i data-feather="book"></i> <span><?php echo lang('app.menu_corsi_test')?> </span></a>
+                            <a href="<?= base_url('admin/test') ?>"><i data-feather="check-square"></i> <span><?php echo lang('app.menu_corsi_test')?> </span></a>
                                         
                             </li>
 							<?php } ?>
