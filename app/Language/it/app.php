@@ -332,6 +332,7 @@ $lang['field_test_per_modulo']="Test per modulo";
 $lang['field_vat']="VAT";
 $lang['field_min_modulo']="Modulo minimi";
 $lang['field_stop_next_modulo']="Stop next modulo";
+$lang['field_type_professional']="Professionista";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -369,6 +370,7 @@ $lang['menu_corsi_test']="Test";
 $lang['new_test']="Nuovo Test";
 $lang['edit_test']="Modifica Test";
 $lang['menu_corsi_test']="Test";
+$lang['menu_fattura']="Fattura";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -416,6 +418,7 @@ $lang['error_modulo_test_question_required']="la data richiesta per questa doman
 $lang['error_modulo_test_answer_required']="i dati richiesti per la risposta a questa domanda sono vuoti!";
 $lang['error_modulo_test_answer_points']="il punteggio totale delle risposte deve essere 100!";
 $lang['error_corsi_test']="devi scegliere almeno un test e specificare il punti minimi";
+$lang['error_sdi_format']="solo 6 caratteri alfanumerici";
 ###########success ##########################"
 $lang['success_activation_account']="Complimenti, il tuo account è ora attivo.  Per accedere al tuo profile, devi inserire la tua email e password qui sotto.”";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
