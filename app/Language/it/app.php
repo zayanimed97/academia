@@ -395,6 +395,7 @@ $lang['title_page_cours_test_add']="Nuovo Test";
 $lang['title_modal_delete_corsi_test']="Eliminare test";
 $lang['title_page_cours_test_edit']="Modifica Test";
 $lang['title_section_list_test']="Lista Test";
+$lang['modal_title_profile_ente']="Profilo Ente";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";

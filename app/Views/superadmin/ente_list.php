@@ -139,14 +139,14 @@
                                                    
                                                     <th>ID</th>
                                                    <th>&nbsp;</th>
-													
+													  <th><?php echo lang('app.field_server_name')?></th>
 													<th>Email</th>
-                                                    <th><?php echo lang('app.field_server_name')?></th>
-                                                   <th><?php echo lang('app.field_type')?></th>
+
                                                    <th><?php echo lang('app.field_ente')?></th>
-												   
+												    <th><?php echo lang('app.field_type')?></th>
 												   <th><?php echo lang('app.field_expired_date')?></th>
-												   <th><?php echo lang('app.menu_package')?></th>
+												   <!--th><?php echo lang('app.menu_package')?></th-->
+												   <th><?php echo lang('app.field_attivo')?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -158,18 +158,20 @@
                                                    
                                                     <td><?php echo $v['id']?></td>
 													<td>
-												
+													<button href="#profile-modal-dialog" class="btn btn-xs btn-info" data-toggle="modal" onclick="get_profile('<?php echo $v['id']?>')"><i class="fa fa-user"></i></button>	
 													<a href="<?php echo base_url('superadmin/ente/edit/'.$v['id'])?>" class="btn btn-xs btn-primary" ><i class="fa fa-edit"></i></a>
 													<button href="#delete-modal-dialog" class="btn btn-xs btn-danger" data-toggle="modal" onclick="del_data('<?php echo $v['id']?>')"><i class="fa fa-trash"></i></button>	
 													
 													</td>
-													<td><?php echo $v['email']?></td>
 													<td><?php echo $v['domain_ente']?></td>
-													<td><?php echo $v['type']?></td>
+													<td><?php echo $v['email']?><br/><?php echo $v['mobile']?><br/><a href="<?php echo base_url('superadmin/loginAs/'.$v['id'])?>"><?php echo lang('app.btn_login')?></a></td>
+													
+													
 													<td><?php echo $v['ente']?></td>
+													<td><?php echo $v['type']?></td>
 													<td><?php echo date('d/m/Y',strtotime($v['expired_date']))?></td>
-                                                    <td><?php echo $v['package']?></td>
-	
+                                                    <!--td><?php echo $v['package']?></td-->
+													<td><?php if($v['active']=='yes'){?><span class="badge bg-soft-success text-success p-1"><?php echo lang('app.yes')?></span> <?php } else{?> <span class="badge bg-soft-danger text-danger p-1"><?php echo lang('app.no')?></span><?php } ?></td>
                                                 </tr>
 											<?php } }?>
                                                 
@@ -225,7 +227,23 @@
 		
            <?php echo form_close();?>	
 		
-		
+		<div class="modal fade"id="profile-modal-dialog" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" >
+                <div class="modal-content">
+                    <div class="modal-header bg-light">
+                        <h4 class="modal-title" id="myCenterModalLabel"><?php echo lang('app.modal_title_profile_ente')?></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body p-4" id="div_profile">
+                       
+                        
+                    </div>
+					 <div class="modal-footer">
+						<button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal"><?php echo lang('app.btn_close')?></button>
+					 </div>
+                </div><!-- /.modal-content -->
+            </div>
+		</div>
 		   
         </div>
         <!-- END wrapper -->
@@ -361,7 +379,17 @@
 		function del_data(id){
 			$("#id_to_delete").val(id);
 		}
-		 
+		function get_profile(id){
+			$.ajax({
+				  url:"<?php echo base_url()?>/ajax/get_profile_ente",
+				  method:"POST",
+				  data:{id:id}
+				  
+			}).done(function(data){
+				
+				$("#div_profile").html(data);
+			});
+		}
 		</script>
     </body>
 </html>

@@ -652,9 +652,59 @@ class Users extends BaseController
 	}
 	
 	
+	public function loginAs($id){
+		$common_data=$this->common_data();
+	
+		$user_data=$this->session->get('user_data');
+		
+		  $url=previous_url(); 
+			$id_admin=$user_data['id'];
+			$this->session->set(array('login_as'=>$id_admin,'redirect_admin'=>$url));
+			
+			$users = $this->UserModel
+						->where('id', $id)
+						
+						->findAll();
+			
+			if($users[0]['role']=='ente'){
+					$inf_package=$this->EntePackageModel->where('id_ente',$users[0]['id'])->orderBy('expired_date','DESC')->first();
+					$det=json_decode($inf_package['package'] ?? '[]',true);
+					$users[0]['ente_package']=array("expired_date"=>$inf_package['expired_date'],"type_cours"=>$det['type_cours'] ?? '',"extra"=>$det['extra'] ?? '');
+				}
+				
+				$this->session->set(array('user_data'=>$users[0]));
+				switch($users[0]['role']){
+					case 'ente':$redirect_url='admin/dashboard'; break;
+					
+					default:$redirect_url='';
+						
+				}
+				//var_dump($users[0]);
+				return redirect()->to( base_url($redirect_url) );
+			
+		
+	
+	}
 	
 	
-
+public function loginBack(){
+		$common_data=$this->common_data();
+		$id_admin=$this->session->get('login_as');
+		$redirect_admin=$this->session->get('redirect_admin');
+		if($redirect_admin=='') $redirect_admin=base_url('superadmin/');
+		$this->session->remove('user_data');
+	
+			$users = $this->UserModel
+						->where('id', $id_admin)
+						
+						->findAll();
+	
+				$this->session->set(array('user_data'=>$users[0]));
+				$this->session->remove('login_as');
+				$this->session->remove('redirect_admin');
+				
+		return redirect()->to($redirect_admin );
+	}
 	
 	//--------------------------------------------------------------------
 

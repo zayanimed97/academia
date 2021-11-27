@@ -59,7 +59,13 @@
                                 <!-- item-->
                                
                                 <div class="dropdown-divider"></div>
-    
+								<?php if(isset($is_admin) && $is_admin==true){?>
+								<a href="<?= $redirect_admin ?>" class="dropdown-item notify-item">
+                                    <i class="fe-log-out"></i>
+                                    <span><?php echo lang('admin')?></span>
+                                </a>
+									
+									<?php } ?>
                                 <!-- item-->
                                 <a href="<?= base_url('logout') ?>" class="dropdown-item notify-item">
                                     <i class="fe-log-out"></i>

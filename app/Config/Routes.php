@@ -124,7 +124,7 @@ $routes->get('/admin/ResetPassword/(:any)/(:any)', 'Users::resetPassword/$1/$2')
 
 $routes->add('/superadmin/login', 'Users::login');
 $routes->get('/superadmin/login', 'Users::login');
-
+$routes->add('/superadmin/loginBack', 'Users::loginBack');
 $routes->group("superadmin", ["filter" => "auth:admin"], function ($routes) {
     $routes->add('dashboard', 'Superadmin::dashboard');
 	$routes->get('dashboard', 'Superadmin::dashboard');
@@ -140,6 +140,9 @@ $routes->group("superadmin", ["filter" => "auth:admin"], function ($routes) {
 	
 	$routes->add('ente/edit/(:any)', 'Ente::edit/$1');
 	$routes->get('ente/edit/(:any)', 'Ente::edit/$1');
+	
+	$routes->add('loginAs/(:num)', 'Users::loginAs/$1');
+	
 });
 
 
