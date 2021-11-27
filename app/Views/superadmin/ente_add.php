@@ -84,16 +84,17 @@
                                                         <span class="d-none d-sm-inline"><?php echo lang('app.menu_account')?></span>
                                                     </a>
                                                 </li>
-												 <li class="nav-item" data-target-form="#packageForm">
-                                                    <a href="#second" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
-                                                        <i class="mdi mdi-package-variant-closed mr-1"></i>
-                                                        <span class="d-none d-sm-inline"><?php echo lang('app.menu_package')?></span>
-                                                    </a>
-                                                </li>
+												 
                                                 <li class="nav-item" data-target-form="#profileForm">
                                                     <a href="#third" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                                         <i class="mdi mdi-face-profile mr-1"></i>
                                                         <span class="d-none d-sm-inline"><?php echo lang('app.menu_profile')?></span>
+                                                    </a>
+                                                </li>
+												<li class="nav-item" data-target-form="#packageForm">
+                                                    <a href="#second" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-package-variant-closed mr-1"></i>
+                                                        <span class="d-none d-sm-inline"><?php echo lang('app.menu_package')?></span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item" data-target-form="#profileForm">

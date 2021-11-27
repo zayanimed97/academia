@@ -285,4 +285,162 @@ class Ajax extends BaseController
 		</table>
 	<?php
 	}
+	
+	public function get_profile_ente(){
+		$common_data=$this->common_data();
+		$id=$this->request->getVar('id');
+		$inf=$this->UserModel->find($id);
+		$inf_profile=$this->UserProfileModel->where('user_id',$id)->first();
+		$inf_package=$this->EntePackageModel->where('id_ente',$id)->orderBy('expired_date','DESC')->first();
+		$pack=json_decode($inf_package['package'],true);
+		$inf_country_residenza=$this->NazioniModel->find($inf_profile['residenza_stato']);
+		
+		if($inf_profile['residenza_stato']==106){
+			$inf_provincia_residenza=$this->ProvinceModel->find($inf_profile['residenza_stato']);
+			$residenza_provincia=$inf_provincia_residenza['provincia'];
+			$inf_provincia_residenza=$this->ComuniModel->find($inf_profile['residenza_provincia']);
+			$residenza_comune=$inf_provincia_residenza['comune'];
+		}
+		else{
+			$residenza_provincia=$inf_profile['residenza_provincia'];
+			$residenza_comune=$inf_profile['residenza_comune'];
+		}
+		$inf_country_fattura=$this->NazioniModel->find($inf_profile['fattura_stato']);
+		if($inf_profile['fattura_stato']==106){
+			$inf_provincia_fattura=$this->ProvinceModel->find($inf_profile['fattura_stato']);
+			$fattura_provincia=$inf_provincia_fattura['provincia'];
+			$inf_provincia_fattura=$this->ComuniModel->find($inf_profile['fattura_provincia']);
+			$fattura_comune=$inf_provincia_fattura['comune'];
+		}
+		else{
+			$fattura_provincia=$inf_profile['fattura_provincia'];
+			$fattura_comune=$inf_profile['fattura_comune'];
+		}
+		?>
+		<h4><?php echo lang('app.menu_profile')?></h4>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_first_name')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['nome']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_last_name')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['cognome']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_phone')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['telefono']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_mobile')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['mobile']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_country')?></b></div>
+			<div class="col-8"><?php echo $inf_country_residenza['nazione']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_provincia')?></b></div>
+			<div class="col-8"><?php echo $residenza_provincia?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_city')?></b></div>
+			<div class="col-8"><?php echo $residenza_comune?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_address')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['residenza_indirizzo']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_zip')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['residenza_cap']?></div>
+		</div>
+		<h4><?php echo lang('app.menu_fattura')?></h4>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_type')?></b></div>
+			<div class="col-8"><?php switch( $inf_profile['type']){
+				case 'private': echo lang('app.field_type_private');break;
+				case 'professional': echo lang('app.field_type_professional');break;
+				case 'company': echo lang('app.field_type_company');break;
+			}?></div>
+		</div>
+		<?php switch( $inf_profile['type']){
+			case 'professional': ?>
+			<div class="row">
+				<div class="col-4"><b><?php echo lang('app.field_piva')?></b></div>
+				<div class="col-8"><?php echo $inf_profile['fattura_piva']?></div>
+			</div>
+		
+		<?php break;
+		case 'company': ?>
+		<div class="row">
+				<div class="col-4"><b><?php echo lang('app.field_company_name')?></b></div>
+				<div class="col-8"><?php echo $inf_profile['ragione_sociale']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_piva')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['fattura_piva']?></div>
+		</div>
+		
+		<?php break;
+		} ?>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_cf')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['fattura_cf']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_first_name')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['nome']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_last_name')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['cognome']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_phone')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['fattura_phone']?></div>
+		</div>
+		
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_country')?></b></div>
+			<div class="col-8"><?php echo $inf_country_fattura['nazione']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_provincia')?></b></div>
+			<div class="col-8"><?php echo $fattura_provincia?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_city')?></b></div>
+			<div class="col-8"><?php echo $fattura_comune?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_address')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['fattura_indirizzo']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_zip')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['fattura_cap']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_pec')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['fattura_pec']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_sdi')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['fattura_sdi']?></div>
+		</div>
+		<h4><?php echo lang('app.menu_package')?></h4>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_expired_date')?></b></div>
+			<div class="col-8"><?php echo date('d/m/Y',strtotime($inf_package['expired_date']))?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_type_cours')?></b></div>
+			<div class="col-8"><?php echo implode(",",$pack['type_cours'])?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_package_extra')?></b></div>
+			<div class="col-8"><?php if(!empty($pack['extra']))  echo implode(",",$pack['extra']);?></div>
+		</div>
+		<?php 
+	}
 }//end class

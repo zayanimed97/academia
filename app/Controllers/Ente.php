@@ -29,7 +29,11 @@ class Ente extends BaseController
 			}
 			else{
 				$vv['type']=lang('app.field_type_private');
-				$vv['ente']=$inf_profile['nome'].' '.$inf_profile['cognome'];
+				ob_start();
+				if($inf_profile['ragione_sociale']!=""){?><li><?php echo $inf_profile['ragione_sociale']?></li><?php }?>
+					<li><?php echo $inf_profile['nome'].' '.$inf_profile['cognome']?></li>
+				<?php 
+				$vv['ente']=ob_get_clean();
 			}
 			$vv['expired_date']=$inf_package['expired_date'];
 			$pack=json_decode($inf_package['package'],true);
@@ -40,6 +44,7 @@ class Ente extends BaseController
 			</ul>
 			<?php 
 			$vv['package']=ob_get_clean();
+			$vv['mobile']=$inf_profile['mobile'];
 			$res[]=$vv;
 		}
 		$data['list']=$res;

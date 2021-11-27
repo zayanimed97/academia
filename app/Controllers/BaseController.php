@@ -139,6 +139,10 @@ class BaseController extends Controller
 		if(!empty($user_loginas)) $common_data['user_loginas']=$user_loginas;
 		// query to extract idEnte from server name 
 		
+		if(!is_null($this->session->get('login_as'))){
+			$common_data['is_admin']=true;
+			$common_data['redirect_admin']=base_url('superadmin/loginBack');//$this->session->get('redirect_admin');
+		}
 		
 		return $common_data;
 	}
