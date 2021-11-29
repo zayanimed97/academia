@@ -130,6 +130,8 @@ class Ente extends BaseController
 				'logo' => '',
 				'fattura_nome'=>$this->request->getVar('fattura_nome'),
 				'fattura_cognome'=>$this->request->getVar('fattura_cognome'),
+				'site_web'=>$this->request->getVar('site_web'),
+				'note'=>$this->request->getVar('note'),
 				);
 
 				$this->UserProfileModel->save($tab);
@@ -253,6 +255,8 @@ class Ente extends BaseController
 				'logo' => '',
 				'fattura_nome'=>$this->request->getVar('fattura_nome'),
 				'fattura_cognome'=>$this->request->getVar('fattura_cognome'),
+				'site_web'=>$this->request->getVar('site_web'),
+				'note'=>$this->request->getVar('note'),
 				);
 
 				$this->UserProfileModel->update($this->request->getVar('id_profile'),$tab);

@@ -385,7 +385,7 @@
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_address')?></label>
                                     <div class="col-md-9">
-										<?php $val=""; 
+										<?php $val=$inf_profile['residenza_indirizzo']; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'residenza_indirizzo',
@@ -406,7 +406,7 @@
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_zip')?></label>
                                     <div class="col-md-9">
-										<?php $val=""; 
+										<?php $val=$inf_profile['residenza_cap']; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'residenza_cap',
@@ -423,7 +423,48 @@
 									</div>
 								</div>
                                </div>
+<div class="col-6">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_website')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$inf_profile['site_web']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'site_web',
+												'id'    => 'site_web',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_website'),
+												'class' => 'form-control'
+												
+										];
 
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+                               </div>	
+<div class="col-12">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_note')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$inf_profile['note']; 
+										$input = [
+												'type'  => 'textarea',
+												'name'  => 'note',
+												'id'    => 'note',
+												'rows' =>3,
+												'value' => $val,
+												'placeholder' =>lang('app.field_note'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_textarea($input);
+										?>
+									</div>
+								</div>
+                               </div>									   
 								   		
 														</div>
                                                         <!-- end row -->
