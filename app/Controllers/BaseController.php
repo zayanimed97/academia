@@ -138,7 +138,8 @@ class BaseController extends Controller
 		$user_loginas=$this->session->get('user_loginas');	
 		if(!empty($user_loginas)) $common_data['user_loginas']=$user_loginas;
 		// query to extract idEnte from server name 
-		
+		$common_data['CategorieModel'] = $this->CategorieModel;
+		$common_data['CorsiModel'] = $this->CorsiModel;
 		
 		return $common_data;
 	}

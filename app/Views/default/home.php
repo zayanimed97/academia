@@ -1,4 +1,4 @@
-<?= view('default/common/header') ?>
+<?php require_once 'common/header.php' ?>
   
 <?php $settings['banner_home'] = (array)json_decode($settings['banner_home'])?>
         <!-- Slideshow -->
@@ -91,7 +91,7 @@
 
 
             <!--  slider courses --> 
-            <div class="sm:my-4 my-3 flex items-end justify-between pt-3">
+            <!-- <div class="sm:my-4 my-3 flex items-end justify-between pt-3">
                     <h2 class="text-2xl font-semibold"> Popular Classes  </h2>
                 <a href="#" class="text-blue-500 sm:block hidden"> See all </a>
             </div> 
@@ -212,8 +212,8 @@
                     </div>
                 </div>
             
-            </div>
-
+            </div> -->
+            <?php if(!empty($category)) { ?>
             <div x-data="getSlideData" class="mt-8">
 
                 <!-- title -->
@@ -223,10 +223,18 @@
                     <!-- <div class="text-sm mt-2">  Choose from 130,000 online video courses with new additions published every month </div> -->
                 </div>
 
+                <?php   $uniqueCat = array_values(array_column(
+                                        array_reverse($category),
+                                        null,
+                                        'id'
+                                    )); 
+                        $courses =  $CorsiModel->where('id_categorie', $uniqueCat[0]['id'] ?? '')->find();
+                    
+                ?>
                 <!-- nav -->
                 <nav class="cd-secondary-nav border-b md:m-0 -mx-4 nav-small">
                     <ul uk-tab>
-                        <?php foreach($category as $cat) { ?>
+                        <?php foreach($uniqueCat as $cat) { ?>
                             <li :class="active == <?= $cat['id'] ?> ? 'active' : ''" ><a href="#" @click="getCourses('<?= $cat['id'] ?>')" class="lg:px-2"> <?= $cat['titolo'] ?> </a></li>
                         <?php } ?>
                     </ul>
@@ -284,7 +292,7 @@
                 </div>
 
             </div>
-            
+            <?php } ?>
             
 
         </div>
@@ -293,7 +301,7 @@
 <script>
     function getSlideData(){
         return {
-            active: <?= $category[0]['id'] ?>,
+            active: <?= $category[0]['id'] ?? '' ?>,
             courses: '',
             getCourses(id){
                 this.active = id;
