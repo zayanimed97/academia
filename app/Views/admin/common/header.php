@@ -165,14 +165,14 @@
 							 <li>
                             
                                 
-                            <a href="<?= base_url('admin/corsi') ?>"><i data-feather="book"></i> <span><?php echo lang('app.menu_corsi')?> </span></a>
+                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?>  href="<?= base_url('admin/corsi') ?>"><i data-feather="book"></i> <span><?php echo lang('app.menu_corsi')?> </span></a>
                                         
                             </li>
 							<?php if(in_array('test',$ente_package['extra'])){?>
 							 <li>
                             
                                 
-                            <a href="<?= base_url('admin/test') ?>"><i data-feather="check-square"></i> <span><?php echo lang('app.menu_corsi_test')?> </span></a>
+                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/test') ?>"><i data-feather="check-square"></i> <span><?php echo lang('app.menu_corsi_test')?> </span></a>
                                         
                             </li>
 							<?php } ?>

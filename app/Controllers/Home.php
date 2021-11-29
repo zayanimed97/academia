@@ -9,8 +9,17 @@ class Home extends BaseController
         // $test = $this->SettingModel->where('meta_value','>',4)->first();
         
         $data = $this->common_data();
-        $data['category'] = $this->CategorieModel->where('id_ente', $data['selected_ente']['id'])->where('status', 'enable')->find();
-        $data['courses'] =  $this->CorsiModel->where('id_categorie', $data['category'][0]['id'])->find();
+
+        
+        $data['argomenti'] = $this->ArgomentiModel->where('c.id_ente', $data['selected_ente']['id'])->join('corsi c', 'c.id_argomenti = argomenti.idargomenti')->select('c.*, argomenti.*, argomenti.idargomenti as arg_id')->find();
+
+        // $data['sottoargomenti'] = $this->SottoargomentiModel->where('c.id_ente', $data['selected_ente']['id'])->join('corsi c', 'c.sottoargomenti = sottoargomenti.id')->select('c.*, sottoargomenti.*, sottoargomenti.id as sotto_id')->find();
+
+        // die(var_dump($data['sottoargomenti']));
+        // echo '<pre>';
+        // print_r($data['category']);
+        // echo '</pre>';
+        // exit;
         // die(var_dump($data['category']));
         return view('default/home', $data);
     }

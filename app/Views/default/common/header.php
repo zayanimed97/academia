@@ -1,6 +1,14 @@
+<?php 
+    $category = $CategorieModel->where('c.id_ente', $selected_ente['id'])->where('categorie.status', 'enable')->join('corsi c', 'find_in_set(categorie.id,c.id_categorie) > 0')->select('categorie.*, c.tipologia_corsi')->find();
+    $filter = function($tipologia, $type, $argomenti = null){return array_filter($type, function($el) use ($tipologia){ return $el['tipologia_corsi'] == $tipologia ;});};
+?>
 <!DOCTYPE html>
 <html lang="en">
-
+<style>
+    /* .header_menu ul ul li a:after{
+        content: "" !important;
+    } */
+</style>
 <head> 
 
     <!-- Basic Page Needs
@@ -51,21 +59,114 @@
                     <nav class="header_menu">
                         <ul> 
                             <li> 
-                                <a href="#"> Courses</a> 
-                                <div uk-drop="mode: click" class="category-dropdown">
+                                <a href="#"> Aule </a> 
+                                <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
-                                        <li> <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Web Development </a></li>
-                                        <li> <a href="courses.html">  <ion-icon name="leaf-outline" class="is-icon"></ion-icon> Mobile App </a> </li>
-                                        <li> <a href="courses.html">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li>
-                                        <li> <a href="courses.html">  <ion-icon name="color-palette-outline" class="is-icon"></ion-icon> Desings </a></li>
-                                        <li> <a href="courses.html">  <ion-icon name="megaphone-outline" class="is-icon"></ion-icon> Marketing </a></li>
-                                        <li> <a href="courses.html">  <ion-icon name="camera-outline" class="is-icon"></ion-icon> Photography </a> </li>
-                                        <li> <a href="courses.html">  <ion-icon name="accessibility-outline" class="is-icon"></ion-icon> Life Style </a> </li>
+                                        <li> 
+                                            <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Categories </a>
+                                            <div uk-drop="mode: click; pos: right-top" class="menu-dropdown">
+                                                <ul>
+                                                    <?php foreach($filter('aula', $category) as $cat) { ?>
+                                                    <li>
+                                                        <a href="<?= base_url('courses') ?>?category=abc"><?= $cat['titolo'] ?></a>
+                                                    </li>
+
+                                                    <?php } ?>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li> 
+                                            <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Argomenti </a>
+                                            <div uk-drop="mode: click; pos: right-top" class="menu-dropdown">
+                                                <ul>
+                                                    <?php foreach($filter('aula', $argomenti) as $arg) { ?>
+                                                        <li>
+                                                            <a href="<?= base_url('courses') ?>?category=abc"><?= $arg['nomeargomento'] ?></a>
+                                                        </li>
+
+                                                    <?php } ?>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <!-- <li> <a href="courses.html">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li> -->
                                     </ul>
                                 </div>
                           
                             </li>
-                           <li> <a href="categories.html" class="active"> Categories </a></li>
+
+                            <li> 
+                                <a href="#"> Online </a> 
+                                <div uk-drop="mode: click" class="menu-dropdown">
+                                    <ul>
+                                        <li> 
+                                            <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Categories </a>
+                                            <div uk-drop="mode: click; pos: right-top" class="menu-dropdown">
+                                                <ul>
+                                                    <?php foreach($filter('online', $category) as $cat) { ?>
+                                                        <li>
+                                                            <a href="<?= base_url('courses') ?>?category=abc"><?= $cat['titolo'] ?></a>
+                                                        </li>
+
+                                                    <?php } ?>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li> 
+                                            <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Argomenti </a>
+                                            <div uk-drop="mode: click; pos: right-top" class="menu-dropdown">
+                                                <ul>
+                                                <?php foreach($filter('online', $argomenti) as $arg) { ?>
+                                                        <li>
+                                                            <a href="<?= base_url('courses') ?>?category=abc"><?= $arg['nomeargomento'] ?></a>
+                                                        </li>
+
+                                                    <?php } ?>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <!-- <li> <a href="courses.html">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li> -->
+                                    </ul>
+                                </div>
+                          
+                            </li>
+
+                            <li> 
+                                <a href="#"> Webinar </a> 
+                                <div uk-drop="mode: click" class="menu-dropdown">
+                                    <ul>
+                                        <li> 
+                                            <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Categories </a>
+                                            <div uk-drop="mode: click; pos: right-top" class="menu-dropdown">
+                                                <ul>
+                                                    <?php foreach($filter('webinar', $category) as $cat) { ?>
+                                                        <li>
+                                                            <a href="<?= base_url('courses') ?>?category=abc"><?= $cat['titolo'] ?></a>
+                                                        </li>
+
+                                                    <?php } ?>
+                                                    
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li> 
+                                            <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Argomenti </a>
+                                            <div uk-drop="mode: click; pos: right-top" class="menu-dropdown">
+                                                <ul>
+                                                <?php foreach($filter('webinar', $argomenti) as $arg) { ?>
+                                                        <li>
+                                                            <a href="<?= base_url('courses') ?>?category=abc"><?= $arg['nomeargomento'] ?></a>
+                                                        </li>
+
+                                                    <?php } ?>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <!-- <li> <a href="courses.html">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li> -->
+                                    </ul>
+                                </div>
+                          
+                            </li>
+                           <!-- <li> <a href="categories.html" class="active"> Categories </a></li>
                             <li> <a href="episodes.html"> Episode  </a></li>
                             <li> <a href="books.html"> Book  </a></li>
                             <li> <a href="blog.html"> Blog</a></li>
@@ -113,7 +214,7 @@
                                         <li> <a href="course-intro-2.html"> Course intro 2 </a></li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li> -->
                         </ul>
                     </nav>
     
