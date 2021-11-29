@@ -87,16 +87,23 @@
                                                         <span class="d-none d-sm-inline"><?php echo lang('app.menu_account')?></span>
                                                     </a>
                                                 </li>
-												 <li class="nav-item" data-target-form="#packageForm">
-                                                    <a href="#second" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
-                                                        <i class="mdi mdi-face-profile mr-1"></i>
-                                                        <span class="d-none d-sm-inline"><?php echo lang('app.menu_package')?></span>
-                                                    </a>
-                                                </li>
+												
                                                 <li class="nav-item" data-target-form="#profileForm">
                                                     <a href="#third" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                                         <i class="mdi mdi-face-profile mr-1"></i>
                                                         <span class="d-none d-sm-inline"><?php echo lang('app.menu_profile')?></span>
+                                                    </a>
+                                                </li>
+												<li class="nav-item" data-target-form="#packageForm">
+                                                    <a href="#second" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-package-variant-closed mr-1"></i>
+                                                        <span class="d-none d-sm-inline"><?php echo lang('app.menu_package')?></span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item" data-target-form="#profileForm">
+                                                    <a href="#fourth" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-file-excel-outline mr-1"></i>
+                                                        <span class="d-none d-sm-inline"><?php echo lang('app.menu_fattura')?></span>
                                                     </a>
                                                 </li>
                                                
@@ -138,6 +145,7 @@
 															</div>
 														</div>
 														<?php $tab=json_decode($inf_package['package'],true);
+														if(!isset($tab['extra'])) $tab['extra']=array();
 														?>
                                                             <div class="col-12">
                                                                 <div class="form-group row mb-3">
@@ -195,64 +203,10 @@
                                                 </div>
                                                 <div class="tab-pane fade" id="third">
                                                     <div id="profileForm" >
-														<div class="row">
-															<div class="col-12">
-                                                                
-                                                                        <div class="radio form-check-inline">
-																			<input type="radio" name="type" id="type_private" value="private" <?php if($inf_profile['type']=='private') echo 'checked'?> onclick="return get_type('private')">
-																			<label for="type_private"> <?php echo lang('app.field_type_private')?> </label>
-																		
-																		</div>
-																		 <div class="radio form-check-inline">
-																		<input type="radio" name="type" id="type_company" value="company" <?php if($inf_profile['type']=='company') echo 'checked'?> onclick="return get_type('company')">
-																			<label for="type_company"> <?php echo lang('app.field_type_company')?> </label>
-																		
-																		</div>
-															</div>
-														</div>
+														
                                                        			<div class="row">
-																  <div class="col-6 div_company" <?php if($inf_profile['type']!='company'){?>style="display:none" <?php } ?>>
-														 <div class="form-group row mb-3">
-									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_company_name')?></label>
-									<div class="col-md-9">
-										<?php $val=$inf_profile['ragione_sociale']; 
-										$input = [
-												'type'  => 'text',
-												'name'  => 'ragione_sociale',
-												'id'    => 'ragione_sociale',
-												'required' =>true,
-												'value' => $val,
-												'placeholder' =>lang('app.field_company_name'),
-												'class' => 'form-control'
-												
-										];
-
-										echo form_input($input);
-										?>
-									</div>
-								</div>
-								</div>
-                                  <div class="col-6 div_company" <?php if($inf_profile['type']!='company'){?>style="display:none" <?php } ?>>
-														 <div class="form-group row mb-3">
-									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_piva')?></label>
-                                   <div class="col-md-9">
-								        <?php $val=$inf_profile['piva']; 
-										$input = [
-												'type'  => 'text',
-												'name'  => 'piva',
-												'id'    => 'piva',
-												'required' =>true,
-												'value' => $val,
-												'placeholder' =>lang('app.field_piva'),
-												'class' => 'form-control'
-												
-										];
-
-										echo form_input($input);
-										?>
-									</div>
-								</div>
-								</div>
+																  
+                                  
 																  <div class="col-6">
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_first_name')?></label>
@@ -431,7 +385,7 @@
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_address')?></label>
                                     <div class="col-md-9">
-										<?php $val=""; 
+										<?php $val=$inf_profile['residenza_indirizzo']; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'residenza_indirizzo',
@@ -452,7 +406,7 @@
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_zip')?></label>
                                     <div class="col-md-9">
-										<?php $val=""; 
+										<?php $val=$inf_profile['residenza_cap']; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'residenza_cap',
@@ -469,18 +423,128 @@
 									</div>
 								</div>
                                </div>
-										
-								
-								
-								   <div class="col-6 div_private" <?php if($inf_profile['type']!='private'){?>style="display:none" <?php } ?>>
+<div class="col-6">
 														 <div class="form-group row mb-3">
-													<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_cf')?></label>
-													<div class="col-md-9">
-														<?php $val=""; 
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_website')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$inf_profile['site_web']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'site_web',
+												'id'    => 'site_web',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_website'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+                               </div>	
+<div class="col-12">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_note')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$inf_profile['note']; 
+										$input = [
+												'type'  => 'textarea',
+												'name'  => 'note',
+												'id'    => 'note',
+												'rows' =>3,
+												'value' => $val,
+												'placeholder' =>lang('app.field_note'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_textarea($input);
+										?>
+									</div>
+								</div>
+                               </div>									   
+								   		
+														</div>
+                                                        <!-- end row -->
+                                                    </div>
+                                                </div>
+
+                                              	<div class="tab-pane fade" id="fourth">
+                                                    <div id="profileForm" >
+													<div class="row">
+															<div class="col-12">
+                                                                
+                                                                        <div class="radio form-check-inline">
+																			<input type="radio" name="type" id="type_private" value="private" onclick="return get_type('private')" <?php if($inf_profile['type']=='private') echo 'checked'?>>
+																			<label for="type_private"> <?php echo lang('app.field_type_private')?> </label>
+																		
+																		</div>
+																		<div class="radio form-check-inline">
+																			<input type="radio" name="type" id="type_professional" value="professional"  onclick="return get_type('professional')"  <?php if($inf_profile['type']=='professional') echo 'checked'?>>
+																			<label for="type_professional"> <?php echo lang('app.field_type_professional')?> </label>
+																		
+																		</div>
+																		 <div class="radio form-check-inline">
+																		<input type="radio" name="type" id="type_company" value="company" onclick="return get_type('company')"  <?php if($inf_profile['type']=='company') echo 'checked'?>>
+																			<label for="type_company"> <?php echo lang('app.field_type_company')?> </label>
+																		
+																		</div>
+															</div>
+														</div>
+														<div class="row">
+															 <div class="col-4" id="div_company"  <?php if($inf_profile['type']!='company'){?>style="display:none" <?php } ?>>
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_company_name')?></label>
+									<div class="col-md-9">
+										<?php $val=$inf_profile['ragione_sociale']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'ragione_sociale',
+												'id'    => 'ragione_sociale',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_company_name'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+                                  <div class="col-4" id="div_piva" <?php if($inf_profile['type']=='private'){?>style="display:none" <?php } ?>>
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_piva')?></label>
+                                   <div class="col-md-9">
+								        <?php $val=$inf_profile['fattura_piva']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_piva',
+												'id'    => 'fattura_piva',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_piva'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+								<div class="col-4" id="div_cf" >
+														 <div class="form-group row mb-3">
+													<label class="col-md-5 col-form-label" for="acc-name"><?php echo lang('app.field_cf')?></label>
+													<div class="col-md-7">
+														<?php $val=$val=$inf_profile['fattura_cf']; 
 														$input = [
 																'type'  => 'text',
-																'name'  => 'cf',
-																'id'    => 'cf',
+																'name'  => 'fattura_cf',
+																'id'    => 'fattura_cf',
 																'required' =>true,
 																'value' => $val,
 																'placeholder' =>lang('app.field_cf'),
@@ -492,13 +556,250 @@
 														?>
 													</div>
 												</div>
-										</div>				
-														</div>
-                                                        <!-- end row -->
-                                                    </div>
-                                                </div>
+										</div>
+									</div>
+									<div class="row">
+																  <div class="col-6">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_first_name')?></label>
+									<div class="col-md-9">
+										<?php $val=$inf_profile['fattura_nome']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_nome',
+												'id'    => 'fattura_nome',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_first_name'),
+												'class' => 'form-control'
+												
+										];
 
-                                              
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+                                  <div class="col-6">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_last_name')?></label>
+                                   <div class="col-md-9">
+								        <?php $val=$inf_profile['fattura_cognome']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_cognome',
+												'id'    => 'fattura_cognome',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_last_name'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+                              
+								
+								<div class="col-4">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_country')?></label>
+                                    <div class="col-md-9">
+										<?php $input = [
+												
+												'name'  => 'fattura_stato',
+												'id'    => 'fattura_stato',
+												'placeholder' =>lang('app.field_country'),
+												'class' => 'form-control'
+										];
+										$options=array();
+										$options['']=lang('app.field_select');
+										foreach($list_nazioni as $k=>$v){
+											$options[$v['id']]=$v['nazione'];
+										}
+										$js = ' onChange="get_provincia(\'fattura_stato\',this.value);"';
+										echo form_dropdown($input, $options,$inf_profile['fattura_stato'],$js);
+										?>
+
+									</div>
+								</div>
+                               </div>
+                                   <div class="col-4" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_provincia')?></label>
+                                    <div class="col-md-9" id="div_fattura_provincia">
+										<?php $input = [
+												
+												'name'  => 'fattura_provincia',
+												'id'    => 'fattura_provincia',
+												'placeholder' =>lang('app.field_provincia'),
+												'class' => 'form-control'
+										];
+										
+											if($inf_profile['fattura_stato']==106){
+										$options=array();
+										$options['']=lang('app.field_select');
+										if(!empty($list_provincia)){
+										foreach($list_provincia as $k=>$v){
+											$options[$v['id']]=$v['provincia'];
+										}
+										}
+										$js = ' onChange="get_comune(\'fattura_provincia\',this.value);"';
+										echo form_dropdown($input, $options,$inf_profile['fattura_provincia'],$js);
+										}
+										else{
+											$input['value']=$inf_profile['fattura_provincia'];
+											echo form_input($input);
+										}
+										
+										?>
+									</div>
+								</div>
+							</div>
+                                   <div class="col-4" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_city')?></label>
+									<div class="col-md-9" id="div_fattura_comune">
+										<?php $input = [
+												
+												'name'  => 'fattura_comune',
+												'id'    => 'fattura_comune',
+												'placeholder' =>lang('app.field_city'),
+												'class' => 'form-control'
+										];
+										
+											if($inf_profile['fattura_stato']==106){
+											$options=array();
+											$options['']=lang('app.field_select');
+											if(!empty($list_comuni)){
+											foreach($list_comuni as $k=>$v){
+												$options[$v['id']]=$v['comune'];
+											}
+											}
+											echo form_dropdown($input, $options,$inf_profile['fattura_comune']);
+										}
+										else{
+											$input['value']=$inf_profile['fattura_comune'];
+											echo form_input($input);
+										}
+									
+										?>
+                                    </div>
+								</div>
+								</div>
+                                 <div class="col-6" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_address')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$inf_profile['fattura_indirizzo']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_indirizzo',
+												'id'    => 'fattura_indirizzo',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_address'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+                                   <div class="col-6" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_zip')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$inf_profile['fattura_cap']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_cap',
+												'id'    => 'fattura_cap',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_zip'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+                               </div>
+							    <div class="col-4">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_phone')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$inf_profile['fattura_phone']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_phone',
+												'id'    => 'fattura_phone',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_phone'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+							</div>
+								<div class="col-4" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_pec')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$inf_profile['fattura_pec']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_pec',
+												'id'    => 'fattura_pec',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_pec'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+                               </div>
+<div class="col-4" >
+														 <div class="form-group row mb-3" id="div_sdi" <?php if($inf_profile['type']=='private'){?>style="display:none" <?php } ?>>
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_sdi')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$inf_profile['fattura_sdi']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_sdi',
+												'id'    => 'fattura_sdi',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_sdi'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+                               </div>							   
+								
+								
+								   
+														</div>
+													</div>
+												</div>
 
                                                 <ul class="list-inline wizard mb-0">
                                                     <li class="previous list-inline-item"><a href="javascript: void(0);" class="btn btn-secondary"><?php echo lang('app.btn_prev');?></a>
@@ -643,14 +944,25 @@ function save_ente(){
 }
 
 function get_type(v){
-	if(v=='private'){
-		$(".div_company").hide(0);
-		$(".div_private").show(0);
-	}
-	else{
-		$(".div_private").hide(0);
-		$(".div_company").show(0);
-	
+	$("#div_company").hide(0);
+	$("#div_cf").hide(0);
+	$("#div_piva").hide(0);
+	$("#div_sdi").hide(0);
+	switch(v){
+		case 'private':
+			$("#div_cf").show(0);
+		break;
+		case 'professional':
+			$("#div_cf").show(0);
+			$("#div_piva").show(0);
+			$("#div_sdi").show(0);
+		break;
+		case 'company':
+			$("#div_cf").show(0);
+			$("#div_piva").show(0);
+			$("#div_company").show(0);
+			$("#div_sdi").show(0);
+		break;
 	}
 }
 

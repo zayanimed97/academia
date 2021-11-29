@@ -59,7 +59,13 @@
                                 <!-- item-->
                                
                                 <div class="dropdown-divider"></div>
-    
+								<?php if(isset($is_admin) && $is_admin==true){?>
+								<a href="<?= $redirect_admin ?>" class="dropdown-item notify-item">
+                                    <i class="fe-log-out"></i>
+                                    <span><?php echo lang('admin')?></span>
+                                </a>
+									
+									<?php } ?>
                                 <!-- item-->
                                 <a href="<?= base_url('logout') ?>" class="dropdown-item notify-item">
                                     <i class="fe-log-out"></i>
@@ -166,7 +172,7 @@
 							 <li>
                             
                                 
-                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/test') ?>"><i data-feather="book"></i> <span><?php echo lang('app.menu_corsi_test')?> </span></a>
+                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/test') ?>"><i data-feather="check-square"></i> <span><?php echo lang('app.menu_corsi_test')?> </span></a>
                                         
                             </li>
 							<?php } ?>

@@ -35,6 +35,7 @@ class Corsi extends BaseController
 		$data['list_prof']=$this->ProfessioneModel->where('id_ente',$common_data['user_data']['id'])->find();
 		$data['list_doctors']=$this->UserModel->search('doctor',null,null,'yes',null,$common_data['user_data']['id']);
 		$data['list_pdf']=$this->CorsiPDFLibModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->findAll();
+		$data['list_test']=$this->CorsiModuloTestModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->findAll();
 		return view('admin/corsi_add.php',$data);
 	}
 	
@@ -75,7 +76,14 @@ class Corsi extends BaseController
 					$error_msg=$validation->listErrors();
 					$res=array("error"=>true,"validation"=>$error_msg,"tabs_error"=>"tab_price");
 			}
-			
+			elseif($this->request->getVar('test_required')!==null && $this->request->getVar('test_required')=='per_corsi' &&( empty($this->request->getVar('ids_test')) || $this->request->getVar('min_points')=="")){
+				$error_msg=lang('app.error_corsi_test');
+				$res=array("error"=>true,"validation"=>$error_msg,"tabs_error"=>"tab_test");
+			}
+			elseif($this->request->getVar('test_required')!==null && $this->request->getVar('test_required')=='per_modulo' && $this->request->getVar('min_modulo')==""){
+				$error_msg=lang('app.error_required');
+				$res=array("error"=>true,"validation"=>$error_msg,"tabs_error"=>"tab_test");
+			}
 			else{
 				
 			
@@ -121,7 +129,11 @@ class Corsi extends BaseController
 				if(!is_null($this->request->getVar('slide'))) $slide='yes'; else $slide='no';
 				if(!is_null($this->request->getVar('featured'))) $featured='yes'; else $featured='no';
 				if(!is_null($this->request->getVar('attestato'))) $attestato="si"; else $attestato="no";
-				if(!is_null($this->request->getVar('test_required'))) $test_required="si"; else $test_required="no";
+				//if(!is_null($this->request->getVar('test_required'))) $test_required="si"; else $test_required="no";
+				$test_required=$this->request->getVar('test_required');
+				if(!is_null($this->request->getVar('stop_next_modulo')) && $this->request->getVar('buy_type')=='cours') $stop_next_modulo="yes"; else $stop_next_modulo="no";
+				if($test_required=='cours') $min_points=$this->request->getVar('min_points'); else $min_points=$this->request->getVar('min_modulo');
+				
 				//if(!is_null($this->request->getVar('buy_type'))) $active="si"; else $active="no";
 				$buy_type=$this->request->getVar('buy_type');
 				$url=url_title($this->request->getVar('sotto_titolo'));
@@ -163,13 +175,15 @@ class Corsi extends BaseController
 				'ids_pdf' => $ids_pdf,						
 				'status'=>$active,
 				'have_def_price' =>$have_def_price,
-				'edition'=>$this->request->getVar('edition'),
+				'vat'=>$this->request->getVar('vat'),
 				'slide'=>$slide,
 				'featured'=>$featured,
 				'video_promo'=>$this->request->getVar('video_promo'),	
 				'test_required'=>$test_required,
+				'min_points'=>$min_points,
 				'attestato' =>$attestato,//$this->request->getVar('attestato'),
 				'buy_type'=>$buy_type,
+				'stop_next_modulo'=>$stop_next_modulo,
 				'banned'=>'no',
 				'updated_at'=>date('Y-m-d H:i:s')
 				);
@@ -211,7 +225,19 @@ class Corsi extends BaseController
 					 }
 				}
 			
-				
+				if($this->request->getVar('test_required')=='per_corsi'){
+						foreach($this->request->getVar('ids_test') as $kk=>$vv){
+							if($vv!=""){ 
+								
+								$this->TestModuloModel->insert(array(
+									'id_corsi'=>$id_corsi,
+									'id_test'=>$vv,
+									'id_modulo'=>null,
+									'banned'=>'no'
+								));
+							}
+						}
+					}
 				
 				
 				$res=array("error"=>false,'redirect_url'=>base_url('admin/corsi/'.$id_corsi.'/modulo/add'));
@@ -265,13 +291,14 @@ class Corsi extends BaseController
 	}
 	
 	public function modulo_add_form_submit(){
+		$inf_corsi=$this->CorsiModel->find($this->request->getVar('id_corsi'));
 		$common_data=$this->common_data();
 		$val = $this->validate([
 				
 				'titolo' => ['label' => lang('app.field_title'), 'rules' => 'trim|required'],	
 				'sotto_titolo' => ['label' => lang('app.field_subtitle'), 'rules' => 'trim|required'],					
 				'instructor' => ['label' => lang('app.field_doctors'), 'rules' => 'required'],
-				//'id_categorie' => ['label' => lang('app.field_category'), 'rules' => 'required'],	
+				'ord' => ['label' => lang('app.field_sort'), 'rules' => 'required|integer|greater_than[0]'],	
 				//'id_argomenti' => ['label' => lang('app.field_argomenti'), 'rules' => 'trim|required'],	
 				
 				
@@ -298,7 +325,10 @@ class Corsi extends BaseController
 					$error_msg=$validation->listErrors();
 					$res=array("error"=>true,"validation"=>$error_msg,"tabs_error"=>"tab_price");
 			}
-			
+			elseif($inf_corsi['test_required']=='per_modulo' && ($this->request->getVar('min_points')=="" || empty($this->request->getVar('ids_test')))){
+				$error_msg=lang('app.error_corsi_test');
+				$res=array("error"=>true,"validation"=>$error_msg,"tabs_error"=>"tab_test");
+			}
 			else{
 				
 
@@ -346,6 +376,7 @@ class Corsi extends BaseController
 				
 				$data=array(				
 				'url'=>strtolower($url),
+				'ord'=>$this->request->getVar('ord'),
 				'titolo'=>$this->request->getVar('titolo'),
 				'sotto_titolo'=>$this->request->getVar('sotto_titolo'),
 				'id_corsi' =>$this->request->getVar('id_corsi'),
@@ -371,7 +402,8 @@ class Corsi extends BaseController
 				'video_promo'=>$this->request->getVar('video_promo'),	
 				'test_required'=>$test_required,
 				'attestato' =>$attestato,//$this->request->getVar('attestato'),
-				
+				'edition'=>$this->request->getVar('edition'),	
+				'min_points'=>$this->request->getVar('min_points'),	
 				'banned'=>'no'
 			
 				);
@@ -406,7 +438,7 @@ class Corsi extends BaseController
 									'incontro'=>$vv['incontro'],
 									'start_time'=>$vv['start_time'],
 									'end_time'=>$vv['end_time'],
-									'zoom_url'=>$vv['zoom_url'],
+									'zoom_url'=>$vv['zoom_url'] ?? null,
 								));
 							}
 						}
@@ -426,7 +458,21 @@ class Corsi extends BaseController
 							}
 						}
 					}							
-			
+				
+				if(!empty($this->request->getVar('ids_test'))){
+						foreach($this->request->getVar('ids_test') as $kk=>$vv){
+							if($vv!=""){ 
+								
+								$this->TestModuloModel->insert(array(
+									'id_modulo'=>$id_modulo,
+									'id_test'=>$vv,
+									'id_corsi'=>$this->request->getVar('id_corsi'),
+									'banned'=>'no'
+								));
+							}
+						}
+					}
+					
 				$res=array("error"=>false);
 			}
 		}

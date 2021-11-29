@@ -327,6 +327,12 @@ $lang['field_enable']="abilitare";
 $lang['field_auto_score']="punteggio automatico";
 $lang['field_min_points']="punti minimi";
 $lang['field_nb_repeat']="numero di ripetizioni";
+$lang['field_test_per_corsi']="Test per corso";
+$lang['field_test_per_modulo']="Test per modulo";
+$lang['field_vat']="VAT";
+$lang['field_min_modulo']="Modulo minimi";
+$lang['field_stop_next_modulo']="Stop next modulo";
+$lang['field_type_professional']="Professionista";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -363,6 +369,8 @@ $lang['menu_corsi_vimeo']="Vimeo";
 $lang['menu_corsi_test']="Test";
 $lang['new_test']="Nuovo Test";
 $lang['edit_test']="Modifica Test";
+$lang['menu_corsi_test']="Test";
+$lang['menu_fattura']="Fattura";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -386,6 +394,8 @@ $lang['title_page_cours_test']="Lista Test";
 $lang['title_page_cours_test_add']="Nuovo Test";
 $lang['title_modal_delete_corsi_test']="Eliminare test";
 $lang['title_page_cours_test_edit']="Modifica Test";
+$lang['title_section_list_test']="Lista Test";
+$lang['modal_title_profile_ente']="Profilo Ente";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
@@ -408,6 +418,8 @@ $lang['error_modulo_test_empty']="deve avere almeno una domanda!";
 $lang['error_modulo_test_question_required']="la data richiesta per questa domanda è vuota!";
 $lang['error_modulo_test_answer_required']="i dati richiesti per la risposta a questa domanda sono vuoti!";
 $lang['error_modulo_test_answer_points']="il punteggio totale delle risposte deve essere 100!";
+$lang['error_corsi_test']="devi scegliere almeno un test e specificare il punti minimi";
+$lang['error_sdi_format']="solo 6 caratteri alfanumerici";
 ###########success ##########################"
 $lang['success_activation_account']="Complimenti, il tuo account è ora attivo.  Per accedere al tuo profile, devi inserire la tua email e password qui sotto.”";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
@@ -436,5 +448,8 @@ $lang['help_server_name']="i.e: mydomain.it (escluso http://)";
 $lang['help_tabprice_buy_type']="scegli di acquistare il tipo di corso per corso, quindi non puoi impostare i prezzi del modulo";
 $lang['yes']="Si";
 $lang['no']="No";
+$lang['help_min_points']="% minima per superare con successo il test";
+$lang['help_min_modulo']="minima modulo  per superare con successo il corsi";
+
 return $lang;
 ?>

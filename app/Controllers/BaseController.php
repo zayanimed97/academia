@@ -131,15 +131,23 @@ class BaseController extends Controller
 		
 		$selected_ente=$this->UserModel->where('role','ente')->where('domain_ente',$_SERVER['SERVER_NAME'] ?? 'localhost')->first();
 		if(!empty($selected_ente)) $common_data['selected_ente']=$selected_ente;
-		
+		else $selected_ente['id']=null;
 		$settings=$this->SettingModel->getByMetaKey($selected_ente['id']);
 		$common_data['settings']=$settings;
 		
 		$user_loginas=$this->session->get('user_loginas');	
 		if(!empty($user_loginas)) $common_data['user_loginas']=$user_loginas;
 		// query to extract idEnte from server name 
+
 		$common_data['CategorieModel'] = $this->CategorieModel;
 		$common_data['CorsiModel'] = $this->CorsiModel;
+
+		
+		if(!is_null($this->session->get('login_as'))){
+			$common_data['is_admin']=true;
+			$common_data['redirect_admin']=base_url('superadmin/loginBack');//$this->session->get('redirect_admin');
+		}
+
 		
 		return $common_data;
 	}
