@@ -333,6 +333,8 @@ $lang['field_vat']="VAT";
 $lang['field_min_modulo']="Modulo minimi";
 $lang['field_stop_next_modulo']="Stop next modulo";
 $lang['field_type_professional']="Professionista";
+$lang['field_free_cours']="Corso gratuita";
+$lang['field_free_modulo']="Modulo gratuita";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -450,6 +452,7 @@ $lang['yes']="Si";
 $lang['no']="No";
 $lang['help_min_points']="% minima per superare con successo il test";
 $lang['help_min_modulo']="minima modulo  per superare con successo il corsi";
+$lang['help_tabprice_is_free_cours']="scegli tu che il corso sia gratuito, quindi non puoi impostare i prezzi del modulo";
 
 return $lang;
 ?>

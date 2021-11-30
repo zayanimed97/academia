@@ -380,6 +380,7 @@
 			$("#id_to_delete").val(id);
 		}
 		function get_profile(id){
+			$("#div_profile").html("");
 			$.ajax({
 				  url:"<?php echo base_url()?>/ajax/get_profile_ente",
 				  method:"POST",

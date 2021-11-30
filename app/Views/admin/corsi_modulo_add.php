@@ -445,9 +445,29 @@
                                                 <div class="tab-pane fade" id="tab_price">
                                                     <div id="profileForm" >
 														   
-													<?php if($inf_corsi['buy_type']=='module'){?>	 
-														
+													<?php if($inf_corsi['buy_type']=='module' && $inf_corsi['free']=='no'){?>	 
+													 <div class="row">
+															
+															 <div class="col-12">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_free_modulo')?></label>
+                                                                    <div class="col-md-9">
+                                                                
+                                                                        <div class="radio form-check-inline">
+																			<input type="radio" name="free" id="free_no" value="no" checked >
+																			<label for="free_no"> <?php echo lang('app.no')?> </label>
 																		
+																		</div>
+																		 <div class="radio form-check-inline">
+																		<input type="radio" name="free" id="free_yes" value="yes"  >
+																			<label for="free_yes"> <?php echo lang('app.yes')?> </label>
+																		
+																		</div>
+															</div>
+														</div>
+													</div>
+														</div>	
+												<div id="div_not_free">						
 											 <div class="row">
 										 <div class="col-md-4">
 										  <div class="form-check form-check-inline m-t-20">
@@ -554,7 +574,14 @@
 														<input data-repeater-create class="btn btn-warning" type="button" value="<?php echo lang('app.btn_add')?>"/>
 													</div>
 									</div>
-									<?php } else{?>
+									</div>
+									<?php }
+										elseif($inf_corsi['free']=='yes'){?>
+										<div class="row">
+											<div class="alert alert-warning"><?php echo lang('app.help_tabprice_is_free_cours')?></div>
+										</div>
+										<?php }
+											else{?>
 										<div class="row">
 											<div class="alert alert-warning"><?php echo lang('app.help_tabprice_buy_type')?></div>
 										</div>
@@ -1188,7 +1215,14 @@
 					var o=$($(t).data("targetForm"));
 					if(o&&(o.addClass("was-validated"),!1===o[0].checkValidity()))return event.preventDefault(),event.stopPropagation(),!1
 				}*/
-			})
+			});
+			$("input[name='free']").change(function(){
+				var v=$(this).val();
+				if(v=='yes'){
+					$("#div_not_free").hide(0);
+				}
+				else $("#div_not_free").show(0);
+			});
 		});
 </script>
 

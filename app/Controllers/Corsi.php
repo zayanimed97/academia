@@ -12,6 +12,10 @@ class Corsi extends BaseController
 					$id=$this->request->getVar('id');
 					if($id!=""){
 						$this->CorsiModel->update($id,array('banned'=>'yes'));
+						$list_module=$this->CorsiModuloModel->where('id_corsi',$id)->findAll();
+						foreach($list_module as $k=>$v){
+							$this->CorsiModuloModel->update($v['id'],array('banned'=>'yes'));
+						}
 						$success=lang('app.success_delete');
 					}
 				break;
@@ -64,7 +68,7 @@ class Corsi extends BaseController
 		}
 		
 		else{
-			if(!is_null($this->request->getVar('have_def_price'))){
+			if(!is_null($this->request->getVar('have_def_price')) && $this->request->getVar('free')=='no'){
 				$val = $this->validate([
 					'prezzo' => ['label' => lang('app.field_price'), 'rules' => 'trim|required|is_numeric|greater_than[0]'],	
 				]);
@@ -136,6 +140,7 @@ class Corsi extends BaseController
 				
 				//if(!is_null($this->request->getVar('buy_type'))) $active="si"; else $active="no";
 				$buy_type=$this->request->getVar('buy_type');
+				if($this->request->getVar('free')=='yes') $buy_type="cours";
 				$url=url_title($this->request->getVar('sotto_titolo'));
 				
 				$x=true;
@@ -184,6 +189,7 @@ class Corsi extends BaseController
 				'attestato' =>$attestato,//$this->request->getVar('attestato'),
 				'buy_type'=>$buy_type,
 				'stop_next_modulo'=>$stop_next_modulo,
+				'free'=>$this->request->getVar('free'),
 				'banned'=>'no',
 				'updated_at'=>date('Y-m-d H:i:s')
 				);
@@ -192,7 +198,7 @@ class Corsi extends BaseController
 					$id_corsi=$this->CorsiModel->insert($data);	
 			//var_dump($_FILES["corsigallery"]);
 		
-			if(null !==$this->request->getVar('prezzo_prof')){
+			if(null !==$this->request->getVar('prezzo_prof') && $this->request->getVar('free')=='no'){
 						foreach($this->request->getVar('prezzo_prof') as $kk=>$vv){
 							if($vv['prezzo_prof']!=""){ 
 								
@@ -265,11 +271,20 @@ class Corsi extends BaseController
 				break;
 			}
 		}
-		
-		$data['inf_corsi']=$this->CorsiModel->find($id_corsi);
+		$str_doctors="";
+	$inf_corsi=$this->CorsiModel->find($id_corsi);
+		$tt=explode(",",$inf_corsi['ids_doctors']);
+		foreach($tt as $one){
+				$inf_doctor=$this->UserProfileModel->where('user_id',$one)->first();
+				$str_doctors.=$inf_doctor['nome'].' '.$inf_doctor['cognome'].", ";
+			}
+			$inf_corsi['list_doctors']=$str_doctors;
+			$data['inf_corsi']=$inf_corsi;
 		$res=array();
+		
 		$ll=$this->CorsiModuloModel->where('id_corsi',$id_corsi)->where('banned','no')->find();
 		foreach($ll as $kk=>$vv){
+
 			$res[]=$vv;
 		}
 		
@@ -292,6 +307,8 @@ class Corsi extends BaseController
 	
 	public function modulo_add_form_submit(){
 		$inf_corsi=$this->CorsiModel->find($this->request->getVar('id_corsi'));
+		$free=$inf_corsi['free'];
+		if(!is_null($this->request->getVar('free'))) $free=$this->request->getVar('free');
 		$common_data=$this->common_data();
 		$val = $this->validate([
 				
@@ -313,7 +330,7 @@ class Corsi extends BaseController
 		}
 		
 		else{
-			if(!is_null($this->request->getVar('have_def_price'))){
+			if(!is_null($this->request->getVar('have_def_price')) && $free=='no'){
 				$val = $this->validate([
 					'prezzo' => ['label' => lang('app.field_price'), 'rules' => 'trim|required|is_numeric|greater_than[0]'],	
 				]);
@@ -404,7 +421,8 @@ class Corsi extends BaseController
 				'attestato' =>$attestato,//$this->request->getVar('attestato'),
 				'edition'=>$this->request->getVar('edition'),	
 				'min_points'=>$this->request->getVar('min_points'),	
-				'banned'=>'no'
+				'banned'=>'no',
+				'free'=>$free
 			
 				);
 				
@@ -412,7 +430,7 @@ class Corsi extends BaseController
 					$id_modulo=$this->CorsiModuloModel->insert($data);	
 			//var_dump($_FILES["corsigallery"]);
 		
-			if(null !==$this->request->getVar('prezzo_prof')){
+			if(null !==$this->request->getVar('prezzo_prof') && $free=='no'){
 						foreach($this->request->getVar('prezzo_prof') as $kk=>$vv){
 							if($vv['prezzo_prof']!=""){ 
 								

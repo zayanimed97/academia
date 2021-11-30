@@ -528,7 +528,28 @@
                                                 <div class="tab-pane fade" id="tab_price">
                                                     <div id="profileForm" >
 														   
-														 
+														 <div class="row">
+															
+															 <div class="col-12">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_free_cours')?></label>
+                                                                    <div class="col-md-9">
+                                                                
+                                                                        <div class="radio form-check-inline">
+																			<input type="radio" name="free" id="free_no" value="no" checked >
+																			<label for="free_no"> <?php echo lang('app.no')?> </label>
+																		
+																		</div>
+																		 <div class="radio form-check-inline">
+																		<input type="radio" name="free" id="free_yes" value="yes"  >
+																			<label for="free_yes"> <?php echo lang('app.yes')?> </label>
+																		
+																		</div>
+															</div>
+														</div>
+													</div>
+														</div>
+														<div id="div_not_free">
 														 <div class="row">
 															
 															 <div class="col-12">
@@ -681,6 +702,7 @@
 														</div>
 														<input data-repeater-create class="btn btn-warning" type="button" value="<?php echo lang('app.btn_add')?>"/>
 													</div>
+									</div>
 									</div>
                                                     </div>
                                                 </div>
@@ -1221,6 +1243,13 @@
 					$("#div_test_corsi").hide(0);
 					$("#div_test_modulo").show(0);
 				}
+			});
+			$("input[name='free']").change(function(){
+				var v=$(this).val();
+				if(v=='yes'){
+					$("#div_not_free").hide(0);
+				}
+				else $("#div_not_free").show(0);
 			});
 		});
 </script>

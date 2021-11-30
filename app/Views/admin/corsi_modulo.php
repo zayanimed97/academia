@@ -27,7 +27,7 @@
                                     </div>
                                     <div class="row align-items-center">
                                         <h4 class="page-title"><?= lang('app.title_page_cours_modulo') ?></h4>
-										:&nbsp;  <h5><?php echo $inf_corsi['sotto_titolo']?></h5>
+										
                                         <a href="<?php echo base_url('admin/corsi/'.$inf_corsi['id'].'/modulo/add')?>" class="btn btn-info btn-rounded waves-effect waves-light ml-4" style="height: fit-content;">
                                             <span class="btn-label"><i class="mdi mdi-database-plus"></i></span><?= lang('app.new_modulo') ?>
                                         </a>
@@ -36,7 +36,24 @@
                             </div>
                         </div>     
                         <!-- end page title --> 
-
+						<div class="row">
+							<div class="alert alert-primary col-12" role="alert">
+  <h4 class="alert-heading"><?php echo $inf_corsi['titolo']?></h4>
+  <p> 
+	<ul>
+		<li><b><?php echo lang('app.field_subtitle')?>: </b><?php echo $inf_corsi['sotto_titolo']?></li>
+		<li><b><?php echo lang('app.field_type_cours')?>: </b><?php echo $inf_corsi['tipologia_corsi']?></li>
+		<li><b><?php echo lang('app.field_type_formation')?>: </b><?php echo $inf_corsi['tipologia_formazione']?></li>
+		<li><b><?php echo lang('app.field_doctors')?>: </b><?php echo $inf_corsi['list_doctors']?></li>
+		<?php if($inf_corsi['free']=='yes'){?><li><b><?php echo lang('app.field_free_cours')?>: </b><?php echo lang('app.yes')?></li>
+		<?php } else{?>
+		<li><b><?php echo lang('app.field_buy_type')?>: </b><?php if($inf_corsi['buy_type']=='cours') echo lang('app.field_buy_type_cours'); else echo lang('app.field_buy_type_modulo')?></li>
+		<?php } ?>
+	</ul>
+  </p>
+  
+</div>
+						</div>
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
