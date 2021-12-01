@@ -15,6 +15,10 @@ class SottoargomentiController extends BaseController
 		$data['sottoargomenti'] = $sottoargomenti;
 		$data['id_argomenti'] = $id_argumenti;
 		$data['inf_argo']=$this->ArgomentiModel->find($id_argumenti);
+		if(null!==$this->session->get('success')){
+			$data['success']=$this->session->get('success');
+			$this->session->remove('success');
+		}
 		return view('admin/sottoargomenti.php',$data);
 	}
 
@@ -29,7 +33,7 @@ class SottoargomentiController extends BaseController
 			]);
 		}
 		
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_add'));
 		}
 
 	public function update()
@@ -46,7 +50,7 @@ class SottoargomentiController extends BaseController
 																'url' => url_title($this->request->getVar('name')),
 															]);
 		}
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_update'));
 	}
 	
 	public function delete($id)
@@ -58,7 +62,7 @@ class SottoargomentiController extends BaseController
 				// ->where('id_ente', $this->session->get('user_data')['id'])
 				->where('id', $id)->delete();
 		}
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_delete'));
 	}
 }
 ?>

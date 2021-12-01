@@ -14,6 +14,10 @@ class DisciplineController extends BaseController
 		$data['discipline'] = $discipline;
 		$data['id_professione'] = $id_professione;
 		$data['inf_argomento']=$this->ProfessioneModel->find($id_professione);
+		if(null!==$this->session->get('success')){
+			$data['success']=$this->session->get('success');
+			$this->session->remove('success');
+		}
 		return view('admin/discipline.php',$data);
 	}
 
@@ -29,7 +33,7 @@ class DisciplineController extends BaseController
 			]);
 		}
 		
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_add'));
 		}
 
 	public function update()
@@ -47,7 +51,7 @@ class DisciplineController extends BaseController
 																'status' => $status,
 															]);
 		}
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_update'));
 	}
 	
 	public function delete($id)
@@ -59,7 +63,7 @@ class DisciplineController extends BaseController
 				// ->where('id_ente', $this->session->get('user_data')['id'])
 				->where('iddisciplina', $id)->delete();
 		}
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_delete'));
 	}
 }
 ?>

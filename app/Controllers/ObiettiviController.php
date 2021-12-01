@@ -12,6 +12,10 @@ class ObiettiviController extends BaseController
 
 		$obiettivi = $this->ObiettiviFormazioneModel->where('id_ente', $user_data['id'])->find();
 		$data['obiettivi'] = $obiettivi;
+		if(null!==$this->session->get('success')){
+			$data['success']=$this->session->get('success');
+			$this->session->remove('success');
+		}
 		return view('admin/obiettivi.php',$data);
 	}
 
@@ -23,7 +27,7 @@ class ObiettiviController extends BaseController
 											'id_ente'=> $this->session->get('user_data')['id'],
 											'url'=> url_title($this->request->getVar('name')),
 										]);
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_add'));
 	}
 
 	public function update()
@@ -33,13 +37,13 @@ class ObiettiviController extends BaseController
 											'codice' => $this->request->getVar('codice'),
 											'url'=> url_title($this->request->getVar('name')),
 										]);
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_update'));
 	}
 	
 	public function delete($id)
 	{
 		$this->ObiettiviFormazioneModel->where('id_ente', $this->session->get('user_data')['id'])->where('id', $id)->delete();
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_delete'));
 	}
 }
 ?>

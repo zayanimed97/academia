@@ -20,6 +20,7 @@
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                           <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard')?>"><?php echo lang('app.menu_dashboard')?></a></li>
+												<li class="breadcrumb-item "><?php echo lang('app.menu_config_corsi')?></li>
 											<li class="breadcrumb-item active"><?php echo lang('app.menu_obiettivi')?></li>
                                         </ol>
                                     </div>
@@ -39,7 +40,9 @@
                                 <div class="card">
                                     <div class="card-body">
         
-                                       
+                                       <?php if(isset($success)){?>
+                                       	<div class="alert alert-success" role="alert" id="error_alert" ><?php echo $success?></div>  
+										<?php } ?>       
                                         <!-- <p class="sub-header">Inline edit like a spreadsheet, toolbar column with edit button only and without focus on first input.</p> -->
                                         <div class="table-responsive">
                                             <table id="basic-datatable" class="table dt-responsive nowrap w-100">
@@ -62,14 +65,10 @@
                                                             <button type="button" data-toggle="modal" data-target="#update-obiettivi-modal" onclick="updateID(<?= $obiet['id'] ?>, '<?= $obiet['titolo'] ?>', '<?= $obiet['codice'] ?>')" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-edit"></i>
                                                             </button>
+<a href="#delete-modal-dialog"  class="p-1" style="height: fit-content; font-size: 1rem; color: red" data-toggle="modal" onclick="del_data('<?php echo $obiet['id']?>')"><i class="fe-x-circle"></i></a>	
 
-                                                            <a href="<?= base_url() ?>/admin/deleteObiettivi/<?= $obiet['id'] ?>" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
-                                                                <i class="fe-x-circle"></i>
-                                                            </a>
-<!-- 
-                                                            <a href="<?= base_url() ?>/admin/discipline/<?= $obiet['id'] ?>" class="p-1" style="height: fit-content; font-size: 1rem">
-                                                                <i class="fe-arrow-right"></i>
-                                                            </a> -->
+                                                         
+
                                                         </td>
                                                     </tr>
                                                     <?php } ?>
@@ -159,7 +158,30 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-
+<?php $attributes = ['class' => 'form-input-flat', 'id' => 'deleteform','method'=>'post'];
+		echo form_open("", $attributes);?>
+		
+		<div class="modal fade"id="delete-modal-dialog" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" >
+                <div class="modal-content">
+                    <div class="modal-header bg-light">
+                        <h4 class="modal-title" id="myCenterModalLabel"><?php echo lang('app.modal_title_delete_obiettivi')?></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="form-group">
+                           <?php  echo lang('app.alert_msg_delete_row')?>
+						  </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success waves-effect waves-light"><?php echo lang('app.btn_delete')?></button>
+                                <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal"><?php echo lang('app.btn_close')?></button>
+                            </div>
+                        
+                    </div>
+                </div><!-- /.modal-content -->
+            </div>
+		</div>
+       <?php echo form_close();?>	
 <?= view('admin/common/footer') ?>
 
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -184,5 +206,9 @@
         $('#updatecodice').val(codice)
         $('#updateId').val(id)
     }
+	
+	function del_data(id){
+			$("#deleteform").attr('action',"<?= base_url() ?>/admin/deleteObiettivi/"+id);
+		}
 </script>
 <?= view('admin/common/endtag') ?>

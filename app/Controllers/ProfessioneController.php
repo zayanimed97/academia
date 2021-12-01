@@ -12,6 +12,10 @@ class ProfessioneController extends BaseController
 
 		$professione = $this->ProfessioneModel->where('id_ente', $user_data['id'])->find();
 		$data['professione'] = $professione;
+		if(null!==$this->session->get('success')){
+			$data['success']=$this->session->get('success');
+			$this->session->remove('success');
+		}
 		return view('admin/professione.php',$data);
 	}
 
@@ -23,7 +27,7 @@ class ProfessioneController extends BaseController
 											'status' => $status,
 											'id_ente'=> $this->session->get('user_data')['id']
 										]);
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_add'));
 	}
 
 	public function update()
@@ -33,13 +37,13 @@ class ProfessioneController extends BaseController
 											'codice' => $this->request->getVar('codice'),
 											'status' => $status,
 										]);
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_update'));
 	}
 	
 	public function delete($id)
 	{
 		$this->ProfessioneModel->where('id_ente', $this->session->get('user_data')['id'])->where('idprof', $id)->delete();
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_delete'));
 	}
 }
 ?>

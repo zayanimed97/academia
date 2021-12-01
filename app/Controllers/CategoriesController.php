@@ -21,6 +21,10 @@ class CategoriesController extends BaseController
 		// die(var_dump($user_data));
 		$categories = $this->CategorieModel->where('id_ente', $user_data['id'])->find();
 		$data['categories'] = $categories;
+		if(null!==$this->session->get('success')){
+			$data['success']=$this->session->get('success');
+			$this->session->remove('success');
+		}
 		return view('admin/categories.php',$data);
 	}
 
@@ -33,7 +37,7 @@ class CategoriesController extends BaseController
 											'url' => url_title($this->request->getVar('name')),
 											'id_ente'=> $this->session->get('user_data')['id']
 										]);
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_add'));
 	}
 
 	public function update()
@@ -43,13 +47,13 @@ class CategoriesController extends BaseController
 											'status' => $status,
 											'url' => url_title($this->request->getVar('name')),
 										]);
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_update'));
 	}
 	
 	public function delete($id)
 	{
 		$this->CategorieModel->where('id_ente', $this->session->get('user_data')['id'])->where('id', $id)->delete();
-		return redirect()->to($_SERVER['HTTP_REFERER']);
+		return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', lang('app.success_delete'));
 	}
 }
 ?>
