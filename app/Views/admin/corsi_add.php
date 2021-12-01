@@ -304,6 +304,26 @@
 										 <div class="col-md-4" id="div_sottoargomenti">
                                             
                                         </div>
+										<div class="col-md-4">
+																<div class="form-group required-field">
+																	<label for="acc-name"><?php echo lang('app.field_code')?> <span class="text-danger">*</span></label>
+																	<?php $val="";
+															$input = [
+																	'type'  => 'text',
+																	'name'  => 'codice',
+																	'id'    => 'codice',
+																	
+																	'value' => $val,
+																	'placeholder' =>lang('app.field_code'),
+																	'class' => 'form-control'
+																	
+															];
+
+															echo form_input($input);
+															?>
+																  
+																</div>
+															</div>
 										 <div class="col-md-2" id="div_inscrizione_aula" style="display:none">
 											 <div class="form-group">
                                                 <label for="acc-mname"><?php echo lang('app.field_inscrizione_aula')?></label>

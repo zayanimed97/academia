@@ -190,6 +190,7 @@ class Corsi extends BaseController
 				'buy_type'=>$buy_type,
 				'stop_next_modulo'=>$stop_next_modulo,
 				'free'=>$this->request->getVar('free'),
+				'codice'=>$this->request->getVar('codice'),
 				'banned'=>'no',
 				'updated_at'=>date('Y-m-d H:i:s')
 				);

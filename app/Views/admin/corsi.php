@@ -47,8 +47,10 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
+														<th><?php echo lang('app.field_code')?></th>
                                                         <th><?php echo lang('app.field_title')?></th>
                                                         <th><?php echo lang('app.field_type_cours')?></th>
+														 
                                                         <th>actions</th>
                                                     </tr>
                                                 </thead>
@@ -57,6 +59,7 @@
                                                     <?php foreach($list as $arg) { ?>
                                                     <tr>
                                                         <td><?= $arg['id'] ?></td>
+														 <td><?= $arg['codice'] ?></td>
                                                         <td><?= $arg['sotto_titolo'] ?></td>
                                                         <td><?= $arg['tipologia_corsi'] ?></td>
                                                         <td class="row pt-1">
