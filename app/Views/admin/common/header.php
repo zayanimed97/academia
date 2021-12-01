@@ -6,7 +6,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Table Editable | UBold - Responsive Admin Dashboard Template</title>
+        <title><?php echo $page_title?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -161,7 +161,7 @@
                                         
                             </li>
 
-                            <li class="menu-title mt-2">Apps</li>
+                            <li class="menu-title mt-2"><?= lang('app.menu_apps') ?></li>
 							 <li>
                             
                                 
@@ -185,22 +185,22 @@
                             <li>
                                 <a href="#sidebarCourses" data-toggle="collapse">
                                     <i data-feather="shopping-cart"></i>
-                                    <span> Config Courses </span>
+                                    <span> <?= lang('app.menu_config_corsi') ?> </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarCourses">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/categories') ?>">Categories</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/categories') ?>"><?= lang('app.menu_categorie') ?></a>
                                         </li>
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/argomenti') ?>">argomenti</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/argomenti') ?>"><?= lang('app.menu_argomenti') ?></a>
                                         </li>
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/professione') ?>">professione</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/professione') ?>"><?= lang('app.menu_professione') ?></a>
                                         </li>
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/obiettivi') ?>">Obiettivi</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/obiettivi') ?>"><?= lang('app.menu_obiettivi') ?></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -209,16 +209,16 @@
                             <li>
                                 <a href="#sidebarDoctors" data-toggle="collapse">
                                     <i data-feather="award"></i>
-                                    <span> Doctors </span>
+                                    <span> <?= lang('app.menu_doctors') ?> </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarDoctors">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/user_list') ?>?role=doctor">List</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/user_list') ?>?role=doctor"><?= lang('app.menu_list') ?></a>
                                         </li>
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/new_user') ?>?role=doctor">New</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/new_user') ?>?role=doctor"><?= lang('app.menu_new') ?></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -227,16 +227,16 @@
                             <li>
                                 <a href="#sidebarParticipant" data-toggle="collapse">
                                     <i data-feather="users"></i>
-                                    <span> Participant </span>
+                                    <span> <?= lang('app.menu_participant') ?> </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarParticipant">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/user_list') ?>?role=participant">List</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/user_list') ?>?role=participant"><?= lang('app.menu_list') ?></a>
                                         </li>
                                         <li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/new_user') ?>?role=participant">New</a>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/new_user') ?>?role=participant"><?= lang('app.menu_new') ?></a>
                                         </li>
                                     </ul>
                                 </div>

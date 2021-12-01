@@ -13,16 +13,18 @@ class DisciplineController extends BaseController
 		$discipline = $this->DisciplineModel->join('professione p', 'p.idprof = discipline.idprofessione')->where('id_ente', $user_data['id'])->where('idprofessione', $id_professione)->select('discipline.*')->find();
 		$data['discipline'] = $discipline;
 		$data['id_professione'] = $id_professione;
+		$data['inf_argomento']=$this->ProfessioneModel->find($id_professione);
 		return view('admin/discipline.php',$data);
 	}
 
 	public function new()
-	{
+	{if($this->request->getVar('enable')!==null) $status='enable'; else $status='disable';
 		$arg = $this->ProfessioneModel->where('idprof', $this->request->getVar('id_professione'))->first();
 		if ($arg['id_ente'] == $this->session->get('user_data')['id']) {
 			$this->DisciplineModel->insert	([
 				'disciplina' => $this->request->getVar('name'),
 				'codice_disciplina' => $this->request->getVar('codice'),
+				'status' => $status,
 				'idprofessione'=> $this->request->getVar('id_professione')
 			]);
 		}
@@ -31,7 +33,7 @@ class DisciplineController extends BaseController
 		}
 
 	public function update()
-	{
+	{if($this->request->getVar('enable')!==null) $status='enable'; else $status='disable';
 		$arg = $this->DisciplineModel->join('professione p', 'discipline.idprofessione = p.idprof')->where('discipline.iddisciplina', $this->request->getVar('catId'))->select('p.id_ente')->first();
 		if ($arg['id_ente'] == $this->session->get('user_data')['id']) {
 		$this	->DisciplineModel
@@ -42,6 +44,7 @@ class DisciplineController extends BaseController
 				->update($this->request->getVar('catId'),	[
 																'disciplina' => $this->request->getVar('name'),
 																'codice_disciplina' => $this->request->getVar('codice'),
+																'status' => $status,
 															]);
 		}
 		return redirect()->to($_SERVER['HTTP_REFERER']);

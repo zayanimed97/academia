@@ -11,9 +11,10 @@ class SottoargomentiController extends BaseController
 		$common_data=$this->common_data();
 		$data=$common_data;
 
-		$sottoargomenti = $this->SottoargomentiModel->join('argomenti a', 'a.idargomenti = sottoargomenti.id_argomenti')->where('id_ente', $user_data['id'])->where('id_argomenti', $id_argumenti)->select('sottoargomenti.*')->find();
+		$sottoargomenti = $this->SottoargomentiModel->join('argomenti a', 'a.idargomenti = sottoargomenti.id_argomenti')->where('id_ente', $user_data['id'])->where('id_argomenti', $id_argumenti)->select('sottoargomenti.*,a.nomeargomento')->find();
 		$data['sottoargomenti'] = $sottoargomenti;
 		$data['id_argomenti'] = $id_argumenti;
+		$data['inf_argo']=$this->ArgomentiModel->find($id_argumenti);
 		return view('admin/sottoargomenti.php',$data);
 	}
 

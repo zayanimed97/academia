@@ -18,18 +18,21 @@ class ArgomentiController extends BaseController
 
 	public function new()
 	{
+			if($this->request->getVar('enable')!==null) $status='1'; else $status='0';
 		$this->ArgomentiModel->insert	([
 											'nomeargomento' => $this->request->getVar('name'),
 											'url' => url_title($this->request->getVar('name')),
+											'visibile' => $status,
 											'id_ente'=> $this->session->get('user_data')['id']
 										]);
 		return redirect()->to($_SERVER['HTTP_REFERER']);
 	}
 
 	public function update()
-	{
+	{	if($this->request->getVar('enable')!==null) $status='1'; else $status='0';
 		$this->ArgomentiModel->where('id_ente', $this->session->get('user_data')['id'])->update	($this->request->getVar('catId'),[
 											'titolo' => $this->request->getVar('name'),
+												'visibile' => $status,
 											'url' => url_title($this->request->getVar('name')),
 										]);
 		return redirect()->to($_SERVER['HTTP_REFERER']);

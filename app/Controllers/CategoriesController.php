@@ -26,9 +26,10 @@ class CategoriesController extends BaseController
 
 	public function new()
 	{
+		if($this->request->getVar('enable')!==null) $status='enable'; else $status='disable';
 		$this->CategorieModel->insert	([
 											'titolo' => $this->request->getVar('name'),
-											'status' => 'enable',
+											'status' => $status,
 											'url' => url_title($this->request->getVar('name')),
 											'id_ente'=> $this->session->get('user_data')['id']
 										]);
@@ -36,9 +37,10 @@ class CategoriesController extends BaseController
 	}
 
 	public function update()
-	{
+	{if($this->request->getVar('enable')!==null) $status='enable'; else $status='disable';
 		$this->CategorieModel->where('id_ente', $this->session->get('user_data')['id'])->update	($this->request->getVar('catId'),[
 											'titolo' => $this->request->getVar('name'),
+											'status' => $status,
 											'url' => url_title($this->request->getVar('name')),
 										]);
 		return redirect()->to($_SERVER['HTTP_REFERER']);

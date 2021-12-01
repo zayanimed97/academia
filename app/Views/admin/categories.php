@@ -1,4 +1,4 @@
-<?= view('admin/common/header') ?>
+<?= view('admin/common/header',array('page_title'=>lang('app.dashboard_category'))) ?>
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -19,9 +19,8 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">UBold</a></li>
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                                            <li class="breadcrumb-item active">Editable</li>
+                                            <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard')?>"><?php echo lang('app.menu_dashboard')?></a></li>
+											<li class="breadcrumb-item active"><?php echo lang('app.menu_categorie')?></li>
                                         </ol>
                                     </div>
                                     <div class="row align-items-center">
@@ -40,17 +39,17 @@
                                 <div class="card">
                                     <div class="card-body">
         
-                                        <h5 class="mt-0"><?= lang('app.field_category') ?></h5>
+                                       
                                         <!-- <p class="sub-header">Inline edit like a spreadsheet, toolbar column with edit button only and without focus on first input.</p> -->
                                         <div class="table-responsive">
                                             <table id="basic-datatable" class="table dt-responsive nowrap w-100">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>title</th>
-                                                        <th>url</th>
-                                                        <th>status</th>
-                                                        <th>action</th>
+                                                        <th><?php echo lang('app.field_title')?></th>
+                                                        <th><?php echo lang('app.field_url')?></th>
+                                                        <th><?php echo lang('app.field_active_status')?></th>
+                                                        <th>&nbsp;</th>
                                                     </tr>
                                                 </thead>
                                             
@@ -60,9 +59,9 @@
                                                         <td><?= $cat['id'] ?></td>
                                                         <td><?= $cat['titolo'] ?></td>
                                                         <td><?= $cat['url'] ?></td>
-                                                        <td><?= $cat['status'] ?></td>
+                                                        <td><?php if($cat['status']=='enable') echo lang('app.yes'); else echo lang('app.no'); ?></td>
                                                         <td class="row pt-1">
-                                                            <button type="button" data-toggle="modal" data-target="#update-category-modal" onclick="updateID(<?= $cat['id'] ?>, '<?= $cat['titolo'] ?>')" class="btn p-1 mr-2" style="font-size: 1rem">
+                                                            <button type="button" data-toggle="modal" data-target="#update-category-modal" onclick="updateID(<?= $cat['id'] ?>, '<?= $cat['titolo'] ?>','<?= $cat['status'] ?>')" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-edit"></i>
                                                             </button>
 
@@ -85,22 +84,7 @@
                 </div> <!-- content -->
 
                 <!-- Footer Start -->
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6">
-                                2015 - <script>document.write(new Date().getFullYear())</script> &copy; UBold theme by <a href="">Coderthemes</a> 
-                            </div>
-                            <div class="col-md-6">
-                                <div class="text-md-right footer-links d-none d-sm-block">
-                                    <a href="javascript:void(0);">About Us</a>
-                                    <a href="javascript:void(0);">Help</a>
-                                    <a href="javascript:void(0);">Contact Us</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+               <?php echo view('admin/common/footer_bar')?>
                 <!-- end Footer -->
 
             </div>
@@ -124,7 +108,12 @@
                                     <label for="username"><?= lang('app.field_category_name') ?></label>
                                     <input class="form-control" type="text" id="username" name="name" required placeholder="<?= lang('app.field_category_name') ?>">
                                 </div>
-
+								<div class="form-group">
+								  <div class="checkbox form-check-inline">
+										<input type="checkbox" name="enable" id="enable" value="yes" checked>
+										<label for="enable"> <?php echo lang('app.field_active_status')?> </label>
+									</div>
+								</div>
                                 <div class="form-group text-center">
                                     <button class="btn btn-primary" type="submit"><?= lang('app.btn_add') ?></button>
                                 </div>
@@ -152,9 +141,14 @@
                                     <label for="username"><?= lang('app.field_category_name') ?></label>
                                     <input class="form-control" type="text" id="updatename" name="name" required placeholder="<?= lang('app.field_category_name') ?>">
                                 </div>
-
+								<div class="form-group">
+								  <div class="checkbox form-check-inline">
+										<input type="checkbox" name="enable" id="updateenable" value="yes" checked>
+										<label for="enable"> <?php echo lang('app.field_active_status')?> </label>
+									</div>
+								</div>
                                 <div class="form-group text-center">
-                                    <button class="btn btn-primary" type="submit"><?= lang('app.btn_add') ?></button>
+                                    <button class="btn btn-primary" type="submit"><?= lang('app.btn_save') ?></button>
                                 </div>
 
                             </form>
@@ -183,9 +177,11 @@
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/datatables.init.js"></script>
 
 <script>
-    function updateID(id, name){
-        $('#updatename').val(name)
-        $('#updateId').val(id)
+    function updateID(id, name,status){
+        $('#updatename').val(name);
+		if(status=='enable') var checked=true; else var checked=false;
+		$('#updateenable').attr('checked',checked);
+        $('#updateId').val(id);
     }
 </script>
 <?= view('admin/common/endtag') ?>

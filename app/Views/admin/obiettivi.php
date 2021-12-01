@@ -1,4 +1,4 @@
-<?= view('admin/common/header') ?>
+<?= view('admin/common/header',array('page_title'=>lang('app.dashboard_obiettivi'))) ?>
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -19,9 +19,8 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">UBold</a></li>
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                                            <li class="breadcrumb-item active">Editable</li>
+                                          <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard')?>"><?php echo lang('app.menu_dashboard')?></a></li>
+											<li class="breadcrumb-item active"><?php echo lang('app.menu_obiettivi')?></li>
                                         </ol>
                                     </div>
                                     <div class="row align-items-center">
@@ -40,16 +39,16 @@
                                 <div class="card">
                                     <div class="card-body">
         
-                                        <h5 class="mt-0"><?= lang('app.field_obiettivi') ?></h5>
+                                       
                                         <!-- <p class="sub-header">Inline edit like a spreadsheet, toolbar column with edit button only and without focus on first input.</p> -->
                                         <div class="table-responsive">
                                             <table id="basic-datatable" class="table dt-responsive nowrap w-100">
                                                 <thead>
                                                     <tr>
-                                                        <th>#</th>
-                                                        <th>name</th>
-                                                        <th>codice</th>
-                                                        <th>actions</th>
+                                                     <th><?php echo lang('app.field_title')?></th>
+                                                        <th><?php echo lang('app.field_code')?></th>
+                                                        <th><?php echo lang('app.field_active_status')?></th>
+                                                        <th>&nbsp;</th>
                                                     </tr>
                                                 </thead>
                                             
@@ -87,22 +86,7 @@
                 </div> <!-- content -->
 
                 <!-- Footer Start -->
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6">
-                                2015 - <script>document.write(new Date().getFullYear())</script> &copy; UBold theme by <a href="">Coderthemes</a> 
-                            </div>
-                            <div class="col-md-6">
-                                <div class="text-md-right footer-links d-none d-sm-block">
-                                    <a href="javascript:void(0);">About Us</a>
-                                    <a href="javascript:void(0);">Help</a>
-                                    <a href="javascript:void(0);">Contact Us</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                 <?php echo view('admin/common/footer_bar')?>
                 <!-- end Footer -->
 
             </div>
@@ -123,13 +107,13 @@
                             <form class="px-3" method="post" action="<?= base_url() ?>/admin/newObiettivi" data-parsley-validate="">
 
                                 <div class="form-group">
-                                    <label for="username"><?= lang('app.field_obiettivi_name') ?></label>
-                                    <input class="form-control" type="text" id="username" name="name" required placeholder="<?= lang('app.field_obiettivi_name') ?>">
+                                    <label for="username"><?= lang('app.field_title') ?></label>
+                                    <input class="form-control" type="text" id="username" name="name" required placeholder="<?= lang('app.field_title') ?>">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="codice"><?= lang('app.field_obiettivi_codice') ?></label>
-                                    <input class="form-control" type="text" id="codice" name="codice" required placeholder="<?= lang('app.field_obiettivi_name') ?>">
+                                    <label for="codice"><?= lang('app.field_code') ?></label>
+                                    <input class="form-control" type="text" id="codice" name="codice" required placeholder="<?= lang('app.field_code') ?>">
                                 </div>
 
                                 <div class="form-group text-center">
@@ -156,17 +140,17 @@
                             <form class="px-3" method="post" action="<?= base_url() ?>/admin/updateObiettivi" data-parsley-validate="">
                                 <input type="hidden" value="" id="updateId" name="catId">
                                 <div class="form-group">
-                                    <label for="updatename"><?= lang('app.field_obiettivi_name') ?></label>
+                                    <label for="updatename"><?= lang('app.field_title') ?></label>
                                     <input class="form-control" type="text" id="updatename" name="name" required placeholder="<?= lang('app.field_obiettivi_name') ?>">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="updatecodice"><?= lang('app.field_obiettivi_codice') ?></label>
+                                    <label for="updatecodice"><?= lang('app.field_code') ?></label>
                                     <input class="form-control" type="text" id="updatecodice" name="codice" required placeholder="<?= lang('app.field_obiettivi_name') ?>">
                                 </div>
 
                                 <div class="form-group text-center">
-                                    <button class="btn btn-primary" type="submit"><?= lang('app.btn_add') ?></button>
+                                    <button class="btn btn-primary" type="submit"><?= lang('app.btn_save') ?></button>
                                 </div>
 
                             </form>
