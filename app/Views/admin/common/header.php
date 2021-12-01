@@ -168,6 +168,12 @@
                             <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?>  href="<?= base_url('admin/corsi') ?>"><i data-feather="book"></i> <span><?php echo lang('app.menu_corsi')?> </span></a>
                                         
                             </li>
+							 <li>
+                            
+                                
+                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?>  href="<?= base_url('admin/modulo') ?>"><i data-feather="grid"></i> <span><?php echo lang('app.menu_all_module')?> </span></a>
+                                        
+                            </li>
 							<?php if(in_array('test',$ente_package['extra'])){?>
 							 <li>
                             

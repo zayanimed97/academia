@@ -373,6 +373,7 @@ $lang['new_test']="Nuovo Test";
 $lang['edit_test']="Modifica Test";
 $lang['menu_corsi_test']="Test";
 $lang['menu_fattura']="Fattura";
+$lang['menu_all_module']="Elenco Moduli";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";

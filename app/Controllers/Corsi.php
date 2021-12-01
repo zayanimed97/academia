@@ -292,6 +292,39 @@ class Corsi extends BaseController
 		return view('admin/corsi_modulo.php',$data);
 	}
 	
+	public function corsi_modulo_all(){		
+		$common_data=$this->common_data();
+		$data=$common_data;
+		if($this->request->getVar('action')!==null){			
+			switch($this->request->getVar('action')){
+				case 'delete':
+					$id=$this->request->getVar('id');
+					if($id!=""){
+						$this->CorsiModuloModel->update($id,array('banned'=>'yes'));
+						$success=lang('app.success_delete');
+					}
+				break;
+			}
+		}
+		if($this->request->getVar('search')!==null) $data['search_form']=$_REQUEST;
+		if($this->request->getVar('id_corsi')!=null) $id_corsi=$this->request->getVar('id_corsi'); else $id_corsi=null;
+		if($this->request->getVar('instructor')!=null) $instructor=$this->request->getVar('instructor'); else $instructor=null;
+		if($this->request->getVar('tipologia_corsi')!=null) $tipologia_corsi=$this->request->getVar('tipologia_corsi'); else $tipologia_corsi=null;
+		if($this->request->getVar('buy_type')!=null) $buy_type=$this->request->getVar('buy_type'); else $buy_type=null;
+		if($this->request->getVar('free_modulo')!=null) $free_modulo=$this->request->getVar('free_modulo'); else $free_modulo=null;
+		$ll=$this->CorsiModuloModel->search($common_data['user_data']['id'],$id_corsi,$instructor,$tipologia_corsi,$buy_type,$free_modulo);//where('banned','no')->whereIN("FIND_IN_SET(id_corsi,)>0")
+		$res=array();
+		foreach($ll as $kk=>$vv){
+			$inf_corsi=$this->CorsiModel->find($vv['id_corsi']);
+			$vv['cour']=$inf_corsi['sotto_titolo'];
+			$res[]=$vv;
+		}
+		
+		$data['list']=$res;
+		$data['list_doctors']=$this->UserModel->search('doctor',null,null,'yes',null,$common_data['user_data']['id']);
+		$data['list_cours']=$this->CorsiModel->where('id_ente',$common_data['user_data']['id'])->where('banned','no')->find();
+		return view('admin/corsi_modulo_all.php',$data);
+	}
 	
 	public function corsi_modulo_add($id_corsi){
 		$common_data=$this->common_data();

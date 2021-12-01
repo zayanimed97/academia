@@ -90,7 +90,7 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 	$routes->add('corsi/(:any)/modulo', 'Corsi::corsi_modulo/$1');
 	$routes->add('corsi/add', 'Corsi::corsi_add');
 	$routes->add('corsi', 'Corsi::index');
-	
+	$routes->add('modulo', 'Corsi::corsi_modulo_all');
  //corsi test
 	$routes->add('test', 'Test::index');
 	$routes->add('test/edit/(:any)', 'Test::test_edit/$1');
