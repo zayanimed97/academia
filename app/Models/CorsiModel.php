@@ -10,7 +10,7 @@ class CorsiModel extends Model
     protected $allowedFields = ['banned', 'status','url','titolo','foto','id_ente','ids_doctors','id_categorie','id_argomenti','sottoargomenti','tipologia_corsi',
 	'inscrizione_aula','nb_person_aula','tipologia_formazione','prezzo','ids_professione','ids_disciplina','seo_title','seo_description','video_promo','id_obiettivo',
 	'sotto_titolo','descizione','obiettivi','programa','note','indrizzato_a','riferimenti','avvisi','ids_pdf','have_def_price','vat','slide',
-	'test_required','attestato','updated_at','featured','buy_type','stop_next_modulo'];
+	'test_required','attestato','updated_at','featured','buy_type','stop_next_modulo','free','codice'];
 	
 	protected $returnType = 'array';
 	

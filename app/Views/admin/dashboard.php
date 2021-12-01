@@ -1,4 +1,4 @@
-<?= view('admin/common/header') ?>
+<?= view('admin/common/header',array('page_title'=>'Dashboard')) ?>
 
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
 

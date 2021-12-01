@@ -1,4 +1,4 @@
-<?= view('admin/common/header') ?>
+<?= view('admin/common/header',array('page_title'=>lang('app.dashboard_category'))) ?>
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
 
             <!-- ============================================================== -->
@@ -345,22 +345,7 @@
                 </div> <!-- content -->
 
                 <!-- Footer Start -->
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6">
-                                2015 - <script>document.write(new Date().getFullYear())</script> &copy; UBold theme by <a href="">Coderthemes</a> 
-                            </div>
-                            <div class="col-md-6">
-                                <div class="text-md-right footer-links d-none d-sm-block">
-                                    <a href="javascript:void(0);">About Us</a>
-                                    <a href="javascript:void(0);">Help</a>
-                                    <a href="javascript:void(0);">Contact Us</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                  <?php echo view('admin/common/footer_bar')?>
                 <!-- end Footer -->
 
             </div>

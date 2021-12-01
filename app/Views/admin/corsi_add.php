@@ -1,4 +1,4 @@
-<?= view('admin/common/header') ?>
+<?= view('admin/common/header',array('page_title'=>lang('app.title_page_cours_new'))) ?>
  <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/multiselect/css/multi-select.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/selectize/css/selectize.bootstrap3.css" rel="stylesheet" type="text/css" />
@@ -304,6 +304,26 @@
 										 <div class="col-md-4" id="div_sottoargomenti">
                                             
                                         </div>
+										<div class="col-md-4">
+																<div class="form-group required-field">
+																	<label for="acc-name"><?php echo lang('app.field_code')?> <span class="text-danger">*</span></label>
+																	<?php $val="";
+															$input = [
+																	'type'  => 'text',
+																	'name'  => 'codice',
+																	'id'    => 'codice',
+																	
+																	'value' => $val,
+																	'placeholder' =>lang('app.field_code'),
+																	'class' => 'form-control'
+																	
+															];
+
+															echo form_input($input);
+															?>
+																  
+																</div>
+															</div>
 										 <div class="col-md-2" id="div_inscrizione_aula" style="display:none">
 											 <div class="form-group">
                                                 <label for="acc-mname"><?php echo lang('app.field_inscrizione_aula')?></label>
@@ -528,7 +548,28 @@
                                                 <div class="tab-pane fade" id="tab_price">
                                                     <div id="profileForm" >
 														   
-														 
+														 <div class="row">
+															
+															 <div class="col-12">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_free_cours')?></label>
+                                                                    <div class="col-md-9">
+                                                                
+                                                                        <div class="radio form-check-inline">
+																			<input type="radio" name="free" id="free_no" value="no" checked >
+																			<label for="free_no"> <?php echo lang('app.no')?> </label>
+																		
+																		</div>
+																		 <div class="radio form-check-inline">
+																		<input type="radio" name="free" id="free_yes" value="yes"  >
+																			<label for="free_yes"> <?php echo lang('app.yes')?> </label>
+																		
+																		</div>
+															</div>
+														</div>
+													</div>
+														</div>
+														<div id="div_not_free">
 														 <div class="row">
 															
 															 <div class="col-12">
@@ -681,6 +722,7 @@
 														</div>
 														<input data-repeater-create class="btn btn-warning" type="button" value="<?php echo lang('app.btn_add')?>"/>
 													</div>
+									</div>
 									</div>
                                                     </div>
                                                 </div>
@@ -1134,22 +1176,7 @@
                                             </div><!-- /.modal-dialog -->
                                         </div><!-- /.modal -->
                 <!-- Footer Start -->
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6">
-                                2015 - <script>document.write(new Date().getFullYear())</script> &copy; UBold theme by <a href="">Coderthemes</a> 
-                            </div>
-                            <div class="col-md-6">
-                                <div class="text-md-right footer-links d-none d-sm-block">
-                                    <a href="javascript:void(0);">About Us</a>
-                                    <a href="javascript:void(0);">Help</a>
-                                    <a href="javascript:void(0);">Contact Us</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                 <?php echo view('admin/common/footer_bar')?>
                 <!-- end Footer -->
 
             </div>
@@ -1221,6 +1248,13 @@
 					$("#div_test_corsi").hide(0);
 					$("#div_test_modulo").show(0);
 				}
+			});
+			$("input[name='free']").change(function(){
+				var v=$(this).val();
+				if(v=='yes'){
+					$("#div_not_free").hide(0);
+				}
+				else $("#div_not_free").show(0);
 			});
 		});
 </script>

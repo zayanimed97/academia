@@ -1,4 +1,4 @@
-<?= view('admin/common/header') ?>
+<?= view('admin/common/header',array('page_title'=>lang('app.title_page_cours'))) ?>
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -47,8 +47,10 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
+														<th><?php echo lang('app.field_code')?></th>
                                                         <th><?php echo lang('app.field_title')?></th>
                                                         <th><?php echo lang('app.field_type_cours')?></th>
+														 
                                                         <th>actions</th>
                                                     </tr>
                                                 </thead>
@@ -57,6 +59,7 @@
                                                     <?php foreach($list as $arg) { ?>
                                                     <tr>
                                                         <td><?= $arg['id'] ?></td>
+														 <td><?= $arg['codice'] ?></td>
                                                         <td><?= $arg['sotto_titolo'] ?></td>
                                                         <td><?= $arg['tipologia_corsi'] ?></td>
                                                         <td class="row pt-1">
@@ -87,22 +90,7 @@
                 </div> <!-- content -->
 
                 <!-- Footer Start -->
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6">
-                                2015 - <script>document.write(new Date().getFullYear())</script> &copy; UBold theme by <a href="">Coderthemes</a> 
-                            </div>
-                            <div class="col-md-6">
-                                <div class="text-md-right footer-links d-none d-sm-block">
-                                    <a href="javascript:void(0);">About Us</a>
-                                    <a href="javascript:void(0);">Help</a>
-                                    <a href="javascript:void(0);">Contact Us</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                  <?php echo view('admin/common/footer_bar')?>
                 <!-- end Footer -->
 
             </div>
