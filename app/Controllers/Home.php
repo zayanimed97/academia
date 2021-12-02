@@ -26,7 +26,7 @@ class Home extends BaseController
 
     public function getCourses()
     {
-        $courses = $this->CorsiModel->where('id_categorie', $this->request->getVar('category'))->find();
+        $courses = $this->CorsiModel->where('find_in_set( '.($this->request->getVar('category') ?? '').', id_categorie) > 0')->find();
 
         echo json_encode($courses);
     }

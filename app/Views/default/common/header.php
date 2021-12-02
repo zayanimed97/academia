@@ -1,6 +1,11 @@
 <?php 
-    $category = $CategorieModel->where('c.id_ente', $selected_ente['id'])->where('categorie.status', 'enable')->join('corsi c', 'find_in_set(categorie.id,c.id_categorie) > 0')->select('categorie.*, c.tipologia_corsi')->find();
-    $filter = function($tipologia, $type, $argomenti = null){return array_filter($type, function($el) use ($tipologia){ return $el['tipologia_corsi'] == $tipologia ;});};
+    $category = $CategorieModel->where('c.id_ente', $selected_ente['id'])->where('categorie.status', 'enable')->join('corsi c', 'find_in_set(categorie.id,c.id_categorie) > 0')->groupBy('categorie.id')->select('categorie.*, c.tipologia_corsi, SUM(case when c.tipologia_corsi = "aula" then 1 else 0 end) as sum_aula, SUM(case when c.tipologia_corsi = "webinar" then 1 else 0 end) as sum_webinar, , SUM(case when c.tipologia_corsi = "online" then 1 else 0 end) as sum_online')->find();
+    $argomenti = $ArgomentiModel->where('c.id_ente', $selected_ente['id'])->join('corsi c', 'c.id_argomenti = argomenti.idargomenti')->groupBy('argomenti.idargomenti')->select('argomenti.*, c.tipologia_corsi, argomenti.idargomenti as arg_id, SUM(case when c.tipologia_corsi = "aula" then 1 else 0 end) as sum_aula, SUM(case when c.tipologia_corsi = "webinar" then 1 else 0 end) as sum_webinar, , SUM(case when c.tipologia_corsi = "online" then 1 else 0 end) as sum_online')->find();
+    // echo '<pre>';
+    //     print_r($argomenti);
+    //     echo '</pre>';
+    //     exit;
+    $filter = function($tipologia, $type, $argomenti = null){return array_filter($type, function($el) use ($tipologia){ return $el['sum_'.$tipologia] > 0 ;});};
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,13 +34,14 @@
     ================================================== -->
     <link rel="stylesheet" href="<?= base_url('front') ?>/assets/css/uikit.min.css">
     <link rel="stylesheet" href="<?= base_url('front') ?>/assets/css/style.css">
+    <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-white">
 
 
-    <div id="wrapper" class="horizontal">
+    <div id="wrapper" class="horizontal flex flex-col relative min-h-screen">
         
         <!--  Header  -->
         <header class="is-transparent border-b backdrop-filter backdrop-blur-2xl" uk-sticky="cls-inactive: is-transparent border-b">
@@ -63,12 +69,12 @@
                                 <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
                                         <li> 
-                                            <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Categories </a>
+                                            <a href="#">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Categories </a>
                                             <div uk-drop="mode: click; pos: right-top" class="menu-dropdown">
                                                 <ul>
                                                     <?php foreach($filter('aula', $category) as $cat) { ?>
                                                     <li>
-                                                        <a href="<?= base_url('courses') ?>?category=abc"><?= $cat['titolo'] ?></a>
+                                                        <a href="<?= base_url('corsi') ?>?categories=<?= $cat['url'] ?>&tipo=aula"><?= $cat['titolo'] ?> (<?= $cat['sum_aula'] ?>)</a>
                                                     </li>
 
                                                     <?php } ?>
@@ -76,19 +82,19 @@
                                             </div>
                                         </li>
                                         <li> 
-                                            <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Argomenti </a>
+                                            <a href="#">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Argomenti </a>
                                             <div uk-drop="mode: click; pos: right-top" class="menu-dropdown">
                                                 <ul>
                                                     <?php foreach($filter('aula', $argomenti) as $arg) { ?>
                                                         <li>
-                                                            <a href="<?= base_url('courses') ?>?category=abc"><?= $arg['nomeargomento'] ?></a>
+                                                            <a href="<?= base_url('corsi') ?>?argomenti=<?= $arg['url'] ?>&tipo=aula"><?= $arg['nomeargomento'] ?> (<?= $arg['sum_aula'] ?>)</a>
                                                         </li>
 
                                                     <?php } ?>
                                                 </ul>
                                             </div>
                                         </li>
-                                        <!-- <li> <a href="courses.html">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li> -->
+                                        <!-- <li> <a href="#">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li> -->
                                     </ul>
                                 </div>
                           
@@ -99,12 +105,12 @@
                                 <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
                                         <li> 
-                                            <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Categories </a>
+                                            <a href="#">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Categories </a>
                                             <div uk-drop="mode: click; pos: right-top" class="menu-dropdown">
                                                 <ul>
                                                     <?php foreach($filter('online', $category) as $cat) { ?>
                                                         <li>
-                                                            <a href="<?= base_url('courses') ?>?category=abc"><?= $cat['titolo'] ?></a>
+                                                            <a href="<?= base_url('corsi') ?>?categories=<?= $cat['url'] ?>&tipo=online"><?= $cat['titolo'] ?> (<?= $cat['sum_online'] ?>)</a>
                                                         </li>
 
                                                     <?php } ?>
@@ -112,19 +118,19 @@
                                             </div>
                                         </li>
                                         <li> 
-                                            <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Argomenti </a>
+                                            <a href="#">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Argomenti </a>
                                             <div uk-drop="mode: click; pos: right-top" class="menu-dropdown">
                                                 <ul>
                                                 <?php foreach($filter('online', $argomenti) as $arg) { ?>
                                                         <li>
-                                                            <a href="<?= base_url('courses') ?>?category=abc"><?= $arg['nomeargomento'] ?></a>
+                                                            <a href="<?= base_url('corsi') ?>?argomenti=<?= $arg['url'] ?>&tipo=online"><?= $arg['nomeargomento'] ?> (<?= $arg['sum_online'] ?>)</a>
                                                         </li>
 
                                                     <?php } ?>
                                                 </ul>
                                             </div>
                                         </li>
-                                        <!-- <li> <a href="courses.html">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li> -->
+                                        <!-- <li> <a href="#">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li> -->
                                     </ul>
                                 </div>
                           
@@ -135,12 +141,12 @@
                                 <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
                                         <li> 
-                                            <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Categories </a>
+                                            <a href="#">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Categories </a>
                                             <div uk-drop="mode: click; pos: right-top" class="menu-dropdown">
                                                 <ul>
                                                     <?php foreach($filter('webinar', $category) as $cat) { ?>
                                                         <li>
-                                                            <a href="<?= base_url('courses') ?>?category=abc"><?= $cat['titolo'] ?></a>
+                                                            <a href="<?= base_url('corsi') ?>?categories=<?= $cat['url'] ?>&tipo=webinar"><?= $cat['titolo'] ?> (<?= $cat['sum_webinar'] ?>)</a>
                                                         </li>
 
                                                     <?php } ?>
@@ -149,19 +155,19 @@
                                             </div>
                                         </li>
                                         <li> 
-                                            <a href="courses.html">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Argomenti </a>
+                                            <a href="#">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Argomenti </a>
                                             <div uk-drop="mode: click; pos: right-top" class="menu-dropdown">
                                                 <ul>
                                                 <?php foreach($filter('webinar', $argomenti) as $arg) { ?>
                                                         <li>
-                                                            <a href="<?= base_url('courses') ?>?category=abc"><?= $arg['nomeargomento'] ?></a>
+                                                            <a href="<?= base_url('corsi') ?>?argomenti=<?= $arg['url'] ?>&tipo=webinar"><?= $arg['nomeargomento'] ?> (<?= $arg['sum_webinar'] ?>)</a>
                                                         </li>
 
                                                     <?php } ?>
                                                 </ul>
                                             </div>
                                         </li>
-                                        <!-- <li> <a href="courses.html">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li> -->
+                                        <!-- <li> <a href="#">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li> -->
                                     </ul>
                                 </div>
                           

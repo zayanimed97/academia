@@ -213,6 +213,14 @@
                 </div>
             
             </div> -->
+            <?php   $uniqueCat = array_reverse(array_values(array_column(
+                                        array_reverse($category),
+                                        null,
+                                        'id'
+                                    ))); 
+                        $courses =  $CorsiModel->where('find_in_set( '.($uniqueCat[0]['id'] ?? '').', id_categorie) > 0')->find();
+                    
+                ?>
             <?php if(!empty($category)) { ?>
             <div x-data="getSlideData" class="mt-8">
 
@@ -223,14 +231,7 @@
                     <!-- <div class="text-sm mt-2">  Choose from 130,000 online video courses with new additions published every month </div> -->
                 </div>
 
-                <?php   $uniqueCat = array_values(array_column(
-                                        array_reverse($category),
-                                        null,
-                                        'id'
-                                    )); 
-                        $courses =  $CorsiModel->where('id_categorie', $uniqueCat[0]['id'] ?? '')->find();
-                    
-                ?>
+                
                 <!-- nav -->
                 <nav class="cd-secondary-nav border-b md:m-0 -mx-4 nav-small">
                     <ul uk-tab>

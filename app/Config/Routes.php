@@ -150,6 +150,8 @@ $routes->group("superadmin", ["filter" => "auth:admin"], function ($routes) {
 
 
 $routes->get('/', 'Home::index');
+$routes->get('/corsi', 'front/CorsiController::index');
+$routes->get('/corsi/(:any)', 'Front\CorsiController::details/$1');
 $routes->get('/getCourses', 'Home::getCourses');
 /*
  * --------------------------------------------------------------------

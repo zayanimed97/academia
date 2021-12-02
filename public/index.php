@@ -5,6 +5,7 @@ define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 
 
 define('ENVIRONMENT', 'development');
+
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -20,6 +21,7 @@ if (defined('ENVIRONMENT'))
     {
         case 'development':
             error_reporting(E_ALL);
+            define('CI_DEBUG', 0);
         break;
 
     case 'testing':

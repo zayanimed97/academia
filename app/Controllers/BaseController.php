@@ -141,6 +141,7 @@ class BaseController extends Controller
 
 		$common_data['CategorieModel'] = $this->CategorieModel;
 		$common_data['CorsiModel'] = $this->CorsiModel;
+		$common_data['ArgomentiModel'] = $this->ArgomentiModel;
 
 		
 		if(!is_null($this->session->get('login_as'))){
