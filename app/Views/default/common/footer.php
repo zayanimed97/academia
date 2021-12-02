@@ -1,5 +1,5 @@
         <!-- footer -->
-        <div class="lg:mt-28 mt-10 mb-7 px-12 border-t pt-7">
+        <div class="mb-7 px-12 border-t pt-7 mt-auto">
             <div class="flex flex-col items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
                 <p class="capitalize font-medium"> © copyright 2021  Courseplus</p>
                 <div class="lg:flex space-x-4 text-gray-700 capitalize hidden">
@@ -22,7 +22,8 @@
     <script src="<?= base_url('front') ?>/assets/js/simplebar.js"></script>
     <script src="<?= base_url('front') ?>/assets/js/custom.js"></script>
     <script src="<?= base_url('front') ?>/assets/js/bootstrap-select.min.js"></script>
-    <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 </body>
 
