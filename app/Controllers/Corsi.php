@@ -191,6 +191,7 @@ class Corsi extends BaseController
 				'stop_next_modulo'=>$stop_next_modulo,
 				'free'=>$this->request->getVar('free'),
 				'codice'=>$this->request->getVar('codice'),
+				'duration'=>$this->request->getVar('duration'),
 				'banned'=>'no',
 				'updated_at'=>date('Y-m-d H:i:s')
 				);
@@ -456,6 +457,9 @@ class Corsi extends BaseController
 				'edition'=>$this->request->getVar('edition'),	
 				'min_points'=>$this->request->getVar('min_points'),	
 				'banned'=>'no',
+				'inscrizione_aula' => $this->request->getVar('inscrizione_aula'),
+				'nb_person_aula' =>$this->request->getVar('nb_person_aula'),
+				'duration' =>$this->request->getVar('duration'),
 				'free'=>$free
 			
 				);

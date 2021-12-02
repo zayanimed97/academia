@@ -273,9 +273,72 @@
 																  
 																</div>
 															</div>
-															
+															<?php if($inf_corsi['tipologia_corsi']!="online"){?>
+															<div class="col-md-2" id="div_inscrizione_aula" >
+											 <div class="form-group">
+                                                <label for="acc-mname"><?php echo lang('app.field_inscrizione_aula')?></label>
+                                             <?php $val=""; 
 										
-										 
+
+										$input = [
+												
+												'name'  => 'inscrizione_aula',
+												'id'    => 'inscrizione_aula',
+												'placeholder' =>lang('app.field_inscrizione_aula'),
+												'class' => 'form-control'
+										];
+										$options=array();
+										$options['']=lang('app.field_select');
+										$options['si']='si';
+										$options['no']='no';
+										
+										
+										echo form_dropdown($input, $options,'si');
+										?>
+                                            </div>
+										 </div>
+										  <div class="col-md-2" id="div_nb_person_aula" >
+											 <div class="form-group">
+                                                <label for="acc-mname"><?php echo lang('app.field_nb_person_aula')?></label>
+                                             <?php $val="1"; 
+										$input = [
+												'type'  => 'number',
+												'name'  => 'nb_person_aula',
+													'min'  => '1',
+												'id'    => 'nb_person_aula',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_nb_person_aula'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+                                            </div>
+										 </div>
+															<?php } ?>
+										
+										  <div class="col-md-4">
+																<div class="form-group required-field">
+																	<label for="acc-name"><?php echo lang('app.field_duration')?> </label>
+																	<?php $val="";
+															$input = [
+																	'type'  => 'text',
+																	'name'  => 'duration',
+																	'id'    => 'duration',
+																	
+																	'value' => $val,
+																	'placeholder' =>lang('app.field_duration'),
+																	'class' => 'form-control'
+																	
+															];
+
+															echo form_input($input);
+															?>
+																  
+																</div>
+															</div>
 										 <div class="col-12">
                                                                 <div class="form-group row mb-3">
                                                                    

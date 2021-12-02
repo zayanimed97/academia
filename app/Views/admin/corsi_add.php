@@ -306,7 +306,7 @@
                                         </div>
 										<div class="col-md-4">
 																<div class="form-group required-field">
-																	<label for="acc-name"><?php echo lang('app.field_code')?> <span class="text-danger">*</span></label>
+																	<label for="acc-name"><?php echo lang('app.field_code')?> </label>
 																	<?php $val="";
 															$input = [
 																	'type'  => 'text',
@@ -367,6 +367,26 @@
 										?>
                                             </div>
 										 </div>
+										 <div class="col-md-4">
+																<div class="form-group required-field">
+																	<label for="acc-name"><?php echo lang('app.field_duration')?> </label>
+																	<?php $val="";
+															$input = [
+																	'type'  => 'text',
+																	'name'  => 'duration',
+																	'id'    => 'duration',
+																	
+																	'value' => $val,
+																	'placeholder' =>lang('app.field_duration'),
+																	'class' => 'form-control'
+																	
+															];
+
+															echo form_input($input);
+															?>
+																  
+																</div>
+															</div>
 										 <div class="col-12">
                                                                 <div class="form-group row mb-3">
                                                                    
@@ -1506,7 +1526,7 @@ $("input[name='buy_type']").change(function(){
 	function type_cours(v){
 		var crediti=$("#crediti").val();
 		$("#div_vimeo").hide(0);
-		if(v=='aula'){
+		if(v=='aula' || v=='webinar'){
 			$("#div_inscrizione_aula").show(0);
 			$("#div_nb_person_aula").show(0);
 			

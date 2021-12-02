@@ -336,6 +336,7 @@ $lang['field_stop_next_modulo']="Stop next modulo";
 $lang['field_type_professional']="Professionista";
 $lang['field_free_cours']="Corso gratuita";
 $lang['field_free_modulo']="Modulo gratuita";
+$lang['field_duration']="Durata/Ora";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
