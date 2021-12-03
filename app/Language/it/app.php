@@ -293,6 +293,7 @@ $lang['status_canceled']="annullato";
 $lang['field_invoice']="Fattura";
 $lang['field_certificate']="Certificato";
 $lang['field_have_def_price']="tutti possono acquistare questo corso?";
+$lang['have_def_price']="prezzo per professione";
 $lang['field_price_from']="a partire da :";
 $lang['field_materiale']="Materiale Didattico";
 $lang['field_bio']="Bio";
@@ -337,6 +338,7 @@ $lang['field_type_professional']="Professionista";
 $lang['field_free_cours']="Corso gratuita";
 $lang['field_free_modulo']="Modulo gratuita";
 $lang['field_duration']="Durata/Ora";
+$lang['field_nb_modulo']="# Modulo";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";

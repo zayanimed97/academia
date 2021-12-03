@@ -24,6 +24,12 @@ class Corsi extends BaseController
 		$res=array();
 		$ll=$this->CorsiModel->where('id_ente',$common_data['user_data']['id'])->where('banned','no')->find();
 		foreach($ll as $kk=>$vv){
+			if($vv['free']=='yes') $vv['price']=lang('app.field_free_cours');
+			elseif($vv['have_def_price']=='no'){
+				$vv['price']=lang('app.have_def_price');
+			}
+			else $vv['price']=$vv['prezzo'];
+			$vv['nb_module']=$this->CorsiModuloModel->where('banned','no')->where('id_corsi',$vv['id'])->countAllResults();
 			$res[]=$vv;
 		}
 		
@@ -286,7 +292,13 @@ class Corsi extends BaseController
 		
 		$ll=$this->CorsiModuloModel->where('id_corsi',$id_corsi)->where('banned','no')->find();
 		foreach($ll as $kk=>$vv){
-
+			$inf_doctor=$this->UserProfileModel->where('user_id',$vv['instructor'])->first();
+			$vv['instructor']=$inf_doctor['nome'].' '.$inf_doctor['cognome'];
+			if($vv['free']=='yes') $vv['price']=lang('app.field_free_modulo');
+			elseif($vv['have_def_price']=='no'){
+				$vv['price']=lang('app.have_def_price');
+			}
+			else $vv['price']=$vv['prezzo'];
 			$res[]=$vv;
 		}
 		
@@ -319,6 +331,13 @@ class Corsi extends BaseController
 		foreach($ll as $kk=>$vv){
 			$inf_corsi=$this->CorsiModel->find($vv['id_corsi']);
 			$vv['cour']=$inf_corsi['sotto_titolo'];
+			$inf_doctor=$this->UserProfileModel->where('user_id',$vv['instructor'])->first();
+			$vv['instructor']=$inf_doctor['nome'].' '.$inf_doctor['cognome'];
+			if($vv['free']=='yes') $vv['price']=lang('app.field_free_modulo');
+			elseif($vv['have_def_price']=='no'){
+				$vv['price']=lang('app.have_def_price');
+			}
+			else $vv['price']=$vv['prezzo'];
 			$res[]=$vv;
 		}
 		
