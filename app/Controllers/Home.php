@@ -26,7 +26,7 @@ class Home extends BaseController
 
     public function getCourses()
     {
-        $courses = $this->CorsiModel->where('find_in_set( '.($this->request->getVar('category') ?? '').', id_categorie) > 0')->find();
+        $courses = $this->CorsiModel->where('find_in_set( '.($this->request->getVar('category') ?? '').', id_categorie) > 0')->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')->groupBy('corsi.id')->select("corsi.*, GROUP_CONCAT(DISTINCT u.display_name) doctor_names")->find();
 
         echo json_encode($courses);
     }
@@ -84,5 +84,9 @@ class Home extends BaseController
             }
             $html .= '</select>';
         echo $html;
+    }
+    public function getServerName()
+    {
+        echo $_SERVER['SERVER_NAME'];
     }
 }

@@ -579,7 +579,7 @@
                     init(){
                         Promise.allSettled([
                             new Promise((resolve, reject) => {if ('<?= $user['residenza_stato'] ?>' == '106') {
-                                $('#loading').modal('show');
+                                // $('#loading').modal('show');
 
                                 
                                 return fetch(`<?php echo base_url()?>/getProv?country=106&selected=<?= $user['residenza_provincia'] ?>&name=residenza_provincia`, 
@@ -589,7 +589,7 @@
 
 
                             new Promise((resolve, reject) => {if ('<?= $user['residenza_stato'] ?>' == '106' && '<?= $user['residenza_provincia'] ?>') {
-                                $('#loading').modal('show');
+                                // $('#loading').modal('show');
 
                                 return fetch(`<?php echo base_url()?>/getComm?prov=<?= $user['residenza_provincia'] ?>&selected=<?= $user['residenza_comune'] ?>&name=residenza_comune`, 
                                     {method: "get",  headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
@@ -598,7 +598,7 @@
 
                             
                             new Promise((resolve, reject) => {if ('<?= $user['fattura_stato'] ?>' == '106') {
-                                $('#loading').modal('show');
+                                // $('#loading').modal('show');
 
                                 
                                 return fetch(`<?php echo base_url()?>/getProv?country=106&selected=<?= $user['fattura_provincia'] ?>&name=fattura_provincia`, 
@@ -607,7 +607,7 @@
                             } return resolve();}),
 
                             new Promise((resolve, reject) => {if ('<?= $user['fattura_stato'] ?>' == '106' && '<?= $user['fattura_provincia'] ?>') {
-                                $('#loading').modal('show');
+                                // $('#loading').modal('show');
 
                                 return fetch(`<?php echo base_url()?>/getComm?prov=<?= $user['fattura_provincia'] ?>&selected=<?= $user['fattura_comune'] ?>&name=fattura_comune`, 
                                     {method: "get",  headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
@@ -615,7 +615,10 @@
                             } return resolve();})
                         ])
                         
-                        .then(() => {$('#loading').modal('hide');})
+                        .then(() => {
+                            // $('#loading').modal('hide');
+                            console.log('complete');
+                        })
                     }
                 }
                 }

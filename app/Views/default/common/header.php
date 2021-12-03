@@ -50,7 +50,7 @@
     
                     <!-- Logo -->
                     <div id="logo">
-                        <a href="home.html">
+                        <a href="<?= base_url() ?>">
                             <img src="<?= base_url('front') ?>/assets/images/logo.png" alt="">
                             <img src="<?= base_url('front') ?>/assets/images/logo-light.png" class="logo_inverse" alt="">
                             <img src="<?= base_url('front') ?>/assets/images/logo-mobile.png" class="logo_mobile" alt="">

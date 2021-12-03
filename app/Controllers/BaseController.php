@@ -32,7 +32,7 @@ use App\Models\CorsiModuloPrezzoProfModel;
 use App\Models\CorsiModuloTestModel;
 use App\Models\CorsiModuloTestQuestionsModel;
 use App\Models\CorsiModuloTestResponsesModel;
-use App\Models\TestModuloModel;
+use App\Models\testModuloModel;
 
 /**
  * Class BaseController
@@ -112,7 +112,7 @@ class BaseController extends Controller
 		$this->CorsiModuloTestModel =  new CorsiModuloTestModel();
 		$this->CorsiModuloTestQuestionsModel =  new CorsiModuloTestQuestionsModel();
 		$this->CorsiModuloTestResponsesModel =  new CorsiModuloTestResponsesModel();
-		$this->TestModuloModel=new TestModuloModel();
+		$this->TestModuloModel=new testModuloModel();
 	}
 	
 	public function common_data(){
