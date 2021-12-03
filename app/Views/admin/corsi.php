@@ -50,8 +50,9 @@
 														<th><?php echo lang('app.field_code')?></th>
                                                         <th><?php echo lang('app.field_title')?></th>
                                                         <th><?php echo lang('app.field_type_cours')?></th>
-														 
-                                                        <th>actions</th>
+														<th><?php echo lang('app.field_price')?></th>
+														 <th><?php echo lang('app.field_nb_modulo')?></th>
+                                                        <th>&nbsp;</th>
                                                     </tr>
                                                 </thead>
                                             
@@ -62,6 +63,8 @@
 														 <td><?= $arg['codice'] ?></td>
                                                         <td><?= $arg['sotto_titolo'] ?></td>
                                                         <td><?= $arg['tipologia_corsi'] ?></td>
+														  <td><?= $arg['price'] ?></td>
+														    <td><?= $arg['nb_module'] ?></td>
                                                         <td class="row pt-1">
                                                             <a href="<?php echo base_url('admin/corsi/edit/'.$arg['id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-edit"></i>

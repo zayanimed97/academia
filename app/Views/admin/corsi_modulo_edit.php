@@ -1,4 +1,4 @@
-<?= view('admin/common/header',array('page_title'=>lang('app.title_page_cours_modulo_new'))) ?>
+<?= view('admin/common/header',array('page_title'=>lang('app.title_page_cours_modulo_edit'))) ?>
  <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/multiselect/css/multi-select.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/selectize/css/selectize.bootstrap3.css" rel="stylesheet" type="text/css" />
@@ -24,11 +24,11 @@
                                              <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard')?>"><?php echo lang('app.menu_dashboard')?></a></li>
 											 <li class="breadcrumb-item"><a href="<?php echo base_url('admin/corsi')?>"><?php echo lang('app.menu_corsi')?></a></li>
 											  <li class="breadcrumb-item"><a href="<?php echo base_url('admin/corsi/'.$inf_corsi['id'].'/modulo')?>"><?php echo lang('app.menu_corsi_modulo')?></a></li>
-											  <li class="breadcrumb-item active"><?php echo lang('app.new_modulo')?></li>
+											  <li class="breadcrumb-item active"><?php echo lang('app.edit_modulo')?></li>
                                         </ol>
                                     </div>
                                     <div class="row align-items-center">
-                                        <h4 class="page-title"><?= lang('app.title_page_cours_modulo_new') ?></h4>:&nbsp;  <h5><?php echo $inf_corsi['sotto_titolo']?></h5>
+                                        <h4 class="page-title"><?= lang('app.title_page_cours_modulo_edit') ?></h4>:&nbsp;  <h5><?php echo $inf_corsi['sotto_titolo']?></h5>
                                       
                                     </div>
                                 </div>
@@ -45,6 +45,7 @@
 <?php $attributes = ['class' => 'form-input-flat', 'id' => 'add_corsi_form','method'=>'post'];
 													echo form_open_multipart('', $attributes);?>
 													<input type="hidden" name="id_corsi" value="<?php echo $inf_corsi['id']?>">
+													<input type="hidden" name="id_modulo" value="<?php echo $inf_modulo['id']?>">
                                         <div id="rootwizard">
                                             <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-3">
                                                 <li class="nav-item" data-target-form="#accountForm">
@@ -128,7 +129,7 @@
 														<div class="col-md-2">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_sort')?> <span class="text-danger">*</span></label>
-																	<?php $val="1"; 
+																	<?php $val=$inf_modulo['ord'];
 															$input = [
 																	'type'  => 'number',
 																	'name'  => 'ord',
@@ -149,7 +150,7 @@
 														<div class="col-md-5">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_title')?> <span class="text-danger">*</span></label>
-																	<?php $val=""; 
+																	<?php $val=$inf_modulo['titolo'];
 															$input = [
 																	'type'  => 'text',
 																	'name'  => 'titolo',
@@ -169,7 +170,7 @@
 																<div class="col-md-5">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_subtitle')?> <span class="text-danger">*</span></label>
-																	<?php $val="";
+																	<?php $val=$inf_modulo['sotto_titolo'];
 															$input = [
 																	'type'  => 'text',
 																	'name'  => 'sotto_titolo',
@@ -206,7 +207,7 @@
 																$options[$v['id']]=$v['display_name'];
 															}
 															//var_dump($options);
-															echo form_dropdown('instructor', $options,array(),$input);
+															echo form_dropdown('instructor', $options,$inf_modulo['instructor'],$input);
 															?>
 																	
 																</div>
@@ -215,7 +216,7 @@
 															<div class="col-md-3">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_edition')?></label>
-																	<?php $val=""; 
+																	<?php $val=$inf_modulo['edition'];
 															$input = [
 																	'type'  => 'text',
 																	'name'  => 'edition',
@@ -236,7 +237,7 @@
 															<div class="col-md-3">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_crediti')?></label>
-																	<?php $val=""; 
+																	<?php $val=$inf_modulo['crediti'];
 															$input = [
 																	'type'  => 'text',
 																	'name'  => 'crediti',
@@ -256,7 +257,7 @@
 															<div class="col-md-3">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_code')?></label>
-																	<?php $val=""; 
+																	<?php $val=$inf_modulo['codice'];
 															$input = [
 																	'type'  => 'text',
 																	'name'  => 'codice',
@@ -293,14 +294,14 @@
 										$options['no']='no';
 										
 										
-										echo form_dropdown($input, $options,'si');
+										echo form_dropdown($input, $options,$inf_modulo['inscrizione_aula']);
 										?>
                                             </div>
 										 </div>
 										  <div class="col-md-2" id="div_nb_person_aula" >
 											 <div class="form-group">
                                                 <label for="acc-mname"><?php echo lang('app.field_nb_person_aula')?></label>
-                                             <?php $val="1"; 
+                                             <?php $val=$inf_modulo['nb_person_aula'];
 										$input = [
 												'type'  => 'number',
 												'name'  => 'nb_person_aula',
@@ -322,7 +323,7 @@
 										  <div class="col-md-4">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_duration')?> </label>
-																	<?php $val="";
+																	<?php $val=$inf_modulo['duration'];
 															$input = [
 																	'type'  => 'text',
 																	'name'  => 'duration',
@@ -344,7 +345,7 @@
                                                                    
                                                                     <div class="col-md-9">
                                                                         <div class="checkbox form-check-inline">
-																			<input type="checkbox" name="enable" id="enable" value="yes" checked>
+																			<input type="checkbox" name="enable" id="enable" value="yes" <?php if($inf_modulo['status']=='si') echo 'checked'?>>
 																			<label for="enable"> <?php echo lang('app.field_active_status')?> </label>
 																		</div>
 																		
@@ -385,7 +386,7 @@
                             <div class="tab-content m-b-0">
                                
 								 <div class="tab-pane fade show active" id="default-tab-2">
-								 <?php $val="";
+								 <?php $val=$inf_modulo['description'];
 										$input = [
 												'rows'=>3,
 												'name'  => 'descizione',
@@ -401,7 +402,7 @@
 												
 								 </div>
 								 <div class="tab-pane fade" id="default-tab-3">
-								 <?php $val=""; 
+								 <?php $val=$inf_modulo['obiettivi'];
 										$input = [
 												'rows'=>3,
 												'name'  => 'obiettivi',
@@ -416,7 +417,7 @@
 										?>
 								 </div>
 								 <div class="tab-pane fade" id="default-tab-4">
-								  <?php $val=""; 
+								  <?php $val=$inf_modulo['programa'];
 										$input = [
 												'rows'=>3,
 												'name'  => 'programa',
@@ -431,7 +432,7 @@
 										?>
 								 </div>
 								 <div class="tab-pane fade" id="default-tab-5">
-								  <?php $val=""; 
+								  <?php $val=$inf_modulo['note'];
 										$input = [
 												'rows'=>3,
 												'name'  => 'note',
@@ -446,7 +447,7 @@
 										?>
 								 </div>
 								 <div class="tab-pane fade" id="default-tab-6">
-								  <?php $val=""; 
+								  <?php $val=$inf_modulo['riferimenti'];
 										$input = [
 												'rows'=>3,
 												'name'  => 'riferimenti',
@@ -461,7 +462,7 @@
 										?>
 								 </div>
 								 <div class="tab-pane fade" id="default-tab-7">
-								  <?php $val=""; 
+								  <?php $val=$inf_modulo['indrizzato_a'];
 										$input = [
 												'rows'=>3,
 												'name'  => 'indrizzato_a',
@@ -476,7 +477,7 @@
 										?>
 								 </div>
 								 <div class="tab-pane fade" id="default-tab-8">
-								  <?php $val=""; 
+								  <?php $val=$inf_modulo['avvisi'];
 										$input = [
 												'rows'=>3,
 												'name'  => 'avvisi',
@@ -517,12 +518,12 @@
                                                                     <div class="col-md-9">
                                                                 
                                                                         <div class="radio form-check-inline">
-																			<input type="radio" name="free" id="free_no" value="no" checked >
+																			<input type="radio" name="free" id="free_no" value="no" <?php if($inf_modulo['free']=='no') echo 'checked'?> >
 																			<label for="free_no"> <?php echo lang('app.no')?> </label>
 																		
 																		</div>
 																		 <div class="radio form-check-inline">
-																		<input type="radio" name="free" id="free_yes" value="yes"  >
+																		<input type="radio" name="free" id="free_yes" value="yes" <?php if($inf_modulo['free']=='yes') echo 'checked'?> >
 																			<label for="free_yes"> <?php echo lang('app.yes')?> </label>
 																		
 																		</div>
@@ -535,7 +536,7 @@
 										 <div class="col-md-4">
 										  <div class="form-check form-check-inline m-t-20">
 											<?php 
-											$chk=true;
+											if($inf_modulo['have_def_price']=='yes') $chk=true; else $chk=false;
 											
 											$data = [
 											'name'    => "have_def_price",
@@ -551,11 +552,11 @@
 											  <label class="form-check-label" for="inlineCheckbox1"><?php echo lang("app.field_have_def_price")?></label>
 											</div>
 										 </div>
-										 <div class="col-md-6" id="div_prezzo">
+										 <div class="col-md-6" id="div_prezzo" <?php if($inf_modulo['have_def_price']=='no'){?> style="display:none"<?php }?>>
                                              <div class="form-group row mb-3">
                                                 <label class="col-md-3 col-form-label" for="email"><?php echo lang('app.field_price')?></label>
 												<div class="col-md-9">
-												<?php $val=""; 
+												<?php $val=$inf_modulo['prezzo'];
 										$input = [
 												'type'  => 'text',
 												'name'  => 'prezzo',
@@ -581,6 +582,62 @@
 												
 													<div class="repeater-prezzo-prof m-t-30 col-md-12">
 														<div data-repeater-list="prezzo_prof">
+														<?php if(!empty($list_prezzo_prof)){
+															foreach($list_prezzo_prof as $k=>$v){?>
+																<div data-repeater-item="">
+															<div class="row">
+																 <div class="col-md-3">
+																		<div class="form-group required-field">
+																			<label for="acc-name"><?php echo lang('app.field_price')?></label>
+																			<?php $val=$v['prezzo']; 
+																				$input = [
+																						'type'  => 'text',
+																						'name'  => 'prezzo_prof',
+																						'id'    => 'prezzo_prof',
+																						'required' =>true,
+																						'value' => $val,
+																					
+																						'placeholder' =>lang('app.field_price'),
+																						'class' => 'form-control'
+																						
+																				];
+
+																				echo form_input($input);
+																				?>
+																		  
+																		</div>
+																	</div>
+																	 
+																	<div class="col-md-3">
+																		<div class="form-group required-field">
+																			<label for="acc-name"><?php echo lang('app.field_professione')?></label>
+																			<?php $val=$v['id_professione']; 
+																
+																	$input = [
+																			'name'    => 'prezzo_prof_id',
+																			'id'    => 'prezzo_prof_id',
+																			'placeholder' =>lang('app.field_professione'),
+																			'data-allow-clear'=>'1',
+																			'class' => 'form-control prezzo_prof_id'
+																	];
+																	$options=array();
+																
+																	foreach($list_prof as $k=>$v){
+																		$options[$v['idprof']]=$v['professione'];
+																	}
+																	//var_dump($options);
+																	echo form_dropdown($input, $options,$val);
+																	?>
+																			
+																		</div>
+																	</div>
+																 <div class="col-md-4 m-t-25" >
+																	 <input class="btn btn-danger" data-repeater-delete type="button" value="<?php echo lang('app.btn_delete')?>"/>
+																</div>
+															</div>
+															</div>
+															<?php }
+														}else{?>
 															<div data-repeater-item="">
 															<div class="row">
 																 <div class="col-md-3">
@@ -633,6 +690,7 @@
 																</div>
 															</div>
 															</div>
+														<?php } ?>
 														</div>
 														<input data-repeater-create class="btn btn-warning" type="button" value="<?php echo lang('app.btn_add')?>"/>
 													</div>
@@ -659,6 +717,43 @@
 													<div class="row">
 														<div class="repeater-corsidate m-t-30 col-md-12">
 														<div data-repeater-list="corsidate">
+														<?php if(!empty($corsi_date)){
+															foreach($corsi_date as $k=>$v){?>
+															<div data-repeater-item="">
+															<div class="row">
+																  <div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_incontro')?></label>
+															<input type="number" name="incontro" class="form-control" value="<?php echo $v['incontro']?>" min="1">
+														</div>
+													</div>
+													 <div class="col-md-2" >
+																	<div class="form-group">
+																		<label for="acc-mname"><?php echo lang('app.field_date')?></label>
+																		<input type="text" name="date" class="form-control corsidate_date_input" value="<?php  echo date('d/m/Y',strtotime($v['date']))?>">
+																	</div>
+																</div>
+																<div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_start_time')?></label>
+															<input type="text" class="form-control corsidate_time_input" placeholder="HH:mm"  name="start_time" value="<?php echo $v['start_time']?>"/> 
+														</div>
+													</div>
+													<div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_end_time')?></label>
+															<input type="text" class="form-control corsidate_time_input" placeholder="HH:mm"  name="end_time"  value="<?php echo $v['end_time']?>"/>	
+														</div>
+													</div>
+													
+																 <div class="col-md-1" style="margin-top:25px">
+																	 <input class="btn btn-danger" data-repeater-delete type="button" value="<?php echo lang('app.btn_delete')?>"/>
+																</div>
+															</div>
+															</div>
+															<?php }
+														}
+														else{?>
 															<div data-repeater-item="">
 															<div class="row">
 																  <div class="col-md-2" >
@@ -691,6 +786,7 @@
 																</div>
 															</div>
 															</div>
+														<?php } ?>
 														</div>
 														<input data-repeater-create class="btn btn-warning" type="button" value="<?php echo lang('app.btn_add')?>"/>
 													</div>
@@ -705,6 +801,48 @@
 													<div class="row">
 														<div class="repeater-corsidate m-t-30 col-md-12">
 														<div data-repeater-list="corsidate">
+														<?php if(!empty($corsi_date)){
+															foreach($corsi_date as $k=>$v){?>
+																<div data-repeater-item="">
+															<div class="row">
+																  <div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_incontro')?></label>
+															<input type="number" name="incontro" class="form-control" value="<?php echo $v['incontro']?>" min="1">
+														</div>
+													</div>
+													 <div class="col-md-2" >
+																	<div class="form-group">
+																		<label for="acc-mname"><?php echo lang('app.field_date')?></label>
+																		<input type="text" name="date" class="form-control corsidate_date_input" value="<?php echo date('d/m/Y',strtotime($v['date']))?>">
+																	</div>
+																</div>
+																<div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_start_time')?></label>
+															<input type="text" class="form-control corsidate_time_input" placeholder="HH:mm"  name="start_time" value="<?php echo $v['start_time']?>"/> 
+														</div>
+													</div>
+													<div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_end_time')?></label>
+															<input type="text" class="form-control corsidate_time_input" placeholder="HH:mm"  name="end_time" value="<?php echo $v['end_time']?>"/>	
+														</div>
+													</div>
+													<div class="col-md-3" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_zoom_url')?></label>
+															<input type="text" name="zoom_url" class="form-control" value="<?php echo $v['zoom_url']?>">
+														</div>
+													</div>
+																 <div class="col-md-1" style="margin-top:25px">
+																	 <input class="btn btn-danger" data-repeater-delete type="button" value="<?php echo lang('app.btn_delete')?>"/>
+																</div>
+															</div>
+															</div>
+															<?php }
+														}
+														else{?>
 															<div data-repeater-item="">
 															<div class="row">
 																  <div class="col-md-2" >
@@ -742,6 +880,7 @@
 																</div>
 															</div>
 															</div>
+														<?php } ?>
 														</div>
 														<input data-repeater-create class="btn btn-warning" type="button" value="<?php echo lang('app.btn_add')?>"/>
 													</div>
@@ -756,6 +895,50 @@
 													<div class="row">
 														<div class="repeater-corsivimeo m-t-30 col-md-12">
 														<div data-repeater-list="corsivimeo">
+														<?php if(!empty($corsi_vimeo)){
+															foreach($corsi_vimeo as $k=>$v){?>
+															<div data-repeater-item="">
+															<div class="row">
+																  <div class="col-md-2" >
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_sort')?></label>
+															<input type="number" name="ord" class="form-control" value="<?php echo $v['ord']?>" min="1">
+														</div>
+													</div>
+													 <div class="col-md-3" >
+																	<div class="form-group">
+																		<label for="acc-mname"><?php echo lang('app.field_vimeo')?></label>
+																		<input type="text" name="vimeo" class="form-control" value="<?php echo $v['vimeo']?>">
+																	</div>
+																</div>
+																
+													<div class="col-md-2">
+													  <div class="form-check form-check-inline m-t-20" style="margin-top:25px">
+														<?php 
+														if($v['enable']=='yes') $chk=true; else $chk=false;
+														
+														$data = [
+														'name'    => "vimeo_enable",
+														'id'      => 'vimeo_enable',
+														'value'   =>'enable',
+														'checked' => $chk,
+														'class' => 'form-check-input',
+														
+															];
+
+															echo form_checkbox($data);
+															?>
+														  <label class="form-check-label" for="inlineCheckbox1"><?php echo lang("app.field_enable")?></label>
+														</div>
+													 </div>
+													
+																 <div class="col-md-1" style="margin-top:25px">
+																	 <input class="btn btn-danger" data-repeater-delete type="button" value="<?php echo lang('app.btn_delete')?>"/>
+																</div>
+															</div>
+															</div>
+															<?php }
+														} else{?>
 															<div data-repeater-item="">
 															<div class="row">
 																  <div class="col-md-2" >
@@ -796,6 +979,7 @@
 																</div>
 															</div>
 															</div>
+														<?php } ?>
 														</div>
 														<input data-repeater-create class="btn btn-warning" type="button" value="<?php echo lang('app.btn_add')?>"/>
 													</div>
@@ -844,6 +1028,15 @@
                                             </div>
                                         </div>
 													</div>
+													<input type="hidden" name="delete_foto" id="delete_foto" value="no">
+													<?php if($inf_modulo['foto']!=""){?>
+														<div class="row" id="div_foto">
+															<div class="col-sm-2">
+																<img src="<?php echo base_url('uploads/corsi/'.$inf_modulo['foto'])?>" alt="image" class="img-fluid img-thumbnail" width="100%">
+																<button class="btn btn-danger btn-xs" onclick="del_foto();"><i class="fa fa-trash"></i></button>
+															</div>
+														</div>
+													<?php } ?>
 													<?php /*
 													<div class="row">
 								<div class="col-sm-11">
@@ -874,7 +1067,29 @@
 																		<table class="table table-td-valign-middle m-b-0">
 																			
 																			<tbody id="list_pdf">
-																			
+																			<?php if(!empty($corsi_pdf)){
+																				foreach($corsi_pdf as $v){?>
+																			<tr>
+																				<td><div class="form-check form-check-inline">
+																					<?php 
+																					
+																				
+																					$data = [
+																					'name'    => "ids_pdf_list[]",
+																					'id'      => 'ids_pdf_list_'.$v['id'],
+																					'value'   => $v['id'],
+																					'checked' => true,
+																					'class' => 'form-check-input'
+																						];
+
+																						echo form_checkbox($data);
+																						?>
+																					  <label class="form-check-label" for="inlineCheckbox1"><?php echo $v['pdfname']?></label>
+																			</div></td>
+																				
+																				<td class="text-center"><a target="_blank" href="<?php echo base_url('uploads/corsiPDF/'.$v['filename'])?>" class="btn btn-default btn-xs btn-rounded p-l-10 p-r-10"><i class="fa fa-download"></i> <?php echo lang('app.action_download')?></a></td>
+																			</tr>
+																			<?php } }?>
 																			</tbody>
 																		</table>
 																	</div>
@@ -889,7 +1104,7 @@
 									 <div class="col-md-12">
                                              <div class="form-group required-field">
                                                 <label for="acc-name"><?php echo lang('app.field_seo_title')?></label>
-												<?php $val=""; 
+												<?php $val=$inf_modulo['seo_title']; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'seo_title',
@@ -911,7 +1126,7 @@
 										 <div class="col-md-12">
                                             <div class="form-group ">
 											<label for="acc-mname"><?php echo lang('app.field_seo_description')?></label>
-											 <?php $val=""; 
+											 <?php $val=$inf_modulo['seo_description']; 
 										$input = [
 												'rows'=>3,
 												'name'  => 'seo_description',
@@ -939,7 +1154,7 @@
 														   <div class="form-group row mb-3">
 																<label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_min_points')?> <span class="text-danger">*</span></label>
 																<div class="col-md-6">
-																	<input type="number" min="1" max="100" class="form-control" name="min_points" id="min_points" placeholder="<?php echo lang('app.help_min_points')?>">
+																	<input type="number" value="<?php echo $inf_modulo['min_points']?>" min="1" max="100" class="form-control" name="min_points" id="min_points" placeholder="<?php echo lang('app.help_min_points')?>">
 																</div>
 															</div>
 														</div>
@@ -954,7 +1169,32 @@
 																		<table class="table table-td-valign-middle m-b-0">
 																			
 																			<tbody id="list_test">
+																			<?php if(!empty($corsi_test)){
+																			foreach($corsi_test as $pdf_id){
+			
 																			
+																				?>
+																				<tr>
+																					<td><div class="form-check form-check-inline">
+																						<?php 
+																						
+																					
+																						$data = [
+																						'name'    => "ids_test[]",
+																						'id'      => 'ids_test_'.$pdf_id['id'],
+																						'value'   => $pdf_id['id'],
+																						'checked' => true,
+																						'class' => 'form-check-input'
+																							];
+
+																							echo form_checkbox($data);
+																							?>
+																						  <label class="form-check-label" for="inlineCheckbox1"><?php echo $pdf_id['title']?></label>
+																				</div></td>
+																					
+																					<td class="text-center"><?php echo $pdf_id['type']?></td>
+																				</tr>
+																		<?php } }?>
 																			</tbody>
 																		</table>
 																	</div>
@@ -1687,7 +1927,7 @@ function save_corsi(){
 	$(".nav-link").removeClass('text-danger');
 
 	$.ajax({
-				  url:"<?php echo base_url('Corsi/modulo_add_form_submit')?>",
+				  url:"<?php echo base_url('Corsi/modulo_edit_form_submit')?>",
 				  method:"POST",
 				  data: new FormData($("#add_corsi_form")[0]),
 				  //dataType: 'json',
@@ -1709,6 +1949,12 @@ function save_corsi(){
 				//	return true;
 				}
 			});
+}
+function del_foto(){
+	if(confirm("<?php echo lang('app.msg_delete_foto')?>")){
+		$("#div_foto").remove();
+		$("#delete_foto").val('yes');
+	}
 }
 </script>
 <?= view('admin/common/endtag') ?>

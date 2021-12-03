@@ -293,6 +293,7 @@ $lang['status_canceled']="annullato";
 $lang['field_invoice']="Fattura";
 $lang['field_certificate']="Certificato";
 $lang['field_have_def_price']="tutti possono acquistare questo corso?";
+$lang['have_def_price']="prezzo per professione";
 $lang['field_price_from']="a partire da :";
 $lang['field_materiale']="Materiale Didattico";
 $lang['field_bio']="Bio";
@@ -336,6 +337,8 @@ $lang['field_stop_next_modulo']="Stop next modulo";
 $lang['field_type_professional']="Professionista";
 $lang['field_free_cours']="Corso gratuita";
 $lang['field_free_modulo']="Modulo gratuita";
+$lang['field_duration']="Durata/Ora";
+$lang['field_nb_modulo']="# Modulo";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -388,6 +391,8 @@ $lang['new_discipline']="Nuova disciplina";
 $lang['update_discipline']="Modifica disciplina";
 $lang['menu_obiettivi']="Obiettivo formazioni";
 $lang['new_obiettivi']="Nuova Obiettivo";
+$lang['edit_corsi']="modifica corso";
+$lang['edit_modulo']="modifica modulo";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -424,6 +429,9 @@ $lang['modal_title_delete_sottoargomento']="Eleminare sottoargomento";
 $lang['modal_title_delete_professione']="Eleminare professione";
 $lang['modal_title_delete_discipline']="Eleminare discipline";
 $lang['modal_title_delete_obiettivi']="Eleminare Obiettivo formazioni";
+$lang['title_page_cours_edit']="Modifica Corso";
+$lang['title_page_cours_modulo_edit']="Modifica Modulo";
+
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
@@ -471,6 +479,7 @@ $lang['msg_delete_corso']="sei sicuro di eliminare corso?";
 $lang['msg_delete_corso_modulo']="sei sicuro di eliminare modulo?";
 $lang['msg_delete_corso_test']="sei sicuro di eliminare test?";
 $lang['alert_msg_delete_question']="sei sicuro di voler cancellare questi dati?";
+$lang['msg_delete_foto']="sei sicuro di eliminare immagini?";
 //$lang['alert_msg_delete_response']="sei sicuro di voler cancellare questa risposta?";
 $lang['help_server_name']="i.e: mydomain.it (escluso http://)";
 $lang['help_tabprice_buy_type']="scegli di acquistare il tipo di corso per corso, quindi non puoi impostare i prezzi del modulo";
