@@ -23,7 +23,11 @@
 
 		<!-- icons -->
 		<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-
+        <style>
+        .navbar-custom{
+            background-color: #000;
+        }
+        </style>
     </head>
 
     <body class="loading">
@@ -91,12 +95,12 @@
                             </span>
                         </a>
     
-                        <a href="index.html" class="logo logo-light text-center">
+                        <a href="<?= base_url('/admin/dashboard') ?>" class="logo logo-light text-center h-100">
                             <span class="logo-sm">
                                 <img src="<?php echo base_url('UBold_v4.1.0')?>/assets/images/logo-sm.png" alt="" height="22">
                             </span>
-                            <span class="logo-lg">
-                                <img src="<?php echo base_url('UBold_v4.1.0')?>/assets/images/logo-light.png" alt="" height="20">
+                            <span class="logo-lg h-100 d-flex align-items-center">
+                                <img src="<?php echo base_url('UBold_v4.1.0')?>/assets/images/logo-light.png" alt="" style="width: 100%; height: auto">
                             </span>
                         </a>
                     </div>

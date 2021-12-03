@@ -75,18 +75,24 @@ class ProfileController extends BaseController
 		$this->UserProfileModel->save($data);
 
 
-		$user_data = ["email" => $this->request->getVar('email')];
+		$user_data = [
+			"email" => $this->request->getVar('email'),
+			'display_name' => $this->request->getVar('nome'). ' '. $this->request->getVar('cognome'),
+		];
+		$session = $this->session->get('user_data');
 
+		$session['display_name'] = $this->request->getVar('nome'). ' '. $this->request->getVar('cognome');
+		$user_data["display_name"] = $this->request->getVar('nome'). ' '. $this->request->getVar('cognome');
 		if ($this->request->getVar('confirm')) {
 			if (md5($this->request->getVar('Old_Password')) == $this->session->get('user_data')['password']) {
-				$session = $this->session->get('user_data');
 				$session['password'] = md5($this->request->getVar('confirm'));
-				$this->session->set('user_data', $session);
 				$user_data["password"] = md5($this->request->getVar('confirm'));
 			} else {
 				$this->session->setFlashdata('error', 'wrong password');
 			}
 		}
+
+		$this->session->set('user_data', $session);
 
 		$this->UserModel->update($this->session->get('user_data')['id'], $user_data);
 

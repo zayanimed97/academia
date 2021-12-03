@@ -12,7 +12,7 @@ class CorsiController extends BaseController
 
         $data['sottoargomenti'] = $this->SottoargomentiModel->join('argomenti', 'id_argomenti = idargomenti')->groupBy('id')->where('id_ente', $data['selected_ente']['id'])->select('sottoargomenti.*, argomenti.url as nomeargomento')->find();
 
-        $corsi = $this->CorsiModel->select('corsi.*')->where('corsi.id_ente', $data['selected_ente']['id'])->groupBy('corsi.id');
+        $corsi = $this->CorsiModel->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')->where('corsi.id_ente', $data['selected_ente']['id'])->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')->select("corsi.*, GROUP_CONCAT(DISTINCT u.display_name) doctor_names, count(DISTINCT cm.id) as modulo_count")->groupBy('corsi.id');
 
 
         if ($this->request->getVar('categories')) {
@@ -31,9 +31,9 @@ class CorsiController extends BaseController
         $data['corsi'] = $corsi->paginate($perPage, 'corsi');
         $data['pagination'] = $corsi->pager->links('corsi','front_courses_pagination');
 
-        
+        // $db      = \Config\Database::connect();
         // echo '<pre>';
-        // print_r($corsi->pager->links('corsi','front_courses_pagination'));
+        // print_r($data['corsi']);
         // echo '</pre>';
         // exit;
         // // die(var_dump($data['category']));

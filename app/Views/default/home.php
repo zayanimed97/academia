@@ -1,5 +1,17 @@
 <?php require_once 'common/header.php' ?>
   
+  <style>
+    
+    .card .card-media img{
+        height: auto;
+        object-fit: initial;
+        position: initial;
+    }
+
+    .sottotitolo{
+        text-overflow: ellipsis;
+    }
+  </style>
 <?php $settings['banner_home'] = (array)json_decode($settings['banner_home'])?>
         <!-- Slideshow -->
         <div class="uk-position-relative contents overflow-hidden lg:-mt-20" tabindex="-1"
@@ -218,7 +230,7 @@
                                         null,
                                         'id'
                                     ))); 
-                        $courses =  $CorsiModel->where('find_in_set( '.($uniqueCat[0]['id'] ?? '').', id_categorie) > 0')->find();
+                        $courses =  $CorsiModel->where('find_in_set( '.($uniqueCat[0]['id'] ?? '').', id_categorie) > 0')->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')->groupBy('corsi.id')->select("corsi.*, GROUP_CONCAT(DISTINCT u.display_name) doctor_names")->find();
                     
                 ?>
             <?php if(!empty($category)) { ?>
@@ -291,7 +303,30 @@
                     </div>
 
                 </div>
+                <div id="video-promo" uk-modal>
+                    <div class="uk-modal-dialog shadow-lg rounded-md">
+                        <button class="uk-modal-close-default m-2.5" type="button" uk-close></button>
+                        <div class="uk-modal-header  rounded-t-md">
+                            <h4 class="text-lg font-semibold mb-2"> Trailer video </h4>
+                        </div>
+                    
+                        <div class="embed-video">
+                            <iframe :src="video_url" class="w-full"
+                            uk-video="automute: true" frameborder="0" allowfullscreen uk-responsive></iframe>
+                        </div>
 
+
+                        <div class="uk-modal-body">
+                            <!-- <h3 class="text-lg font-semibold mb-2">Build Responsive Websites </h3>
+                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                                dolore
+                                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident,
+                                sunt
+                                in culpa qui officia deserunt mollit anim id est laborum.</p> -->
+                        </div>
+                    </div>
+                </div>
             </div>
             <?php } ?>
             
@@ -300,8 +335,15 @@
 
 <script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
 <script>
+        String.prototype.trunc = 
+            function(n){
+                return this.substr(0,n-1)+(this.length>n?'&hellip;':'');
+        };
+
+
     function getSlideData(){
         return {
+            video_url: '',
             active: <?= $category[0]['id'] ?? '' ?>,
             courses: '',
             getCourses(id){
@@ -314,58 +356,65 @@
                                 JSON.parse(res).forEach(element => {
                                     this.courses += `   <li>
 
-                                                            <a href="course-intro.html" class="uk-link-reset">
-                                                                <div class="card uk-transition-toggle">
-                                                                    <div class="card-media h-40">
-                                                                        <div class="card-media-overly"></div>
-                                                                        <img src="<?= base_url('front') ?>/assets/images/courses/img-1.jpg" alt="" class="">
-                                                                        <span class="icon-play"></span>
-                                                                    </div>
+                                                            <div class="card uk-transition-toggle">
+                                                                <div class="card-media h-40 flex items-center" @click="showModalPromo('${element.video_promo}')">
+                                                                    <div class="card-media-overly"></div>
+                                                                    <img src="${element.foto ? '<?= base_url('uploads/corsi') ?>/'+element.foto : '<?= base_url('front') ?>/assets/images/courses/img-1.jpg'}" alt="" class="">
+                                                                    <span class="icon-play"></span>
+                                                                </div>
+                                                                <a href="${'<?= base_url('/corsi') ?>'+'/'+element.url}">
                                                                     <div class="card-body p-4">
-                                                                        <div class="font-semibold line-clamp-2" x-text="'${element.titolo}'">  </div>
+                                                                        <div class="font-semibold line-clamp-2" x-text="'${element.titolo.trunc(20)}'">  </div>
                                                                         <div class="flex space-x-2 items-center text-sm pt-3">
                                                                             <div> 13 hours  </div>
                                                                             <div> · </div>
                                                                             <div> 32 lectures </div>
                                                                         </div>
                                                                         <div class="pt-1 flex items-center justify-between">
-                                                                            <div class="text-sm font-medium"> John Michael </div>
+                                                                            <div class="text-sm font-medium"> ${element.doctor_names} </div>
                                                                             <div class="text-lg font-semibold"> $14.99 </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </a>
+                                                                </a>
+                                                            </div>
 
                                                         </li>   `
                                 })
                             }
                         )
             },
+            showModalPromo(urlvid) {
+                // console.log(urlvid);
+                this.video_url = urlvid
+                if (urlvid && urlvid != '') {
+                    UIkit.modal('#video-promo').show();
+                }
+            },
             init(){
                 <?= json_encode($courses) ?>.forEach(element => {
                     this.courses += `   <li>
 
-                                            <a href="course-intro.html" class="uk-link-reset">
-                                                <div class="card uk-transition-toggle">
-                                                    <div class="card-media h-40">
-                                                        <div class="card-media-overly"></div>
-                                                        <img src="<?= base_url('front') ?>/assets/images/courses/img-1.jpg" alt="" class="">
-                                                        <span class="icon-play"></span>
-                                                    </div>
+                                            <div class="card uk-transition-toggle">
+                                                <div class="card-media h-40 flex items-center" @click="showModalPromo('${element.video_promo}')">
+                                                    <div class="card-media-overly"></div>
+                                                    <img src="${element.foto ? '<?= base_url('uploads/corsi') ?>/'+element.foto : '<?= base_url('front') ?>/assets/images/courses/img-1.jpg'}" alt="" class="">
+                                                    ${element.video_promo ? '<span class="icon-play"></span>' : ''}
+                                                </div>
+                                                <a href="${'<?= base_url('/corsi') ?>'+'/'+element.url}">
                                                     <div class="card-body p-4">
-                                                        <div class="font-semibold line-clamp-2" x-text="'${element.titolo}'">  </div>
+                                                        <div class="font-semibold line-clamp-2" x-text="'${element.titolo.trunc(20)}'">  </div>
                                                         <div class="flex space-x-2 items-center text-sm pt-3">
                                                             <div> 13 hours  </div>
                                                             <div> · </div>
                                                             <div> 32 lectures </div>
                                                         </div>
                                                         <div class="pt-1 flex items-center justify-between">
-                                                            <div class="text-sm font-medium"> John Michael </div>
+                                                            <div class="text-sm font-medium"> ${element.doctor_names} </div>
                                                             <div class="text-lg font-semibold"> $14.99 </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </a>
+                                                </a>
+                                            </div>
 
                                         </li>   `
                 });

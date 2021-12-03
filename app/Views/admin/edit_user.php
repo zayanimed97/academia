@@ -435,7 +435,7 @@
                     init(){
                         Promise.allSettled([
                             new Promise((resolve, reject) => setTimeout(() => {if ('<?= $user['residenza_stato'] ?>' == '106') {
-                                $('#loading').modal('show');
+                                // $('#loading').modal('show');
                                 
                                 return fetch(`<?php echo base_url()?>/getProv?country=106&selected=<?= $user['residenza_provincia'] ?>&name=residenza_provincia`, 
                                     {method: "get",  headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
@@ -444,7 +444,7 @@
 
 
                             new Promise((resolve, reject) => setTimeout(() => {if ('<?= $user['residenza_stato'] ?>' == '106' && '<?= $user['residenza_provincia'] ?>') {
-                                $('#loading').modal('show');
+                                // $('#loading').modal('show');
 
                                 return fetch(`<?php echo base_url()?>/getComm?prov=<?= $user['residenza_provincia'] ?>&selected=<?= $user['residenza_comune'] ?>&name=residenza_comune`, 
                                     {method: "get",  headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
@@ -453,7 +453,7 @@
 
                             
                             new Promise((resolve, reject) => setTimeout(() => {if ('<?= $user['nascita_stato'] ?>' == '106') {
-                                $('#loading').modal('show');
+                                // $('#loading').modal('show');
 
                                 
                                 return fetch(`<?php echo base_url()?>/getProv?country=106&selected=<?= $user['nascita_provincia'] ?>&name=nascita_provincia`, 
@@ -464,7 +464,10 @@
                             
                         ])
                         
-                        .then(() => { $('#loading').modal('hide'); })
+                        .then(() => { 
+                            // $('#loading').modal('hide'); 
+                            console.log('complete');
+                        })
                     }
                 }
                 }
