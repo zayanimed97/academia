@@ -86,6 +86,7 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
     $routes->post('createUser', 'userListController::create');
     
   //corsi
+  	$routes->add('corsi/(:any)/modulo/edit/(:any)', 'Corsi::corsi_modulo_edit/$1/$2');
 	$routes->add('corsi/(:any)/modulo/add', 'Corsi::corsi_modulo_add/$1');
 	$routes->add('corsi/(:any)/modulo', 'Corsi::corsi_modulo/$1');
 	$routes->add('corsi/edit/(:any)', 'Corsi::corsi_edit/$1');

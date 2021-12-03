@@ -390,6 +390,7 @@ $lang['update_discipline']="Modifica disciplina";
 $lang['menu_obiettivi']="Obiettivo formazioni";
 $lang['new_obiettivi']="Nuova Obiettivo";
 $lang['edit_corsi']="modifica corso";
+$lang['edit_modulo']="modifica modulo";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -427,6 +428,8 @@ $lang['modal_title_delete_professione']="Eleminare professione";
 $lang['modal_title_delete_discipline']="Eleminare discipline";
 $lang['modal_title_delete_obiettivi']="Eleminare Obiettivo formazioni";
 $lang['title_page_cours_edit']="Modifica Corso";
+$lang['title_page_cours_modulo_edit']="Modifica Modulo";
+
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
