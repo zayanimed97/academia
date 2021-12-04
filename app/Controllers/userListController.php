@@ -11,7 +11,7 @@ class userListController extends BaseController
 		$common_data=$this->common_data();
 		$data=$common_data;
 
-		$users = $users = $this->UserModel->where('id_ente', $user_data['id'])	->join('user_profile up', 'up.user_id = users.id', 'left')
+		 $users = $this->UserModel->where('id_ente', $user_data['id'])	->join('user_profile up', 'up.user_id = users.id', 'left')
 																				->join('comuni cr', 'cr.id = up.residenza_comune', 'left')
 																				->join('nazioni sr', 'sr.id = up.residenza_stato', 'left')
 																				->join('nazioni sn', 'sn.id = up.nascita_stato', 'left')
@@ -24,7 +24,7 @@ class userListController extends BaseController
         $users = $users->find();
 		
 		$data['users'] = $users;
-
+		$data['role']=$this->request->getVar('role');
 		return view('admin/list_user.php',$data);
 	}
 
@@ -42,6 +42,7 @@ class userListController extends BaseController
 		$data['user'] = $user;
 		$data['nazioni'] = $nazioni;
 		$data['id'] = $id;
+			$data['role']=$this->request->getVar('role');
 		return view('admin/edit_user', $data);
 	}
 
@@ -55,7 +56,7 @@ class userListController extends BaseController
 		$nazioni = $this->NazioniModel->where('status', 'enable')->find();
 
 		$data['nazioni'] = $nazioni;
-
+	$data['role']=$this->request->getVar('role');
 		// $user = $this->UserModel->join('user_profile up', 'up.user_id = users.id', 'left')->where('users.id', $id)->where('users.id_ente', $this->session->get('user_data')['id'])->select('users.*, up.*, users.email as user_email')->first();
 
 		return view('admin/new_user', $data);
@@ -81,7 +82,48 @@ class userListController extends BaseController
 		} else { $dataUser['password'] = md5('1234');}
 
 		$new = $this->UserModel->where('id_ente', $this->session->get('user_data')['id'])->insert($dataUser);
-
+		
+		
+		$validated = $this->validate([
+							'logo' => [
+								'uploaded[logo]',
+								'mime_in[logo,image/jpg,image/jpeg,image/gif,image/png]',
+								'max_size[logo,4096]',
+							],
+						]);
+				
+						if ($validated) { 
+							$avatar_logo = $this->request->getFile('logo');
+							 $logo_name = $avatar_logo->getRandomName();
+							
+							$avatar_logo->move(ROOTPATH.'public/uploads/users/',$logo_name);
+						
+						
+						}
+						else {$logo_name=null;
+						
+						}
+					
+		$validated = $this->validate([
+							'prima' => [
+								'uploaded[prima]',
+								'mime_in[prima,image/jpg,image/jpeg,image/gif,image/png]',
+								'max_size[prima,4096]',
+							],
+						]);
+				
+						if ($validated) { 
+							$avatar_logo = $this->request->getFile('prima');
+							 $prima_name = $avatar_logo->getRandomName();
+							
+							$avatar_logo->move(ROOTPATH.'public/uploads/users/',$prima_name);
+						
+						
+						}
+						else {$prima_name=null;
+					
+						}
+					
 		$data = [
 					'user_id' => $new,
 					'type' => 'private',
@@ -97,11 +139,20 @@ class userListController extends BaseController
 					'residenza_indirizzo' => $this->request->getVar('residenza_indirizzo'),
 					'nascita_data' => $this->request->getVar('nascita_data'),
 					'nascita_stato' => $this->request->getVar('nascita_stato'),
-					'nascita_provincia' => $this->request->getVar('nascita_provincia')
+					'nascita_provincia' => $this->request->getVar('nascita_provincia'),
+					'posizione' => $this->request->getVar('posizione'),
+					'description' => $this->request->getVar('description'),
+					'prof_albo' => $this->request->getVar('prof_albo'),
+					'qualifica' => $this->request->getVar('qualifica'),
+					
+					'logo' => $logo_name,
+					'prima' => $prima_name,
 		];
 
 		$this->UserProfileModel->insert($data);
-
+		if($this->request->getVar('cv')!==null){
+			$this->UserCvModel->insert(array('user_id',$new,'cv'=>$this->request->getVar('cv')));
+		}
 		return redirect()->to(base_url().'/admin/user_list?role='.$this->request->getVar('role'));
 	}
 

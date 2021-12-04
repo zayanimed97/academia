@@ -1,6 +1,17 @@
-<?= view('admin/common/header',array('page_title'=>lang('app.dashboard_category'))) ?>
+<?php if($role=='doctor'){
+	$page_title=lang('app.title_page_new_doctor');
+	$menu=lang('app.menu_doctors');
+	$menu_new=lang('app.new_doctor');
+}
+else{
+	$page_title=lang('app.title_page_new_participant');
+	$menu=lang('app.menu_participant');
+	$menu_new=lang('app.new_participant');
+	
+}?>
+<?= view('admin/common/header',array('page_title'=>$page_title)) ?>
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
-
+ <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
             <!-- ============================================================== -->
             <!-- Start Page Content here -->
             <!-- ============================================================== -->
@@ -17,12 +28,13 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">UBold</a></li>
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
-                                            <li class="breadcrumb-item active">Wizard</li>
+                                            <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard')?>"><?php echo lang('app.menu_dashboard')?></a></li>
+											
+											  <li class="breadcrumb-item"><a href="<?php echo base_url('admin/user_list?role='.$role)?>"><?php echo $menu?></a></li>
+                                            <li class="breadcrumb-item active"><?php echo $menu_new?></li>
                                         </ol>
                                     </div>
-                                    <h4 class="page-title">Form Wizard</h4>
+                                    <h4 class="page-title"><?= $page_title ?></h4>
                                 </div>
                             </div>
                         </div>     
@@ -33,36 +45,36 @@
                                 <div class="card">
                                     <div class="card-body">
 
-                                        <h4 class="header-title mb-3"> Basic Wizard</h4>
+                                   
 
-                                        <form method="post" action="<?= base_url() ?>/admin/createUser"  x-data="getResData()">
-                                        <input type="hidden" name="role" value="<?= $_REQUEST['role'] ?>">
+                                        <form method="post" action="<?= base_url() ?>/admin/createUser"  x-data="getResData()" enctype="multipart/form-data">
+                                        <input type="hidden" name="role" value="<?= $role ?>">
                                             <div id="basicwizard">
                                                 <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-4">
                                                     <li class="nav-item">
                                                         <a href="#basictab1" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2"> 
                                                             <i class="mdi mdi-account-circle mr-1"></i>
-                                                            <span class="d-none d-sm-inline">Account</span>
+                                                            <span class="d-none d-sm-inline"><?php echo lang('app.menu_account')?></span>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a href="#basictab2" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                                             <i class="mdi mdi-face-profile mr-1"></i>
-                                                            <span class="d-none d-sm-inline">Profile</span>
+                                                            <span class="d-none d-sm-inline"><?php echo lang('app.menu_profile')?></span>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a href="#basictab3" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
-                                                            <i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>
-                                                            <span class="d-none d-sm-inline">Nascita</span>
+                                                            <i class="mdi mdi-folder-multiple-image mr-1"></i>
+                                                            <span class="d-none d-sm-inline"><?php echo lang('app.menu_media')?></span>
                                                         </a>
                                                     </li>
-                                                    <li class="nav-item">
+                                                   <?php /* <li class="nav-item">
                                                         <a href="#basictab4" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                                             <i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>
                                                             <span class="d-none d-sm-inline">Contacts</span>
                                                         </a>
-                                                    </li>
+                                                    </li> */?>
                                                 </ul>
 
                                                 <div class="tab-content b-0 mb-0 pt-0" x-data="{password : '', confirm: ''}">
@@ -70,29 +82,38 @@
                                                         <div class="row">
                                                         <template x-if="password != confirm">
                                                             <div class="alert alert-warning bg-warning text-white border-0 col-12" role="alert">
-                                                                Password Doesn't Match
+                                                                <?php echo lang('app.error_mismatch_password')?>
                                                             </div>
                                                         </template>
                                                             <div class="col-12">
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="Email">Email</label>
+                                                                    <label class="col-md-3 col-form-label" for="Email">Email <span class="text-danger">*</span></label>
                                                                     <div class="col-md-9">
                                                                         <input type="text" class="form-control" id="Email" name="email" >
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="password"> Password </label>
+                                                                    <label class="col-md-3 col-form-label" for="password"> <?php echo lang('app.field_password')?> <span class="text-danger">*</span></label>
                                                                     <div class="col-md-9">
                                                                         <input type="password" x-model="password" id="password" name="Password" class="form-control" value="">
                                                                     </div>
                                                                 </div>
                                                                 
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="confirm">ConfirmPassword</label>
+                                                                    <label class="col-md-3 col-form-label" for="confirm"><?php echo lang('app.field_confirm_password')?></label>
                                                                     <div class="col-md-9">
                                                                         <input type="password" x-model="confirm" id="confirm" name="confirm" class="form-control" value="">
                                                                     </div>
                                                                 </div>
+																<div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="active"><?php echo lang('app.field_active_status')?></label>
+                                                                    <div class="col-md-9">
+																	
+                                                                       <input type="checkbox" name="active" id="active" value="yes" checked>
+																	  
+                                                                    </div>
+                                                                </div>
+																  
                                                             </div> <!-- end col -->
                                                         </div> <!-- end row -->
                                                     </div>
@@ -100,7 +121,7 @@
                                                         <div class="row" >
                                                             <div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="name"> nome</label>
+                                                                    <label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_first_name')?> <span class="text-danger">*</span></label>
                                                                     <div class="col-md-9">
                                                                         <input type="text" id="name" name="nome" class="form-control" >
                                                                     </div>
@@ -108,7 +129,7 @@
                                                             </div>
                                                             <div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="cognome"> cognome</label>
+                                                                    <label class="col-md-3 col-form-label" for="cognome"> <?php echo lang('app.field_last_name')?> <span class="text-danger">*</span></label>
                                                                     <div class="col-md-9">
                                                                         <input type="text" id="cognome" name="cognome" class="form-control" >
                                                                     </div>
@@ -122,7 +143,7 @@
                                                         <div class="row">
                                                             <div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="email_profile"> email</label>
+                                                                    <label class="col-md-3 col-form-label" for="email_profile"> email </label>
                                                                     <div class="col-md-9">
                                                                         <input type="text" id="email_profile" name="email_profile" class="form-control" >
                                                                     </div>
@@ -130,7 +151,7 @@
                                                             </div>
                                                             <div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="telefono"> telefono</label>
+                                                                    <label class="col-md-3 col-form-label" for="telefono"> <?php echo lang('app.field_phone')?></label>
                                                                     <div class="col-md-9">
                                                                         <input type="text" id="telefono" name="telefono" class="form-control" >
                                                                     </div>
@@ -143,14 +164,104 @@
                                                             <div class="row" >
                                                                 <div class="col-12 col-md-6">
                                                                     <div class="form-group row mb-3">
-                                                                        <label class="col-md-3 col-form-label" for="cf"> cf </label>
+                                                                        <label class="col-md-3 col-form-label" for="cf"> <?php echo lang('app.field_cf')?> </label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" id="cf" name="cf" class="form-control" >
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                    
+                                                                    <div class="col-12 col-md-6">
+                                                                    <div class="form-group row mb-3">
+                                                                        <label class="col-md-3 col-form-label" for="posizione"> <?php echo lang('app.field_ruolo')?> </label>
+                                                                        <div class="col-md-9">
+                                                                            <input type="text" id="posizione" name="posizione" class="form-control" >
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div> <!-- end row -->
+															
+															    <div class="row">
+                                                            <div class="col-12 col-md-4">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="residenza_stato"> <?php echo lang('app.field_country')?></label>
+                                                                    <div class="col-md-9">
+                                                                        <select x-model="stato" @change="handleCountry" type="text" id="residenza_stato" name="residenza_stato" class="form-control">
+                                                                            <option value="0"> <?php echo lang('app.field_select')?> </option>
+                                                                            <?php foreach($nazioni as $naz) { ?>
+                                                                                <option value="<?= $naz['id'] ?>"> <?= $naz['nazione'] ?> </option>
+                                                                            <?php } ?>
+                                                                            <!-- <option value="estero"> Estero </option> -->
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-4">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="residenza_provincia"><?php echo lang('app.field_provincia')?></label>
+                                                                    <div class="col-md-9" x-html="provincia">
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                                
+
+                                                            <!-- <div class="row"> -->
+                                                            <div class="col-12 col-md-4">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="residenza_comune"><?php echo lang('app.field_city')?></label>
+                                                                    <div class="col-md-9" x-html="comuni">
+                                                                        <!-- <input type="text" id="residenza_comune" name="residenza_comune" class="form-control" > -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-4">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="residenza_cap"> <?php echo lang('app.field_zip')?></label>
+                                                                    <div class="col-md-9">
+                                                                        <input type="text" id="residenza_cap" name="residenza_cap" class="form-control" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                                
+                                                       
+                                                            <div class="col-12 col-md-8">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-2 col-form-label" for="residenza_indirizzo"> <?php echo lang('app.field_address')?></label>
+                                                                    <div class="col-md-10">
+                                                                        <input type="text" id="residenza_indirizzo" name="residenza_indirizzo" class="form-control" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                                
+															 <div class="col-12 col-md-6">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="description"> <?php echo lang('app.field_description')?></label>
+                                                                    <div class="col-md-9">
+                                                                        <input type="text" id="description" name="description" class="form-control" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+															
+															 <div class="col-12 col-md-6">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="qualifica"> <?php echo lang('app.field_qualifica')?></label>
+                                                                    <div class="col-md-9">
+                                                                        <input type="text" id="qualifica" name="qualifica" class="form-control" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+															
+															 <div class="col-12 col-md-6">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="prof_albo"> <?php echo lang('app.field_prof_albo')?></label>
+                                                                    <div class="col-md-9">
+                                                                        <input type="text" id="prof_albo" name="prof_albo" class="form-control" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div> <!-- end row -->
+															
+															
                                                         <!-- </template> -->
 
 
@@ -202,63 +313,42 @@
                                                     </div>
 
                                                     <div class="tab-pane" id="basictab3">
-                                                        <div class="row">
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="residenza_stato"> residenza stato</label>
-                                                                    <div class="col-md-9">
-                                                                        <select x-model="stato" @change="handleCountry" type="text" id="residenza_stato" name="residenza_stato" class="form-control">
-                                                                            <option value="0"> select option </option>
-                                                                            <?php foreach($nazioni as $naz) { ?>
-                                                                                <option value="<?= $naz['id'] ?>"> <?= $naz['nazione'] ?> </option>
-                                                                            <?php } ?>
-                                                                            <!-- <option value="estero"> Estero </option> -->
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="residenza_provincia"> residenza provincia</label>
-                                                                    <div class="col-md-9" x-html="provincia">
-                                                                        
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                                
+														<div class="row">
+														<div class="col-md-6">
+														  <div class="form-group">
+															<label class="col-form-label " for="logo"><?php echo lang("app.field_image")?> </label>
+															
+																<input class="form-control" type="file" id="logo" name="logo"  />
+															
+															</div>
+														 </div>
+														 <div class="col-md-6">
+                                            <div class="form-group">
+                                               <label class="col-form-label " for="prima"><?php echo lang('app.field_signature')?></label>
+													<input class="form-control" type="file" id="prima" name="prima"  />
+                                            </div>
+                                        </div>
+													</div>
+													<div class="row">
+													 <div class="col-md-12">
+                                            <div class="form-group required-field">
+                                                <label for="acc-name"><?php echo lang('app.field_cv')?></label>
+													 <?php $val=""; 
+										$input = [
+												'rows'=>3,
+												'name'  => 'cv',
+												'id'    => 'cv',
+												'value' => $val,
+												'rows' =>6,
+												'class' => 'form-control'
+												
+										];
 
-                                                            <!-- <div class="row"> -->
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="residenza_comune"> residenza comune</label>
-                                                                    <div class="col-md-9" x-html="comuni">
-                                                                        <!-- <input type="text" id="residenza_comune" name="residenza_comune" class="form-control" > -->
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="residenza_cap"> residenza cap</label>
-                                                                    <div class="col-md-9">
-                                                                        <input type="text" id="residenza_cap" name="residenza_cap" class="form-control" >
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                                
-                                                        </div> <!-- end row -->
-                                                        <div class="row">
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="residenza_indirizzo"> residenza indirizzo</label>
-                                                                    <div class="col-md-9">
-                                                                        <input type="text" id="residenza_indirizzo" name="residenza_indirizzo" class="form-control" >
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                                
-                                                        </div> <!-- end row -->
+										echo form_textarea($input);
+										?></div></div>
+													</div>
                                                     </div>
-
+<?php /*
                                                     <div class="tab-pane" id="basictab4">
                                                             
                                                         
@@ -315,7 +405,7 @@
                                                         </div> <!-- end row -->
                                                                 
                                                     </div>
-
+*/?>
                                                     <ul class="list-inline wizard mb-0">
                                                         <!-- <li class="previous list-inline-item">
                                                             <a href="javascript: void(0);" class="btn btn-secondary">Previous</a>
@@ -374,7 +464,8 @@
 
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/flatpickr.min.js"></script>
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/form-pickers.init.js"></script>
-
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.js"></script>
+		<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/lang/summernote-it-IT.min.js"></script>
 
         <!-- Init js-->
         <script>
@@ -400,7 +491,23 @@
             //     }
             // }
             // });
-
+$('#cv').summernote({
+	   disableDragAndDrop: true,
+	    lang: "it-IT",
+		 height: 200,                 // set editor height
+		  minHeight: null,             // set minimum height of editor
+		  maxHeight: null,             // set maximum height of editor
+		  focus: true,
+	   toolbar: [
+    ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['font', ['strikethrough', 'superscript', 'subscript']],
+    ['fontsize', ['fontsize']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+	  ['insert',['link']],
+    ['height', ['height']]
+  ]
+  });
             function handleCountry(e){
                 if (e.target.value == '106') {
                     fetch(`<?php echo base_url()?>/getProv?country=${e.target.value}&name=residenza_provincia`, 

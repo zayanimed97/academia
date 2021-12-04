@@ -1,4 +1,15 @@
-<?= view('admin/common/header',array('page_title'=>lang('app.dashboard_category'))) ?>
+<?php if($role=='doctor'){
+	$page_title=lang('app.title_page_list_doctor');
+	$menu=lang('app.menu_doctors');
+	$menu_new=lang('app.new_doctor');
+}
+else{
+	$page_title=lang('app.title_page_list_participant');
+	$menu=lang('app.menu_participant');
+	$menu_new=lang('app.new_participant');
+	
+}?>
+<?= view('admin/common/header',array('page_title'=>$page_title)) ?>
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -8,9 +19,9 @@
             <!-- ============================================================== -->
 <div x-data="{data: {}}">
             <div class="content-page">
-                <div id="workaround">gsdgqgq</div>
+                <div id="workaround"></div>
                 <div class="content">
-                    <div x-text="data.id"></div>
+                    <!--div x-text="data.id"></div-->
                     <!-- Start Content-->
                     <div class="container-fluid">
                         
@@ -20,15 +31,15 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">UBold</a></li>
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                                            <li class="breadcrumb-item active">Editable</li>
+                                          <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard')?>"><?php echo lang('app.menu_dashboard')?></a></li>
+											
+											  <li class="breadcrumb-item active"><?php echo $menu?></li>
                                         </ol>
                                     </div>
                                     <div class="row align-items-center">
-                                        <h4 class="page-title"><?= lang('app.dashboard_professione') ?></h4>
-                                        <a href="/admin/new_user?role=<?= $_REQUEST['role'] ?>" class="btn btn-info btn-rounded waves-effect waves-light ml-4" style="height: fit-content;">
-                                            <span class="btn-label"><i class="mdi mdi-database-plus"></i></span><?= lang('app.new_user') ?>
+                                        <h4 class="page-title"><?= $page_title ?></h4>
+                                        <a href="<?php echo base_url('admin/new_user?role='.$role )?>" class="btn btn-info btn-rounded waves-effect waves-light ml-4" style="height: fit-content;">
+                                            <span class="btn-label"><i class="mdi mdi-database-plus"></i></span><?= $menu_new ?>
                                         </a>
                                     </div>
                                 </div>
@@ -41,16 +52,15 @@
                                 <div class="card">
                                     <div class="card-body">
         
-                                        <h5 class="mt-0"><?= lang('app.field_professione') ?></h5>
                                         <!-- <p class="sub-header">Inline edit like a spreadsheet, toolbar column with edit button only and without focus on first input.</p> -->
                                         <div class="table-responsive">
                                             <table id="basic-datatable" x-ref="dataTable" class="table dt-responsive nowrap w-100">
                                                 <thead>
                                                     <tr>
-                                                        <th>name</th>
-                                                        <th>email</th>
-                                                        <th>phone</th>
-                                                        <th>actions</th>
+                                                        <th><?php echo lang('app.field_first_name')?></th>
+                                                        <th><?php echo lang('app.field_email')?></th>
+                                                        <th><?php echo lang('app.field_phone')?></th>
+                                                        <th>&nbsp;</th>
                                                     </tr>
                                                 </thead>
                                             
@@ -59,10 +69,10 @@
                                                     <tr>
                                                         <td><?= $user['display_name'] ?></td>
                                                         <td><?= $user['email'] ?></td>
-                                                        <td><?= $user['telefono'] ?></td>
+                                                        <td><?= $user['telefono'].' | '. $user['mobile']?></td>
                                                         <td class="row pt-1">
                                                             <button type="button" onclick="workAroundClick(<?= htmlspecialchars(json_encode($user)) ?>)" class="btn p-1 mr-2" style="font-size: 1rem">
-                                                                <i class="fe-edit"></i>
+                                                                <i class="fe-user"></i>
                                                             </button>
 
                                                             <a href="<?= base_url() ?>/admin/deleteUser/<?= $user['idu'] ?>" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
