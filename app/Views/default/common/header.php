@@ -44,7 +44,7 @@
     <div id="wrapper" class="horizontal flex flex-col relative min-h-screen">
         
         <!--  Header  -->
-        <header class="is-transparent border-b backdrop-filter backdrop-blur-2xl" uk-sticky="cls-inactive: is-transparent border-b">
+        <header class="border-b backdrop-filter backdrop-blur-2xl" uk-sticky="cls-inactive: border-b">
             <div class="header_inner">
                 <div class="left-side">
     
@@ -64,7 +64,7 @@
                     <!-- menu bar for mobile -->
                     <nav class="header_menu">
                         <ul> 
-                            <li> 
+                            <!-- <li> 
                                 <a href="#"> Aule </a> 
                                 <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
@@ -94,15 +94,14 @@
                                                 </ul>
                                             </div>
                                         </li>
-                                        <!-- <li> <a href="#">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li> -->
                                     </ul>
                                 </div>
                           
-                            </li>
+                            </li> -->
 
                             <li> 
-                                <a href="#"> Online </a> 
-                                <div uk-drop="mode: click" class="menu-dropdown">
+                                <a href="<?= base_url('corsi') ?>?tipo=online"> Online </a> 
+                                <!-- <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
                                         <li> 
                                             <a href="#">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Categories </a>
@@ -130,15 +129,14 @@
                                                 </ul>
                                             </div>
                                         </li>
-                                        <!-- <li> <a href="#">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li> -->
                                     </ul>
-                                </div>
+                                </div> -->
                           
                             </li>
 
                             <li> 
-                                <a href="#"> Webinar </a> 
-                                <div uk-drop="mode: click" class="menu-dropdown">
+                                <a href="<?= base_url('corsi') ?>?tipo=webinar"> Webinar </a> 
+                                <!-- <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
                                         <li> 
                                             <a href="#">  <ion-icon name="newspaper-outline" class="is-icon"></ion-icon> Categories </a>
@@ -167,9 +165,8 @@
                                                 </ul>
                                             </div>
                                         </li>
-                                        <!-- <li> <a href="#">  <ion-icon name="briefcase-outline" class="is-icon"></ion-icon> Business </a> </li> -->
                                     </ul>
-                                </div>
+                                </div> -->
                           
                             </li>
                            <!-- <li> <a href="categories.html" class="active"> Categories </a></li>
@@ -221,6 +218,15 @@
                                     </ul>
                                 </div>
                             </li> -->
+
+
+                            <li> 
+                                <a href="<?= base_url('blog') ?>"> Blog  </a> 
+                            </li>
+
+                            <li> 
+                                <a href="#"> Contatti  </a> 
+                            </li>
                         </ul>
                     </nav>
     
