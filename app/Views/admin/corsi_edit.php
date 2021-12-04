@@ -22,7 +22,7 @@
                                         <ol class="breadcrumb m-0">
                                              <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard')?>"><?php echo lang('app.menu_dashboard')?></a></li>
 											 <li class="breadcrumb-item"><a href="<?php echo base_url('admin/corsi')?>"><?php echo lang('app.menu_corsi')?></a></li>
-											  <li class="breadcrumb-item active"><?php echo lang('app.edit_cours')?></li>
+											  <li class="breadcrumb-item active"><?php echo lang('app.edit_corsi')?></li>
                                         </ol>
                                     </div>
                                     <div class="row align-items-center">

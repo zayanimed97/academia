@@ -339,6 +339,11 @@ $lang['field_free_cours']="Corso gratuita";
 $lang['field_free_modulo']="Modulo gratuita";
 $lang['field_duration']="Durata/Ora";
 $lang['field_nb_modulo']="# Modulo";
+$lang['field_ruolo']="Ruolo";
+$lang['field_prof_albo']="Prof albo";
+$lang['field_qualifica']="Qualifica";
+$lang['field_signature']="Prima";
+$lang['field_cv']="CV";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -391,8 +396,9 @@ $lang['new_discipline']="Nuova disciplina";
 $lang['update_discipline']="Modifica disciplina";
 $lang['menu_obiettivi']="Obiettivo formazioni";
 $lang['new_obiettivi']="Nuova Obiettivo";
-$lang['edit_corsi']="modifica corso";
-$lang['edit_modulo']="modifica modulo";
+$lang['new_doctor']="Nuovo docente";
+$lang['new_participant']="Nuovo participante";
+$lang['menu_media']="Media";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -431,7 +437,10 @@ $lang['modal_title_delete_discipline']="Eleminare discipline";
 $lang['modal_title_delete_obiettivi']="Eleminare Obiettivo formazioni";
 $lang['title_page_cours_edit']="Modifica Corso";
 $lang['title_page_cours_modulo_edit']="Modifica Modulo";
-
+$lang['title_page_list_doctor']="Lista Docenti";
+$lang['title_page_list_participant']="Lista Participanti";
+$lang['title_page_new_doctor']="Nuovo docente";
+$lang['title_page_new_participant']="Nuovo Participante";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
@@ -456,6 +465,7 @@ $lang['error_modulo_test_answer_required']="i dati richiesti per la risposta a q
 $lang['error_modulo_test_answer_points']="il punteggio totale delle risposte deve essere 100!";
 $lang['error_corsi_test']="devi scegliere almeno un test e specificare il punti minimi";
 $lang['error_sdi_format']="solo 6 caratteri alfanumerici";
+$lang['error_mismatch_password']="La password non corrisponde";
 ###########success ##########################"
 $lang['success_activation_account']="Complimenti, il tuo account è ora attivo.  Per accedere al tuo profile, devi inserire la tua email e password qui sotto.”";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
