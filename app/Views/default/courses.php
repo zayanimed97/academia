@@ -243,7 +243,9 @@ label.checkbox.blue span {
                                         <div class="card-media h-40 flex items-center" @click="showModalPromo('<?= $c['video_promo'] ?>')">
                                             <div class="card-media-overly"></div>
                                             <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : base_url('front/assets/images/courses/img-4.jpg') ?>" alt="" class="">
-                                            <span class="icon-play"></span>
+                                            <?php if($c['video_promo']) {?>
+                                                <span class="icon-play"></span>
+                                            <?php } ?>
                                         </div>
                                         <a href="<?= base_url('corsi/'.$c['url']) ?>" class="uk-link-reset">
                                             <div class="card-body p-4">
@@ -257,6 +259,10 @@ label.checkbox.blue span {
                                                 <div class="pt-1 flex items-center justify-between">
                                                     <div class="text-sm font-semibold"> <?= $c['doctor_names'] ?>  </div>
                                                     <div class="text-lg font-semibold"> €<?= $c['prezzo'] ?> </div>
+                                                </div>
+                                                <div class="flex justify-between items-center mt-2">
+                                                    <a href="#" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700"> Aggiungi al carrello </a>
+                                                    <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
                                                 </div>
                                             </div>
                                         </a>
@@ -276,7 +282,9 @@ label.checkbox.blue span {
                                         <div class="flex md:space-x-6 space-x-3 md:p-5 p-2 relative">
                                             <div class="md:w-60 md:h-36 w-28 h-20 overflow-hidden rounded-lg relative shadow-sm flex items-center" @click="showModalPromo('<?= $c['video_promo'] ?>')">
                                                 <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : base_url('front/assets/images/courses/img-4.jpg') ?>" alt=""  class="rounded-lg w-full h-auto">
-                                                <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">
+                                                <?php if($c['video_promo']) {?>
+                                                    <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">
+                                                <?php } ?>
                                             </div>
                                             <div class="flex-1 md:space-y-2 space-y-1">
                                                 <a href="<?= base_url('corsi/'.$c['url']) ?>" class="md:text-xl font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?> </a>

@@ -89,4 +89,11 @@ class Home extends BaseController
     {
         echo $_SERVER['SERVER_NAME'];
     }
+
+    public function getBlog()
+    {
+        $data = $this->common_data();
+
+        return view('default/blog', $data);
+    }
 }

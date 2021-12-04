@@ -5,30 +5,33 @@
                 <div class="lg:flex items-center lg:space-x-12 lg:py-14 lg:px-20 p-3">
 
                     <div class="lg:w-4/12">
-                        <div class="w-full lg:h-52 h-40 overflow-hidden rounded-lg relative lg:mb-0 mb-4">
-                            <img src="<?= base_url('front') ?>/assets/images/courses/img-1.jpg" alt="" class="w-full h-full absolute inset-0 object-cover">
+                        <div class="w-full lg:h-52 h-40 overflow-hidden rounded-lg relative lg:mb-0 mb-4 flex items-center">
+                            <img src="<?= $corsi['foto'] ? base_url('uploads/corsi/'.$corsi['foto']) : base_url('front/assets/images/courses/img-1.jpg') ?>" alt="" class="w-full h-auto">
+                            <?php if($corsi['video_promo']) { ?>
                             <a href="#trailer-modal" class="uk-position-center" uk-toggle>
                                 <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16" alt="">
                             </a>
+                            <?php } ?>
                         </div>
                     </div>
                     <div class="lg:w-8/12">
                          
-                        <h1 class="lg:leading-10 lg:text-3xl text-white text-xl leading-8 font-bold">The Complete JavaScript For Beginners</h1>
-                        <p class="lg:w-4/5 mt-4 md:text-lg md:block hidden"> Master JavaScript with the most complete course! Projects Excellent course. we explain the core concepts in javascript 
-                        that are usually glossed over in other.. </p>
+                        <h1 class="lg:leading-10 lg:text-3xl text-white text-xl leading-8 font-bold"><?= $corsi['sotto_titolo'] ?></h1>
+                        <p class="lg:w-4/5 mt-4 md:text-lg md:block hidden"> <?= $corsi['obiettivi'] ?> </p>
         
                         <ul class="flex text-gray-300 gap-4 mt-4 mb-3">
+                            <?php foreach($doctors as $doc){ ?>
                             <li class="flex items-center">
                                 <div class="flex items-center gap-x-4 mb-5">
                                     <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-4.jpg" alt="" class="rounded-full shadow w-12 h-12">
-                                    <div>
-                                        <h4 class="-mb-1 text-base"> Stella Johnson</h4>
-                                        <span class="text-sm"> Bio </span>
-                                    </div>
+                                    <a href="#doctor<?= $doc['id'] ?>" uk-scroll>
+                                        <h4 class="-mb-1 text-base"> <?= $doc['display_name'] ?></h4>
+                                        <!-- <span class="text-sm"> Bio </span> -->
+                                    </a>
                                 </div>
                             </li>
-                            <li> 
+                            <?php } ?>
+                            <!-- <li> 
                                 <div class="flex items-center gap-x-4 mb-5">
                                     <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-4.jpg" alt="" class="rounded-full shadow w-12 h-12">
                                     <div>
@@ -36,14 +39,14 @@
                                         <span class="text-sm"> Bio </span>
                                     </div>
                                 </div> 
-                            </li>
+                            </li> -->
                         </ul>
                         <ul class="lg:flex items-center text-gray-200">
-                            <li> Participante Medico/Odontoiatra </li>
+                            <li> <?= $corsi['tipologia_corsi'] ?> </li>
                             <li> <span class="lg:block hidden mx-3 text-2xl">·</span> </li>
-                            <li> Argomenti Parodontologia  Parodontologia </li>
-                            <li> <span class="lg:block hidden mx-3 text-2xl">.</span> </li>
-                            <li> Dal 18 feb 2022 al 11 giu 2022</li>
+                            <li> <?= $corsi['categories'] ?> </li>
+                            <li> <span class="lg:block hidden mx-3 text-2xl">·</span> </li>
+                            <li> <?= $corsi['nomeargomento'] ?></li>
                         </ul>
  
                     </div>
@@ -51,7 +54,7 @@
                 </div>
             </div>
         </div>
-            <div class="container p-0">
+            <div class="container p-0" x-data="getData">
 
                 
                 <div class="lg:flex lg:space-x-4 mt-4">
@@ -60,35 +63,32 @@
                         <div class="tube-card z-20 mb-4 overflow-hidden uk-sticky" uk-sticky="cls-active:rounded-none ; media: 992 ; offset:70 ">
                             <nav class="cd-secondary-nav extanded ppercase nav-small">
                                 <ul class="space-x-3" uk-scrollspy-nav="closest: li; scroll: true">
-                                    <li><a href="#Overview" uk-scroll>Overview</a></li>
-                                    <li><a href="#curriculum" uk-scroll>Curriculum</a></li> 
-                                    <li><a href="#faq" uk-scroll>FAQ</a></li>
-                                    <li><a href="#announcement">Announcement</a></li>
-                                    <li><a href="#reviews">Reviews</a></li>
+                                    <li><a href="#Descrizione" uk-scroll>Descrizione</a></li>
+                                    <!-- <li><a href="#Contenuto" uk-scroll>Contenuto del corso</a></li>  -->
+                                    <li><a href="#Moduli" uk-scroll>Moduli</a></li>
+                                    <li><a href="#Curriculum">Curriculum Vitae </a></li>
+                                    <!-- <li><a href="#reviews">Reviews</a></li> -->
                                 </ul>
                             </nav>
                         </div>
 
 
                         <!-- course description -->
-                        <div class="tube-card p-5 lg:p-8" id="Overview">
+                        <div class="tube-card p-5 lg:p-8" id="Descrizione">
         
                             <div class="space-y-6">
+                                <?php if($corsi['descizione']){ ?>
                                 <div>
-                                    <h3 class="text-lg font-semibold mb-3"> Description </h3>
+                                    <h3 class="text-lg font-semibold mb-3"> Descizione </h3>
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                                        tincidunt ut
-                                        laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim laoreet dolore magna
-                                        aliquam erat
-                                        volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit
-                                        lobortis
-                                        nisl ut aliquip ex ea commodo consequat
+                                        <?= $corsi['descizione'] ?>
                                     </p>
                                 </div>
+                                <?php } ?>
+                                <?php if($corsi['programa']){ ?>
                                 <div>
-                                    <h3 class="text-lg font-semibold mb-1"> What You’ll Learn </h3>
-                                    <ul class="grid md:grid-cols-2">
+                                    <h3 class="text-lg font-semibold mb-1"> Programa </h3>
+                                    <!-- <ul class="grid md:grid-cols-2">
                                         <li> <i class="uil-check text-xl font-bold mr-2"></i>Setting up the environment</li>
                                         <li> <i class="uil-check text-xl font-bold mr-2"></i>Advanced HTML Practices</li>
                                         <li> <i class="uil-check text-xl font-bold mr-2"></i>Build a portfolio website</li>
@@ -96,33 +96,46 @@
                                         <li> <i class="uil-check text-xl font-bold mr-2"></i>Understand HTML Programming</li>
                                         <li> <i class="uil-check text-xl font-bold mr-2"></i>Code HTML</li>
                                         <li> <i class="uil-check text-xl font-bold mr-2"></i>Start building beautiful websites</li>
+                                    </ul> -->
+
+                                    <p><?= $corsi['programa'] ?></p>
+                                </div>
+                                <?php } ?>
+
+                                <?php if($corsi['note']){ ?>
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-1"> Note</h3>
+                                    <?= $corsi['note'] ?>
                                     </ul>
                                 </div>
+                                <?php } ?>
+
+                                <?php if($corsi['indrizzato_a']){ ?>
                                 <div>
-                                    <h3 class="text-lg font-semibold mb-1"> Requirements</h3>
-                                    <ul class="list-disc ml-5 space-y-1">
-                                        <li>Any computer will work: Windows, macOS or Linux</li>
-                                        <li>Basic programming HTML and CSS.</li>
-                                        <li>Basic/Minimal understanding of JavaScript</li>
-                                    </ul>
+                                    <h3> Indrizzato </h3>
+                                        <p><?= $corsi['indrizzato_a'] ?></p>
                                 </div>
+                                <?php } ?>
+
+                                <?php if($corsi['riferimenti']){ ?>
                                 <div>
-                                    <h3> Here is exactly what we cover in this course: </h3>
-                                        <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                                        tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
-                                        nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-                                        Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod
-                                        mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                                        sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut
-                                        wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
-                                        aliquip ex ea commodo consequat.</p>
+                                    <h3> Riferimenti </h3>
+                                        <p><?= $corsi['riferimenti'] ?></p>
                                 </div>
+                                <?php } ?>
+
+                                <?php if($corsi['avvisi']){ ?>
+                                <div>
+                                    <h3> Avvisi </h3>
+                                        <p><?= $corsi['avvisi'] ?></p>
+                                </div>
+                                <?php } ?>
                             </div>
         
                         </div>
         
                         <!-- course Curriculum -->
-                        <div id="curriculum">
+                        <!-- <div id="curriculum">
                             <h3 class="mb-4 text-xl font-semibold lg:mb-5"> Course Curriculum </h3>
                             <ul uk-accordion="multiple: true" class="tube-card p-4 divide-y space-y-3">
         
@@ -217,10 +230,10 @@
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
         
                         <!-- course Faq --> 
-                        <div class="tube-card p-5 lg:p-8" id="faq"> 
+                        <!-- <div class="tube-card p-5 lg:p-8" id="faq"> 
                             <h3 class="text-lg font-semibold mb-3 lg:mb-5"> Course Faq </h3> 
                             <ul uk-accordion="multiple: true" class="divide-y space-y-3">
                                 <li class="bg-gray-100 px-4 py-3 rounded-md uk-open">
@@ -309,39 +322,12 @@
                                 </li>
                             </ul>
         
-                        </div>
+                        </div> -->
         
                         <!-- course Announcement -->
-                        <div id="announcement" class="tube-card p-5 lg:p-8">
-                            <h3 class="text-xl font-semibold lg:mb-5"> Announcement </h3> 
-                            <div class="flex items-center gap-x-4 mb-5">
-                                <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-4.jpg" alt="" class="rounded-full shadow w-12 h-12">
-                                <div>
-                                    <h4 class="-mb-1 text-base"> Stella Johnson</h4>
-                                    <span class="text-sm"> Instructor <span class="text-gray-500"> 1 year ago </span> </span>
-                                </div>
-                            </div>
-            
-                            <h4 class="font-medium mb-2 text-lg"> Nam liber tempor cum soluta nobis eleifend option congue imperdiet
-                                doming id quod mazim placerat facer possim assum.</h4>
-                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                                voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                                non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                                tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
-                                nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Nam
-                                liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim
-                                placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-                                nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
-                                minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
-                                commodo consequat.</p>
-        
-                        </div>
                         
                         <!-- course Reviews -->
-                        <div id="reviews" class="tube-card p-5 lg:p-8">
+                        <!-- <div id="reviews" class="tube-card p-5 lg:p-8">
                             <h3 class="text-xl font-semibold lg:mb-5"> Reviews (4610) </h3> 
                             <div class="flex space-x-5 mb-8">
                                 <div class="lg:w-1/4 w-full">
@@ -549,8 +535,8 @@
                                 <a href="#" class="bg-gray-50 border hover:bg-gray-100 px-4 py-1.5 rounded-full text-sm">More Comments ..</a>
                             </div>
         
-                        </div>
-                        <div class="tube-card p-5 lg:p-8">
+                        </div> -->
+                        <!-- <div class="tube-card p-5 lg:p-8">
                             <h3 class="text-xl font-semibold lg:mb-5"> Corso Complete </h3>
                             <div class="uk-transition-toggle md:flex">
                                 <div class="md:w-5/12 md:h-60 h-40 overflow-hidden rounded-l-lg relative">
@@ -571,49 +557,75 @@
                                     </div>
                                 </div> 
                             </div>
-                        </div>
-                        <div class="tube-card p-5 lg:p-8">
+                        </div> -->
+                        <div class="tube-card p-5 lg:p-8" id="Moduli">
                             <h3 class="text-xl font-semibold lg:mb-5"> Moduli </h3>
-                            <div class="bg-white shadow-sm rounded-lg uk-transition-toggle md:flex">
-                                <div class="md:w-5/12 md:h-60 h-40 overflow-hidden rounded-l-lg relative">
-                                    <img src="<?= base_url('front') ?>/assets/images/courses/img-6.jpg" alt="" class="w-full h-full absolute inset-0 object-cover">
+                            <?php foreach($module as $mod){ ?>
+                            <div class="bg-white shadow-sm rounded-lg uk-transition-toggle md:flex mb-2">
+                                <div class="md:w-5/12 md:h-60 h-40 overflow-hidden rounded-l-lg relative" @click="videoPromo('<?= $mod['video_promo'] ?>', '<?= $mod['sotto_titolo'] ?>')">
+                                    <img src="<?= $mod['foto'] ? base_url('uploads/corsi/'.$mod['foto']) : base_url('front/assets/images/courses/img-2.jpg') ?>" alt="" class="w-full h-full absolute inset-0 object-cover">
+                                    <?php if($mod['video_promo']) {?>
                                     <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="">
+                                    <?php } ?>
                                 </div>
                                 <div class="flex-1 md:p-6 p-4">
-                                    <div class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed">Learn How to Build Responsive Web Design Essentials HTML5 CSS3 and Bootstrap </div>
-                                    <div class="line-clamp-2 mt-2 md:block hidden">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</div>
-                                    <div class="font-semibold mt-3"> John Michael </div>
+                                    <div class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed"><?= $mod['sotto_titolo'] ?> </div>
+                                    <!-- <div class="line-clamp-2 mt-2 md:block hidden">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</div> -->
+                                    <div class="font-semibold mt-3"> <?= $mod['display_name'] ?> </div>
                                     <div class="mt-1 flex items-center justify-between">
                                         <div class="flex space-x-2 items-center text-sm pt-2">
-                                            <div> 13 hours </div>
+                                            <div> <?= $mod['tipologia'] ?: $corsi['tipologia_corsi'] ?> </div>
                                             <div>·</div>
-                                            <div> 32 lectures </div>
-                                        </div>
-                                        <div class="text-lg font-semibold"> $14.99 </div>
-                                    </div>
-                                </div> 
-                            </div>
-                            <div class="bg-white shadow-sm rounded-lg uk-transition-toggle md:flex">
-                                <div class="md:w-5/12 md:h-60 h-40 overflow-hidden rounded-l-lg relative">
-                                    <img src="<?= base_url('front') ?>/assets/images/courses/img-6.jpg" alt="" class="w-full h-full absolute inset-0 object-cover">
-                                    <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="">
-                                </div>
-                                <div class="flex-1 md:p-6 p-4">
-                                    <div class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed">Learn How to Build Responsive Web Design Essentials HTML5 CSS3 and Bootstrap </div>
-                                    <div class="line-clamp-2 mt-2 md:block hidden">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</div>
-                                    <div class="font-semibold mt-3"> John Michael </div>
-                                    <div class="mt-1 flex items-center justify-between">
-                                        <div class="flex space-x-2 items-center text-sm pt-2">
-                                            <div> 13 hours </div>
+                                            <div> <?= $corsi['categories'] ?> </div>
                                             <div>·</div>
-                                            <div> 32 lectures </div>
+                                            <div> <?= $mod['duration'] ?: 'indefinite' ?> </div>
+                                            <div>·</div>
+                                            <div> <?= $mod['nb_person_aula'] ?: 'not applicable' ?> </div>
                                         </div>
-                                        <div class="text-lg font-semibold"> $14.99 </div>
+                                        
                                     </div>
+                                    <?php if($mod['prezzo']){ ?>
+                                        <div class="text-lg font-semibold w-full text-right mt-4"> <?= $mod['prezzo'] ?>,00 € </div>
+                                    <?php } ?>
                                 </div> 
+                                
                             </div>
+                            <?php } ?>
+                        
                         </div>
 
+
+                        <div id="Curriculum" class="tube-card p-5 lg:p-8">
+                            <h3 class="text-xl font-semibold lg:mb-5"> Doctors CV </h3>
+                            <?php foreach($doctors as $doc){ ?>
+
+                            <div class="flex items-center gap-x-4 mb-5" id="doctor<?= $doc['id'] ?>">
+                                <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-4.jpg" alt="" class="rounded-full shadow w-12 h-12">
+                                <div>
+                                    <h4 class="-mb-1 text-base"> <?= $doc['display_name'] ?></h4>
+                                    <span class="text-sm"> Instructor </span>
+                                </div>
+                            </div>
+                            <div class="mb-8">
+                                <h4 class="font-medium mb-2 text-lg"> Nam liber tempor cum soluta nobis eleifend option congue imperdiet
+                                    doming id quod mazim placerat facer possim assum.</h4>
+                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                                    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
+                                    tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
+                                    nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Nam
+                                    liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim
+                                    placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+                                    nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
+                                    minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
+                                    commodo consequat.</p>
+                            </div>
+                            <?php } ?>
+        
+                        </div>
 
                     </div>
                     <div class="lg:w-4/12 space-y-4">
@@ -624,37 +636,40 @@
                                 <div class="grid grid-cols-2 gap-4">
                                    
                                     <div class="flex flex-col space-y-2">
-                                        <div class="text-3xl font-semibold"> 99,00 €</div>
+                                        <div class="text-3xl font-semibold"> <?= $corsi['prezzo'] ?>,00 €</div>
                                         <div> Students </div>
                                         <ion-icon name="people-circle" class="text-lg" hidden></ion-icon>
                                     </div>
-                                    <div class="mt-4">
+                                    <!-- <div class="mt-4">
                                         <a href="#" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> Locandina </a>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <hr class="-mx-5 border-gray-200 my-4">
                                 <h4 hidden> COURSE INCLUDES</h4>
         
                                 <div class="-m-5 divide-y divide-gray-200 text-sm">
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon> 13 hours on-demand video </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> Full lifetime access </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> 42 downloadable resources </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon>Assignments </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon>Certificate of Completion </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon>Tipo di corso: <?= $corsi['tipologia_corsi'] ?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['ECM'] ?? '0' ?> Credits </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['duration'] ?? '0min' ?> Totali </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['nb_person_aula'] ?? '0' ?> Participants </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> Moduli </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> Attestato di partecipazione: <?= $corsi['attestato'] ?> </div>
                                 </div>
                                 
                             </div>
                             <div class="mt-4">
                                 <a href="#" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> Enroll Now </a>
                             </div>
-                            <div class="mt-4">
-                                <a href="#" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> Scarica Locandina </a>
-                            </div>
+                            <?php if($corsi['pdf']){ ?>
+                                <div class="mt-4">
+                                    <a href="<?= base_url('uploads/corsiPDF/'.$corsi['pdf']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> Download PDF </a>
+                                </div>
+                            <?php } ?>
                         </div>
                         
                     
 
-                        <div class="tube-card p-5"> 
+                        <!-- <div class="tube-card p-5"> 
                             <div class="flex items-start justify-between">
                                 <div>
                                     <h4 class="text-lg -mb-0.5 font-semibold"> Related  Courses </h4>
@@ -690,11 +705,34 @@
                             <a href="#" class="hover:bg-gray-100 -mb-1.5 mt-0.5 h-8 flex items-center justify-center rounded-md text-blue-400 text-sm"> 
                                 See all 
                             </a>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>
+                <div id="video-promo" uk-modal>
+                <div class="uk-modal-dialog shadow-lg rounded-md">
+                    <button class="uk-modal-close-default m-2.5" type="button" uk-close></button>
+                    <div class="uk-modal-header  rounded-t-md">
+                        <h4 class="text-lg font-semibold mb-2" x-text="moduloNamePromo + ' Video Promo'">  </h4>
+                    </div>
+                
+                    <div class="embed-video">
+                        <iframe :src="video_url" class="w-full"
+                        uk-video="automute: true" frameborder="0" allowfullscreen uk-responsive></iframe>
+                    </div>
 
+
+                    <div class="uk-modal-body">
+                        <!-- <h3 class="text-lg font-semibold mb-2">Build Responsive Websites </h3>
+                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                            dolore
+                            eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                            proident,
+                            sunt
+                            in culpa qui officia deserunt mollit anim id est laborum.</p> -->
+                    </div>
+                </div>
+            </div>
             </div>
 
     <!-- video demo model -->
@@ -706,7 +744,7 @@
             </div>
           
             <div class="embed-video">
-                <iframe src="https://www.youtube.com/embed/nOCXXHGMezU" class="w-full"
+                <iframe src="<?= $corsi['video_promo'] ?>" class="w-full"
                 uk-video="automute: true" frameborder="0" allowfullscreen uk-responsive></iframe>
             </div>
 
@@ -722,4 +760,22 @@
             </div>
         </div>
     </div>
+
+<script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
+<script>
+    function getData() {
+        return {
+            video_url: '',
+            moduloNamePromo: '',
+
+            videoPromo(v, name){
+                this.moduloNamePromo = name
+                this.video_url = v
+                if (v && v != '') {
+                    UIkit.modal('#video-promo').show();
+                }
+            }
+        }
+    }
+</script>
     <?= view('default/common/footer') ?>
