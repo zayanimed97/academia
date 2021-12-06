@@ -620,7 +620,11 @@
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="name3"><?php echo lang('app.field_buy_type')?></label>
                                                                     <div class="col-md-9">
-                                                                
+                                                                <div class="radio form-check-inline" id="div_buy_type_date" <?php if($inf_corsi['tipologia_corsi']=='online'){?>style="display:none"<?php } ?>>
+																			<input type="radio" name="buy_type" id="buy_type_date" value="date"  <?php if($inf_corsi['buy_type']=='date') echo 'checked'?> >
+																			<label for="buy_type_date"> <?php echo lang('app.field_buy_type_date')?> </label>
+																		
+																		</div>
                                                                         <div class="radio form-check-inline">
 																			<input type="radio" name="buy_type" id="buy_type_modulo" value="module" <?php if($inf_corsi['buy_type']=='module') echo 'checked'?>  >
 																			<label for="buy_type_modulo"> <?php echo lang('app.field_buy_type_modulo')?> </label>
@@ -1673,14 +1677,17 @@ $("input[name='buy_type']").change(function(){
 	function type_cours(v){
 		var crediti=$("#crediti").val();
 		$("#div_vimeo").hide(0);
+		$("#div_buy_type_date").hide(0);
 		if(v=='aula' || v=='webinar'){
 			$("#div_inscrizione_aula").show(0);
 			$("#div_nb_person_aula").show(0);
+			$("#div_buy_type_date").show(0);
 			
 		}
 		else{
 			$("#div_inscrizione_aula").hide(0);
 			$("#div_nb_person_aula").hide(0);
+			$("#div_buy_type_date").hide(0);
 		}
 	}
 	function check_def_price(){

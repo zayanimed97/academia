@@ -82,6 +82,7 @@
 													   <option value=""><?php echo lang('app.field_select')?></option>
 														<option value="cours" <?php if(isset($search_form) && $search_form['buy_type']=='cours') echo 'selected'?>><?php echo lang('app.field_buy_type_cours')?></option>
 														<option value="module" <?php if(isset($search_form) && $search_form['buy_type']=='module') echo 'selected'?>><?php echo lang('app.field_buy_type_modulo')?></option>
+													<option value="date" <?php if(isset($search_form) && $search_form['buy_type']=='date') echo 'selected'?>><?php echo lang('app.field_buy_type_date')?></option>
 													
 													</select>
                                             </div>

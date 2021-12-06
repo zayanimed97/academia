@@ -345,6 +345,7 @@ $lang['field_qualifica']="Qualifica";
 $lang['field_signature']="Prima";
 $lang['field_cv']="CV";
 $lang['field_cv_title']="CV titolo";
+$lang['field_buy_type_date']="per data";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -504,6 +505,6 @@ $lang['no']="No";
 $lang['help_min_points']="% minima per superare con successo il test";
 $lang['help_min_modulo']="minima modulo  per superare con successo il corsi";
 $lang['help_tabprice_is_free_cours']="scegli tu che il corso sia gratuito, quindi non puoi impostare i prezzi del modulo";
-
+$lang['help_tabprice_buy_type_date']="selezioni il tipo di acquisto per data, quindi imposta gli stessi dati sul prezzo per ogni data";
 return $lang;
 ?>

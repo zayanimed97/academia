@@ -47,7 +47,7 @@
 		<li><b><?php echo lang('app.field_doctors')?>: </b><?php echo $inf_corsi['list_doctors']?></li>
 		<?php if($inf_corsi['free']=='yes'){?><li><b><?php echo lang('app.field_free_cours')?>: </b><?php echo lang('app.yes')?></li>
 		<?php } else{?>
-		<li><b><?php echo lang('app.field_buy_type')?>: </b><?php if($inf_corsi['buy_type']=='cours') echo lang('app.field_buy_type_cours'); else echo lang('app.field_buy_type_modulo')?></li>
+		<li><b><?php echo lang('app.field_buy_type')?>: </b><?php if($inf_corsi['buy_type']=='cours') echo lang('app.field_buy_type_cours'); elseif($inf_corsi['buy_type']=='module')  echo lang('app.field_buy_type_modulo'); else echo lang('app.field_buy_type_date');?></li>
 		<?php } ?>
 	</ul>
   </p>

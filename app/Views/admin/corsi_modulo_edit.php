@@ -508,8 +508,10 @@
 												
                                                 <div class="tab-pane fade" id="tab_price">
                                                     <div id="profileForm" >
-														   
-													<?php if($inf_corsi['buy_type']=='module' && $inf_corsi['free']=='no'){?>	 
+													<?php if($inf_corsi['buy_type']=='date' ){?>
+															<div class="alert alert-info"><?php echo lang('app.help_tabprice_buy_type_date')?></div>
+														<?php } ?>			   
+													<?php if($inf_corsi['buy_type']!='cours' && $inf_corsi['free']=='no'){?>	 
 													 <div class="row">
 															
 															 <div class="col-12">
