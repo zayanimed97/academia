@@ -344,6 +344,7 @@ $lang['field_prof_albo']="Prof albo";
 $lang['field_qualifica']="Qualifica";
 $lang['field_signature']="Prima";
 $lang['field_cv']="CV";
+$lang['field_cv_title']="CV titolo";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -399,6 +400,8 @@ $lang['new_obiettivi']="Nuova Obiettivo";
 $lang['new_doctor']="Nuovo docente";
 $lang['new_participant']="Nuovo participante";
 $lang['menu_media']="Media";
+$lang['edit_doctor']="Modifica docente";
+$lang['edit_participant']="Modifica participante";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -441,6 +444,9 @@ $lang['title_page_list_doctor']="Lista Docenti";
 $lang['title_page_list_participant']="Lista Participanti";
 $lang['title_page_new_doctor']="Nuovo docente";
 $lang['title_page_new_participant']="Nuovo Participante";
+$lang['title_modal_user_profile']="Profilo";
+$lang['title_page_edit_doctor']="Modifica docente";
+$lang['title_page_edit_participant']="Modifica Participante";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";

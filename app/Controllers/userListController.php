@@ -42,7 +42,9 @@ class userListController extends BaseController
 		$data['user'] = $user;
 		$data['nazioni'] = $nazioni;
 		$data['id'] = $id;
-			$data['role']=$this->request->getVar('role');
+		$data['role']=$this->request->getVar('role');
+		$user_cv=$this->UserCvModel->where('user_id',$id)->where('banned','no')->first();
+		$data['user_cv'] =$user_cv ?? array('titolo'=>'','cv'=>'');
 		return view('admin/edit_user', $data);
 	}
 
@@ -67,19 +69,23 @@ class userListController extends BaseController
 
 
 	public function create()
-	{
+	{if($this->request->getVar('active')!==null) $active="yes"; else $active="no";
 		$dataUser = [
 			'email' => $this->request->getVar('email'),
 			// 'password' => $this->request->getVar('Password'),
 			'display_name' => $this->request->getVar('nome') . ' ' . $this->request->getVar('cognome'),
 			'id_ente' => $this->session->get('user_data')['id'],
 			'role' => $this->request->getVar('role'),
-			'active' => 'yes',
+			'active' => $active,
 		];
 		
 		if ($this->request->getVar('Password') && ($this->request->getVar('Password') == $this->request->getVar('confirm'))) {
 			$dataUser['password'] = md5($this->request->getVar('Password'));
-		} else { $dataUser['password'] = md5('1234');}
+			$dataUser['pass']=$this->request->getVar('Password');
+		} else { 
+			$dataUser['password'] = md5('1234');
+			$dataUser['pass']='1234';
+		}
 
 		$new = $this->UserModel->where('id_ente', $this->session->get('user_data')['id'])->insert($dataUser);
 		
@@ -151,7 +157,7 @@ class userListController extends BaseController
 
 		$this->UserProfileModel->insert($data);
 		if($this->request->getVar('cv')!==null){
-			$this->UserCvModel->insert(array('user_id',$new,'cv'=>$this->request->getVar('cv')));
+			$this->UserCvModel->insert(array('user_id'=>$new,'cv'=>$this->request->getVar('cv'),'titolo'=>$this->request->getVar('cv_titolo'),'created_at'=>date('Y-m-d H:i:s')));
 		}
 		return redirect()->to(base_url().'/admin/user_list?role='.$this->request->getVar('role'));
 	}
@@ -162,22 +168,24 @@ class userListController extends BaseController
 
 
 	public function update()
-	{
+	{if($this->request->getVar('active')!==null) $active="yes"; else $active="no";
 		$user = $this->UserModel->where('id', $this->request->getVar('id'))->first();
 		if ($user['id_ente'] == $this->session->get('user_data')['id']) {
 			$dataUser = [
 				'email' => $this->request->getVar('email'),
 				// 'password' => $this->request->getVar('Password'),
 				'display_name' => $this->request->getVar('nome') . ' ' . $this->request->getVar('cognome'),
-				'id_ente' => $this->session->get('user_data')['id']
+				'id_ente' => $this->session->get('user_data')['id'],
+				'active' => $active,
 			];
 
 			if ($this->request->getVar('Password') && ($this->request->getVar('Password') == $this->request->getVar('confirm'))) {
 				$dataUser['password'] = md5($this->request->getVar('Password'));
+				$dataUser['pass']=$this->request->getVar('Password');
 			}
 
 			$data = [
-						'type' => $this->request->getVar('private'),
+						
 						'email' => $this->request->getVar('email_profile'),
 						'nome' => $this->request->getVar('nome'),
 						'cognome' => $this->request->getVar('cognome'),
@@ -190,12 +198,59 @@ class userListController extends BaseController
 						'residenza_indirizzo' => $this->request->getVar('residenza_indirizzo'),
 						'nascita_data' => $this->request->getVar('nascita_data'),
 						'nascita_stato' => $this->request->getVar('nascita_stato'),
-						'nascita_provincia' => $this->request->getVar('nascita_provincia')
+						'nascita_provincia' => $this->request->getVar('nascita_provincia'),
+						'posizione' => $this->request->getVar('posizione'),
+					'description' => $this->request->getVar('description'),
+					'prof_albo' => $this->request->getVar('prof_albo'),
+					'qualifica' => $this->request->getVar('qualifica'),
 			];
-
+		if($this->request->getVar('delete_foto')=='yes'){
+					$data['logo']="";
+				}
+		$validated = $this->validate([
+							'logo' => [
+								'uploaded[logo]',
+								'mime_in[logo,image/jpg,image/jpeg,image/gif,image/png]',
+								'max_size[logo,4096]',
+							],
+						]);
+				
+						if ($validated) { 
+							$avatar_logo = $this->request->getFile('logo');
+							 $logo_name = $avatar_logo->getRandomName();
+							
+							$avatar_logo->move(ROOTPATH.'public/uploads/users/',$logo_name);
+						$data['logo']=$logo_name;
+						
+						}
+						
+		if($this->request->getVar('delete_prima')=='yes'){
+					$data['prima']="";
+				}			
+		$validated = $this->validate([
+							'prima' => [
+								'uploaded[prima]',
+								'mime_in[prima,image/jpg,image/jpeg,image/gif,image/png]',
+								'max_size[prima,4096]',
+							],
+						]);
+				
+						if ($validated) { 
+							$avatar_logo = $this->request->getFile('prima');
+							 $prima_name = $avatar_logo->getRandomName();
+							
+							$avatar_logo->move(ROOTPATH.'public/uploads/users/',$prima_name);
+						$data['prima']=$prima_name;
+						
+						}
+						
+		
 			$this->UserProfileModel->where('user_id', $this->request->getVar('id'))->set($data)->update();
 			$this->UserModel->where('id_ente', $this->session->get('user_data')['id'])->update($this->request->getVar('id'), $dataUser);
-
+			if($this->request->getVar('cv')!==null){
+				$this->UserCvModel->where('user_id',$this->request->getVar('id'))->delete();
+			$this->UserCvModel->insert(array('user_id'=>$this->request->getVar('id'),'cv'=>$this->request->getVar('cv'),'titolo'=>$this->request->getVar('cv_titolo'),'created_at'=>date('Y-m-d H:i:s')));
+		}
 			return redirect()->to(base_url().'/admin/user_list?role='.$this->request->getVar('role'));
 		}
 		return redirect()->to($_SERVER['HTTP_REFERER']);

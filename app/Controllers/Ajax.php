@@ -443,4 +443,85 @@ class Ajax extends BaseController
 		</div>
 		<?php 
 	}
+	
+	public function valid_user(){
+		$common_data=$this->common_data();
+		$val = $this->validate([
+				
+				'email' => ['label' => lang('app.field_email'), 'rules' => 'trim|required|valid_email'],	
+				'Password' => ['label' => lang('app.field_password'), 'rules' => 'trim|required'],
+				'confirm' => ['label' => lang('app.field_confirm_password'), 'rules' => 'trim|required|matches[Password]'],	
+				
+		]);
+		
+		if (!$val)
+		{
+			
+				$validation=$this->validator;
+				$error_msg=$validation->listErrors();
+				$res=array("error"=>true,"validation"=>$error_msg,"tabs_error"=>"basictab1");
+		}
+		
+		else{
+			$val = $this->validate([
+				
+				'nome' => ['label' => lang('app.field_first_name'), 'rules' => 'trim|required'],	
+				'cognome' => ['label' => lang('app.field_last_name'), 'rules' => 'trim|required'],
+			]);
+			if (!$val)
+			{
+				
+					$validation=$this->validator;
+					$error_msg=$validation->listErrors();
+					$res=array("error"=>true,"validation"=>$error_msg,"tabs_error"=>"basictab2");
+			}
+			
+			else{
+				$res=array("error"=>false);
+			}
+		}
+		echo json_encode($res,true);
+	}
+	
+		public function valid_user_update(){
+		$common_data=$this->common_data();
+		$val = $this->validate([
+				
+				'email' => ['label' => lang('app.field_email'), 'rules' => 'trim|required|valid_email'],
+]);
+if($this->request->getVar('Password')!=""){	
+	$val = $this->validate([			
+				'Password' => ['label' => lang('app.field_password'), 'rules' => 'trim|required'],
+				'confirm' => ['label' => lang('app.field_confirm_password'), 'rules' => 'trim|required|matches[Password]'],	
+				
+		]);
+}	
+		if (!$val)
+		{
+			
+				$validation=$this->validator;
+				$error_msg=$validation->listErrors();
+				$res=array("error"=>true,"validation"=>$error_msg,"tabs_error"=>"basictab1");
+		}
+		
+		else{
+			$val = $this->validate([
+				
+				'nome' => ['label' => lang('app.field_first_name'), 'rules' => 'trim|required'],	
+				'cognome' => ['label' => lang('app.field_last_name'), 'rules' => 'trim|required'],
+			]);
+			if (!$val)
+			{
+				
+					$validation=$this->validator;
+					$error_msg=$validation->listErrors();
+					$res=array("error"=>true,"validation"=>$error_msg,"tabs_error"=>"basictab2");
+			}
+			
+			else{
+				$res=array("error"=>false);
+			}
+		}
+		echo json_encode($res,true);
+	}
 }//end class
