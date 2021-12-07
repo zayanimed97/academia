@@ -19,6 +19,15 @@ class SettingModel extends Model
 		return $res;
 	}
 
+public function getByMetaKeyEnte($id_ente,$meta_key){
+		$res=array();
+		
+		 $all=$this->where('id_ente',$id_ente)->where('meta_key',$meta_key)->findAll();
+		foreach($all as $k=>$v){
+			$res[$v['meta_key']]=$v['meta_value'];
+		}
+		return $res;
+	}
 		public function updateByMetaKey($meta_key,$meta_value,$id_ente=null){
 			$db = \Config\Database::connect();
 			 $req="update ".$this->table." set meta_value='".$db->escapeString($meta_value)."' where meta_key='".$meta_key."'";

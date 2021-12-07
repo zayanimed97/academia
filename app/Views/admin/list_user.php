@@ -57,9 +57,12 @@ else{
                                             <table id="basic-datatable" x-ref="dataTable" class="table dt-responsive nowrap w-100">
                                                 <thead>
                                                     <tr>
+														<th>ID</th>
                                                         <th><?php echo lang('app.field_first_name')?></th>
                                                         <th><?php echo lang('app.field_email')?></th>
                                                         <th><?php echo lang('app.field_phone')?></th>
+														 <th><?php echo lang('app.field_cf')?></th>
+														  <th><?php echo lang('app.field_active_status')?></th>
                                                         <th>&nbsp;</th>
                                                     </tr>
                                                 </thead>
@@ -67,9 +70,12 @@ else{
                                                 <tbody>
                                                     <?php foreach($users as $user) { ?>
                                                     <tr>
+														 <td><?= $user['id'] ?></td>
                                                         <td><?= $user['display_name'] ?></td>
-                                                        <td><?= $user['email'] ?></td>
-                                                        <td><?= $user['telefono'].' | '. $user['mobile']?></td>
+                                                        <td><?= $user['user_email'] ?></td>
+                                                        <td><?= $user['telefono']; /*.' | '. $user['mobile']*/?></td>
+														  <td><?= $user['cf'] ?></td>
+														   <td><?php if($user['active']=='yes') echo lang('app.yes'); else echo lang('app.no'); ?></td>
                                                         <td class="row pt-1">
                                                             <button type="button" onclick="workAroundClick(<?= htmlspecialchars(json_encode($user)) ?>)" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-user"></i>
@@ -115,21 +121,21 @@ else{
                 <div class="modal-dialog  modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="standard-modalLabel"> User Info </h4>
+                            <h4 class="modal-title" id="standard-modalLabel"> <?php echo lang('app.title_modal_user_profile')?></h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1"> First Name :</label>
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_first_name')?> :</label>
                                     <p x-text="data.nome"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
 
                                 <div class="col-md-6">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1">Last Name :</label>
+                                    <label class="mt-2 mb-1"><?php echo lang('app.field_last_name')?> :</label>
                                     <p x-text="data.cognome"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
@@ -139,14 +145,14 @@ else{
                             <div class="row">
                                 <div class="col-md-6">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1"> email :</label>
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_email')?> :</label>
                                     <p x-text="data.email"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
 
                                 <div class="col-md-6">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1">telefono :</label>
+                                    <label class="mt-2 mb-1"><?php echo lang('app.field_phone')?> :</label>
                                     <p x-text="data.telefono"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
@@ -155,30 +161,37 @@ else{
                             <div class="row">
                                 <div class="col-md-6">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1"> cf :</label>
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_cf')?> :</label>
                                     <p x-text="data.cf"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
-
-                                <div class="col-md-6">
+								<div class="col-md-6">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1"> residenza stato :</label>
-                                    <p x-text="data.residenza_stato_name ?? data.residenza_stato"></p>
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_ruolo')?> :</label>
+                                    <p x-text="data.posizione"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
+								
+                              
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+							  <div class="col-md-4">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1"> residenza provincia :</label>
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_country')?> :</label>
+                                    <p x-text="data.residenza_stato_name ?? data.residenza_stato"></p>
+                                    <!-- end assignee -->
+                                </div> <!-- end col -->
+                                <div class="col-md-4">
+                                    <!-- assignee -->
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_provincia')?> :</label>
                                     <p x-text="data.residenza_provincia_name ?? data.residenza_provincia"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1"> residenza commune :</label>
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_city')?> :</label>
                                     <p x-text="data.residenza_comune_name ?? data.residenza_comune"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
@@ -187,49 +200,40 @@ else{
                             <div class="row">
                                 <div class="col-md-6">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1"> residenza cap :</label>
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_zip')?>:</label>
                                     <p x-text="data.residenza_cap"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
 
                                 <div class="col-md-6">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1">residenza indirizzo :</label>
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_address')?>:</label>
                                     <p x-text="data.residenza_indirizzo"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
                             </div>
-
-                            <div class="row">
-                                
-                                <div class="col-md-6">
+							  <div class="row">
+							   <div class="col-md-6">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1"> nascita provincia :</label>
-                                    <p x-text="data.nascita_provincia_name ?? data.nascita_provincia"></p>
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_description')?>:</label>
+                                    <p x-text="data.description"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
-
-
-                                <div class="col-md-6">
+								 <div class="col-md-6">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1">nascita stato :</label>
-                                    <p x-text="data.nascita_stato_name ?? data.nascita_stato"></p>
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_qualifica')?>:</label>
+                                    <p x-text="data.qualifica"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
-                            </div>
-
-                            <div class="row">
-                                
-
-                                <div class="col-md-6">
+								 <div class="col-md-6">
                                     <!-- assignee -->
-                                    <label class="mt-2 mb-1"> nascita data :</label>
-                                    <p x-text="data.nascita_data"></p>
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_prof_albo')?>:</label>
+                                    <p x-text="data.prof_albo"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
-
-
-                            </div>
+							  
+							  </div>
+                          
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->

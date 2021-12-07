@@ -33,7 +33,7 @@ use App\Models\CorsiModuloTestModel;
 use App\Models\CorsiModuloTestQuestionsModel;
 use App\Models\CorsiModuloTestResponsesModel;
 use App\Models\testModuloModel;
-
+use App\Models\EnteMethodPaymentModel;
 /**
  * Class BaseController
  *
@@ -113,6 +113,7 @@ class BaseController extends Controller
 		$this->CorsiModuloTestQuestionsModel =  new CorsiModuloTestQuestionsModel();
 		$this->CorsiModuloTestResponsesModel =  new CorsiModuloTestResponsesModel();
 		$this->TestModuloModel=new testModuloModel();
+		$this->EnteMethodPaymentModel=new EnteMethodPaymentModel();
 	}
 	
 	public function common_data(){
@@ -134,7 +135,7 @@ class BaseController extends Controller
 		else $selected_ente['id']=null;
 		$settings=$this->SettingModel->getByMetaKey($selected_ente['id']);
 		$common_data['settings']=$settings;
-		
+		//var_dump($common_data['settings']);
 		$user_loginas=$this->session->get('user_loginas');	
 		if(!empty($user_loginas)) $common_data['user_loginas']=$user_loginas;
 		// query to extract idEnte from server name 

@@ -44,10 +44,10 @@ else{
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-
+										<div class="alert alert-danger" id="error_alert" style="display:none"></div>
                                    
 
-                                        <form method="post" action="<?= base_url() ?>/admin/createUser"  x-data="getResData()" enctype="multipart/form-data">
+                                        <form method="post" id="add_user_form" action="<?= base_url() ?>/admin/createUser"  x-data="getResData()" enctype="multipart/form-data" >
                                         <input type="hidden" name="role" value="<?= $role ?>">
                                             <div id="basicwizard">
                                                 <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-4">
@@ -329,7 +329,16 @@ else{
                                             </div>
                                         </div>
 													</div>
+													<?php if($role=='doctor'){?>
 													<div class="row">
+													    <div class="col-12 col-md-12">
+															<div class="form-group row mb-3">
+																<label class="col-md-3 col-form-label" for="cv_titolo"><?php echo lang('app.field_cv_title')?></label>
+																<div class="col-md-9">
+																	<input type="text" id="cv_titolo" name="cv_titolo" class="form-control" >
+																</div>
+															</div>
+														</div>
 													 <div class="col-md-12">
                                             <div class="form-group required-field">
                                                 <label for="acc-name"><?php echo lang('app.field_cv')?></label>
@@ -347,6 +356,7 @@ else{
 										echo form_textarea($input);
 										?></div></div>
 													</div>
+													<?php } ?>
                                                     </div>
 <?php /*
                                                     <div class="tab-pane" id="basictab4">
@@ -411,7 +421,7 @@ else{
                                                             <a href="javascript: void(0);" class="btn btn-secondary">Previous</a>
                                                         </li> -->
                                                         <li class="list-inline-item float-right">
-                                                            <button type="submit" class="btn btn-secondary">submit</button>
+                                                            <button type="button" class="btn btn-secondary" onclick="return valid_user();"><?php echo lang('app.btn_save')?></button>
                                                         </li>
                                                         <!-- <li class="next list-inline-item float-right">
                                                             <a href="javascript: void(0);" class="btn btn-secondary">Next</a>
@@ -575,6 +585,34 @@ $('#cv').summernote({
                     // }
                 }
                 }
+				
+function valid_user(){
+	var fields = $( "#add_user_form" ).serializeArray();
+		$(".nav-link").removeClass('text-danger');
+$("#error_alert").hide('slow');
+	$.ajax({
+				  url:"<?php echo base_url('Ajax/valid_user')?>",
+				  method:"POST",
+				  data:fields
+				  
+			}).done(function(data){
+				
+				
+				var obj=JSON.parse(data);
+				console.log(obj);
+				if(obj.error==true){
+					$("#error_alert").html(obj.validation);
+					$("#error_alert").show('slow');
+					$("a[href='#"+obj.tabs_error+"']").addClass('text-danger');
+					return false;
+				}
+				else{
+					$( "#add_user_form" ).submit();
+				
+				}
+			});
+	
+}
         </script>
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/form-wizard.init.js"></script>
 
