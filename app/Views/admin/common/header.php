@@ -55,11 +55,31 @@
                                 </div>
     
                                 <!-- item-->
-                                <a href="<?= base_url('admin/profile') ?>" class="dropdown-item notify-item">
-                                    <i class="fe-user"></i>
+                                <a href="<?= base_url('admin/profile/account') ?>" class="dropdown-item notify-item">
+                                    <i class="fas fa-user-lock"></i>
+                                    <span><?php echo lang('app.menu_account')?></span>
+                                </a>
+								 <a href="<?= base_url('admin/profile/data') ?>" class="dropdown-item notify-item">
+                                    <i class="fas fa-user-edit"></i>
                                     <span><?php echo lang('app.menu_profile')?></span>
                                 </a>
-    
+								 <a href="<?= base_url('admin/profile/fattura') ?>" class="dropdown-item notify-item">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                    <span><?php echo lang('app.menu_fattura')?></span>
+                                </a>
+								 <a href="<?= base_url('admin/profile/contact') ?>" class="dropdown-item notify-item">
+                                    <i class="far fa-envelope"></i>
+                                    <span><?php echo lang('app.menu_contact')?></span>
+                                </a>
+								 <a href="<?= base_url('admin/profile/payments') ?>" class="dropdown-item notify-item">
+                                    <i class=" fas fa-euro-sign"></i>
+                                    <span><?php echo lang('app.menu_payment_config')?></span>
+                                </a>
+								 <a href="<?= base_url('admin/profile/contract') ?>" class="dropdown-item notify-item">
+                                    <i class=" fas fa-file-signature"></i>
+                                    <span><?php echo lang('app.menu_contract')?></span>
+                                </a>
+								
                                 <!-- item-->
                                
                                 <div class="dropdown-divider"></div>
