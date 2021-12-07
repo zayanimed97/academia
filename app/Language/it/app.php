@@ -348,6 +348,10 @@ $lang['field_cv_title']="CV titolo";
 $lang['field_buy_type_date']="per data";
 $lang['field_paypal_clientID']="Client ID";
 $lang['field_paypal_clientSecret']="Client Secret";
+$lang['field_smtp_host']="SMTP Host";
+$lang['field_smtp_username']="SMTP Username/email";
+$lang['field_smtp_password']="SMTP password";
+$lang['field_smtp_port']="SMTP port";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -409,6 +413,7 @@ $lang['menu_profile_setting']="Impostazioni Profilo";
 $lang['menu_contact']="configurazione contatti";
 $lang['menu_payment_config']="Metodo di pagamento";
 $lang['menu_contract']="Configurazione contratto";
+$lang['menu_mailing']="Configurazione mailing";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -460,6 +465,8 @@ $lang['title_page_profile_fattura']="Dati fatturazione";
 $lang['title_page_profile']="Profilo";
 $lang['title_page_profile_payment']="Configurazione Metodo di pagamento";
 $lang['title_page_profile_contract']="Configurazione contratto";
+$lang['title_page_profile_mailing']="Configurazione Mailing";
+$lang['title_section_SMTP']="Configurazione SMTP";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";

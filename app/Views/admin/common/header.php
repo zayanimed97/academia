@@ -75,6 +75,12 @@
                                     <i class=" fas fa-euro-sign"></i>
                                     <span><?php echo lang('app.menu_payment_config')?></span>
                                 </a>
+								
+								<a href="<?= base_url('admin/profile/mailing') ?>" class="dropdown-item notify-item">
+                                    <i class="fas fa-reply-all"></i>
+                                    <span><?php echo lang('app.menu_mailing')?></span>
+                                </a>
+								
 								 <a href="<?= base_url('admin/profile/contract') ?>" class="dropdown-item notify-item">
                                     <i class=" fas fa-file-signature"></i>
                                     <span><?php echo lang('app.menu_contract')?></span>
