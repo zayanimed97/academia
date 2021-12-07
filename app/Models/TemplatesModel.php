@@ -6,7 +6,7 @@ class TemplatesModel extends Model
 {
     protected $table = 'templates';
 	protected $primaryKey = 'id';
-    protected $allowedFields = ['module','titolo', 'subject','html','id_ente'];
+    protected $allowedFields = ['module','titolo', 'subject','html','id_ente','helps'];
 	
 	protected $returnType = 'array';
 	

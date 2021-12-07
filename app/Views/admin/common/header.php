@@ -271,6 +271,23 @@
                                     </ul>
                                 </div>
                             </li>
+							
+							<li>
+                                <a href="#menu_settings" data-toggle="collapse" >
+                                    <i data-feather="tool"></i>
+                                    <span>  <?php echo lang('app.menu_settings')?> </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="menu_settings">
+                                    <ul class="nav-second-level">
+									  <!--li><a href="<?php echo base_url().'/admin/settings'?>"><?php echo lang('app.menu_setting_info')?></a></li-->
+										<li><a href="<?php echo base_url('/admin/emails')?>"><?php echo lang('app.menu_setting_email')?></a></li>
+                                        
+                                    </ul>
+                                </div>
+                            </li>
+							
+							
                         </ul>
 
                     </div>

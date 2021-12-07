@@ -414,6 +414,8 @@ $lang['menu_contact']="configurazione contatti";
 $lang['menu_payment_config']="Metodo di pagamento";
 $lang['menu_contract']="Configurazione contratto";
 $lang['menu_mailing']="Configurazione mailing";
+$lang['menu_settings']="Impostazioni";
+$lang['menu_setting_email_edit']="Modifica Email";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -467,6 +469,9 @@ $lang['title_page_profile_payment']="Configurazione Metodo di pagamento";
 $lang['title_page_profile_contract']="Configurazione contratto";
 $lang['title_page_profile_mailing']="Configurazione Mailing";
 $lang['title_section_SMTP']="Configurazione SMTP";
+$lang['title_page_settings_emails']="Configurazione Sistema Emails";
+$lang['title_page_settings_emails_edit']="Modifica Emails";
+$lang['title_section_help_email']="variabili dinamiche per il contenuto";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
