@@ -34,6 +34,12 @@ use App\Models\CorsiModuloTestQuestionsModel;
 use App\Models\CorsiModuloTestResponsesModel;
 use App\Models\testModuloModel;
 use App\Models\EnteMethodPaymentModel;
+
+use App\Models\CouponModel;
+use App\Models\CartModel;
+use App\Models\CartItemsModel;
+use App\Models\CartPaymentModel;
+use App\Models\ParticipationModel;
 /**
  * Class BaseController
  *
@@ -114,6 +120,12 @@ class BaseController extends Controller
 		$this->CorsiModuloTestResponsesModel =  new CorsiModuloTestResponsesModel();
 		$this->TestModuloModel=new testModuloModel();
 		$this->EnteMethodPaymentModel=new EnteMethodPaymentModel();
+		
+		$this->CouponModel=new CouponModel();
+		$this->CartModel=new CartModel();
+		$this->CartItemsModel=new CartItemsModel();
+		$this->CartPaymentModel=new CartPaymentModel();
+		$this->ParticipationModel=new ParticipationModel();
 	}
 	
 	public function common_data(){
