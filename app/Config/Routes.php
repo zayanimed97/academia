@@ -169,6 +169,8 @@ $routes->get('/getCourses', 'Home::getCourses');
 $routes->get('/blog', 'Home::getBlog');
 $routes->get('/register', 'front\UserController::register');
 $routes->post('/register', 'front\UserController::create_user');
+$routes->get('/user/login', 'front\UserController::getLogin');
+$routes->post('/user/login', 'front\UserController::login');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

@@ -50,4 +50,56 @@ class UserController extends BaseController
 		return redirect()->to(base_url());
 
     }
+
+    public function getLogin()
+    {
+        $data = $this->common_data();
+        
+        return view('default/login', $data);
+    }
+
+    public function login()
+    {
+        $data = $this->common_data();
+        
+        // $settings=$this->SettingModel->getByMetaKey();
+		$email=$this->request->getVar('email');
+		$password=$this->request->getVar('password');
+		$url='/default/login';
+		// die($url);
+		
+		$val = $this->validate([
+           
+            'email' => 'required|valid_email',
+          	'password' => 'required'
+        ]);
+
+		if (!$val)
+        {
+			$data['validation'] = $this->validator->listErrors();
+            return view($url, $data);
+        }
+		else{
+			$users = $this->UserModel
+						->where('email', $email)
+                        ->where('id_ente', $data['selected_ente']['id'])
+                        ->where('role', 'participant')
+						->where('password', md5($password))
+						->findAll();
+			if(empty($users)){
+				$data['error']=lang('app.error_not_exist_account');
+				 return view($url, $data);
+			}
+			elseif($users[0]['active']!='yes'){
+				 $data['error']=lang('app.error_not_active_account');
+				return view($url, $data);
+			}
+			else{
+                $user[0]['profile'] = $this->UserProfileModel->where('user_id', $users[0]['id'])->first();
+				$this->session->set(array('user_data'=>$users[0]));
+				return redirect()->to( base_url() );
+			}
+		}
+		
+    }
 }
