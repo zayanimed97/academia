@@ -95,7 +95,7 @@ class UserController extends BaseController
 				return view($url, $data);
 			}
 			else{
-                $user[0]['profile'] = $this->UserProfileModel->where('user_id', $users[0]['id'])->first();
+                $users[0]['profile'] = $this->UserProfileModel->where('user_id', $users[0]['id'])->first();
 				$this->session->set(array('user_data'=>$users[0]));
 				return redirect()->to( base_url() );
 			}

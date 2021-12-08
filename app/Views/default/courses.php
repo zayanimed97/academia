@@ -258,7 +258,7 @@ label.checkbox.blue span {
                                                 </div>
                                                 <div class="pt-1 flex items-center justify-between">
                                                     <div class="text-sm font-semibold"> <?= $c['doctor_names'] ?>  </div>
-                                                    <div class="text-lg font-semibold"> €<?= $c['prezzo'] ?>.00 </div>
+                                                    <div class="text-lg font-semibold"> <?= $c['prezzo'] ?> </div>
                                                 </div>
                                                 <div class="flex justify-between items-center mt-2">
                                                     <a href="#" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700"> Aggiungi al carrello </a>
@@ -299,7 +299,7 @@ label.checkbox.blue span {
                                                         <div class="flex items-center"> <?= $c['modulo_count'] ?> modulo </div>
                                                     </div>
                                                     <div class="-mt-3.5">
-                                                        <div class="text-lg font-semibold"> €<?= $c['prezzo'] ?>.00 </div>
+                                                        <div class="text-lg font-semibold"> <?= $c['prezzo'] ?> </div>
 
                                                         <a href="<?= base_url('corsi/'.$c['url']) ?>" class="md:flex items-center justify-center h-9 px-8 rounded-md border hidden"> Enroll Now </a>
                                                     </div>

@@ -84,6 +84,7 @@ class BaseController extends Controller
 		$security = \Config\Services::security();
 		$this->session = \Config\Services::session();
 		$session = session()->start();
+		$this->amount = new \NumberFormatter( 'it_IT', \NumberFormatter::CURRENCY );
 
 		$this->ArgomentiModel =  new ArgomentiModel();
 		$this->CategorieModel =  new CategorieModel();
@@ -185,5 +186,35 @@ class BaseController extends Controller
 		{
 			echo $e->getMessage();
 		}
+	}
+
+	public function discounts(&$course, $discount)
+	{
+		$filter = array_filter($discount ?? [], function($el) use ($course) {return $el['id_corsi'] == $course['id'];});
+
+            // calculate max price with default included
+            if ($course['have_def_price'] == 'yes') {
+                $course['max_price'] = intval($course['max_price']) > intval($course['prezzo']) ? $course['max_price'] : $course['prezzo'];
+                $course['min_price'] = intval($course['min_price']) < intval($course['prezzo']) ? $course['min_price'] : $course['prezzo'];
+            }
+
+            if (empty($filter) && $course['have_def_price'] == 'no') {
+                $course['prezzo'] = '';
+            }
+
+            // if there is no user return range
+            if (((session('user_data')['role'] ?? '') != 'participant') && strlen($course['max_price']) > 0 && strlen($course['min_price']) > 0) {
+                $course['prezzo'] = $this->amount->format($course['max_price']) . ' - '. $this->amount->format($course['min_price']);
+            }
+
+            // if there is a user return price for profession
+            if (!empty($filter) && $course['free'] == 'no') {
+                $course['prezzo'] = $this->amount->format($filter[0]['prezzo']);
+            }
+
+            
+
+            // if free return gratuito
+            $course['prezzo'] = $course['free'] == 'yes' ? 'gratuito' : ((strpos($course['prezzo'], '€') || $course['prezzo'] == "") ? $course['prezzo'] : $this->amount->format($course['prezzo']));
 	}
 }

@@ -503,7 +503,7 @@
                         <a href="#" class="see-all">See all</a>
                     </div>
                      <!-- profile -->
-                    <?php if(session('user_data')['role'] ?? '' == 'participant'){ ?>
+                    <?php if((session('user_data')['role'] ?? '') == 'participant'){ ?>
                     <a href="#">
                         <img src="<?= base_url('front') ?>/assets/images/avatars/placeholder.png" class="header_widgets_avatar" alt="">
                     </a>

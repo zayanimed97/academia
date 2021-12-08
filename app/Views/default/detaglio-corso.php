@@ -585,7 +585,7 @@
                                         
                                     </div>
                                     <?php if($mod['prezzo']){ ?>
-                                        <div class="text-lg font-semibold w-full text-right mt-4"> <?= $mod['prezzo'] ?>,00 € </div>
+                                        <div class="text-lg font-semibold w-full text-right mt-4"> <?= $mod['prezzo'] ?></div>
                                     <?php } ?>
                                 </div> 
                                 
@@ -636,7 +636,7 @@
                                 <div class="grid grid-cols-2 gap-4">
                                    
                                     <div class="flex flex-col space-y-2">
-                                        <div class="text-3xl font-semibold"> <?= $corsi['prezzo'] ?>,00 €</div>
+                                        <div class="text-3xl font-semibold"> <?= $corsi['prezzo'] ?></div>
                                         <div> Students </div>
                                         <ion-icon name="people-circle" class="text-lg" hidden></ion-icon>
                                     </div>
