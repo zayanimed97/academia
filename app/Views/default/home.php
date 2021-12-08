@@ -230,7 +230,12 @@
                                         null,
                                         'id'
                                     ))); 
-                        $courses =  $CorsiModel->where('find_in_set( '.($uniqueCat[0]['id'] ?? '').', id_categorie) > 0')->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')->groupBy('corsi.id')->select("corsi.*, GROUP_CONCAT(DISTINCT u.display_name) doctor_names")->find();
+                        $courses =  $CorsiModel ->where('find_in_set( '.($uniqueCat[0]['id'] ?? '').', id_categorie) > 0')
+                                                ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
+                                                ->where('banned', 'no')
+                                                ->groupBy('corsi.id')
+                                                ->select("corsi.*, GROUP_CONCAT(DISTINCT u.display_name) doctor_names")
+                                                ->find();
                     
                 ?>
             <?php if(!empty($category)) { ?>

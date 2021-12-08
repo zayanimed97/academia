@@ -1,6 +1,27 @@
 <?php 
-    $category = $CategorieModel->where('c.id_ente', $selected_ente['id'])->where('categorie.status', 'enable')->join('corsi c', 'find_in_set(categorie.id,c.id_categorie) > 0')->groupBy('categorie.id')->select('categorie.*, c.tipologia_corsi, SUM(case when c.tipologia_corsi = "aula" then 1 else 0 end) as sum_aula, SUM(case when c.tipologia_corsi = "webinar" then 1 else 0 end) as sum_webinar, , SUM(case when c.tipologia_corsi = "online" then 1 else 0 end) as sum_online')->find();
-    $argomenti = $ArgomentiModel->where('c.id_ente', $selected_ente['id'])->join('corsi c', 'c.id_argomenti = argomenti.idargomenti')->groupBy('argomenti.idargomenti')->select('argomenti.*, c.tipologia_corsi, argomenti.idargomenti as arg_id, SUM(case when c.tipologia_corsi = "aula" then 1 else 0 end) as sum_aula, SUM(case when c.tipologia_corsi = "webinar" then 1 else 0 end) as sum_webinar, , SUM(case when c.tipologia_corsi = "online" then 1 else 0 end) as sum_online')->find();
+    $category = $CategorieModel ->where('c.id_ente', $selected_ente['id'])
+                                ->where('categorie.banned', 'no')
+                                ->where('categorie.status', 'enable')
+                                ->join('corsi c', 'find_in_set(categorie.id,c.id_categorie) > 0')
+                                ->groupBy('categorie.id')
+                                ->select('  categorie.*, 
+                                            c.tipologia_corsi, 
+                                            SUM(case when c.tipologia_corsi = "aula" then 1 else 0 end) as sum_aula, 
+                                            SUM(case when c.tipologia_corsi = "webinar" then 1 else 0 end) as sum_webinar, 
+                                            SUM(case when c.tipologia_corsi = "online" then 1 else 0 end) as sum_online')
+                                ->find();
+
+    $argomenti = $ArgomentiModel->where('c.id_ente', $selected_ente['id'])
+                                ->where('argomenti.banned', 'no')
+                                ->join('corsi c', 'c.id_argomenti = argomenti.idargomenti')
+                                ->groupBy('argomenti.idargomenti')
+                                ->select('  argomenti.*, 
+                                            c.tipologia_corsi, 
+                                            argomenti.idargomenti as arg_id, 
+                                            SUM(case when c.tipologia_corsi = "aula" then 1 else 0 end) as sum_aula, 
+                                            SUM(case when c.tipologia_corsi = "webinar" then 1 else 0 end) as sum_webinar, 
+                                            SUM(case when c.tipologia_corsi = "online" then 1 else 0 end) as sum_online')
+                                ->find();
     // echo '<pre>';
     //     print_r($argomenti);
     //     echo '</pre>';

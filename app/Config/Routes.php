@@ -164,9 +164,11 @@ $routes->group("superadmin", ["filter" => "auth:admin"], function ($routes) {
 
 $routes->get('/', 'Home::index');
 $routes->get('/corsi', 'front/CorsiController::index');
-$routes->get('/corsi/(:any)', 'Front\CorsiController::details/$1');
+$routes->get('/corsi/(:any)', 'front\CorsiController::details/$1');
 $routes->get('/getCourses', 'Home::getCourses');
 $routes->get('/blog', 'Home::getBlog');
+$routes->get('/register', 'front\UserController::register');
+$routes->post('/register', 'front\UserController::create_user');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

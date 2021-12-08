@@ -11,7 +11,10 @@ class Home extends BaseController
         $data = $this->common_data();
 
         
-        $data['argomenti'] = $this->ArgomentiModel->where('c.id_ente', $data['selected_ente']['id'])->join('corsi c', 'c.id_argomenti = argomenti.idargomenti')->select('c.*, argomenti.*, argomenti.idargomenti as arg_id')->find();
+        // $data['argomenti'] = $this->ArgomentiModel  ->where('c.id_ente', $data['selected_ente']['id'])
+        //                                             ->join('corsi c', 'c.id_argomenti = argomenti.idargomenti')
+        //                                             ->select('c.*, argomenti.*, argomenti.idargomenti as arg_id')
+        //                                             ->find();
 
         // $data['sottoargomenti'] = $this->SottoargomentiModel->where('c.id_ente', $data['selected_ente']['id'])->join('corsi c', 'c.sottoargomenti = sottoargomenti.id')->select('c.*, sottoargomenti.*, sottoargomenti.id as sotto_id')->find();
 
@@ -26,7 +29,12 @@ class Home extends BaseController
 
     public function getCourses()
     {
-        $courses = $this->CorsiModel->where('find_in_set( '.($this->request->getVar('category') ?? '').', id_categorie) > 0')->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')->groupBy('corsi.id')->select("corsi.*, GROUP_CONCAT(DISTINCT u.display_name) doctor_names")->find();
+        $courses = $this->CorsiModel->where('find_in_set( '.($this->request->getVar('category') ?? '').', id_categorie) > 0')
+                                    ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
+                                    ->where('banned', 'no')
+                                    ->groupBy('corsi.id')
+                                    ->select("corsi.*, GROUP_CONCAT(DISTINCT u.display_name) doctor_names")
+                                    ->find();
 
         echo json_encode($courses);
     }
@@ -45,9 +53,9 @@ class Home extends BaseController
                 $selectName = 'residenza_comune';
             }
 
-            $html = '<select name="'.$this->request->getVar('name').'" class="form-control"';
+            $html = '<select name="'.$this->request->getVar('name').'" class="form-control selectpicker border rounded-md"';
             if (!(($this->request->getVar('name') ?? '') == "nascita_provincia")) {
-                $html .= '@change="fetch(`'.base_url().'/getComm?prov=${$event.target.value}&name='.$selectName.'`, {method: &quot;get&quot;,  headers: {&quot;Content-Type&quot;: &quot;application/json&quot;, &quot;X-Requested-With&quot;: &quot;XMLHttpRequest&quot; }}).then( el => el.text() ).then(res => '.$fieldName.' = res)"';
+                $html .= '@change="fetch(`'.base_url().'/getComm?prov=${$event.target.value}&name='.$selectName.'`, {method: &quot;get&quot;,  headers: {&quot;Content-Type&quot;: &quot;application/json&quot;, &quot;X-Requested-With&quot;: &quot;XMLHttpRequest&quot; }}).then( el => el.text() ).then(res => {'.$fieldName.' = res; if(jQuery().selectpicker){$(&quot;select&quot;).selectpicker();}})"';
             }
             $html .= '><option value="0"> Select Provincia </option>';
             foreach ($provs as $prov) {
@@ -61,7 +69,7 @@ class Home extends BaseController
             $html .= '</select>';
         }
         else {
-            $html = '<input type="text" id="'.$this->request->getVar('name').'" name="'.$this->request->getVar('name').'" class="form-control" value="">';
+            $html = '<input type="text" id="'.$this->request->getVar('name').'" name="'.$this->request->getVar('name').'" class="form-control with-border" value="">';
         }
 
         echo $html;
@@ -73,7 +81,7 @@ class Home extends BaseController
 
             $comuni = $this->ComuniModel->where('id_prov', $prov)->find();
 
-            $html = '<select name="'.$this->request->getVar('name').'" class="form-control" ><option value="0"> Select Comune </option>';
+            $html = '<select name="'.$this->request->getVar('name').'" class="form-control selectpicker border rounded-md" ><option value="0"> Select Comune </option>';
             foreach ($comuni as $com) {
                 $html .= '<option ';
                 if ($this->request->getVar('selected') == $com['id']) {
