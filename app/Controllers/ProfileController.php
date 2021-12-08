@@ -48,6 +48,10 @@ class ProfileController extends BaseController
 				$p='profile_contract.php';
 				$data['inf_package']=$this->EntePackageModel->where('id_ente',$user_data['id'])->orderBy('expired_date','DESC')->first();
 			break;
+			case 'mailing':
+			$data['SMTP']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'SMTP')['SMTP'] ?? "";
+			$p='profile_mailing.php';
+			break;
 			default:$p='profile.php';
 		}
 		$data['profile_menu']=$profile_menu;
@@ -270,6 +274,35 @@ class ProfileController extends BaseController
 				}
 			else $res=array("error"=>true,"validation"=>lang('app.error_select_method_payment'));
 				
+			break;
+			case 'mailing':
+				$val = $this->validate([
+				
+						'host' => ['label' =>  lang('app.field_smtp_host') ,'rules' => 'trim|required'],	
+						'username' => ['label' =>  lang('app.field_smtp_username') ,'rules' => 'trim|required'],	
+						'password' => ['label' =>  lang('app.field_smtp_password') ,'rules' => 'trim|required'],	
+						'port' => ['label' =>  lang('app.field_smtp_port') ,'rules' => 'trim|required'],	
+						'sender_email' => ['label' =>  lang('app.field_sender_email') ,'rules' => 'trim|required'],
+						'sender_name' => ['label' =>  lang('app.field_sender_name') ,'rules' => 'trim|required'],
+				]);
+				if (!$val)
+				{
+						
+						$validation=$this->validator;
+						$error_msg=$validation->listErrors();
+						$res=array("error"=>true,"validation"=>$error_msg);
+				}
+				else{
+					$meta_value=json_encode(array("host"=>$this->request->getVar('host'),"username"=>$this->request->getVar('username'),"password"=>$this->request->getVar('password'),"port"=>$this->request->getVar('port'),"sender_email"=>$this->request->getVar('sender_email'),"sender_name"=>$this->request->getVar('sender_name')),true);
+					
+						$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'SMTP')->first();
+						if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'SMTP','meta_value'=>$meta_value));
+						else{
+							
+							$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'SMTP')->update($id['id'],array('meta_value'=>$meta_value));
+						}
+				$res=array("error"=>false);
+				}
 			break;
 		}
 		echo json_encode($res,true);

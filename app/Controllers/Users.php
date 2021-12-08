@@ -39,7 +39,9 @@ class Users extends BaseController
 		$settings=$this->SettingModel->getByMetaKey();
 		$email=$this->request->getVar('email');
 		$password=$this->request->getVar('password');
-	 $url=uri_string();
+		$url=uri_string();
+		
+		
 		$val = $this->validate([
            
             'email' => 'required|valid_email',
@@ -110,8 +112,11 @@ class Users extends BaseController
 	}
 	
 	public function forgotPassword(){
-			$settings=$this->SettingModel->getByMetaKey();
+		$common_data=$this->common_data();
+	
+	$settings=$common_data['settings'];
 		$recuperate=$this->request->getVar('recuperate');
+		 $url=str_replace('forgotPassword','forgot',uri_string());
 		if(isset($recuperate)){
 			$email=$this->request->getVar('email');
 			$val = $this->validate([    
@@ -120,7 +125,7 @@ class Users extends BaseController
 			if (!$val)
 			{
 				
-				return view('admin/forgot.php', [
+				return view($url, [
 					   'validation' => $this->validator,'settings'=>$settings
 				]);
 			
@@ -133,7 +138,7 @@ class Users extends BaseController
 						
 				if(empty($users)){
 					$error=lang('app.error_not_exist_email');
-					 return view('admin/forgot.php', [
+					 return view($url, [
 					   'error' => $error,'settings'=>$settings
 					]);
 				}
@@ -146,17 +151,32 @@ class Users extends BaseController
 						//$TemplatesModel = new TemplatesModel();
 					$email = \Config\Services::email();
 					$subscribe_email=$this->request->getVar('email');
-						$common_data=$this->common_data();
-					$settings=$common_data['settings'];
+					$sender_name=$settings['sender_name'];
+					$sender_email=$settings['sender_email'];
+					$temp=$this->TemplatesModel->where('module','forgot_pass')->find();
+					if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
+						
 					
-					$email->setFrom($settings['sender_email'],$settings['sender_name']);
+						$SMTP=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'SMTP')['SMTP'];
+						if($SMTP!="") $vals=json_decode($SMTP,true);
+						if(!empty($vals)){
+							if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
+							if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+							$email->SMTPHost=$val['host'];
+							$email->SMTPUser=$val['username'];
+							$email->SMTPPass=$val['password'];
+							$email->SMTPPort=$val['port'];
+						}
+						$temp=$this->TemplatesModel->where('module','forgot_pass')->where('id_ente',$common_data['selected_ente']['id'])->find();
+					}
+					$email->setFrom($sender_email,$sender_name);
 				
 					$email->setTo($users[0]['email']);
 					$link=base_url().'/ResetPassword/'.$users[0]['email'].'/'.$token;
-					$temp=$this->TemplatesModel->where('module','forgot_pass')->find();
+					
 				
 					$html=str_replace(array("{var_website_name}","{var_user_name}","{var_varification_link}"),
-					array($settings['sender_name'],$users[0]['display_name'],$link),
+					array($sender_name,$users[0]['display_name'],$link),
 					$temp[0]['html']);
 					$email->setSubject($temp[0]['subject']);
 					$email->setMessage($html);
@@ -174,7 +194,7 @@ class Users extends BaseController
 		
 		
 	
-		return view('admin/forgot.php',array("settings"=>$settings,"success"=>$success));
+		return view('admin/forgot.php',$common_data);
 	}
 	
 	public function resetPassword($email,$token){

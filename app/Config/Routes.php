@@ -98,6 +98,16 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 	$routes->add('test', 'Test::index');
 	$routes->add('test/edit/(:any)', 'Test::test_edit/$1');
 	$routes->add('test/add', 'Test::test_add');
+	
+	// template emails
+	$routes->add('emails/edit/(:any)', 'Settings::emails_edit/$1');
+	$routes->add('emails', 'Settings::emails');
+	
+	// coupon
+	 $routes->get('coupon', 'Coupon::show');
+    $routes->add('newCoupon', 'Coupon::new');
+    $routes->add('updateCoupon', 'Coupon::update');
+    $routes->add('deleteCoupon/(:any)', 'Coupon::delete/$1');
 });
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {

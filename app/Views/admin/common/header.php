@@ -75,6 +75,12 @@
                                     <i class=" fas fa-euro-sign"></i>
                                     <span><?php echo lang('app.menu_payment_config')?></span>
                                 </a>
+								
+								<a href="<?= base_url('admin/profile/mailing') ?>" class="dropdown-item notify-item">
+                                    <i class="fas fa-reply-all"></i>
+                                    <span><?php echo lang('app.menu_mailing')?></span>
+                                </a>
+								
 								 <a href="<?= base_url('admin/profile/contract') ?>" class="dropdown-item notify-item">
                                     <i class=" fas fa-file-signature"></i>
                                     <span><?php echo lang('app.menu_contract')?></span>
@@ -265,6 +271,30 @@
                                     </ul>
                                 </div>
                             </li>
+							
+							<li>
+                                <a href="#menu_settings" data-toggle="collapse" >
+                                    <i data-feather="tool"></i>
+                                    <span>  <?php echo lang('app.menu_settings')?> </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="menu_settings">
+                                    <ul class="nav-second-level">
+									  <!--li><a href="<?php echo base_url().'/admin/settings'?>"><?php echo lang('app.menu_setting_info')?></a></li-->
+										<li><a href="<?php echo base_url('/admin/emails')?>"><?php echo lang('app.menu_setting_email')?></a></li>
+                                        
+                                    </ul>
+                                </div>
+                            </li>
+							<?php if(in_array('coupon',$ente_package['extra'])){?>
+							 <li>
+                            
+                                
+                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/coupon') ?>"><i data-feather="tag"></i> <span><?php echo lang('app.menu_coupon')?> </span></a>
+                                        
+                            </li>
+							<?php } ?>
+							
                         </ul>
 
                     </div>
