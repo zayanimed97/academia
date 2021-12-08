@@ -12,7 +12,7 @@
         text-overflow: ellipsis;
     }
   </style>
-<?php $settings['banner_home'] = (array)json_decode($settings['banner_home'])?>
+<?php $settings['banner_home'] = (array)json_decode($settings['banner_home'] ?? "" )?>
         <!-- Slideshow -->
         <div class="uk-position-relative contents overflow-hidden lg:-mt-20" tabindex="-1"
         style="min-height: 200; max-height: 500;">
@@ -20,12 +20,12 @@
         <!-- <ul class="uk-slideshow-items rounded"> -->
             <!-- <li> -->
                 <div class="uk-cover-container uk-inline w-full mb-8">
-                    <img src="<?= base_url('front') ?>/assets/images/<?= $settings['banner_home']["image"] ?>" class="object-cover" alt="" uk-cover>
+                    <img src="<?= base_url('front') ?>/assets/images/<?= $settings['banner_home']["image"] ??'' ?>" class="object-cover" alt="" uk-cover>
                     <div class="container relative p-20 lg:mt-12 h-full uk-overlay"> 
                         <div  class="flex flex-col justify-center h-full w-full space-y-3">
-                            <h1  class="lg:text-4xl text-2xl text-white font-semibold"> <?= $settings['banner_home']["title"] ?> </h1>
-                            <p  class="text-base text-white font-medium pb-4 lg:w-1/2"> <?= $settings['banner_home']["subtitle"] ?> </p>
-                            <a  href="<?= $settings['banner_home']["url"] ?>" class="bg-opacity-90 bg-white py-2.5 rounded-md text-base text-center w-32"> Get Started </a> 
+                            <h1  class="lg:text-4xl text-2xl text-white font-semibold"> <?= $settings['banner_home']["title"] ?? ''?> </h1>
+                            <p  class="text-base text-white font-medium pb-4 lg:w-1/2"> <?= $settings['banner_home']["subtitle"] ?? '' ?> </p>
+                            <a  href="<?= $settings['banner_home']["url"] ?? '' ?>" class="bg-opacity-90 bg-white py-2.5 rounded-md text-base text-center w-32"> Get Started </a> 
                         </div>
                     </div>
                 </div>

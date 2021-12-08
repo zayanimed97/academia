@@ -28,7 +28,7 @@ class UserController extends BaseController
                         'id_ente' => $this->common_data()['selected_ente']['id']
         ];
 
-		$new = $this->UserModel->where('id_ente', $this->session->get('user_data')['id'])->insert($dataUser);
+		$new = $this->UserModel->where('id_ente', $this->common_data()['selected_ente']['id'])->insert($dataUser);
         $data = [
             'user_id' => $new,
             'type' => 'private',
