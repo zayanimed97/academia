@@ -40,7 +40,7 @@ class UserController extends BaseController
             'professione' => $this->request->getVar('professione'),
             'residenza_stato' => $this->request->getVar('residenza_stato') ?: NULL,
             'residenza_provincia' => $this->request->getVar('residenza_provincia') ?: NULL,
-            'residenza_comune' => $this->request->getVar('residenza_comune' ?: NULL),
+            'residenza_comune' => $this->request->getVar('residenza_comune') ?: NULL,
             'residenza_cap' => $this->request->getVar('cap') ?: NULL,
             'residenza_indirizzo' => $this->request->getVar('indirizzo') ?: NULL
         ];
