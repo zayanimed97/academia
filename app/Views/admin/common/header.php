@@ -286,7 +286,14 @@
                                     </ul>
                                 </div>
                             </li>
-							
+							<?php if(in_array('coupon',$ente_package['extra'])){?>
+							 <li>
+                            
+                                
+                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/coupon') ?>"><i data-feather="tag"></i> <span><?php echo lang('app.menu_coupon')?> </span></a>
+                                        
+                            </li>
+							<?php } ?>
 							
                         </ul>
 
