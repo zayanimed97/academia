@@ -502,8 +502,8 @@
                         </ul>
                         <a href="#" class="see-all">See all</a>
                     </div>
-    
                      <!-- profile -->
+                    <?php if(session('user_data')['role'] ?? '' == 'participant'){ ?>
                     <a href="#">
                         <img src="<?= base_url('front') ?>/assets/images/avatars/placeholder.png" class="header_widgets_avatar" alt="">
                     </a>
@@ -568,14 +568,16 @@
                                 </a>
                             </li>
                             <li> 
-                                <a href="#">
+                                <a href="<?= base_url('logout') ?>">
                                     <ion-icon name="log-out-outline" class="is-icon"></ion-icon>
                                     Log Out 
                                 </a>
                             </li>
                         </ul>
                     </div>
-    
+                    <?php } else { ?>
+                    <a class="bg-blue-400 flex justify-center items-center rounded-md text-white text-center ml-4 text-base h-8 p-4 hover:text-white hover:bg-blue-700" href="<?= base_url('user/login') ?>">Login</a>
+                    <?php } ?>
                 </div> 
             </div>
         </header>
