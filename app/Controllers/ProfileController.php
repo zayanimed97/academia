@@ -282,6 +282,8 @@ class ProfileController extends BaseController
 						'username' => ['label' =>  lang('app.field_smtp_username') ,'rules' => 'trim|required'],	
 						'password' => ['label' =>  lang('app.field_smtp_password') ,'rules' => 'trim|required'],	
 						'port' => ['label' =>  lang('app.field_smtp_port') ,'rules' => 'trim|required'],	
+						'sender_email' => ['label' =>  lang('app.field_sender_email') ,'rules' => 'trim|required'],
+						'sender_name' => ['label' =>  lang('app.field_sender_name') ,'rules' => 'trim|required'],
 				]);
 				if (!$val)
 				{
@@ -291,7 +293,7 @@ class ProfileController extends BaseController
 						$res=array("error"=>true,"validation"=>$error_msg);
 				}
 				else{
-					$meta_value=json_encode(array("host"=>$this->request->getVar('host'),"username"=>$this->request->getVar('username'),"password"=>$this->request->getVar('password'),"port"=>$this->request->getVar('port')),true);
+					$meta_value=json_encode(array("host"=>$this->request->getVar('host'),"username"=>$this->request->getVar('username'),"password"=>$this->request->getVar('password'),"port"=>$this->request->getVar('port'),"sender_email"=>$this->request->getVar('sender_email'),"sender_name"=>$this->request->getVar('sender_name')),true);
 					
 						$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'SMTP')->first();
 						if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'SMTP','meta_value'=>$meta_value));

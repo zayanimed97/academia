@@ -491,6 +491,8 @@ $lang['title_page_settings_emails_edit']="Modifica Emails";
 $lang['title_section_help_email']="variabili dinamiche per il contenuto";
 $lang['title_page_coupon']="Coupon";
 $lang['modal_title_delete_coupon']="Elemina Coupon";
+$lang['title_page_login']="Sign In";
+$lang['title_page_forgot']="Recupera la password dimenticata";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
@@ -518,6 +520,7 @@ $lang['error_sdi_format']="solo 6 caratteri alfanumerici";
 $lang['error_mismatch_password']="La password non corrisponde";
 $lang['error_select_method_payment']="devi configurare almeno un metodo di pagamento";
 $lang['error_code_exist']="Codice è già esistente!";
+$lang['error_not_exist_email']="L'email è non esistente!";
 ###########success ##########################"
 $lang['success_activation_account']="Complimenti, il tuo account è ora attivo.  Per accedere al tuo profile, devi inserire la tua email e password qui sotto.”";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
@@ -552,5 +555,6 @@ $lang['help_min_points']="% minima per superare con successo il test";
 $lang['help_min_modulo']="minima modulo  per superare con successo il corsi";
 $lang['help_tabprice_is_free_cours']="scegli tu che il corso sia gratuito, quindi non puoi impostare i prezzi del modulo";
 $lang['help_tabprice_buy_type_date']="selezioni il tipo di acquisto per data, quindi imposta gli stessi dati sul prezzo per ogni data";
+$lang['help_forgot_password']="Hai dimenticato la password?";
 return $lang;
 ?>

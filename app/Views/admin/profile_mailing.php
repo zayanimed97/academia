@@ -72,7 +72,24 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                                
+                                                              
+															  <div class="col-12 col-md-6">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="cognome"> <?php echo lang('app.field_sender_email')?></label>
+                                                                    <div class="col-md-9">
+                                                                        <input type="text" id="sender_email" name="sender_email" class="form-control" value="<?= $smtp['sender_email'] ?? '25' ?>">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+															
+															<div class="col-12 col-md-6">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="cognome"> <?php echo lang('app.field_sender_name')?></label>
+                                                                    <div class="col-md-9">
+                                                                        <input type="text" id="sender_name" name="sender_name" class="form-control" value="<?= $smtp['sender_name'] ?? '25' ?>">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                    
                                                 

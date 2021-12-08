@@ -36,7 +36,7 @@
                                 </a>
                             </div>
                         </div>
-                        <h4 class="mt-0">Sign In</h4>
+                        <h4 class="mt-0"><?php echo lang('app.title_page_login')?></h4>
                         <!--p class="text-muted mb-4">Enter your email address and password to access account.</p-->
 
 <?php //echo $validation->listErrors()
@@ -54,7 +54,7 @@
                         
 
 <?php $attributes = ['class' => 'form-input-flat', 'id' => 'myform','method'=>'post'];
-					echo form_open( base_url().'/login', $attributes);?>
+					echo form_open( base_url(uri_string()), $attributes);?>
 
 
                                     <div class="form-group mb-3">
@@ -74,7 +74,7 @@
                                     </div>
 
                                     <div class="form-group mb-3">
-										<a href="<?php echo base_url('forgotPassword')?>" class="text-muted float-right"><small><?php echo lang('app.help_forgot_password')?></small></a>
+										<a href="<?php echo base_url('admin/forgotPassword')?>" class="text-muted float-right"><small><?php echo lang('app.help_forgot_password')?></small></a>
                                         <label for="password"><?php echo lang('app.field_password')?></label>
                                         <div class="input-group input-group-merge">
                                             <?php 

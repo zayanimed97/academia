@@ -8,12 +8,12 @@
         <meta content="Sam Benia" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <?= csrf_meta() ?>
-        <link rel="shortcut icon" href="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/images/favicon.ico">
-		<link href="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
-		<link href="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-default-stylesheet" />
-		<link href="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/css/bootstrap-dark.min.css" rel="stylesheet" type="text/css" id="bs-dark-stylesheet" />
-		<link href="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="app-dark-stylesheet" />
-		<link href="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="<?php echo base_url('UBold_v4.1.0')?>/assets/images/favicon.ico">
+		<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
+		<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-default-stylesheet" />
+		<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/bootstrap-dark.min.css" rel="stylesheet" type="text/css" id="bs-dark-stylesheet" />
+		<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="app-dark-stylesheet" />
+		<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     </head>
 
     <body class="loading auth-fluid-pages pb-0">
@@ -58,7 +58,7 @@
     </div>
 <?php }?>
 				<?php $attributes = ['class' => 'form-input-flat', 'id' => 'myform','method'=>'post'];
-					echo form_open( base_url().'/forgotPassword', $attributes);?>
+					echo form_open( base_url(uri_string()), $attributes);?>
 
                     <div class="form-group mb-3">
                        <label for="emailaddress"><?php echo lang('app.field_email')?></label>
@@ -86,11 +86,11 @@
 							echo form_submit($data);?>
                          
                         
-                      <a href="<?php echo base_url('login')?>" ><?php echo  lang('app.btn_login')?></a>
+                      <a href="<?php echo base_url('admin/login')?>" ><?php echo  lang('app.btn_login')?></a>
                     </div>
                <?php echo form_close();?>
            <footer class="footer footer-alt">
-                            <?php echo view('copyright')?>
+                            <?php echo view('admin/copyright')?>
                         </footer>
 
                     </div> <!-- end .card-body -->
@@ -101,23 +101,17 @@
             <!-- Auth fluid right content -->
             <div class="auth-fluid-right text-center">
                 <div class="auth-user-testimonial">
-                    <h2 class="mb-3 text-white">I love the color!</h2>
-                    <p class="lead"><i class="mdi mdi-format-quote-open"></i> I've been using your theme from the previous developer for our web app, once I knew new version is out, I immediately bought with no hesitation. Great themes, good documentation with lots of customization available and sample app that really fit our need. <i class="mdi mdi-format-quote-close"></i>
-                    </p>
-                    <h5 class="text-white">
-                        - Fadlisaad (Ubold Admin User)
-                    </h5>
+                  
                 </div> <!-- end auth-user-testimonial-->
             </div>
             <!-- end Auth fluid right content -->
         </div>
         <!-- end auth-fluid-->
 
-        <!-- Vendor js -->
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/js/vendor.min.js"></script>
+       <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/vendor.min.js"></script>
 
         <!-- App js -->
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/js/app.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/app.min.js"></script>
         
     </body>
 </html>
