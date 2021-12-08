@@ -157,16 +157,18 @@ class Users extends BaseController
 					if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
-						$SMTP=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'SMTP')['SMTP'];
+					/*	 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
 						if($SMTP!="") $vals=json_decode($SMTP,true);
+					
 						if(!empty($vals)){
 							if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
 							if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
-							$email->SMTPHost=$val['host'];
-							$email->SMTPUser=$val['username'];
-							$email->SMTPPass=$val['password'];
-							$email->SMTPPort=$val['port'];
-						}
+							$email->protocol='smtp';
+							$email->SMTPHost=$vals['host'];
+							$email->SMTPUser=$vals['username'];
+							$email->SMTPPass=$vals['password'];
+							$email->SMTPPort=$vals['port'];
+						}*/
 						$temp=$this->TemplatesModel->where('module','forgot_pass')->where('id_ente',$common_data['selected_ente']['id'])->find();
 					}
 					$email->setFrom($sender_email,$sender_name);
@@ -183,6 +185,8 @@ class Users extends BaseController
 					$email->setAltMessage(strip_tags($html));
 					
 					$xxx=$email->send();
+					
+					//var_dump($email);
 					$yy=$this->NotifLogModel->insert(array('id_participant'=>$users[0]['id'],'type'=>'email','user_to'=>$users[0]['email'],'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
 		
 					$success=lang('app.success_recuperate_password');
