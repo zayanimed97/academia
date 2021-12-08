@@ -518,7 +518,7 @@ function valid_add(){
 				type: 'post',
 				
 				data:{id:id},
-				success:function(data){ 
+			/*	success:function(data){ 
 					$("#profile_data").html(data);
 					$('.input_date').datepicker({
 						 //dateFormat: 'dd-mm-yy',
@@ -527,9 +527,24 @@ function valid_add(){
 						autoclose: true
 					
 					});
-				}  
+				}  */
+			}).done(function(data){
+				
+				$("#profile_data").html(data);
+				$("#edit_start_date").flatpickr({
+				dateFormat: "Y-m-d",
+				 altFormat: "d/m/Y",
+				 altInput:!0,
+				 locale: "it",
 			});
-
+			$("#edit_end_date").flatpickr({
+				dateFormat: "Y-m-d",
+				 altFormat: "d/m/Y",
+				 altInput:!0,
+				 locale: "it",
+			});
+			});
+	
 		}
 		
 		

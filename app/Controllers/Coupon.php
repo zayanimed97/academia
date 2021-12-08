@@ -266,7 +266,7 @@ class Coupon extends BaseController
 							$input = [
 									'type'  => 'text',
 									'name'  => 'start_date',
-									'id'    => 'start_date',
+									'id'    => 'edit_start_date',
 									
 									'value' => $val,
 									'placeholder' =>lang('app.field_start_date'),
@@ -284,7 +284,7 @@ class Coupon extends BaseController
 							$input = [
 									'type'  => 'text',
 									'name'  => 'end_date',
-									'id'    => 'end_date',
+									'id'    => 'edit_end_date',
 									
 									'value' => $val,
 									'placeholder' =>lang('app.field_end_date'),
