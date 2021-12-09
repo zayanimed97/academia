@@ -73,3 +73,4 @@
 
     </div>
 <?= view('default/common/footer') ?>
+<?= view('default/common/close') ?>

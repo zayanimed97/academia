@@ -59,7 +59,7 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body class="bg-white">
+<body class="bg-white"  x-data="headerData">
 
 
     <div id="wrapper" class="horizontal flex flex-col relative min-h-screen">
@@ -266,83 +266,26 @@
                             <a href="#" class="checkout">Checkout</a>
                         </div>
                         <ul class="dropdown_cart_scrollbar" data-simplebar>
-                            <li>
-                                <div class="cart_avatar">
-                                    <img src="<?= base_url('front') ?>/assets/images/courses/img-1.jpg" alt="">
-                                </div>
-                                <div class="cart_text">
-                                    <h4> Learn Angular Beginner to Advanced Fundamentals </h4>
-                                </div>
-                                <div class="cart_price">
-                                    <span> $12.99 </span>
-                                    <button class="type"> Remove</button>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="cart_avatar">
-                                    <img src="<?= base_url('front') ?>/assets/images/courses/img-1.jpg" alt="">
-                                </div>
-                                <div class="cart_text">
-                                    <h4>  Become a Web Developer from Scratch to Advanced </h4>
-                                </div>
-                                <div class="cart_price">
-                                    <span> $19.99 </span>
-                                    <button class="type"> Remove</button>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="cart_avatar">
-                                    <img src="<?= base_url('front') ?>/assets/images/courses/img-2.jpg" alt="">
-                                </div>
-                                <div class="cart_text">
-                                    <h4> Angular Fundamentals for Beginner to advance </h4>
-                                </div>
-                                <div class="cart_price">
-                                    <span> $12.99 </span>
-                                    <button class="type"> Remove</button>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="cart_avatar">
-                                    <img src="<?= base_url('front') ?>/assets/images/courses/img-3.jpg" alt="">
-                                </div>
-                                <div class="cart_text">
-                                    <h4> Ultimate Web Developer Course for Beginners 2020</h4>
-                                </div>
-                                <div class="cart_price">
-                                    <span> $14.99 </span>
-                                    <button class="type"> Remove</button>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="cart_avatar">
-                                    <img src="<?= base_url('front') ?>/assets/images/courses/img-4.jpg" alt="">
-                                </div>
-                                <div class="cart_text">
-                                    <h4> The Complete JavaScript From beginning to advance </h4>
-                                </div>
-                                <div class="cart_price">
-                                    <span> $16.99 </span>
-                                    <button class="type"> Remove</button>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="cart_avatar">
-                                    <img src="<?= base_url('front') ?>/assets/images/courses/img-5.jpg" alt="">
-                                </div>
-                                <div class="cart_text">
-                                    <h4> Become a Web Developer from Scratch to Advanced</h4>
-                                </div>
-                                <div class="cart_price">
-                                    <span> $12.99 </span>
-                                    <button class="type"> Remove</button>
-                                </div>
-                            </li>
+                            <template x-for="item in cartItems" :key="item.id">
+                                
+                                <li>
+                                    <div class="cart_avatar">
+                                        <img :src="item.options.image ? item.options.image : '<?= base_url('front/assets/images/courses/img-1.jpg') ?>'" alt="">
+                                    </div>
+                                    <div class="cart_text">
+                                        <h4 x-text="item.name">  </h4>
+                                    </div>
+                                    <div class="cart_price">
+                                        <span x-text="formatter.format(item.price)"> </span>
+                                        <button type="button" @click="removeFromCart(item.rowid)" class="type"> Remove</button>
+                                    </div>
+                                </li>
+                            </template>
                         </ul>
     
                         <div class="cart_footer">
-                            <p> Subtotal : $ 320 </p>
-                            <h1> Total :  <strong> $ 320</strong> </h1>
+                            <!-- <p> Subtotal : $ 320 </p> -->
+                            <h1> Total :  <strong x-text="formatter.format(total)">  </strong> </h1>
                         </div>
                     </div>
     

@@ -760,8 +760,9 @@
             </div>
         </div>
     </div>
+    
+<?= view('default/common/footer') ?>
 
-<script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
 <script>
     function getData() {
         return {
@@ -778,4 +779,4 @@
         }
     }
 </script>
-    <?= view('default/common/footer') ?>
+    <?= view('default/common/close') ?>

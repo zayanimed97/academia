@@ -75,7 +75,7 @@ class BaseController extends Controller
 
 		// Do Not Edit This Line
 		parent::initController($request, $response, $logger);
-
+		$this->cart = \Config\Services::cart();
 		//--------------------------------------------------------------------
 		// Preload any models, libraries, etc, here.
 		//--------------------------------------------------------------------
@@ -163,7 +163,7 @@ class BaseController extends Controller
 			$common_data['redirect_admin']=base_url('superadmin/loginBack');//$this->session->get('redirect_admin');
 		}
 
-		
+		$common_data['cart'] = $this->cart;
 		return $common_data;
 	}
 	
