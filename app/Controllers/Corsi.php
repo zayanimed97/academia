@@ -339,7 +339,8 @@ class Corsi extends BaseController
 			$inf_corsi=$this->CorsiModel->find($vv['id_corsi']);
 			$vv['cour']=$inf_corsi['sotto_titolo'];
 			$inf_doctor=$this->UserProfileModel->where('user_id',$vv['instructor'])->first();
-			$vv['instructor']=$inf_doctor['nome'].' '.$inf_doctor['cognome'];
+			if(!empty($inf_doctor)) $vv['instructor']=$inf_doctor['nome'].' '.$inf_doctor['cognome'];
+			else $vv['instructor']="";
 			if($vv['free']=='yes') $vv['price']=lang('app.field_free_modulo');
 			elseif($vv['have_def_price']=='no'){
 				$vv['price']=lang('app.have_def_price');
