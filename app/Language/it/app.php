@@ -367,6 +367,7 @@ $lang['field_end_date']="Data fino";
 $lang['field_nb_use']="Numero di utilizzo possibile";
 $lang['field_corsi']="Corsi";
 $lang['field_faveicon']="Faveicon";
+$lang['field_button_label']="etichetta URL";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -498,6 +499,7 @@ $lang['title_page_forgot']="Recupera la password dimenticata";
 $lang['title_page_settings_media']="Configurazione Media";
 $lang['title_section_media_logo']="Website";
 $lang['title_section_media_corso']="Immagine del corso predefinita";
+$lang['title_section_banner']="la bandiera";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";

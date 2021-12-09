@@ -165,6 +165,82 @@
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
                             </div><!-- end col -->
+							
+							 <div class="col-12">
+                                <div class="card">
+								 
+                                    <div class="card-body">
+                                        <h4 class="header-title"><?php echo lang('app.title_section_banner')?></h4>
+										<?php $attributes = ['class' => 'form-input-flat', 'id' => 'add_corsi_form','method'=>'post'];
+											echo form_open_multipart('', $attributes);?>
+											<input type="hidden" name="action" value="banner">
+											<?php $banner=(array)json_decode($banner_home ?? "" );
+											?>
+											<div class="row">
+													<div class="col-md-6">
+													  <div class="form-group">
+														<label class="col-form-label " for="title"><?php echo lang('app.field_title')?> </label>
+														
+															
+															<input class="form-control" type="text" id="title" name="title" value="<?php echo $banner['title'] ?? ''?>" />
+															
+														
+														</div>
+													 </div>
+													 <div class="col-md-6">
+													  <div class="form-group">
+														<label class="col-form-label " for="subtitle"><?php echo lang('app.field_description')?> </label>
+														
+															
+															<input class="form-control" type="text" id="subtitle" name="subtitle"  value="<?php echo $banner['subtitle'] ?? ''?>" />
+															
+														
+														</div>
+													 </div>
+													 <div class="col-md-12">
+													  <div class="form-group">
+														<label class="col-form-label " for="image"><?php echo lang('app.field_image')?> </label>
+														<div class="row">
+															<div class="col-10">
+															<input class="form-control" type="file" id="image" name="image"  />
+															</div>
+															<div class="col-2">
+																<?php if(isset($banner['image']) && $banner['image']!=""){?> <img src="<?php echo base_url('uploads/banner/'.$banner['image'])?>" style="width:100%"> <?php } ?>
+															</div>
+														</div>
+														</div>
+													 </div>
+													  <div class="col-md-6">
+													  <div class="form-group">
+														<label class="col-form-label " for="url"><?php echo lang('app.field_url')?> </label>
+														
+															
+															<input class="form-control" type="text" id="url" name="url"  value="<?php echo $banner['url'] ?? ''?>" />
+															
+														
+														</div>
+													 </div>
+													  <div class="col-md-6">
+													  <div class="form-group">
+														<label class="col-form-label " for="btn_label"><?php echo lang('app.field_button_label')?> </label>
+														
+															
+															<input class="form-control" type="text" id="btn_label" name="btn_label"  value="<?php echo $banner['btn_label'] ?? ''?>" />
+															
+														
+														</div>
+													 </div>
+											</div>
+											<?php $data=["name"=>"save",
+											"value"=>lang('app.btn_save'),
+											'class' => 'btn btn-success'
+								];
+								
+								echo form_submit($data,lang('app.btn_save'));?>
+										</form>
+									</div>
+								</div>
+							</div>
                         </div>
                     </div> <!-- container -->
 

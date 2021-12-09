@@ -204,6 +204,33 @@ class Settings extends BaseController
 						
 						}
 				break;
+				case 'banner':
+				$validated2 = $this->validate([
+							'image' => [
+								'uploaded[image]',
+								'mime_in[image,image/jpg,image/jpeg,image/gif,image/png,image/ico]',
+								'max_size[image,4096]',
+							],
+						]);
+						if ($validated2) { 
+							$avatar_logo = $this->request->getFile('image');
+							 $logo_name = $avatar_logo->getRandomName();
+							
+							$avatar_logo->move(ROOTPATH.'public/uploads/banner/',$logo_name);
+						
+							$banner_home=json_encode(array("title"=>$this->request->getVar('title'),"subtitle"=>$this->request->getVar('subtitle'),"image"=>$logo_name,"url"=>$this->request->getVar('url'),"btn_label"=>$this->request->getVar('btn_label')),true);
+							$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'banner_home')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'banner_home','meta_value'=>$banner_home));
+							else{
+								
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'banner_home')->update($id['id'],array('meta_value'=>$banner_home));
+							}
+						}
+						else{
+							$validation=$this->validator;
+							$data['error']=$validation->listErrors();
+						}
+				break;
 			}
 		}
 		$logo=$this->SettingModel->getByMetaKey($user_data['id'],'logo_website')['logo_website'] ?? '';
@@ -211,12 +238,15 @@ class Settings extends BaseController
 		$data['logo']=$logo ;
 		$data['faveicon']=$faveicon  ;
 		$data['inf_package']=$this->EntePackageModel->where('id_ente',$user_data['id'])->orderBy('expired_date','DESC')->first();
-		$aula=$this->SettingModel->getByMetaKey($user_data['id'],'faveicon_website')['default_img_aula'] ?? '';
+		$aula=$this->SettingModel->getByMetaKey($user_data['id'],'default_img_aula')['default_img_aula'] ?? '';
 		$data['aula']=$aula ;
-		$webinar=$this->SettingModel->getByMetaKey($user_data['id'],'faveicon_website')['default_img_webinar'] ?? '';
+		$webinar=$this->SettingModel->getByMetaKey($user_data['id'],'default_img_webinar')['default_img_webinar'] ?? '';
 		$data['webinar']=$webinar ;
-		$online=$this->SettingModel->getByMetaKey($user_data['id'],'faveicon_website')['default_img_online'] ?? '';
+		$online=$this->SettingModel->getByMetaKey($user_data['id'],'default_img_online')['default_img_online'] ?? '';
 		$data['online']=$online ;
+		
+		$banner_home=$this->SettingModel->getByMetaKey($user_data['id'],'banner_home')['banner_home'] ?? '';
+		$data['banner_home']=$banner_home ;
 		return view('admin/settings_media.php',$data);
 		
 		
