@@ -368,6 +368,10 @@ $lang['field_nb_use']="Numero di utilizzo possibile";
 $lang['field_corsi']="Corsi";
 $lang['field_faveicon']="Faveicon";
 $lang['field_button_label']="etichetta URL";
+$lang['field_time']="Time";
+$lang['field_buy_type_2']="TP";
+$lang['field_free_cours_2']="CG";
+$lang['have_def_price_2']="PPP";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";

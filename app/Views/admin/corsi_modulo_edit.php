@@ -720,7 +720,9 @@
 														<div class="repeater-corsidate m-t-30 col-md-12">
 														<div data-repeater-list="corsidate">
 														<?php if(!empty($corsi_date)){
-															foreach($corsi_date as $k=>$v){?>
+															
+															foreach($corsi_date as $k=>$v){
+																?>
 															<div data-repeater-item="">
 															<div class="row">
 																  <div class="col-md-2" >
@@ -732,7 +734,7 @@
 													 <div class="col-md-2" >
 																	<div class="form-group">
 																		<label for="acc-mname"><?php echo lang('app.field_date')?></label>
-																		<input type="text" name="date" class="form-control corsidate_date_input" value="<?php  echo date('d/m/Y',strtotime($v['date']))?>">
+																		<input type="text" name="date" class="form-control corsidate_date_input" value="<?php  echo $v['date']?>">
 																	</div>
 																</div>
 																<div class="col-md-2" >
@@ -816,7 +818,7 @@
 													 <div class="col-md-2" >
 																	<div class="form-group">
 																		<label for="acc-mname"><?php echo lang('app.field_date')?></label>
-																		<input type="text" name="date" class="form-control corsidate_date_input" value="<?php echo date('d/m/Y',strtotime($v['date']))?>">
+																		<input type="text" name="date" class="form-control corsidate_date_input" value="<?php echo $v['date']?>">
 																	</div>
 																</div>
 																<div class="col-md-2" >
