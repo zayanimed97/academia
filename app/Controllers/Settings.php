@@ -56,6 +56,171 @@ class Settings extends BaseController
 		
 	}
 	
+	public function media(){
+		$data=$this->common_data();
+		$user_data=$this->session->get('user_data');
+		
+		if($this->request->getVar('action')!==null){
+			switch($this->request->getVar('action')){
+				case 'logo':
+					 $validated = $this->validate([
+							'logo' => [
+								'uploaded[logo]',
+								'mime_in[logo,image/jpg,image/jpeg,image/gif,image/png]',
+								'max_size[logo,4096]',
+							],
+						]);
+				
+						if ($validated) { 
+							$avatar_logo = $this->request->getFile('logo');
+							 $logo_name = $avatar_logo->getRandomName();
+							
+							$avatar_logo->move(ROOTPATH.'public/uploads/',$logo_name);
+						
+							$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'logo_website')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'logo_website','meta_value'=>$logo_name));
+							else{
+								
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'logo_website')->update($id['id'],array('meta_value'=>$logo_name));
+							}
+						}
+						else{
+							$validation=$this->validator;
+							$data['warning']=$validation->listErrors();
+							 $validation->reset();
+						
+						}
+						
+						$validated2 = $this->validate([
+							'faveicon' => [
+								'uploaded[faveicon]',
+								'mime_in[faveicon,image/jpg,image/jpeg,image/gif,image/png,image/ico]',
+								'max_size[faveicon,4096]',
+							],
+						]);
+						if ($validated2) { 
+							$avatar_logo = $this->request->getFile('faveicon');
+							 $logo_name = $avatar_logo->getRandomName();
+							
+							$avatar_logo->move(ROOTPATH.'public/uploads/',$logo_name);
+						
+							$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'faveicon_website')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'faveicon_website','meta_value'=>$logo_name));
+							else{
+								
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'faveicon_website')->update($id['id'],array('meta_value'=>$logo_name));
+							}
+						}
+						else{
+							$validation=$this->validator;
+							if(isset($data['warning']))
+								$data['warning'].=$validation->listErrors();
+							else $data['warning']=$validation->listErrors();
+						
+						}
+				break;
+				case 'corso':
+					 $validated = $this->validate([
+							'aula' => [
+								'uploaded[aula]',
+								'mime_in[aula,image/jpg,image/jpeg,image/gif,image/png]',
+								'max_size[aula,4096]',
+							],
+						]);
+				
+						if ($validated) { 
+							$avatar_logo = $this->request->getFile('aula');
+							 $logo_name = $avatar_logo->getRandomName();
+							
+							$avatar_logo->move(ROOTPATH.'public/uploads/',$logo_name);
+						
+							$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'default_img_aula')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'default_img_aula','meta_value'=>$logo_name));
+							else{
+								
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'default_img_aula')->update($id['id'],array('meta_value'=>$logo_name));
+							}
+						}
+						else{
+							$validation=$this->validator;
+							$data['warning']=$validation->listErrors();
+							 $validation->reset();
+						
+						}
+						
+						$validated2 = $this->validate([
+							'webinar' => [
+								'uploaded[webinar]',
+								'mime_in[webinar,image/jpg,image/jpeg,image/gif,image/png,image/ico]',
+								'max_size[webinar,4096]',
+							],
+						]);
+						if ($validated2) { 
+							$avatar_logo = $this->request->getFile('webinar');
+							 $logo_name = $avatar_logo->getRandomName();
+							
+							$avatar_logo->move(ROOTPATH.'public/uploads/',$logo_name);
+						
+							$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'default_img_webinar')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'default_img_webinar','meta_value'=>$logo_name));
+							else{
+								
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'default_img_webinar')->update($id['id'],array('meta_value'=>$logo_name));
+							}
+						}
+						else{
+							$validation=$this->validator;
+							if(isset($data['warning']))
+								$data['warning'].=$validation->listErrors();
+							else $data['warning']=$validation->listErrors();
+						 $validation->reset();
+						}
+						
+						$validated2 = $this->validate([
+							'online' => [
+								'uploaded[online]',
+								'mime_in[online,image/jpg,image/jpeg,image/gif,image/png,image/ico]',
+								'max_size[online,4096]',
+							],
+						]);
+						if ($validated2) { 
+							$avatar_logo = $this->request->getFile('online');
+							 $logo_name = $avatar_logo->getRandomName();
+							
+							$avatar_logo->move(ROOTPATH.'public/uploads/',$logo_name);
+						
+							$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'default_img_online')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'default_img_online','meta_value'=>$logo_name));
+							else{
+								
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'default_img_online')->update($id['id'],array('meta_value'=>$logo_name));
+							}
+						}
+						else{
+							$validation=$this->validator;
+							if(isset($data['warning']))
+								$data['warning'].=$validation->listErrors();
+							else $data['warning']=$validation->listErrors();
+						
+						}
+				break;
+			}
+		}
+		$logo=$this->SettingModel->getByMetaKey($user_data['id'],'logo_website')['logo_website'] ?? '';
+		$faveicon=$this->SettingModel->getByMetaKey($user_data['id'],'faveicon_website')['faveicon_website'] ?? '';
+		$data['logo']=$logo ;
+		$data['faveicon']=$faveicon  ;
+		$data['inf_package']=$this->EntePackageModel->where('id_ente',$user_data['id'])->orderBy('expired_date','DESC')->first();
+		$aula=$this->SettingModel->getByMetaKey($user_data['id'],'faveicon_website')['default_img_aula'] ?? '';
+		$data['aula']=$aula ;
+		$webinar=$this->SettingModel->getByMetaKey($user_data['id'],'faveicon_website')['default_img_webinar'] ?? '';
+		$data['webinar']=$webinar ;
+		$online=$this->SettingModel->getByMetaKey($user_data['id'],'faveicon_website')['default_img_online'] ?? '';
+		$data['online']=$online ;
+		return view('admin/settings_media.php',$data);
+		
+		
+	}
 	
 	/*
 	public function notif_log($user_id=null){

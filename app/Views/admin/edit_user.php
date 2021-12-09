@@ -50,6 +50,7 @@ else{
                                      <div class="alert alert-danger" id="error_alert" style="display:none"></div>
                                         <form method="post" id="add_user_form" action="<?= base_url() ?>/admin/updateUser"  x-data="getResData()" enctype="multipart/form-data">
                                         <input type="hidden" name="id" value="<?= $id ?>">
+										 <input type="hidden" name="role" value="<?= $role ?>">
                                             <div id="basicwizard">
                                                 <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-4">
                                                     <li class="nav-item">

@@ -108,6 +108,9 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
     $routes->add('newCoupon', 'Coupon::new');
     $routes->add('updateCoupon', 'Coupon::update');
     $routes->add('deleteCoupon/(:any)', 'Coupon::delete/$1');
+	
+	//media settings
+	$routes->add('settings/media', 'Settings::media');
 });
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {

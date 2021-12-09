@@ -366,6 +366,7 @@ $lang['field_start_date']="Data inizio";
 $lang['field_end_date']="Data fino";
 $lang['field_nb_use']="Numero di utilizzo possibile";
 $lang['field_corsi']="Corsi";
+$lang['field_faveicon']="Faveicon";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -433,6 +434,7 @@ $lang['menu_setting_email_edit']="Modifica Email";
 $lang['menu_coupon']="Coupon";
 $lang['new_coupon']="Nuovo coupon";
 $lang['update_coupon']="Modifica Coupon";
+$lang['menu_setting_media']="Media";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -493,6 +495,9 @@ $lang['title_page_coupon']="Coupon";
 $lang['modal_title_delete_coupon']="Elemina Coupon";
 $lang['title_page_login']="Sign In";
 $lang['title_page_forgot']="Recupera la password dimenticata";
+$lang['title_page_settings_media']="Configurazione Media";
+$lang['title_section_media_logo']="Website";
+$lang['title_section_media_corso']="Immagine del corso predefinita";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
