@@ -86,6 +86,11 @@ label.checkbox.blue span {
     object-fit: initial;
     position: initial;
 }
+a[disabled] {
+    pointer-events: none;
+    background-color: #bdbdbd;
+    color: #fff;
+}
 </style>
         <div class="container"  x-data="getFilters($watch)">
 
@@ -261,7 +266,7 @@ label.checkbox.blue span {
                                                     <div class="text-lg font-semibold"> <?= $c['prezzo'] ?> </div>
                                                 </div>
                                                 <div class="flex justify-between items-center mt-2">
-                                                    <a href="#" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700"> Aggiungi al carrello </a>
+                                                    <a href="<?= strlen($c['prezzo']) == 0 ? '#' : '' ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? 'non disponibile' : 'Aggiungi al carrello' ?> </a>
                                                     <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
                                                 </div>
                                             </div>
@@ -301,7 +306,7 @@ label.checkbox.blue span {
                                                     <div class="-mt-3.5">
                                                         <div class="text-lg font-semibold"> <?= $c['prezzo'] ?> </div>
 
-                                                        <a href="<?= base_url('corsi/'.$c['url']) ?>" class="md:flex items-center justify-center h-9 px-8 rounded-md border hidden"> Enroll Now </a>
+                                                        <a href="<?= strlen($c['prezzo']) == 0 ? '#' : '' ?>" class="md:flex items-center justify-center h-9 px-8 rounded-md border hidden" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? 'non disponibile' : 'Aggiungi al carrello' ?> </a>
                                                     </div>
                                                 </div>
                                                 <?php if($c['buy_type'] == 'module') { ?>
