@@ -18,15 +18,43 @@
     ================================================== -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://parsleyjs.org/dist/parsley.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs"></script>
+    <script>
+        var formatter = new Intl.NumberFormat('it-IT', {
+            style: 'currency',
+            currency: 'EUR',
 
-   <script src="<?= base_url('front') ?>/assets/js/uikit.min.js"></script>
-    <script src="<?= base_url('front') ?>/assets/js/tippy.all.min.js"></script>
-    <script src="<?= base_url('front') ?>/assets/js/simplebar.js"></script>
-    <script src="<?= base_url('front') ?>/assets/js/custom.js"></script>
-    <script src="<?= base_url('front') ?>/assets/js/bootstrap-select.min.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+            // These options are needed to round to whole numbers if that's what you want.
+            //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+            //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+        });
+        function headerData() {
+            return {
+                cartItems: <?= json_encode($cart->contents()) ?>,
+                total: <?= $cart->total() ?>,
+                addToCart(id, prezzo, type, url, item) {
+                    if (type == 'date') {
+                        location.href = '<?= base_url() ?>/corsi/'+url
+                    } else {
+                        // console.log(id, prezzo, type, url);
+                        $.ajax({
+                            url: '<?= base_url('addToCart') ?>', 
+                            type: 'post',
+                            data: {"id": id, "price": prezzo, "type": item}, 
+                            dataType: 'json'
+                        })
+                        .done((res)=>{this.cartItems = res})
+                    }
+                },
+                removeFromCart(row){
+                    console.log('fad');
+                    fetch('<?= base_url('removeFromCart') ?>/'+row, {
+                            method: "get",  
+                            headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
+                            .then( el => el.json() )
+                            .then(res => {console.log(res);this.cartItems = res})
+                }
+            }
+        }
+    </script>
 
-</body>
-
-</html>

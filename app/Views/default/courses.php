@@ -244,7 +244,7 @@ a[disabled] {
                         <template x-if="view == 'grid'">
                             <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-5">
                                 <?php foreach($corsi as $c) { ?>
-                                    <div class="card uk-transition-toggle">
+                                    <div class="card uk-transition-toggle flex flex-col justify-between">
                                         <div class="card-media h-40 flex items-center" @click="showModalPromo('<?= $c['video_promo'] ?>')">
                                             <div class="card-media-overly"></div>
                                             <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : base_url('front/assets/images/courses/img-4.jpg') ?>" alt="" class="">
@@ -252,25 +252,27 @@ a[disabled] {
                                                 <span class="icon-play"></span>
                                             <?php } ?>
                                         </div>
-                                        <a href="<?= base_url('corsi/'.$c['url']) ?>" class="uk-link-reset">
                                             <div class="card-body p-4">
-                                                <div class="font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?>
-                                                </div>
-                                                <div class="flex space-x-2 items-center text-sm pt-3">
-                                                    <div> <?= $c['tipologia_corsi'] ?> </div>
-                                                    <div>·</div>
-                                                    <div> <?= $c['modulo_count'] ?> modulo </div>
-                                                </div>
-                                                <div class="pt-1 flex items-center justify-between">
-                                                    <div class="text-sm font-semibold"> <?= $c['doctor_names'] ?>  </div>
-                                                    <div class="text-lg font-semibold"> <?= $c['prezzo'] ?> </div>
-                                                </div>
+                                                <a href="<?= base_url('corsi/'.$c['url']) ?>">
+
+                                                    <div class="font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?>
+                                                    </div>
+                                                    <div class="flex space-x-2 items-center text-sm pt-3">
+                                                        <div> <?= $c['tipologia_corsi'] ?> </div>
+                                                        <div>·</div>
+                                                        <div> <?= $c['modulo_count'] ?> modulo </div>
+                                                    </div>
+                                                    <div class="pt-1 flex items-center justify-between">
+                                                        <div class="text-sm font-semibold"> <?= $c['doctor_names'] ?>  </div>
+                                                        <div class="text-lg font-semibold"> <?= $c['prezzo'] ?> </div>
+                                                    </div>
+                                                </a>
+
                                                 <div class="flex justify-between items-center mt-2">
-                                                    <a href="<?= strlen($c['prezzo']) == 0 ? '#' : '' ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? 'non disponibile' : 'Aggiungi al carrello' ?> </a>
+                                                    <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', 'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? 'non disponibile' : 'Aggiungi al carrello' ?> </button>
                                                     <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
                                                 </div>
                                             </div>
-                                        </a>
                                     </div>
                                 <?php } ?>
                             </div>
@@ -393,7 +395,7 @@ a[disabled] {
                 </div>
             </div>
         </div>
-<script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
+<?= view('default/common/footer') ?>
  
 <script>
     function getFilters($watch) {
@@ -461,5 +463,6 @@ a[disabled] {
             }
         }
     }
+
 </script>
-<?= view('default/common/footer') ?>
+<?= view('default/common/close') ?>
