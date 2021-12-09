@@ -43,15 +43,20 @@
                                         <h5 class="mt-0"><?= lang('app.field_argomenti') ?></h5>
                                         <!-- <p class="sub-header">Inline edit like a spreadsheet, toolbar column with edit button only and without focus on first input.</p> -->
                                         <div class="table-responsive">
-                                            <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                                            <table id="basic-datatable" class="table  nowrap w-100">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
 														<th><?php echo lang('app.field_code')?></th>
                                                         <th><?php echo lang('app.field_title')?></th>
                                                         <th><?php echo lang('app.field_type_cours')?></th>
-														<th><?php echo lang('app.field_price')?></th>
+														<th>€</th>
 														 <th><?php echo lang('app.field_nb_modulo')?></th>
+														  <th><?php echo lang('app.field_time')?></th>
+														  <th><?php echo lang('app.field_docente')?></th>
+														  <th><?php echo lang('app.field_buy_type_2')?></th>
+														  <th><?php echo lang('app.field_image')?></th>
+														  <th><i class="mdi mdi-link mr-1"></i></th>
                                                         <th>&nbsp;</th>
                                                     </tr>
                                                 </thead>
@@ -65,6 +70,15 @@
                                                         <td><?= $arg['tipologia_corsi'] ?></td>
 														  <td><?= $arg['price'] ?></td>
 														    <td><?= $arg['nb_module'] ?></td>
+															 <td><?= $arg['duration'] ?></td>
+															  <td><?= $arg['docente'] ?></td>
+															  <td><?php switch($arg['buy_type']){
+																case 'cours':echo lang('app.field_buy_type_cours'); break; 
+																case 'module':echo lang('app.field_buy_type_modulo'); break; 
+																case 'date':echo lang('app.field_buy_type_date'); break; 
+															  }?></td>
+															 <td><?php if($arg['foto']!=""){?><img src="<?php echo base_url('uploads/corsi/'.$arg['foto'])?>"><?php } ?></td>
+															 <td><?php if($arg['ids_pdf']!="") echo count(explode(",",$arg['ids_pdf'])); else echo '0'?></td>
                                                         <td class="row pt-1">
                                                             <a href="<?php echo base_url('admin/corsi/edit/'.$arg['id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-edit"></i>

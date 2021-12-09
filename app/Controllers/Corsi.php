@@ -24,12 +24,19 @@ class Corsi extends BaseController
 		$res=array();
 		$ll=$this->CorsiModel->where('id_ente',$common_data['user_data']['id'])->where('banned','no')->find();
 		foreach($ll as $kk=>$vv){
-			if($vv['free']=='yes') $vv['price']=lang('app.field_free_cours');
+			if($vv['free']=='yes') $vv['price']=lang('app.field_free_cours_2');
 			elseif($vv['have_def_price']=='no'){
-				$vv['price']=lang('app.have_def_price');
+				$vv['price']=lang('app.have_def_price_2');
 			}
 			else $vv['price']=$vv['prezzo'];
 			$vv['nb_module']=$this->CorsiModuloModel->where('banned','no')->where('id_corsi',$vv['id'])->countAllResults();
+			$tt=explode(",",$vv['ids_doctors']);
+			$str_docente="";
+			foreach($tt as $d){
+				$inf_profile=$this->UserProfileModel->where('user_id',$d)->first();
+				$str_docente.=$inf_profile['nome'].' '.$inf_profile['cognome'].'<br/>';
+			}
+			$vv['docente']=$str_docente;
 			$res[]=$vv;
 		}
 		
