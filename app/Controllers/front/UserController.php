@@ -10,7 +10,7 @@ class UserController extends BaseController
     {
         $data = $this->common_data();
         $data['country'] = $this->NazioniModel->where('status', 'enable')->find();
-        $data['prof'] = $this->ProfessioneModel->where('status', 'enable')->find();
+        $data['prof'] = $this->ProfessioneModel->where('status', 'enable')->where('id_ente', $data['selected_ente']['id'])->find();
 
         return view('default/register', $data);
     }

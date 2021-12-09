@@ -204,7 +204,11 @@ class BaseController extends Controller
 
             // if there is no user return range
             if (((session('user_data')['role'] ?? '') != 'participant') && strlen($course['max_price']) > 0 && strlen($course['min_price']) > 0) {
-                $course['prezzo'] = $this->amount->format($course['max_price']) . ' - '. $this->amount->format($course['min_price']);
+                if ($course['min_price'] == $course['max_price']) {
+					$course['prezzo'] = $course['min_price'];
+				} else {
+					$course['prezzo'] = $this->amount->format($course['min_price']). ' - '. $this->amount->format($course['max_price']);
+				}
             }
 
             // if there is a user return price for profession
