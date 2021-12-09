@@ -77,7 +77,7 @@
 																case 'module':echo lang('app.field_buy_type_modulo'); break; 
 																case 'date':echo lang('app.field_buy_type_date'); break; 
 															  }?></td>
-															 <td><?php if($arg['foto']!=""){?><img src="<?php echo base_url('uploads/corsi/'.$arg['foto'])?>"><?php } ?></td>
+															 <td><?php if($arg['foto']!=""){?><img src="<?php echo base_url('uploads/corsi/'.$arg['foto'])?>" style="width:100%"><?php } ?></td>
 															 <td><?php if($arg['ids_pdf']!="") echo count(explode(",",$arg['ids_pdf'])); else echo '0'?></td>
                                                         <td class="row pt-1">
                                                             <a href="<?php echo base_url('admin/corsi/edit/'.$arg['id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
