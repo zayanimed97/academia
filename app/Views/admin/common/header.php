@@ -150,7 +150,7 @@
 
                     <!-- User box -->
                     <div class="user-box text-center">
-                        <img src="<?php echo base_url('UBold_v4.1.0')?>/assets/images/users/user-1.jpg" alt="user-img" title="Mat Helme"
+                        <img src="<?php echo base_url('UBold_v4.1.0')?>/assets/images/users/user-1.jpg" alt="user-img" title="<?php echo $user_data['display_name']?>"
                             class="rounded-circle avatar-md">
                         <div class="dropdown">
                             <a href="javascript: void(0);" class="text-dark dropdown-toggle h5 mt-2 mb-1 d-block"
@@ -282,7 +282,7 @@
                                     <ul class="nav-second-level">
 									  <!--li><a href="<?php echo base_url().'/admin/settings'?>"><?php echo lang('app.menu_setting_info')?></a></li-->
 										<li><a href="<?php echo base_url('/admin/emails')?>"><?php echo lang('app.menu_setting_email')?></a></li>
-                                        
+                                        <li><a href="<?php echo base_url('/admin/settings/media')?>"><?php echo lang('app.menu_setting_media')?></a></li>
                                     </ul>
                                 </div>
                             </li>
