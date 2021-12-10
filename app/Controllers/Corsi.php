@@ -34,7 +34,7 @@ class Corsi extends BaseController
 			$str_docente="";
 			foreach($tt as $d){
 				$inf_profile=$this->UserProfileModel->where('user_id',$d)->first();
-				$str_docente.=$inf_profile['nome'].' '.$inf_profile['cognome'].'<br/>';
+				$str_docente.= ($inf_profile['nome'] ?? '') .' '.($inf_profile['cognome'] ?? '').'<br/>';
 			}
 			$vv['docente']=$str_docente;
 			$res[]=$vv;

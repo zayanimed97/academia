@@ -279,6 +279,8 @@
                     <!-- cart -->
                     <a href="#" class="header_widgets">
                         <ion-icon name="cart-outline" class="is-icon"></ion-icon>
+                        <span x-text="items"> </span>
+
                     </a>
                     <div uk-drop="mode: click" class="dropdown_cart">
                         <div class="cart-headline"> My Cart 
