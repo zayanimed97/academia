@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ddebff6c9cbd0cce3b5a1fe0906b8b6",
+    "content-hash": "4772cb931db473cb1de6e1d6e74279ab",
     "packages": [
         {
             "name": "codeigniter4/framework",
@@ -98,6 +98,45 @@
                 "source": "https://github.com/jason-napolitano/CodeIgniter4-Cart-Module/tree/1.1.0"
             },
             "time": "2020-11-22T21:40:22+00:00"
+        },
+        {
+            "name": "kejawenlab/ci4pager",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KejawenLab/CI4Pager.git",
+                "reference": "96e12bc27544fb2b22ba8cbd86a20924e1b33373"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KejawenLab/CI4Pager/zipball/96e12bc27544fb2b22ba8cbd86a20924e1b33373",
+                "reference": "96e12bc27544fb2b22ba8cbd86a20924e1b33373",
+                "shasum": ""
+            },
+            "require": {
+                "codeigniter4/framework": ">=4.0",
+                "ext-pdo": "*",
+                "php": ">=7.2"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "KejawenLab\\CodeIgniter\\Pagination\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "CodeIgniter 4 Pagination Library",
+            "support": {
+                "issues": "https://github.com/KejawenLab/CI4Pager/issues",
+                "source": "https://github.com/KejawenLab/CI4Pager/tree/1.1"
+            },
+            "time": "2020-10-18T01:21:51+00:00"
         },
         {
             "name": "kint-php/kint",

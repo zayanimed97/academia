@@ -53,14 +53,14 @@ class CartController extends BaseController
             ]);
         }
 
-        echo(json_encode($this->cart->contents()));
+        echo(json_encode(['cart' => $this->cart->contents(), 'total' =>$this->cart->totalItems(), 'totalPrice' => $this->cart->total()]));
     }
 
     public function remove($row)
     {
         $this->cart->remove($row);
         
-        echo(json_encode($this->cart->contents()));
+        echo(json_encode(['cart' => $this->cart->contents(), 'total' =>$this->cart->totalItems(), 'totalPrice' => $this->cart->total()]));
     }
     
 }

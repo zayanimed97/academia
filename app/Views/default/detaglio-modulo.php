@@ -6,8 +6,8 @@
 
                     <div class="lg:w-4/12">
                         <div class="w-full lg:h-52 h-40 overflow-hidden rounded-lg relative lg:mb-0 mb-4 flex items-center">
-                            <img src="<?= $corsi['foto'] ? base_url('uploads/corsi/'.$corsi['foto']) : base_url('front/assets/images/courses/img-1.jpg') ?>" alt="" class="w-full h-auto">
-                            <?php if($corsi['video_promo']) { ?>
+                            <img src="<?= $module['foto'] ? base_url('uploads/corsi/'.$module['foto']) : base_url('front/assets/images/courses/img-1.jpg') ?>" alt="" class="w-full h-auto">
+                            <?php if($module['video_promo']) { ?>
                             <a href="#trailer-modal" class="uk-position-center" uk-toggle>
                                 <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16" alt="">
                             </a>
@@ -16,8 +16,8 @@
                     </div>
                     <div class="lg:w-8/12">
                          
-                        <h1 class="lg:leading-10 lg:text-3xl text-black text-xl leading-8 font-bold"><?= $corsi['sotto_titolo'] ?></h1>
-                        <p class="lg:w-4/5 mt-4 md:text-lg md:block hidden"> <?= $corsi['obiettivi'] ?> </p>
+                        <h1 class="lg:leading-10 lg:text-3xl text-black text-xl leading-8 font-bold"><?= $module['sotto_titolo'] ?></h1>
+                        <p class="lg:w-4/5 mt-4 md:text-lg md:block hidden"> <?= $module['obiettivi'] ?> </p>
         
                         <ul class="flex text-gray-300 gap-4 mt-4 mb-3">
                             <?php foreach($doctors as $doc){ ?>
@@ -42,11 +42,9 @@
                             </li> -->
                         </ul>
                         <ul class="lg:flex items-center text-black-200">
-                            <li> <?= $corsi['tipologia_corsi'] ?> </li>
+                            <li> <?= $module['tipologia_corsi'] ?> </li>
                             <li> <span class="lg:block hidden mx-3 text-2xl">·</span> </li>
-                            <li> <?= $corsi['categories'] ?> </li>
-                            <li> <span class="lg:block hidden mx-3 text-2xl">·</span> </li>
-                            <li> <?= $corsi['nomeargomento'] ?></li>
+                            <li> <?= $module['categories'] ?> </li>
                         </ul>
  
                     </div>
@@ -77,15 +75,15 @@
                         <div class="tube-card p-5 lg:p-8" id="Descrizione">
         
                             <div class="space-y-6">
-                                <?php if($corsi['descizione']){ ?>
+                                <?php if($module['description']){ ?>
                                 <div>
                                     <h3 class="text-lg font-semibold mb-3"> Descizione </h3>
                                     <p>
-                                        <?= $corsi['descizione'] ?>
+                                        <?= $module['description'] ?>
                                     </p>
                                 </div>
                                 <?php } ?>
-                                <?php if($corsi['programa']){ ?>
+                                <?php if($module['programa']){ ?>
                                 <div>
                                     <h3 class="text-lg font-semibold mb-1"> Programa </h3>
                                     <!-- <ul class="grid md:grid-cols-2">
@@ -98,36 +96,36 @@
                                         <li> <i class="uil-check text-xl font-bold mr-2"></i>Start building beautiful websites</li>
                                     </ul> -->
 
-                                    <p><?= $corsi['programa'] ?></p>
+                                    <p><?= $module['programa'] ?></p>
                                 </div>
                                 <?php } ?>
 
-                                <?php if($corsi['note']){ ?>
+                                <?php if($module['note']){ ?>
                                 <div>
                                     <h3 class="text-lg font-semibold mb-1"> Note</h3>
-                                    <?= $corsi['note'] ?>
+                                    <?= $module['note'] ?>
                                     </ul>
                                 </div>
                                 <?php } ?>
 
-                                <?php if($corsi['indrizzato_a']){ ?>
+                                <?php if($module['indrizzato_a']){ ?>
                                 <div>
                                     <h3> Indrizzato </h3>
-                                        <p><?= $corsi['indrizzato_a'] ?></p>
+                                        <p><?= $module['indrizzato_a'] ?></p>
                                 </div>
                                 <?php } ?>
 
-                                <?php if($corsi['riferimenti']){ ?>
+                                <?php if($module['riferimenti']){ ?>
                                 <div>
                                     <h3> Riferimenti </h3>
-                                        <p><?= $corsi['riferimenti'] ?></p>
+                                        <p><?= $module['riferimenti'] ?></p>
                                 </div>
                                 <?php } ?>
 
-                                <?php if($corsi['avvisi']){ ?>
+                                <?php if($module['avvisi']){ ?>
                                 <div>
                                     <h3> Avvisi </h3>
-                                        <p><?= $corsi['avvisi'] ?></p>
+                                        <p><?= $module['avvisi'] ?></p>
                                 </div>
                                 <?php } ?>
                             </div>
@@ -559,38 +557,38 @@
                             </div>
                         </div> -->
                         <div class="tube-card p-5 lg:p-8" id="Moduli">
-                            <h3 class="text-xl font-semibold lg:mb-5"> Moduli </h3>
-                            <?php foreach($module as $mod){ if(strlen(trim($mod['id'])) > 0 ){ ?>
+                            <h3 class="text-xl font-semibold lg:mb-5"> Course </h3>
                             <div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2">
-                                <div class="md:w-5/12 md:h-60 h-40 overflow-hidden relative" @click="videoPromo('<?= $mod['video_promo'] ?>', '<?= $mod['sotto_titolo'] ?>')">
-                                    <img src="<?= $mod['foto'] ? base_url('uploads/corsi/'.$mod['foto']) : base_url('front/assets/images/courses/img-2.jpg') ?>" alt="" class="absolute inset-0 object-cover">
-                                    <?php if($mod['video_promo']) {?>
+                                <div class="md:w-5/12 md:h-60 h-40 overflow-hidden relative" @click="videoPromo('<?= $corsi['video_promo'] ?>', '<?= $corsi['sotto_titolo'] ?>')">
+                                    <img src="<?= $corsi['foto'] ? base_url('uploads/corsi/'.$corsi['foto']) : base_url('front/assets/images/courses/img-2.jpg') ?>" alt="" class="absolute inset-0 object-cover">
+                                    <?php if($corsi['video_promo']) {?>
                                     <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="">
                                     <?php } ?>
                                 </div>
                                 <div class="flex-1 md:p-6 p-4">
-                                    <div class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed"><?= $mod['sotto_titolo'] ?> </div>
+                                    <a href="<?= base_url('/corsi/'.$corsi['url']) ?>">
+                                        <div class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed"><?= $corsi['sotto_titolo'] ?> </div>
+                                    </a>
                                     <!-- <div class="line-clamp-2 mt-2 md:block hidden">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</div> -->
-                                    <div class="font-semibold mt-3"> <?= $mod['display_name'] ?> </div>
+                                    <div class="font-semibold mt-3"> <?= $corsi['display_name'] ?> </div>
                                     <div class="mt-1 flex items-center justify-between">
                                         <div class="flex space-x-2 items-center text-sm pt-2">
-                                            <div> <?= $mod['tipologia'] ?: $corsi['tipologia_corsi'] ?> </div>
+                                            <div> <?= $corsi['tipologia_corsi'] ?: $module['tipologia_corsi'] ?> </div>
                                             <div>·</div>
-                                            <div> <?= $corsi['categories'] ?> </div>
+                                            <div> <?= $module['categories'] ?> </div>
                                             <div>·</div>
-                                            <div> <?= $mod['duration'] ?: 'indefinite' ?> </div>
+                                            <div> <?= $corsi['duration'] ?: 'indefinite' ?> </div>
                                             <div>·</div>
-                                            <div> <?= $mod['nb_person_aula'] ?: 'not applicable' ?> </div>
+                                            <div> <?= $corsi['nb_person_aula'] ?: 'not applicable' ?> </div>
                                         </div>
                                         
                                     </div>
-                                    <?php if($mod['prezzo']){ ?>
-                                        <div class="text-lg font-semibold w-full text-right mt-4"> <?= $mod['prezzo'] ?></div>
+                                    <?php if($corsi['prezzo']){ ?>
+                                        <div class="text-lg font-semibold w-full text-right mt-4"> <?= $corsi['prezzo'] ?></div>
                                     <?php } ?>
                                 </div> 
                                 
                             </div>
-                            <?php }} ?>
                         
                         </div>
 
@@ -636,7 +634,7 @@
                                 <div class="grid grid-cols-2 gap-4">
                                    
                                     <div class="flex flex-col space-y-2">
-                                        <div class="text-3xl font-semibold"> <?= $corsi['prezzo'] ?></div>
+                                        <div class="text-3xl font-semibold"> <?= $module['prezzo'] ?></div>
                                         <div> Students </div>
                                         <ion-icon name="people-circle" class="text-lg" hidden></ion-icon>
                                     </div>
@@ -648,23 +646,18 @@
                                 <h4 hidden> COURSE INCLUDES</h4>
         
                                 <div class="-m-5 divide-y divide-gray-200 text-sm">
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon>Tipo di corso: <?= $corsi['tipologia_corsi'] ?> </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['ECM'] ?? '0' ?> Credits </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['duration'] ?? '0min' ?> Totali </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['nb_person_aula'] ?? '0' ?> Participants </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> Moduli </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> Attestato di partecipazione: <?= $corsi['attestato'] ?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon>Tipo di corso: <?= $module['tipologia_corsi'] ?> </div>
+                                    <!-- <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $module['ECM'] ?? '0' ?> Credits </div> -->
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $module['duration'] ?? '0min' ?> Totali </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $module['nb_person_aula'] ?? '0' ?> Participants </div>
+                                    <!-- <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> Moduli </div> -->
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> Attestato di partecipazione: <?= $module['attestato'] ?> </div>
                                 </div>
                                 
                             </div>
                             <div class="mt-4">
-                                <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" @click="addToCart('<?= $corsi['id'] ?>', '<?= $corsi['prezzo'] ?>', '<?= $corsi['buy_type'] ?>', '<?= $corsi['url'] ?>', 'corsi')"> Enroll Now </button>
+                                <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" @click="addToCart('<?= $module['id'] ?>', '<?= $module['prezzo'] ?>', '', '<?= $module['url'] ?>', 'corsi')"> Enroll Now </button>
                             </div>
-                            <?php if($corsi['pdf']){ ?>
-                                <div class="mt-4">
-                                    <a href="<?= base_url('uploads/corsiPDF/'.$corsi['pdf']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> Download PDF </a>
-                                </div>
-                            <?php } ?>
                         </div>
                         
                     
@@ -744,7 +737,7 @@
             </div>
           
             <div class="embed-video">
-                <iframe src="<?= $corsi['video_promo'] ?>" class="w-full"
+                <iframe src="<?= $module['video_promo'] ?>" class="w-full"
                 uk-video="automute: true" frameborder="0" allowfullscreen uk-responsive></iframe>
             </div>
 

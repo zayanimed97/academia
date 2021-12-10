@@ -260,7 +260,7 @@ a[disabled] {
                                                     <div class="flex space-x-2 items-center text-sm pt-3">
                                                         <div> <?= $c['tipologia_corsi'] ?> </div>
                                                         <div>·</div>
-                                                        <div> <?= $c['modulo_count'] ?> modulo </div>
+                                                        <div> <?= $c['buy_type'] != 'is_modulo' ? $c['modulo_count'].' modulo' : '<a href="'.base_url('corsi/'.$c['modulo_count']).'">' .$c['corsiSottoTitoloForModulo'].' </a>' ?> </div>
                                                     </div>
                                                     <div class="pt-1 flex items-center justify-between">
                                                         <div class="text-sm font-semibold"> <?= $c['doctor_names'] ?>  </div>
@@ -303,7 +303,7 @@ a[disabled] {
                                                         <div class="md:block hidden">·</div>
                                                         <div class="flex items-center"> 18 Hourse </div>
                                                         <div class="md:block hidden">·</div>
-                                                        <div class="flex items-center"> <?= $c['modulo_count'] ?> modulo </div>
+                                                        <div class="flex items-center"> <?= $c['buy_type'] != 'is_modulo' ? $c['modulo_count'].' modulo' : '<a href="'.base_url('corsi/'.$c['modulo_count']).'">' .$c['corsiSottoTitoloForModulo'].' </a>' ?> </div>
                                                     </div>
                                                     <div class="-mt-3.5">
                                                         <div class="text-lg font-semibold"> <?= $c['prezzo'] ?> </div>
@@ -363,8 +363,7 @@ a[disabled] {
                             </div>
                         </template>
                         <!-- Pagination -->
-                        <?= $pagination ?>
-
+                        <?= view('default/common/pagination', $pagination) ?>
                     </div>
 
                 </div> 
