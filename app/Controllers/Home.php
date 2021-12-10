@@ -9,8 +9,8 @@ class Home extends BaseController
         // $test = $this->SettingModel->where('meta_value','>',4)->first();
         
         $data = $this->common_data();
-
-        
+//var_dump($data['ente_package']);
+       // $data['seo_title']="Home";
         // $data['argomenti'] = $this->ArgomentiModel  ->where('c.id_ente', $data['selected_ente']['id'])
         //                                             ->join('corsi c', 'c.id_argomenti = argomenti.idargomenti')
         //                                             ->select('c.*, argomenti.*, argomenti.idargomenti as arg_id')

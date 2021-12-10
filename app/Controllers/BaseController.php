@@ -144,7 +144,12 @@ class BaseController extends Controller
 		}
 		
 		$selected_ente=$this->UserModel->where('role','ente')->where('domain_ente',$_SERVER['SERVER_NAME'] ?? 'localhost')->first();
-		if(!empty($selected_ente)) $common_data['selected_ente']=$selected_ente;
+		if(!empty($selected_ente)){
+			$common_data['selected_ente']=$selected_ente;
+			$inf_package=$this->EntePackageModel->where('id_ente',$selected_ente['id'])->orderBy('expired_date','DESC')->first();
+			$det=json_decode($inf_package['package'],true);
+			$common_data['ente_package']=array("expired_date"=>$inf_package['expired_date'],"type_cours"=>$det['type_cours'],"extra"=>$det['extra']);
+		}
 		else $selected_ente['id']=null;
 		$settings=$this->SettingModel->getByMetaKey($selected_ente['id']);
 		$common_data['settings']=$settings;
