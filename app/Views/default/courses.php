@@ -98,8 +98,8 @@ a[disabled] {
             <div class="my-8 lg:flex lg:space-x-10">
                 <div class="lg:w-3/12"></div>
                 <div class="w-full">
-                    <div class="text-xl font-semibold"><?= ucwords(strtolower(htmlspecialchars($_REQUEST['tipo'] ?? '')), '\',. ') ?> Corsi </div>
-                    <div class="text-sm mt-2 font-medium text-gray-500 leading-6">  Choose from +10.000 <?= ucwords(strtolower(htmlspecialchars(implode(', ',array_filter([$_REQUEST['categories'] ?? '', $_REQUEST['argomenti'] ?? ''])))), '\',. ')  ?> courses  </div>
+                    <div class="text-xl font-semibold"><?= ucwords(strtolower(htmlspecialchars($_REQUEST['tipo'] ?? '')), '\',. ') ?> <?php echo lang('front.title_cours')?> </div>
+                    <div class="text-sm mt-2 font-medium text-gray-500 leading-6">  <?php echo str_replace('{filter}',ucwords(strtolower(htmlspecialchars(implode(', ',array_filter([$_REQUEST['categories'] ?? '', $_REQUEST['argomenti'] ?? ''])))), '\',. ')  ,lang('front.subtitle_search_cours'))?></div>
                 </div>
                 
             </div>
@@ -109,7 +109,7 @@ a[disabled] {
                 <div class="lg:w-3/12 space-y-4 lg:block hidden">
                 <form>
                     <div>
-                        <h4 class="font-semibold text-base mb-2"> Categories </h4>
+                        <h4 class="font-semibold text-base mb-2"> <?php echo lang('front.title_filter_category')?> </h4>
                             <!-- <select class="selectpicker default shadow-sm rounded" data-selected-text-format="count" data-size="7"
                                 title="All Categories"> -->
                         <?php foreach ($category as $categ) {?>
@@ -127,7 +127,7 @@ a[disabled] {
                     </div>
 
                     <div>
-                        <h4 class="font-semibold text-base mb-2"> Argomenti </h4>
+                        <h4 class="font-semibold text-base mb-2"> <?php echo lang('front.title_filter_argomenti')?> </h4>
                         <?php foreach ($argomenti as $argo) {?>
                         <div>
 
@@ -144,7 +144,7 @@ a[disabled] {
                     </div>
                     <template x-if="argomenti.length > 0">
                         <div>
-                            <h4 class="font-semibold text-base mb-2"> sottoargomenti </h4>
+                            <h4 class="font-semibold text-base mb-2"> <?php echo lang('front.title_filter_sottoargomenti')?> </h4>
 
                             <template x-for="sotto in visiblesottoargomenti">
                                 <div>
@@ -162,7 +162,7 @@ a[disabled] {
                     </template>
                     
                     <div>
-                        <h4 class="font-semibold text-base mb-2"> Tipologia </h4>
+                        <h4 class="font-semibold text-base mb-2"> <?php echo lang('front.title_filter_type')?> </h4>
                         <div>
                                 <label class='checkbox blue flex items-center'>
                                     <input type='checkbox' name="tipo[]" @change="changeUrl" x-model="tipo" value="aula">
@@ -194,7 +194,7 @@ a[disabled] {
                     </div>
 
 
-                    <a :href="url" class="flex items-center justify-center h-10 mt-8 px-6 rounded-md bg-blue-600 text-white"> Filter </a>
+                    <a :href="url" class="flex items-center justify-center h-10 mt-8 px-6 rounded-md bg-blue-600 text-white">  <?php echo lang('front.btn_filter')?> </a>
 
                     </form>
   
@@ -228,7 +228,7 @@ a[disabled] {
                                     </select>
                                 </div> -->
 
-                                <span class="w-20 lg:block hidden ml-3">Per Page: </span>
+                                <span class="w-20 lg:block hidden ml-3"><?php echo lang('front.per_page')?>: </span>
                                 <div class="w-20 lg:block hidden ml-3">
                                     <select class="selectpicker is-small rounded-md shadow-sm" @change="perPageChange($event.target.value)" data-size="7" x-model="perPage">
                                         <option value="12">12</option>
@@ -269,7 +269,7 @@ a[disabled] {
                                                 </a>
 
                                                 <div class="flex justify-between items-center mt-2">
-                                                    <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', 'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? 'non disponibile' : 'Aggiungi al carrello' ?> </button>
+                                                    <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', 'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </button>
                                                     <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
                                                 </div>
                                             </div>
@@ -308,7 +308,7 @@ a[disabled] {
                                                     <div class="-mt-3.5">
                                                         <div class="text-lg font-semibold"> <?= $c['prezzo'] ?> </div>
 
-                                                        <a href="<?= strlen($c['prezzo']) == 0 ? '#' : '' ?>" class="md:flex items-center justify-center h-9 px-8 rounded-md border hidden" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? 'non disponibile' : 'Aggiungi al carrello' ?> </a>
+                                                        <a href="<?= strlen($c['prezzo']) == 0 ? '#' : '' ?>" class="md:flex items-center justify-center h-9 px-8 rounded-md border hidden" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </a>
                                                     </div>
                                                 </div>
                                                 <?php if($c['buy_type'] == 'module') { ?>

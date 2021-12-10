@@ -5,6 +5,9 @@ $lang['btn_login']= "Accedi";
 $lang['btn_signup']= "Registrati";
 $lang['btn_save']= "Salva";
 $lang['btn_register']="Restistrati";
+$lang['btn_filter']="Filtro";
+$lang['btn_add_cart']='Aggiungi al carrello';
+
 
 
 $lang['field_email']="Email";
@@ -40,5 +43,13 @@ $lang['help_forgot_password']="Hai dimenticato la password?";
 $lang['help_havnot_account']="Non hai un account?";
 $lang['title_register']="Creare un profilo";
 $lang['help_have_account']="Hai già un account";
+$lang['title_cours']="corsi";
+$lang['subtitle_search_cours']="scegli tra +10000 {filter} corsi";
+$lang['title_filter_category']="Categoria";
+$lang['title_filter_argomenti']="Argomenti";
+$lang['title_filter_sottoargomenti']="sottoargomenti";
+$lang['title_filter_type']="Tipologia";
+$lang['per_page']="per pagina";
+$lang['title_non_disponible']="non disponibile";
 return $lang;
 ?>
