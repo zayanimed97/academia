@@ -18,6 +18,7 @@
     ================================================== -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://parsleyjs.org/dist/parsley.min.js"></script>
+	 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/parsleyjs/i18n/it.js"></script>
     <script defer src="https://unpkg.com/alpinejs"></script>
     <script>
         var formatter = new Intl.NumberFormat('it-IT', {

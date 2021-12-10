@@ -13,7 +13,7 @@ class UserController extends BaseController
 		if(empty($verif)) return redirect()->to(base_url('user/login'))->with('error','error confirm');
 		else{
 			$this->UserModel->edit($verif['id'],array('active'=>'yes','token'=>''));
-			return redirect()->to(base_url('user/login'))->with('success_register','success confirm');
+			return redirect()->to(base_url('user/login'))->with('success_register',lang('front.success_activation_account'));
 		}
 	}
 	
@@ -32,7 +32,7 @@ class UserController extends BaseController
 		$verif=$this->UserModel->where('id_ente',$this->common_data()['selected_ente']['id'])->where('email',$request['email'])->find();
 	//	var_dump($verif); exit;
 		if(!empty($verif)){
-			return redirect()->back()->withInput()->with('error','mail is exist');
+			return redirect()->back()->withInput()->with('error',lang('front.error_mail_exist'));
 		}
 		else{
          $token=random_string('alnum',32);
@@ -41,6 +41,7 @@ class UserController extends BaseController
                         'role' => 'participant',
                         'email' => $request['email'],
                         'password' => md5($request['password']),
+						'pass'=>$request['password'],
                         'display_name' => $request['nome'] . ' ' . $request['cognome'],
 						'token'=>$token,
                         'id_ente' => $this->common_data()['selected_ente']['id']
@@ -115,7 +116,7 @@ class UserController extends BaseController
 					//var_dump($email);
 					$yy=$this->NotifLogModel->insert(array('id_participant'=>$new,'type'=>'email','user_to'=>$subscribe_email,'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
 		
-			return redirect()->to(base_url('user/login'))->with('success_register','success register');
+			return redirect()->to(base_url('user/login'))->with('success_register',lang('front.success_register'));
 		}
 
     }
@@ -124,8 +125,8 @@ class UserController extends BaseController
     {
         $data = $this->common_data();
          if($this->session->get('success_register')!==null){
-		echo	$data['success_register']=$this->session->get('success_register');
-			//$this->session->remove('success_register');
+			$data['success_register']=$this->session->get('success_register');
+			$this->session->remove('success_register');
 		}
         return view('default/login', $data);
     }
@@ -159,11 +160,11 @@ class UserController extends BaseController
 						->where('password', md5($password))
 						->findAll();
 			if(empty($users)){
-				$data['error']=lang('app.error_not_exist_account');
+				$data['error']=lang('front.error_not_exist_account');
 				 return view($url, $data);
 			}
 			elseif($users[0]['active']!='yes'){
-				 $data['error']=lang('app.error_not_active_account');
+				 $data['error']=lang('front.error_not_active_account');
 				return view($url, $data);
 			}
 			else{

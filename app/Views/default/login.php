@@ -32,25 +32,25 @@
                 <p><?= $success_register ?? '' ?></p>
             </div>
             <?php } ?>
-                <h1 class="lg:text-2xl text-xl font-semibold mb-6"> Welcome back </h1>
+                <h1 class="lg:text-2xl text-xl font-semibold mb-6"> <?php echo lang('front.title_welcome')?> </h1>
 
                 <div>
-                    <label class="mb-0" for="username"> Username </label>
-                    <input type="text" name="email" id="username" placeholder="Username" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    <label class="mb-0" for="username"> <?php echo lang('front.field_email')?> </label>
+                    <input type="text" name="email" id="username" placeholder="Email" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
                 <div>
-                    <label class="mb-0" for="password"> Password </label>
+                    <label class="mb-0" for="password"> <?php echo lang('front.field_password')?> </label>
                     <input type="password" name="password" id="password" placeholder="******" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
 
                 <div>
                     <button class="bg-blue-600 font-semibold p-2.5 mt-5 rounded-md text-center text-white w-full">
-                        Login</button>
+                        <?php echo lang('front.btn_login')?></button>
                 </div>
 
                 <div class="flex justify-between">
-                    <a href="#"> forgot password </a>
-                    <a href="<?= base_url('/register') ?>"> Don't have an account? </a>
+                    <a href="<?= base_url('/forgotPassword') ?>"> <?php echo lang('front.help_forgot_password')?> </a>
+                    <a href="<?= base_url('/register') ?>"> <?php echo lang('front.help_havnot_account')?> </a>
                 </div>
 
                 <!-- <div class="uk-heading-line uk-text-center py-5"><span> Or, connect with </span></div>
