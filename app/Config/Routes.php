@@ -34,6 +34,7 @@ $routes->setAutoRoute(true);
 $routes->add('/login', 'Users::login');
 $routes->get('/login', 'Users::index');
 
+
 $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes) {
     //CATEGORIES
     $routes->get('categories', 'CategoriesController::show');
@@ -174,7 +175,7 @@ $routes->get('/register', 'front\UserController::register');
 $routes->post('/register', 'front\UserController::create_user');
 $routes->get('/user/login', 'front\UserController::getLogin');
 $routes->post('/user/login', 'front\UserController::login');
-
+$routes->add('/Confirm/(:any)/(:any)', 'front\UserController::confirmRegister/$1/$2');
 
 // cart routes
 $routes->post('/addToCart', 'front\CartController::addToCart');

@@ -6,6 +6,17 @@ use App\Controllers\BaseController;
 
 class UserController extends BaseController
 {
+	
+	public function confirmRegister($email,$token){
+		$data = $this->common_data();
+		$verif=$this->UserModel->where('email',$email)->where('token',$token)->where('id_ente',$data['selected_ente']['id'])->first();
+		if(empty($verif)) return redirect()->to(base_url('user/login'))->with('error','error confirm');
+		else{
+			$this->UserModel->edit($verif['id'],array('active'=>'yes','token'=>''));
+			return redirect()->to(base_url('user/login'))->with('success_register','success confirm');
+		}
+	}
+	
     public function register()
     {
         $data = $this->common_data();

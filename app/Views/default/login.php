@@ -21,7 +21,13 @@
                 <p><?= $error ?? $validation ?? '' ?></p>
             </div>
             <?php } ?>
-			 <?php if($success_register !==null) { ?>
+			   <?php if(isset($_SESSION['error']) ){ ?>
+            <div class="uk-alert-danger" uk-alert>
+                <!-- <a class="uk-alert-close" uk-close></a> -->
+                <p><?= $_SESSION['error'] ?? '' ?></p>
+            </div>
+            <?php unset($_SESSION['error']); } ?>
+			 <?php if( isset($success_register)) { ?>
             <div class="uk-alert-success" uk-alert>             
                 <p><?= $success_register ?? '' ?></p>
             </div>
