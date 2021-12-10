@@ -39,14 +39,17 @@
 
     <!-- Basic Page Needs
     ================================================== -->
-    <title>Courseplus Template</title>
+    <title><?php echo $seo_title ?? 'AuleDigitale'?></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Courseplus is - Professional A unique and beautiful collection of UI elements">
 
     <!-- Favicon -->
+	<?php if($settings['faveicon_website']!==null){?>
+	 <link href="<?= base_url('uploads/'.$settings['faveicon_website']) ?>" rel="icon" type="image/png">
+	<?php }else{?>
     <link href="<?= base_url('front') ?>/assets/images/favicon.png" rel="icon" type="image/png">
-
+	<?php } ?>
     <!-- icons
     ================================================== -->
     <link rel="stylesheet" href="<?= base_url('front') ?>/assets/css/icons.css">
@@ -72,9 +75,15 @@
                     <!-- Logo -->
                     <div id="logo">
                         <a href="<?= base_url() ?>">
-                            <img src="<?= base_url('front') ?>/assets/images/logo.png" alt="">
-                            <img src="<?= base_url('front') ?>/assets/images/logo-light.png" class="logo_inverse" alt="">
-                            <img src="<?= base_url('front') ?>/assets/images/logo-mobile.png" class="logo_mobile" alt="">
+						<?php if($settings['logo_website']!==null){?>
+                            <img src="<?= base_url('uploads/'.$settings['logo_website']) ?>" alt="">
+                            <img src="<?= base_url('uploads/'.$settings['logo_website']) ?>" class="logo_inverse" alt="">
+							 <img src="<?= base_url('uploads/'.$settings['logo_website']) ?>" class="logo_mobile" alt="">
+						<?php }else{?>
+                            <img src="<?= base_url('front') ?>/assets/images/logo-mobile.png" alt="">
+							 <img src="<?= base_url('front') ?>/assets/images/logo-mobile.png" class="logo_inverse" alt="">
+							  <img src="<?= base_url('front') ?>/assets/images/logo-mobile.png" class="logo_mobile" alt="">
+						<?php } ?>
                         </a>
                     </div>
     
@@ -119,7 +128,8 @@
                                 </div>
                           
                             </li> -->
-
+							<?php 
+								if(in_array('online',$ente_package['type_cours'])){?>
                             <li> 
                                 <a href="<?= base_url('corsi') ?>?tipo=online"> Online </a> 
                                 <!-- <div uk-drop="mode: click" class="menu-dropdown">
@@ -154,7 +164,9 @@
                                 </div> -->
                           
                             </li>
-
+								<?php } 
+							
+								if(in_array('webinar',$ente_package['type_cours'])){?>
                             <li> 
                                 <a href="<?= base_url('corsi') ?>?tipo=webinar"> Webinar </a> 
                                 <!-- <div uk-drop="mode: click" class="menu-dropdown">
@@ -190,6 +202,13 @@
                                 </div> -->
                           
                             </li>
+							<?php } 
+							
+								if(in_array('aula',$ente_package['type_cours'])){?>
+								  <li> 
+                                <a href="<?= base_url('corsi') ?>?tipo=aula"> Aula </a> 
+								</li>
+								<?php } ?>
                            <!-- <li> <a href="categories.html" class="active"> Categories </a></li>
                             <li> <a href="episodes.html"> Episode  </a></li>
                             <li> <a href="books.html"> Book  </a></li>
@@ -289,162 +308,8 @@
                         </div>
                     </div>
     
-                    <!-- notification -->
-                    <a href="#" class="header_widgets">
-                        <ion-icon name="mail-outline" class="is-icon"></ion-icon>
-                    </a>
-                    <div uk-drop="mode: click" class="header_dropdown"> 
-                        <div class="drop_headline">
-                            <h4>Notifications </h4>
-                            <div class="btn_action">
-                                <div class="btn_action">
-                                    <a href="#">
-                                        <ion-icon name="settings-outline" uk-tooltip="title: Notifications settings ; pos: left"></ion-icon>
-                                    </a>
-                                    <a href="#">
-                                        <ion-icon name="checkbox-outline" uk-tooltip="title: Mark as read all ; pos: left"></ion-icon>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                  
     
-                        <ul class="dropdown_scrollbar" data-simplebar>
-                            <li>
-                                <a href="#">
-                                    <div class="drop_avatar"> <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-1.jpg" alt="">
-                                    </div>
-                                    <div class="drop_content">
-                                        <p> <strong>Adrian Mohani</strong> Like Your Comment On Course
-                                            <span class="text-link">Javascript Introduction </span>
-                                        </p>
-                                        <span class="time-ago"> 2 hours ago </span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="drop_avatar"> <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-2.jpg" alt="">
-                                    </div>
-                                    <div class="drop_content">
-                                        <p>
-                                            <strong>Stella Johnson</strong> Replay Your Comments in
-                                            <span class="text-link">Programming for Games</span>
-                                        </p>
-                                        <span class="time-ago"> 9 hours ago </span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="drop_avatar"> <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-3.jpg" alt="">
-                                    </div>
-                                    <div class="drop_content">
-                                        <p>
-                                            <strong>Alex Dolgove</strong> Added New Review In Course
-                                            <span class="text-link">Full Stack PHP Developer</span>
-                                        </p>
-                                        <span class="time-ago"> 12 hours ago </span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="drop_avatar"> <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-1.jpg" alt="">
-                                    </div>
-                                    <div class="drop_content">
-                                        <p>
-                                            <strong>Jonathan Madano</strong> Shared Your Discussion On Course
-                                            <span class="text-link">Css Flex Box </span>
-                                        </p>
-                                        <span class="time-ago"> Yesterday </span>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                        <a href="#" class="see-all">See all</a>
-                    </div>
-    
-                    <!-- messages -->
-                    <a href="#" class="header_widgets">
-                        <ion-icon name="notifications-outline" class="is-icon"></ion-icon>
-                        <span> 2 </span>
-                    </a>
-                    <div uk-drop="mode: click" class="header_dropdown">
-                        <div class="drop_headline">
-                            <h4>Messages </h4>
-                            <div class="btn_action">
-                                <a href="#">
-                                    <ion-icon name="settings-outline" uk-tooltip="title: Message settings ; pos: left"></ion-icon>
-                                </a>
-                                <a href="#">
-                                    <ion-icon name="checkbox-outline" uk-tooltip="title: Mark as read all ; pos: left"></ion-icon>
-                                </a>
-                            </div>
-                        </div>
-                        <ul class="dropdown_scrollbar" data-simplebar>
-                            <li>
-                                <a href="#">
-                                    <div class="drop_avatar"> <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-1.jpg" alt="">
-                                    </div>
-                                    <div class="drop_content">
-                                        <strong> John menathon </strong> <span class="time"> 6:43 PM</span>
-                                        <p> Lorem ipsum dolor sit amet, consectetur </p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="drop_avatar"> <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-2.jpg" alt="">
-                                    </div>
-                                    <div class="drop_content">
-                                        <strong> Zara Ali </strong> <span class="time">12:43 PM</span>
-                                        <p> Lorem ipsum dolor sit amet, consectetur </p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="drop_avatar"> <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-3.jpg" alt="">
-                                    </div>
-                                    <div class="drop_content">
-                                        <strong> Mohamed Ali </strong> <span class="time"> Wed</span>
-                                        <p> Lorem ipsum dolor sit amet, consectetur </p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="drop_avatar"> <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-1.jpg" alt="">
-                                    </div>
-                                    <div class="drop_content">
-                                        <strong> John menathon </strong> <span class="time"> Sun </span>
-                                        <p> Lorem ipsum dolor sit amet, consectetur </p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="drop_avatar"> <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-2.jpg" alt="">
-                                    </div>
-                                    <div class="drop_content">
-                                        <strong> Zara Ali </strong> <span class="time"> Fri </span>
-                                        <p> Lorem ipsum dolor sit amet, consectetur </p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="drop_avatar"> <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-3.jpg" alt="">
-                                    </div>
-                                    <div class="drop_content">
-                                        <strong> Mohamed Ali </strong> <span class="time">1 Week ago</span>
-                                        <p> Lorem ipsum dolor sit amet, consectetur </p>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                        <a href="#" class="see-all">See all</a>
-                    </div>
                      <!-- profile -->
                     <?php if((session('user_data')['role'] ?? '') == 'participant'){ ?>
                     <a href="#">
