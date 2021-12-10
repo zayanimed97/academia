@@ -13,13 +13,25 @@
     <div>
 
         <div class="lg:p-12 max-w-xl lg:my-0 my-12 mx-auto p-6 space-y-">
-            <?php if(isset($error) || isset($validation)){ ?>
+           
+            <form method="POST" action="<?= base_url('/user/login') ?>" class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md">
+			 <?php if(isset($error) || isset($validation)){ ?>
             <div class="uk-alert-danger" uk-alert>
                 <!-- <a class="uk-alert-close" uk-close></a> -->
                 <p><?= $error ?? $validation ?? '' ?></p>
             </div>
             <?php } ?>
-            <form method="POST" action="<?= base_url('/user/login') ?>" class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md">
+			   <?php if(isset($_SESSION['error']) ){ ?>
+            <div class="uk-alert-danger" uk-alert>
+                <!-- <a class="uk-alert-close" uk-close></a> -->
+                <p><?= $_SESSION['error'] ?? '' ?></p>
+            </div>
+            <?php unset($_SESSION['error']); } ?>
+			 <?php if( isset($success_register)) { ?>
+            <div class="uk-alert-success" uk-alert>             
+                <p><?= $success_register ?? '' ?></p>
+            </div>
+            <?php } ?>
                 <h1 class="lg:text-2xl text-xl font-semibold mb-6"> Welcome back </h1>
 
                 <div>

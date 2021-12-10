@@ -22,48 +22,53 @@
                             <h3 class="border-b flex font-semibold items-center justify-between px-7 py-5 text-base"> Create Account <a href="#" class="font-medium inline-block text-blue-500 text-sm hover:underline">already have an account</a> </h3>
                         
                             <div class="lg:p-8 p-5">
-    
+     <?php if(isset($_SESSION['error']) ){ ?>
+            <div class="uk-alert-danger" uk-alert>
+                <!-- <a class="uk-alert-close" uk-close></a> -->
+                <p><?= $_SESSION['error'] ?? '' ?></p>
+            </div>
+            <?php unset($_SESSION['error']); } ?>
                                 <!-- <p> Sign up to  Courseplus  to get started. </p> -->
                                 <form action="<?= base_url() ?>/register" id="form" method="POST" class="grid sm:grid-cols-2 gap-x-6 gap-y-4 mt-4">
                                     <div>
                                         <label for="nome" class="text-sm font-medium"> Nome</label>
-                                        <input type="text" class="with-border" required id="nome" name="nome" data-parsley-trigger="focusout">
+                                        <input type="text" class="with-border" required id="nome" name="nome" data-parsley-trigger="focusout" value="<?php echo old('nome') ?? ''?>">
                                     </div>
                                     <div>
                                         <label for="cognome" class="text-sm font-medium"> Cognome </label>
-                                        <input type="text" class="with-border"id="cognome" required id="cognome" name="cognome" data-parsley-trigger="focusout">
+                                        <input type="text" class="with-border"id="cognome" required id="cognome" name="cognome" data-parsley-trigger="focusout" value="<?php echo old('cognome') ?? ''?>">
                                     </div>
                                     <div>
                                         <label for="email" class="text-sm font-medium"> Email </label>
-                                        <input type="text" class="with-border" id="email" name="email" required data-parsley-trigger="focusout" id="email" >
+                                        <input type="text" class="with-border" id="email" name="email" required data-parsley-trigger="focusout" id="email" value="<?php echo old('email') ?? ''?>">
                                     </div>
                                     <div>
                                         <label for="telefono" class="text-sm font-medium"> telefono </label>
-                                        <input type="text" class="with-border" name="telefono" id="telefono">
+                                        <input type="text" class="with-border" name="telefono" id="telefono" value="<?php echo old('telefono') ?? ''?>">
                                     </div>
 
                                     <div>
                                         <label for="password" class="text-sm font-medium"> Password </label>
-                                        <input type="password" class="with-border" name="password" required data-parsley-trigger="focusout" id="password">
+                                        <input type="password" class="with-border" name="password" required data-parsley-trigger="focusout" id="password" value="<?php echo old('password') ?? ''?>">
                                     </div>
                                     <div>
                                         <label for="confirm-password" class="text-sm font-medium"> Confirm Password </label>
-                                        <input type="password" class="with-border" name="confirm" data-parsley-equalto="#password" required data-parsley-trigger="focusout" id="confirm-password">
+                                        <input type="password" class="with-border" name="confirm" data-parsley-equalto="#password" required data-parsley-trigger="focusout" id="confirm-password" value="<?php echo old('password') ?? ''?>">
                                     </div>
-
+ 
                                     <div>
                                         <label for="professione" class="text-sm font-medium"> Professione </label>
                                         <select class="selectpicker border rounded-md" id="professione" name="professione">
-                                            <option value="0">Choose professione</option>
+                                            <option value="">Choose professione</option>
                                             <?php foreach($prof as $p) { ?>
-                                                <option value="<?= $p['idprof'] ?>"><?= $p['professione'] ?></option>
+                                                <option value="<?= $p['idprof'] ?>" <?php if(null !==old('professione') && old('professione')==$p['idprof']) echo 'selected'?>><?= $p['professione'] ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
 
                                     <div>
                                         <label for="cf" class="text-sm font-medium"> cf </label>
-                                        <input type="text" class="with-border" id="cf" name="cf">
+                                        <input type="text" class="with-border" id="cf" name="cf" value="<?php echo old('cf') ?? ''?>">
                                     </div>
 
 
@@ -72,7 +77,7 @@
                                         <select class="selectpicker border rounded-md" id="residenza_stato" name="residenza_stato" @change="handleCountry">
                                             <option value="0">Choose country</option>
                                             <?php foreach($country as $stato) { ?>
-                                                <option value="<?= $stato['id'] ?>"><?= $stato['nazione'] ?></option>
+                                                <option value="<?= $stato['id'] ?>" <?php if(null !==old('residenza_stato') && old('residenza_stato')==$stato['id']) echo 'selected'?>><?= $stato['nazione'] ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -86,11 +91,11 @@
                                     </div>
                                     <div>
                                         <label for="cap" class="text-sm font-medium"> Rezidenza CAP </label>
-                                        <input type="text" name="cap" class="with-border"id="cap">
+                                        <input type="text" name="cap" class="with-border"id="cap" value="<?php echo old('cap') ?? ''?>">
                                     </div>
                                     <div>
                                         <label for="indirizzo" class="text-sm font-medium"> Rezidenza Indirizzo </label>
-                                        <input type="text" class="with-border"id="indirizzo" name="indirizzo">
+                                        <input type="text" class="with-border"id="indirizzo" name="indirizzo" value="<?php echo old('indirizzo') ?? ''?>">
                                     </div>
                                     <!-- <div class="cols-span-2 checkbox my-2">
                                         <input type="checkbox" id="use_points">
