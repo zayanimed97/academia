@@ -63,7 +63,7 @@
                                 <ul class="space-x-3" uk-scrollspy-nav="closest: li; scroll: true">
                                     <li><a href="#Descrizione" uk-scroll>Descrizione</a></li>
                                     <!-- <li><a href="#Contenuto" uk-scroll>Contenuto del corso</a></li>  -->
-                                    <li><a href="#Moduli" uk-scroll>Moduli</a></li>
+                                    <li><a href="#Moduli" uk-scroll>Corso</a></li>
                                     <li><a href="#Curriculum">Curriculum Vitae </a></li>
                                     <!-- <li><a href="#reviews">Reviews</a></li> -->
                                 </ul>

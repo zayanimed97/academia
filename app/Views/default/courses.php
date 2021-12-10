@@ -253,7 +253,7 @@ a[disabled] {
                                             <?php } ?>
                                         </div>
                                             <div class="card-body p-4">
-                                                <a href="<?= base_url('corsi/'.$c['url']) ?>">
+                                                <a href="<?= $c['buy_type'] != 'is_modulo' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>">
 
                                                     <div class="font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?>
                                                     </div>
@@ -294,7 +294,7 @@ a[disabled] {
                                                 <?php } ?>
                                             </div>
                                             <div class="flex-1 md:space-y-2 space-y-1">
-                                                <a href="<?= base_url('corsi/'.$c['url']) ?>" class="md:text-xl font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?> </a>
+                                                <a href="<?= $c['buy_type'] != 'is_modulo' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>" class="md:text-xl font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?> </a>
                                                 <p class="leading-6 pr-4 line-clamp-2 md:block hidden"> <?= ellipsize($c['obiettivi'], 120) ?> </p>
                                                 <a href="#" class="md:font-semibold block text-sm"> <?= $c['doctor_names'] ?> </a>
                                                 <div class="flex items-center justify-between">
