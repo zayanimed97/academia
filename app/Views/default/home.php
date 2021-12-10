@@ -20,12 +20,12 @@
         <!-- <ul class="uk-slideshow-items rounded"> -->
             <!-- <li> -->
                 <div class="uk-cover-container uk-inline w-full mb-8">
-                    <img src="<?= base_url('front') ?>/assets/images/<?= $settings['banner_home']["image"] ??'' ?>" class="object-cover" alt="" uk-cover>
+                    <?php if($settings['banner_home']["image"]!=""){?><img src="<?= base_url('uploads/banner/'.$settings['banner_home']["image"]) ?>" class="object-cover" alt="" uk-cover><?php } ?>
                     <div class="container relative p-20 lg:mt-12 h-full uk-overlay"> 
                         <div  class="flex flex-col justify-center h-full w-full space-y-3">
                             <h1  class="lg:text-4xl text-2xl text-white font-semibold"> <?= $settings['banner_home']["title"] ?? ''?> </h1>
                             <p  class="text-base text-white font-medium pb-4 lg:w-1/2"> <?= $settings['banner_home']["subtitle"] ?? '' ?> </p>
-                            <a  href="<?= $settings['banner_home']["url"] ?? '' ?>" class="bg-opacity-90 bg-white py-2.5 rounded-md text-base text-center w-32"> Get Started </a> 
+                            <a  href="<?= $settings['banner_home']["url"] ?? '' ?>" class="bg-opacity-90 bg-white py-2.5 rounded-md text-base text-center w-32"><?= $settings['banner_home']["btn_label"] ?? lang('front.link_go') ?> </a> 
                         </div>
                     </div>
                 </div>
@@ -244,7 +244,7 @@
                 <!-- title -->
                 <div class="mb-2">
                     <!-- <div class="text-xl font-semibold">  The world's largest selection of courses  </div> -->
-                    <h2 class="text-2xl font-semibold"> Course Categories  </h2>
+                    <h2 class="text-2xl font-semibold"><?php echo lang('front.title_cours_by_categ')?>  </h2>
                     <!-- <div class="text-sm mt-2">  Choose from 130,000 online video courses with new additions published every month </div> -->
                 </div>
 

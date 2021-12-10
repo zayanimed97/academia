@@ -283,8 +283,8 @@
 
                     </a>
                     <div uk-drop="mode: click" class="dropdown_cart">
-                        <div class="cart-headline"> My Cart 
-                            <a href="#" class="checkout">Checkout</a>
+                        <div class="cart-headline"> <?php echo lang('front.title_my_cart')?> 
+                            <a href="#" class="checkout"><?php echo lang('front.title_checkout')?> </a>
                         </div>
                         <ul class="dropdown_cart_scrollbar" data-simplebar>
                             <template x-for="item in cartItems" :key="item.id">
@@ -298,7 +298,7 @@
                                     </div>
                                     <div class="cart_price">
                                         <span x-text="formatter.format(item.price)"> </span>
-                                        <button type="button" @click="removeFromCart(item.rowid)" class="type"> Remove</button>
+                                        <button type="button" @click="removeFromCart(item.rowid)" class="type"> <?php echo lang('front.btn_delete')?></button>
                                     </div>
                                 </li>
                             </template>
@@ -306,7 +306,7 @@
     
                         <div class="cart_footer">
                             <!-- <p> Subtotal : $ 320 </p> -->
-                            <h1> Total :  <strong x-text="formatter.format(total)">  </strong> </h1>
+                            <h1> <?php echo lang('front.title_total')?> :  <strong x-text="formatter.format(total)">  </strong> </h1>
                         </div>
                     </div>
     
@@ -380,13 +380,13 @@
                             <li> 
                                 <a href="<?= base_url('logout') ?>">
                                     <ion-icon name="log-out-outline" class="is-icon"></ion-icon>
-                                    Log Out 
+                                    <?php echo lang('front.btn_logout')?>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <?php } else { ?>
-                    <a class="bg-blue-400 flex justify-center items-center rounded-md text-white text-center ml-4 text-base h-8 p-4 hover:text-white hover:bg-blue-700" href="<?= base_url('user/login') ?>">Login</a>
+                    <a class="bg-blue-400 flex justify-center items-center rounded-md text-white text-center ml-4 text-base h-8 p-4 hover:text-white hover:bg-blue-700" href="<?= base_url('user/login') ?>"> <?php echo lang('front.btn_login')?></a>
                     <?php } ?>
                 </div> 
             </div>
