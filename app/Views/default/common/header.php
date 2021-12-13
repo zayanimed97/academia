@@ -42,7 +42,7 @@
     <title><?php echo $seo_title ?? 'AuleDigitale'?></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Courseplus is - Professional A unique and beautiful collection of UI elements">
+    <meta name="description" content="<?php echo $seo_description ?? 'AuleDigitale Corso plateform'?>">
 
     <!-- Favicon -->
 	<?php if(($settings['faveicon_website'] ?? null)!==null){?>
@@ -257,16 +257,18 @@
                                         <li> <a href="course-intro-2.html"> Course intro 2 </a></li>
                                     </ul>
                                 </div>
-                            </li> -->
+                            </li> 
 
 
                             <li> 
                                 <a href="<?= base_url('blog') ?>"> Blog  </a> 
                             </li>
-
+-->
+<?php if(!empty($contact_page)){?>
                             <li> 
-                                <a href="#"> Contatti  </a> 
+                                <a href="<?php echo base_url($contact_page['url'])?>"> <?php echo $contact_page['menu_title']?>  </a> 
                             </li>
+<?php } ?>
                         </ul>
                     </nav>
     

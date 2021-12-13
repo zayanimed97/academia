@@ -1,12 +1,13 @@
         <!-- footer -->
         <div class="mb-7 px-12 border-t pt-7 mt-auto">
             <div class="flex flex-col items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
-                <p class="capitalize font-medium"> © copyright 2021  Courseplus</p>
+                <p class="capitalize font-medium"> <?php echo $settings['copyright']?></p>
                 <div class="lg:flex space-x-4 text-gray-700 capitalize hidden">
-                    <a href="#"> About</a>
-                    <a href="#"> Help</a>
-                    <a href="#"> Terms</a>
-                    <a href="#"> Privacy</a>
+				<?php if(!empty($list_static_pages)){
+					foreach($list_static_pages as $k=>$one_page){?>
+                    <a href="<?php echo base_url('page/'.$one_page['url'])?>"> <?php echo $one_page['menu_title']?></a>
+				<?php } }?>
+                   
                 </div>
             </div>
         </div>

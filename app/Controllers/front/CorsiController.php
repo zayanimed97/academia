@@ -171,6 +171,9 @@ class CorsiController extends BaseController
         // echo '</pre>';
         // exit;
         // // die(var_dump($data['category']));
+		$inf_page=$this->PagesModel->where('url','corsi')->where('id_ente',$data['selected_ente']['id'])->first();
+		$data['seo_title']=$inf_page['seo_title'];
+		$data['seo_description']=$inf_page['seo_description'];
         return view('default/courses', $data);
     }
 
@@ -220,7 +223,8 @@ class CorsiController extends BaseController
         // print_r($data['module']);
         // echo '</pre>';
         // exit;
-
+		$data['seo_title']=$data['corsi']['seo_title'];
+		$data['seo_description']=$data['corsi']['seo_description'];
         return view('default/detaglio-corso', $data);
         
     }
@@ -286,7 +290,8 @@ class CorsiController extends BaseController
             $this->discounts($data['module'], $discountsModulo ?? []);
         // }
         
-
+		$data['seo_title']=$data['module']['seo_title'];
+		$data['seo_description']=$data['module']['seo_description'];
         return view('default/detaglio-modulo', $data);
         
     }
