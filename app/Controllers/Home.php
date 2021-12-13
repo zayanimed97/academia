@@ -14,6 +14,20 @@ class Home extends BaseController
         return view('default/home', $data);
     }
 
+	public function page($url)
+    {
+    
+        $data = $this->common_data();
+		$inf_page=$this->PagesModel->where('url',$url)->where('type','dynamic')->where('banned','no')->where('enable','yes')->where('id_ente',$data['selected_ente']['id'])->first();
+		if(empty($inf_page)){
+			return redirect()->to(base_url());
+		}
+		$data['inf_page']=$inf_page;
+		$data['seo_title']=$inf_page['seo_title'];
+		$data['seo_description']=$inf_page['seo_description'];
+        return view('default/page', $data);
+    }
+	
     public function getCourses()
     {
         $courses = $this->CorsiModel->where('find_in_set( '.($this->request->getVar('category') ?? '').', id_categorie) > 0')
