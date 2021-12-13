@@ -15,13 +15,24 @@ class CartController extends BaseController
 
         
         $joinLoggedIn = isset(session('user_data')['profile']['professione']) ? 'AND (prezz.id_professione = '.(session('user_data')['profile']['professione']).')' : '';
-        $corsi = $this->CorsiModel  ->where('corsi.id_ente', $data['selected_ente']['id'])
-                                            ->where('corsi.id', $this->request->getVar('id'))
-                                            ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0', 'left')
-                                            ->join('corsi_prezzo_prof prezz', '(prezz.id_corsi = corsi.id)'. $joinLoggedIn, 'left')
-                                            ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price")
-                                            ->groupBy('corsi.id')
-                                            ->first();
+        if ($this->request->getVar('type') == 'corsi') {
+            $corsi = $this->CorsiModel  ->where('corsi.id_ente', $data['selected_ente']['id'])
+                                        ->where('corsi.id', $this->request->getVar('id'))
+                                        ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0', 'left')
+                                        ->join('corsi_prezzo_prof prezz', '(prezz.id_corsi = corsi.id)'. $joinLoggedIn, 'left')
+                                        ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price")
+                                        ->groupBy('corsi.id')
+                                        ->first();
+        } elseif($this->request->getVar('type') == 'modulo'){
+            $corsi = $this->CorsiModuloModel    ->where('corsi.id_ente', $data['selected_ente']['id'])
+                                                ->where('corsi_modulo.id', $this->request->getVar('id'))
+                                                ->join('corsi_modulo_prezzo_prof prezz', '(prezz.id_modulo = corsi_modulo.id)'. $joinLoggedIn, 'left')
+                                                ->join('corsi', 'corsi.id = corsi_modulo.id_corsi')
+                                                ->select("corsi_modulo.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price")
+                                                ->groupBy('corsi_modulo.id')
+                                                ->first();
+        }
+        
         if ($corsi['have_def_price'] == 'yes') {
             $price = $corsi['prezzo'];
         }

@@ -45,7 +45,7 @@
     <meta name="description" content="Courseplus is - Professional A unique and beautiful collection of UI elements">
 
     <!-- Favicon -->
-	<?php if($settings['faveicon_website']!==null){?>
+	<?php if(($settings['faveicon_website'] ?? null)!==null){?>
 	 <link href="<?= base_url('uploads/'.$settings['faveicon_website']) ?>" rel="icon" type="image/png">
 	<?php }else{?>
     <link href="<?= base_url('front') ?>/assets/images/favicon.png" rel="icon" type="image/png">
@@ -75,7 +75,7 @@
                     <!-- Logo -->
                     <div id="logo">
                         <a href="<?= base_url() ?>">
-						<?php if($settings['logo_website']!==null){?>
+						<?php if(($settings['logo_website'] ?? null)!==null){?>
                             <img src="<?= base_url('uploads/'.$settings['logo_website']) ?>" alt="">
                             <img src="<?= base_url('uploads/'.$settings['logo_website']) ?>" class="logo_inverse" alt="">
 							 <img src="<?= base_url('uploads/'.$settings['logo_website']) ?>" class="logo_mobile" alt="">
@@ -386,7 +386,7 @@
                         </ul>
                     </div>
                     <?php } else { ?>
-                    <a class="bg-blue-400 flex justify-center items-center rounded-md text-white text-center ml-4 text-base h-8 p-4 hover:text-white hover:bg-blue-700" href="<?= base_url('user/login') ?>"> <?php echo lang('front.btn_login')?></a>
+                    <a class="bg-blue-600 flex justify-center items-center rounded-md text-white text-center ml-4 text-base h-8 p-4 hover:text-white hover:bg-blue-700" href="<?= base_url('user/login') ?>"> <?php echo lang('front.btn_login')?></a>
                     <?php } ?>
                 </div> 
             </div>

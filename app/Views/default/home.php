@@ -23,9 +23,9 @@
                     <?php if($settings['banner_home']["image"]!=""){?><img src="<?= base_url('uploads/banner/'.$settings['banner_home']["image"]) ?>" class="object-cover" alt="" uk-cover><?php } ?>
                     <div class="container relative p-20 lg:mt-12 h-full uk-overlay"> 
                         <div  class="flex flex-col justify-center h-full w-full space-y-3">
-                            <h1  class="lg:text-4xl text-2xl text-white font-semibold"> <?= $settings['banner_home']["title"] ?? ''?> </h1>
-                            <p  class="text-base text-white font-medium pb-4 lg:w-1/2"> <?= $settings['banner_home']["subtitle"] ?? '' ?> </p>
-                            <a  href="<?= $settings['banner_home']["url"] ?? '' ?>" class="bg-opacity-90 bg-white py-2.5 rounded-md text-base text-center w-32"><?= $settings['banner_home']["btn_label"] ?? lang('front.link_go') ?> </a> 
+                            <h1  class="lg:text-4xl text-2xl text-black font-semibold"> <?= $settings['banner_home']["title"] ?? ''?> </h1>
+                            <p  class="text-base text-black font-medium pb-4 lg:w-1/2"> <?= $settings['banner_home']["subtitle"] ?? '' ?> </p>
+                            <a  href="<?= $settings['banner_home']["url"] ?? '' ?>" class="bg-opacity-90 bg-blue-600 py-2.5 rounded-md text-base text-black text-center w-32"><?= $settings['banner_home']["btn_label"] ?? lang('front.link_go') ?> </a> 
                         </div>
                     </div>
                 </div>
