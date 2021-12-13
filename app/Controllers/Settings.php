@@ -252,6 +252,127 @@ class Settings extends BaseController
 		
 	}
 	
+	public function cms(){
+		$data=$this->common_data();
+	
+		$user_data=$this->session->get('user_data');
+		if($this->request->getVar('action')!==null){
+			switch($this->request->getVar('action')){
+				case 'delete':
+						$id=$this->request->getVar('id_to_delete');
+						$this->PagesModel->update($id,array('banned'=>'yes'));
+						$data['success']=lang('app.success_delete');
+				break;
+				case 'add':
+					$val = $this->validate([
+				
+							'title' => ['label' => lang('app.field_title'), 'rules' => 'trim|required'],	
+							'menu_title' => ['label' => lang('app.field_menu'), 'rules' => 'trim|required'],
+							'ord' => ['label' => lang('app.field_sort'), 'rules' => 'trim|required'],	
+							
+							
+							
+					]);
+					
+					if (!$val)
+					{
+						
+							$validation=$this->validator;
+							 $error_msg=$validation->listErrors();
+							$data['error']=$error_msg;
+					}
+					
+					else{
+						if($this->request->getVar('enable')!==null) $enable="yes"; else $enable="no";
+						$url=strtolower(url_title($this->request->getVar('title')));
+						$tab=array("title"=>$this->request->getVar('title'),
+						"menu_title"=>$this->request->getVar('menu_title'),
+						"content"=>$this->request->getVar('html'),
+						"seo_title"=>$this->request->getVar('seo_title'),
+						"seo_description"=>$this->request->getVar('seo_description'),
+						"ord"=>$this->request->getVar('ord'),
+						'url'=>$url,
+						"type"=>'dynamic',
+						"enable"=>$enable,
+						"id_ente"=>$user_data['id'],
+						);
+						
+						$this->PagesModel->insert($tab);
+						$data['success']=lang('app.success_add');
+					}
+				break;
+				case 'edit':
+				$id=$this->request->getVar('id');
+				$inf_page=$this->PagesModel->where('banned','no')->where('id_ente',$user_data['id'])->where('id',$id)->first();
+				if(empty($inf_page)) return redirect()->back();
+					$val = $this->validate([
+				
+							'title' => ['label' => lang('app.field_title'), 'rules' => 'trim|required'],
+					]);
+				if($inf_page['type']=='dynamic'){
+					$val = $this->validate([
+								'menu_title' => ['label' => lang('app.field_menu'), 'rules' => 'trim|required'],
+								'ord' => ['label' => lang('app.field_sort'), 'rules' => 'trim|required'],										
+					]);
+				}	
+					if (!$val)
+					{
+						
+							$validation=$this->validator;
+							 $error_msg=$validation->listErrors();
+							$data['error']=$error_msg;
+					}
+					
+					else{
+						$tab=array("title"=>$this->request->getVar('title'),
+						"seo_title"=>$this->request->getVar('seo_title'),
+						"seo_description"=>$this->request->getVar('seo_description'));
+						if($inf_page['type']=='dynamic'){
+							
+					
+						if($this->request->getVar('enable')!==null ) $enable="yes"; else $enable="no";
+						
+						$tab=array(
+							"menu_title"=>$this->request->getVar('menu_title'),
+							"content"=>$this->request->getVar('html'),
+							"ord"=>$this->request->getVar('ord'),
+							"enable"=>$enable
+						);
+							}
+						$this->PagesModel->update($id,$tab);
+						$data['success']=lang('app.success_update');
+					}
+				break;
+			}
+		}
+			$list=$this->PagesModel->where('id_ente',$user_data['id'])->where('banned','no')->find();
+			$data['list']=$list;
+			return view('admin/settings_cms.php',$data);
+		
+		
+	}
+	
+	public function cms_add(){
+		$data=$this->common_data();
+	
+		$user_data=$this->session->get('user_data');
+	
+		
+			return view('admin/settings_cms_add.php',$data);
+		
+		
+	}
+	public function cms_edit($id){
+		$data=$this->common_data();
+	
+		$user_data=$this->session->get('user_data');
+	
+		$data['inf_page']=$this->PagesModel->where('banned','no')->where('id_ente',$user_data['id'])->where('id',$id)->first();
+		if(empty($data['inf_page'])) return redirect()->back();
+		return view('admin/settings_cms_edit.php',$data);
+		
+		
+	}
 	/*
 	public function notif_log($user_id=null){
 		$NotifLogModel = new NotifLogModel();

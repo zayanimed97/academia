@@ -283,6 +283,7 @@
 									  <!--li><a href="<?php echo base_url().'/admin/settings'?>"><?php echo lang('app.menu_setting_info')?></a></li-->
 										<li><a href="<?php echo base_url('/admin/emails')?>"><?php echo lang('app.menu_setting_email')?></a></li>
                                         <li><a href="<?php echo base_url('/admin/settings/media')?>"><?php echo lang('app.menu_setting_media')?></a></li>
+										 <li><a href="<?php echo base_url('/admin/settings/cms')?>"><?php echo lang('app.menu_setting_cms')?></a></li>
                                     </ul>
                                 </div>
                             </li>
