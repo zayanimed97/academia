@@ -112,6 +112,13 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 	
 	//media settings
 	$routes->add('settings/media', 'Settings::media');
+	
+	//CMS settings
+	$routes->add('settings/cms/edit/(:any)', 'Settings::cms_edit/$1');
+	$routes->add('settings/cms/add', 'Settings::cms_add');
+	$routes->add('settings/cms', 'Settings::cms');
+	
+	
 });
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
