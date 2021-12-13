@@ -16,13 +16,13 @@ class Coupon extends BaseController
 			foreach($categories as $k=>$v){
 				switch($v['coupon_type']){
 					case 'corsi':
-						$inf=$CorsiModel->find($v['id_corsi']); 
+						$inf=$this->CorsiModel->find($v['id_corsi']); 
 						$corsi_titolo=$inf['sotto_titolo'];
 						$docenti_titolo='';
 					break;
 					case 'docenti':
 						$corsi_titolo=''; 
-						$inf=$UserModel->find($v['id_docenti']);
+						$inf=$this->UserModel->find($v['id_docenti']);
 						$docenti_titolo=$inf['display_name'];
 					break;
 					default:$corsi_titolo='';$docenti_titolo='';

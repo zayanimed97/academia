@@ -16,9 +16,9 @@ class CorsiController extends BaseController
 
         $courses = function($for) use ($data) {
                         $corsi = $this  ->CorsiModel  
-                                        ->join('argomenti arg', '((corsi.id_argomenti is null) OR (corsi.id_argomenti = "0") OR (arg.idargomenti = corsi.id_argomenti)) AND arg.banned = "no"')
-                                        ->join('sottoargomenti sotto', '((corsi.sottoargomenti is null) OR (corsi.sottoargomenti = "0") OR (find_in_set(sotto.id, corsi.sottoargomenti) > 0)) AND sotto.banned = "no"')
-                                        ->join('categorie cat', '((corsi.sottoargomenti is null) OR (corsi.sottoargomenti = "0") OR (find_in_set(cat.id, corsi.id_categorie) > 0)) AND cat.banned = "no" AND cat.status = "enable"')
+                                        ->join('argomenti arg', '((corsi.id_argomenti is null) OR (corsi.id_argomenti = "0") OR (arg.idargomenti = corsi.id_argomenti AND arg.banned = "no"))')
+                                        ->join('sottoargomenti sotto', '((corsi.sottoargomenti is null) OR (corsi.sottoargomenti = "0") OR (find_in_set(sotto.id, corsi.sottoargomenti) > 0 AND sotto.banned = "no"))')
+                                        ->join('categorie cat', '((corsi.id_categorie is null) OR (corsi.id_categorie = "0") OR (find_in_set(cat.id, corsi.id_categorie) > 0 AND cat.banned = "no" AND cat.status = "enable"))')
                                         ->join('corsi_prezzo_prof prezz', 'prezz.id_corsi = corsi.id', 'left')
                                         ->where('corsi.id_ente', $data['selected_ente']['id'])
                                         // ->where('corsi.buy_type', 'cours')
@@ -65,7 +65,6 @@ class CorsiController extends BaseController
         }
         // $data['corsi'] = $corsi->paginate($perPage, 'corsi');
         return $corsi->getCompiledSelect();};
-
         $moduloQuery = $this->CorsiModuloModel  ->select("  corsi_modulo.video_promo, 
                                                             corsi_modulo.foto, 
                                                             corsi_modulo.url, 
@@ -168,7 +167,7 @@ class CorsiController extends BaseController
         }
         // $db      = \Config\Database::connect();
         // echo '<pre>';
-        // print_r($data['corsi']);
+        // print_r("SELECT * FROM ({$courses('corsi')} UNION $moduloQuery) as a_table LIMIT $perPage OFFSET $offset");
         // echo '</pre>';
         // exit;
         // // die(var_dump($data['category']));

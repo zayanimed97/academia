@@ -91,6 +91,10 @@ a[disabled] {
     background-color: #bdbdbd;
     color: #fff;
 }
+
+.addtocartbtn{
+    border: 1px solid rgb(229, 231, 235);
+}
 </style>
         <div class="container"  x-data="getFilters($watch)">
 
@@ -269,7 +273,7 @@ a[disabled] {
                                                 </a>
 
                                                 <div class="flex justify-between items-center mt-2">
-                                                    <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', 'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </button>
+                                                    <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', '<?= $c['buy_type'] == 'is_modulo' ? 'modulo' : 'corsi' ?>')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </button>
                                                     <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
                                                 </div>
                                             </div>
@@ -308,7 +312,7 @@ a[disabled] {
                                                     <div class="-mt-3.5">
                                                         <div class="text-lg font-semibold"> <?= $c['prezzo'] ?> </div>
 
-                                                        <a href="<?= strlen($c['prezzo']) == 0 ? '#' : '' ?>" class="md:flex items-center justify-center h-9 px-8 rounded-md border hidden" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </a>
+                                                        <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', '<?= $c['buy_type'] == 'is_modulo' ? 'modulo' : 'corsi' ?>')" class="md:flex items-center justify-center h-9 px-8 rounded-md border hidden addtocartbtn" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </button>
                                                     </div>
                                                 </div>
                                                 <?php if($c['buy_type'] == 'module') { ?>
