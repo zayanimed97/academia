@@ -6,24 +6,11 @@ class Home extends BaseController
 {
     public function index()
     {
-        // $test = $this->SettingModel->where('meta_value','>',4)->first();
-        
+      
         $data = $this->common_data();
-//var_dump($data['ente_package']);
-       // $data['seo_title']="Home";
-        // $data['argomenti'] = $this->ArgomentiModel  ->where('c.id_ente', $data['selected_ente']['id'])
-        //                                             ->join('corsi c', 'c.id_argomenti = argomenti.idargomenti')
-        //                                             ->select('c.*, argomenti.*, argomenti.idargomenti as arg_id')
-        //                                             ->find();
-
-        // $data['sottoargomenti'] = $this->SottoargomentiModel->where('c.id_ente', $data['selected_ente']['id'])->join('corsi c', 'c.sottoargomenti = sottoargomenti.id')->select('c.*, sottoargomenti.*, sottoargomenti.id as sotto_id')->find();
-
-        // die(var_dump($data['sottoargomenti']));
-        // echo '<pre>';
-        // print_r($data['category']);
-        // echo '</pre>';
-        // exit;
-        // die(var_dump($data['category']));
+		$inf_page=$this->PagesModel->where('url','home')->where('id_ente',$data['selected_ente']['id'])->first();
+		$data['seo_title']=$inf_page['seo_title'];
+		$data['seo_description']=$inf_page['seo_description'];
         return view('default/home', $data);
     }
 
