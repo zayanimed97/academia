@@ -178,6 +178,12 @@ $routes->get('/user/login', 'front\UserController::getLogin');
 $routes->post('/user/login', 'front\UserController::login');
 $routes->add('/Confirm/(:any)/(:any)', 'front\UserController::confirmRegister/$1/$2');
 
+$routes->add('/forgotPassword', 'front\UserController::forgotPassword');
+$routes->get('/forgotPassword', 'front\UserController::forgotPassword');
+ 
+
+$routes->add('/ResetPassword/(:any)/(:any)', 'front\UserController::resetPassword/$1/$2');
+$routes->get('/ResetPassword/(:any)/(:any)', 'front\UserController::resetPassword/$1/$2');
 // cart routes
 $routes->post('/addToCart', 'front\CartController::addToCart');
 $routes->get('/removeFromCart/(:any)', 'front\CartController::remove/$1');

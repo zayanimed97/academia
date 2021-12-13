@@ -175,4 +175,147 @@ class UserController extends BaseController
 		}
 		
     }
+	
+	
+	public function forgotPassword(){
+		$common_data=$this->common_data();
+	
+	$settings=$common_data['settings'];
+		$recuperate=$this->request->getVar('recuperate');
+		 $url=str_replace('forgotPassword','forgot',uri_string());
+		if(isset($recuperate)){
+			$email=$this->request->getVar('email');
+			$val = $this->validate([    
+            'email' => 'required|valid_email'
+			]);
+			if (!$val)
+			{
+				$common_data['validation']=$this->validator;
+				/*return view('default/forgot.php', [
+					   'validation' => $this->validator,'common_data'=>$common_data
+				]);
+				*/
+			}
+			else{
+				//$UserModel = new UserModel();
+				$users = $this->UserModel
+						->where('email', $email)
+						->where('role', 'participant')
+						->where('id_ente',$common_data['selected_ente']['id'])
+						->findAll();
+					
+				if(empty($users)){
+					$error=lang('app.error_not_exist_email');
+					$common_data['error']=$error;
+					/* return view('default/forgot.php', [
+					   'error' => $error,'settings'=>$settings
+					]);*/
+				}
+				else{
+					 $token=random_string('alnum',32);
+					$data = ['token' => $token];
+						$this->UserModel->edit($users[0]['id'],array('token'=>$token));
+				//	$save = $UserModel->update($users[0]['id'],$data);
+					############## email #########################
+						//$TemplatesModel = new TemplatesModel();
+					$email = \Config\Services::email();
+					$subscribe_email=$this->request->getVar('email');
+					$sender_name=$settings['sender_name'];
+					$sender_email=$settings['sender_email'];
+					$temp=$this->TemplatesModel->where('module','forgot_pass')->find();
+					if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
+						
+					
+					/*	 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						if($SMTP!="") $vals=json_decode($SMTP,true);
+					
+						if(!empty($vals)){
+							if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
+							if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+							$email->protocol='smtp';
+							$email->SMTPHost=$vals['host'];
+							$email->SMTPUser=$vals['username'];
+							$email->SMTPPass=$vals['password'];
+							$email->SMTPPort=$vals['port'];
+						}*/
+						$temp=$this->TemplatesModel->where('module','forgot_pass')->where('id_ente',$common_data['selected_ente']['id'])->find();
+					}
+					$email->setFrom($sender_email,$sender_name);
+				
+					$email->setTo($users[0]['email']);
+					$link=base_url().'/ResetPassword/'.$users[0]['email'].'/'.$token;
+					
+				
+					$html=str_replace(array("{var_website_name}","{var_user_name}","{var_varification_link}"),
+					array($sender_name,$users[0]['display_name'],$link),
+					$temp[0]['html']);
+					$email->setSubject($temp[0]['subject']);
+					$email->setMessage($html);
+					$email->setAltMessage(strip_tags($html));
+					
+					$xxx=$email->send();
+					
+					
+					$yy=$this->NotifLogModel->insert(array('id_participant'=>$users[0]['id'],'type'=>'email','user_to'=>$users[0]['email'],'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+		
+					$success=lang('app.success_recuperate_password');
+					$common_data['success']=$success;
+					
+				}
+			}
+		}//end if recuperate
+		
+		
+	
+		return view('default/forgot.php',$common_data);
+	}
+	
+	public function resetPassword($email,$token){
+		$settings=$this->SettingModel->getByMetaKey();
+		//$UserModel = new UserModel();
+		
+		$exist=$this->UserModel	->where('token', $token)
+						->where('email', $email)
+						->find();
+		if(empty($exist)){
+			return view('admin/reset_error.php',array("settings"=>$settings));
+		}
+		else{
+			
+			if($this->request->getVar('reset')){
+				 $password=$this->request->getVar('password');
+				 $confirm_password=$this->request->getVar('confirm_password');
+				$val = $this->validate([    
+				'password' => 'required',
+				'confirm_password' => 'required|matches[password]'
+				]);
+				if (!$val)
+				{				
+					return view('admin/reset_password.php', [
+						   'validation' => $this->validator,'settings'=>$settings,"email"=>$email,"token"=>$token
+					]);
+				
+				}
+				else{ 
+					$data = [
+						'first_log'=>'yes',
+						'password' => md5($password),
+						'token'  => random_string('alnum',32),
+						];
+			 
+						$save = $this->UserModel->edit($exist[0]['id'],$data);
+						
+						switch($exist[0]['role']){
+							case 'A':$redirect_url='login'; break;
+							
+							default:$redirect_url='login';
+						}
+					
+						return redirect()->to( base_url($redirect_url) );
+				}
+			}
+			return view('default/reset_password.php',array("settings"=>$settings,"email"=>$email,"token"=>$token));
+		}
+		
+	}
 }
