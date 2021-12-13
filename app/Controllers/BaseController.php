@@ -153,6 +153,8 @@ class BaseController extends Controller
 			$common_data['ente_package']=array("expired_date"=>$inf_package['expired_date'],"type_cours"=>$det['type_cours'],"extra"=>$det['extra']);
 			$list_static_pages=$this->PagesModel->where('type','dynamic')->where('banned','no')->where('enable','yes')->where('id_ente',$selected_ente['id'])->orderBy('ord',"ASC")->find();
 			$common_data['list_static_pages']=$list_static_pages;
+			$contact_page=$this->PagesModel->where('url','contact')->where('id_ente',$selected_ente['id'])->first();
+			$common_data['contact_page']=$contact_page;
 		}
 		else $selected_ente['id']=null;
 		$settings=$this->SettingModel->getByMetaKey($selected_ente['id']);

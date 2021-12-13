@@ -28,6 +28,58 @@ class Home extends BaseController
         return view('default/page', $data);
     }
 	
+	public function contact_page(){
+		$data = $this->common_data();
+		$common_data=$data;
+		$inf_page=$this->PagesModel->where('url','contact')->where('id_ente',$data['selected_ente']['id'])->first();
+		if(empty($inf_page)){
+			return redirect()->to(base_url());
+		}
+		if($this->request->getVar('submit')!==null){
+			$email = \Config\Services::email();
+					$subscribe_email=$common_data['selected_ente']['email'];
+					$inf_profile=$this->UserProfileModel->where('user_id',$common_data['selected_ente']['id'])->first();
+					if($inf_profile['email']!="") $subscribe_email=$inf_profile['email'];
+					$sender_name=$this->request->getVar('nome').' '.$this->request->getVar('cognome');
+					$sender_email=$this->request->getVar('email');
+					
+					if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
+						
+					
+					/*	 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						if($SMTP!="") $vals=json_decode($SMTP,true);
+					
+						if(!empty($vals)){
+							if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
+							if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+							$email->protocol='smtp';
+							$email->SMTPHost=$vals['host'];
+							$email->SMTPUser=$vals['username'];
+							$email->SMTPPass=$vals['password'];
+							$email->SMTPPort=$vals['port'];
+						}*/
+						
+					}
+					$email->setFrom($sender_email,$sender_name);
+					
+					$email->setTo($subscribe_email);
+				
+				 
+					
+					
+					$email->setSubject($this->request->getVar('subject').' - Contatti Form');
+					$html=nl2br($this->request->getVar('message'))."<hr><br/>".$this->request->getVar('nome').' '.$this->request->getVar('cognome').'<br/>'.$this->request->getVar('email').'<br/>'.$this->request->getVar('phone');
+					$email->setMessage($html);
+					$email->setAltMessage(strip_tags($html));
+					
+					$xxx=$email->send();
+					$data['success']=lang('front.msg_success_send_contact_form');
+		}
+		$data['inf_page']=$inf_page;
+		$data['seo_title']=$inf_page['seo_title'];
+		$data['seo_description']=$inf_page['seo_description'];
+        return view('default/contact', $data);
+	}
     public function getCourses()
     {
         $courses = $this->CorsiModel->where('find_in_set( '.($this->request->getVar('category') ?? '').', id_categorie) > 0')
