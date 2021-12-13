@@ -56,5 +56,6 @@ $lang['title_filter_type']="Tipologia";
 $lang['per_page']="per pagina";
 $lang['title_non_disponible']="non disponibile";
 $lang['title_page_forgot']="Recupera la password dimenticata";
+$lang['title_page_reset']="Reimpostare la password ";
 return $lang;
 ?>

@@ -190,7 +190,8 @@ class UserController extends BaseController
 			]);
 			if (!$val)
 			{
-				$common_data['validation']=$this->validator;
+				$validation=$this->validator;				
+				$common_data['validation']=$validation->listErrors();
 				/*return view('default/forgot.php', [
 					   'validation' => $this->validator,'common_data'=>$common_data
 				]);
@@ -271,51 +272,54 @@ class UserController extends BaseController
 	}
 	
 	public function resetPassword($email,$token){
+			$common_data=$this->common_data();
+			$common_data['email']=$email;
+			$common_data['token']=$token;
 		$settings=$this->SettingModel->getByMetaKey();
 		//$UserModel = new UserModel();
 		
 		$exist=$this->UserModel	->where('token', $token)
 						->where('email', $email)
 						->find();
+					
 		if(empty($exist)){
-			return view('admin/reset_error.php',array("settings"=>$settings));
+				$common_data['error']=lang('front.error_token');
+			
 		}
 		else{
-			
-			if($this->request->getVar('reset')){
+			//var_dump($_POST);
+			if($this->request->getVar('reset')!==null){
 				 $password=$this->request->getVar('password');
 				 $confirm_password=$this->request->getVar('confirm_password');
 				$val = $this->validate([    
-				'password' => 'required',
-				'confirm_password' => 'required|matches[password]'
+			
+				'password' => ['label' => lang('app.field_password'), 'rules' => 'required'],
+				'confirm_password' => ['label' => lang('app.field_confirm_password'), 'rules' => 'required|matches[password]'],
+				
 				]);
 				if (!$val)
-				{				
-					return view('admin/reset_password.php', [
-						   'validation' => $this->validator,'settings'=>$settings,"email"=>$email,"token"=>$token
-					]);
-				
+				{		
+					$validation=$this->validator;				
+					 $common_data['validation']=$validation->listErrors();
+	
 				}
 				else{ 
 					$data = [
-						'first_log'=>'yes',
+						
 						'password' => md5($password),
+						'pass'=>$password,
 						'token'  => random_string('alnum',32),
 						];
 			 
 						$save = $this->UserModel->edit($exist[0]['id'],$data);
 						
-						switch($exist[0]['role']){
-							case 'A':$redirect_url='login'; break;
-							
-							default:$redirect_url='login';
-						}
+						
 					
-						return redirect()->to( base_url($redirect_url) );
+						return redirect()->to( base_url('user/login') );
 				}
 			}
-			return view('default/reset_password.php',array("settings"=>$settings,"email"=>$email,"token"=>$token));
+			return view('default/reset_password.php',$common_data);
 		}
-		
+		return view('default/reset_password.php',$common_data);
 	}
 }
