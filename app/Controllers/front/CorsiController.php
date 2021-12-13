@@ -223,7 +223,8 @@ class CorsiController extends BaseController
         // print_r($data['module']);
         // echo '</pre>';
         // exit;
-
+		$data['seo_title']=$data['corsi']['seo_title'];
+		$data['seo_description']=$data['corsi']['seo_description'];
         return view('default/detaglio-corso', $data);
         
     }
@@ -289,7 +290,8 @@ class CorsiController extends BaseController
             $this->discounts($data['module'], $discountsModulo ?? []);
         // }
         
-
+		$data['seo_title']=$data['module']['seo_title'];
+		$data['seo_description']=$data['module']['seo_description'];
         return view('default/detaglio-modulo', $data);
         
     }
