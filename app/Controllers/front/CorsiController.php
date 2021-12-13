@@ -171,6 +171,9 @@ class CorsiController extends BaseController
         // echo '</pre>';
         // exit;
         // // die(var_dump($data['category']));
+		$inf_page=$this->PagesModel->where('url','corsi')->where('id_ente',$data['selected_ente']['id'])->first();
+		$data['seo_title']=$inf_page['seo_title'];
+		$data['seo_description']=$inf_page['seo_description'];
         return view('default/courses', $data);
     }
 
