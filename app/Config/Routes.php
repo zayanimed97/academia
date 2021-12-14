@@ -188,6 +188,10 @@ $routes->get('/ResetPassword/(:any)/(:any)', 'front\UserController::resetPasswor
 $routes->post('/addToCart', 'front\CartController::addToCart');
 $routes->get('/removeFromCart/(:any)', 'front\CartController::remove/$1');
 
+
+$routes->group("order", ["filter" => "auth:participant"], function ($routes) {
+    $routes->get('checkout', 'front\CartController::getCheckout');
+});
 /*
  * --------------------------------------------------------------------
  * Additional Routing

@@ -249,7 +249,7 @@ a[disabled] {
                             <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-5">
                                 <?php foreach($corsi as $c) { ?>
                                     <div class="card uk-transition-toggle flex flex-col justify-between">
-                                        <div class="card-media h-40 flex items-center" @click="showModalPromo('<?= $c['video_promo'] ?>')">
+                                        <div class="card-media h-40 flex items-center" @click="showModalPromo('https://www.youtube.com/embed/<?= $c['video_promo'] ?>')">
                                             <div class="card-media-overly"></div>
                                             <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : base_url('front/assets/images/courses/img-4.jpg') ?>" alt="" class="">
                                             <?php if($c['video_promo']) {?>
@@ -291,7 +291,7 @@ a[disabled] {
                                 <div class="divide-y">
                                     <?php foreach($corsi as $c) { ?>
                                         <div class="flex md:space-x-6 space-x-3 md:p-5 p-2 relative">
-                                            <div class="md:w-60 md:h-36 w-28 h-20 overflow-hidden rounded-lg relative shadow-sm flex items-center" @click="showModalPromo('<?= $c['video_promo'] ?>')">
+                                            <div class="md:w-60 md:h-36 w-28 h-20 overflow-hidden rounded-lg relative shadow-sm flex items-center" @click="showModalPromo('https://www.youtube.com/embed/<?= $c['video_promo'] ?>')">
                                                 <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : base_url('front/assets/images/courses/img-4.jpg') ?>" alt=""  class="rounded-lg w-full h-auto">
                                                 <?php if($c['video_promo']) {?>
                                                     <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">

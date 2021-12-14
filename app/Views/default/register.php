@@ -140,7 +140,7 @@
                 if (e.target.value == '106') {
                     fetch(`<?php echo base_url()?>/getProv?country=${e.target.value}&name=residenza_provincia`, 
                         {method: "get",  headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
-                        .then( el => el.text() ).then(res => {this.provincia = res; $('select').selectpicker();})
+                        .then( el => el.text() ).then(res => {this.provincia = res; setTimeout(() => {$('select').selectpicker('render');}, 50)})
                 }
                 else {
                     this.provincia = '<input type="text" id="residenza_provincia" name="residenza_provincia" class="form-control with-border">'
