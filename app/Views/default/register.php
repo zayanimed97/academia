@@ -1,4 +1,4 @@
-<?= view('default/common/header') ?>
+<?= view($view_folder.'/common/header') ?>
   
 <style>
     .border{
@@ -19,7 +19,7 @@
         
                         <div class="shadow bg-white rounded-md">
                                             
-                            <h3 class="border-b flex font-semibold items-center justify-between px-7 py-5 text-base"> <?php echo lang('front.title_register')?> <a href="#" class="font-medium inline-block text-blue-500 text-sm hover:underline"><?php echo lang('front.help_have_account')?></a> </h3>
+                            <h3 class="border-b flex font-semibold items-center justify-between px-7 py-5 text-base"> <?php echo lang('front.title_register')?> <a href="<?php echo base_url('user/login')?>" class="font-medium inline-block text-blue-500 text-sm hover:underline"><?php echo lang('front.help_have_account')?></a> </h3>
                         
                             <div class="lg:p-8 p-5">
      <?php if(isset($_SESSION['error']) ){ ?>
@@ -122,7 +122,7 @@
             </div>
         </div>
 
-<?= view('default/common/footer') ?>
+<?= view($view_folder.'/common/footer') ?>
 
 <script>
     
@@ -153,4 +153,4 @@
          
     }
 </script>
-<?= view('default/common/close') ?>
+<?= view($view_folder.'/common/close') ?>

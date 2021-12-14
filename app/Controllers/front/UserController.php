@@ -23,7 +23,7 @@ class UserController extends BaseController
         $data['country'] = $this->NazioniModel->where('status', 'enable')->find();
         $data['prof'] = $this->ProfessioneModel->where('status', 'enable')->where('id_ente', $data['selected_ente']['id'])->find();
 
-        return view('default/register', $data);
+        return view($data['view_folder'].'/register', $data);
     }
 
     public function create_user()
@@ -128,7 +128,7 @@ class UserController extends BaseController
 			$data['success_register']=$this->session->get('success_register');
 			$this->session->remove('success_register');
 		}
-        return view('default/login', $data);
+        return view($data['view_folder'].'/login', $data);
     }
 
     public function login()
@@ -138,7 +138,7 @@ class UserController extends BaseController
         // $settings=$this->SettingModel->getByMetaKey();
 		$email=$this->request->getVar('email');
 		$password=$this->request->getVar('password');
-		$url='/default/login';
+		$url='/'.$data['view_folder'].'/login';
 		// die($url);
 		
 		$val = $this->validate([
@@ -193,7 +193,7 @@ class UserController extends BaseController
 			{
 				$validation=$this->validator;				
 				$common_data['validation']=$validation->listErrors();
-				/*return view('default/forgot.php', [
+				/*return view($data['view_folder'].'/forgot.php', [
 					   'validation' => $this->validator,'common_data'=>$common_data
 				]);
 				*/
@@ -209,7 +209,7 @@ class UserController extends BaseController
 				if(empty($users)){
 					$error=lang('app.error_not_exist_email');
 					$common_data['error']=$error;
-					/* return view('default/forgot.php', [
+					/* return view($data['view_folder'].'/forgot.php', [
 					   'error' => $error,'settings'=>$settings
 					]);*/
 				}
@@ -269,7 +269,7 @@ class UserController extends BaseController
 		
 		
 	
-		return view('default/forgot.php',$common_data);
+		return view($common_data['view_folder'].'/forgot.php',$common_data);
 	}
 	
 	public function resetPassword($email,$token){
@@ -319,8 +319,8 @@ class UserController extends BaseController
 						return redirect()->to( base_url('user/login') );
 				}
 			}
-			return view('default/reset_password.php',$common_data);
+			return view($common_data['view_folder'].'/reset_password.php',$common_data);
 		}
-		return view('default/reset_password.php',$common_data);
+		return view($common_data['view_folder'].'/reset_password.php',$common_data);
 	}
 }

@@ -104,7 +104,7 @@ class CartController extends BaseController
         // print_r($data['user']);
         // echo '</pre>';
         // exit;
-        return view('default/checkout', $data);
+        return view($data['view_folder'].'/checkout', $data);
     }
     
 }

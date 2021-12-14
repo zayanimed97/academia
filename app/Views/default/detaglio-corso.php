@@ -1,4 +1,4 @@
-<?= view('default/common/header') ?>
+<?= view($view_folder.'/common/header') ?>
 
         <div class="bg-gradient-to-bl from-purple-600 to-purple-400 text-black lg:-mt-20 lg:pt-20">
             <div class="container p-0">
@@ -63,10 +63,10 @@
                         <div class="tube-card z-20 mb-4 overflow-hidden uk-sticky" uk-sticky="cls-active:rounded-none ; media: 992 ; offset:70 ">
                             <nav class="cd-secondary-nav extanded ppercase nav-small">
                                 <ul class="space-x-3" uk-scrollspy-nav="closest: li; scroll: true">
-                                    <li><a href="#Descrizione" uk-scroll>Descrizione</a></li>
+                                    <li><a href="#Descrizione" uk-scroll><?php echo lang('front.field_description')?></a></li>
                                     <!-- <li><a href="#Contenuto" uk-scroll>Contenuto del corso</a></li>  -->
-                                    <li><a href="#Moduli" uk-scroll>Moduli</a></li>
-                                    <li><a href="#Curriculum">Curriculum Vitae </a></li>
+                                    <li><a href="#Moduli" uk-scroll><?php echo lang('front.field_modules')?></a></li>
+                                    <li><a href="#Curriculum"><?php echo lang('front.field_cv')?> </a></li>
                                     <!-- <li><a href="#reviews">Reviews</a></li> -->
                                 </ul>
                             </nav>
@@ -79,7 +79,7 @@
                             <div class="space-y-6">
                                 <?php if($corsi['descizione']){ ?>
                                 <div>
-                                    <h3 class="text-lg font-semibold mb-3"> Descizione </h3>
+                                    <h3 class="text-lg font-semibold mb-3"> <?php echo lang('front.field_description')?> </h3>
                                     <p>
                                         <?= $corsi['descizione'] ?>
                                     </p>
@@ -87,7 +87,7 @@
                                 <?php } ?>
                                 <?php if($corsi['programa']){ ?>
                                 <div>
-                                    <h3 class="text-lg font-semibold mb-1"> Programa </h3>
+                                    <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_programa')?></h3>
                                     <!-- <ul class="grid md:grid-cols-2">
                                         <li> <i class="uil-check text-xl font-bold mr-2"></i>Setting up the environment</li>
                                         <li> <i class="uil-check text-xl font-bold mr-2"></i>Advanced HTML Practices</li>
@@ -104,7 +104,7 @@
 
                                 <?php if($corsi['note']){ ?>
                                 <div>
-                                    <h3 class="text-lg font-semibold mb-1"> Note</h3>
+                                    <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_note')?></h3>
                                     <?= $corsi['note'] ?>
                                     </ul>
                                 </div>
@@ -112,21 +112,21 @@
 
                                 <?php if($corsi['indrizzato_a']){ ?>
                                 <div>
-                                    <h3> Indrizzato </h3>
+                                    <h3>  <?php echo lang('front.field_indrizzato_a')?>  </h3>
                                         <p><?= $corsi['indrizzato_a'] ?></p>
                                 </div>
                                 <?php } ?>
 
                                 <?php if($corsi['riferimenti']){ ?>
                                 <div>
-                                    <h3> Riferimenti </h3>
+                                    <h3>  <?php echo lang('front.field_riferimenti')?>  </h3>
                                         <p><?= $corsi['riferimenti'] ?></p>
                                 </div>
                                 <?php } ?>
 
                                 <?php if($corsi['avvisi']){ ?>
                                 <div>
-                                    <h3> Avvisi </h3>
+                                    <h3> <?php echo lang('front.field_avvisi')?> </h3>
                                         <p><?= $corsi['avvisi'] ?></p>
                                 </div>
                                 <?php } ?>
@@ -559,7 +559,7 @@
                             </div>
                         </div> -->
                         <div class="tube-card p-5 lg:p-8" id="Moduli">
-                            <h3 class="text-xl font-semibold lg:mb-5"> Moduli </h3>
+                            <h3 class="text-xl font-semibold lg:mb-5"> <?php echo lang('front.field_modules')?> </h3>
                             <?php foreach($module as $mod){ if(strlen(trim($mod['id'])) > 0 ){ ?>
                             <div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2">
                                 <div class="md:w-5/12 md:h-60 h-40 overflow-hidden relative" @click="videoPromo('<?= $mod['video_promo'] ?>', '<?= $mod['sotto_titolo'] ?>')">
@@ -596,14 +596,14 @@
 
 
                         <div id="Curriculum" class="tube-card p-5 lg:p-8">
-                            <h3 class="text-xl font-semibold lg:mb-5"> Doctors CV </h3>
+                            <h3 class="text-xl font-semibold lg:mb-5"> <?php echo lang('front.field_doctor_cv')?> </h3>
                             <?php foreach($doctors as $doc){ ?>
 
                             <div class="flex items-center gap-x-4 mb-5" id="doctor<?= $doc['id'] ?>">
                                 <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-4.jpg" alt="" class="rounded-full shadow w-12 h-12">
                                 <div>
                                     <h4 class="-mb-1 text-base"> <?= $doc['display_name'] ?></h4>
-                                    <span class="text-sm"> Instructor </span>
+                                    <span class="text-sm"> <?php echo lang('front.field_instructor')?> </span>
                                 </div>
                             </div>
                             <div class="mb-8">
@@ -623,7 +623,7 @@
                                    
                                     <div class="flex flex-col space-y-2">
                                         <div class="text-3xl font-semibold"> <?= $corsi['prezzo'] ?></div>
-                                        <div> Students </div>
+                                        <!--div> Students </div-->
                                         <ion-icon name="people-circle" class="text-lg" hidden></ion-icon>
                                     </div>
                                     <!-- <div class="mt-4">
@@ -631,24 +631,24 @@
                                     </div> -->
                                 </div>
                                 <hr class="-mx-5 border-gray-200 my-4">
-                                <h4 hidden> COURSE INCLUDES</h4>
+                                <h4 hidden> <?php echo lang('front.field_cour_include')?></h4>
         
                                 <div class="-m-5 divide-y divide-gray-200 text-sm">
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon>Tipo di corso: <?= $corsi['tipologia_corsi'] ?> </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['ECM'] ?? '0' ?> Credits </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['duration'] ?? '0min' ?> Totali </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['nb_person_aula'] ?? '0' ?> Participants </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> Moduli </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> Attestato di partecipazione: <?= $corsi['attestato'] ?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?> : <?= $corsi['tipologia_corsi'] ?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['ECM'] ?? '0' ?> <?php echo lang('front.field_crediti')?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['duration'] ?? '0min' ?> <?php echo lang('front.field_total')?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['nb_person_aula'] ?? '0' ?> <?php echo lang('front.field_participant')?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> <?php echo lang('front.field_modules')?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?php echo lang('front.field_attestation')?>: <?= $corsi['attestato'] ?> </div>
                                 </div>
                                 
                             </div>
                             <div class="mt-4">
-                                <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" @click="addToCart('<?= $corsi['id'] ?>', '<?= $corsi['prezzo'] ?>', '<?= $corsi['buy_type'] ?>', '<?= $corsi['url'] ?>', 'corsi')"> Enroll Now </button>
+                                <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" @click="addToCart('<?= $corsi['id'] ?>', '<?= $corsi['prezzo'] ?>', '<?= $corsi['buy_type'] ?>', '<?= $corsi['url'] ?>', 'corsi')"> <?php echo lang('front.btn_add_cart')?></button>
                             </div>
                             <?php if($corsi['pdf']){ ?>
                                 <div class="mt-4">
-                                    <a href="<?= base_url('uploads/corsiPDF/'.$corsi['pdf']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> Download PDF </a>
+                                    <a href="<?= base_url('uploads/corsiPDF/'.$corsi['pdf']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> <?php echo lang('front.btn_download_attachment')?> </a>
                                 </div>
                             <?php } ?>
                         </div>
@@ -747,7 +747,7 @@
         </div>
     </div>
     
-<?= view('default/common/footer') ?>
+<?= view($view_folder.'/common/footer') ?>
 
 <script>
     function getData() {
@@ -765,4 +765,4 @@
         }
     }
 </script>
-    <?= view('default/common/close') ?>
+    <?= view($view_folder.'/common/close') ?>

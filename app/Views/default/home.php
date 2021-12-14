@@ -337,7 +337,7 @@
             
 
         </div>
-<?= view('default/common/footer') ?>
+<?= view($view_folder.'/common/footer') ?>
 
 <script>
         String.prototype.trunc = 
@@ -428,4 +428,4 @@
     }
 </script>
   
-<?= view('default/common/close') ?>
+<?= view($view_folder.'/common/close') ?>

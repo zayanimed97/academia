@@ -1,4 +1,4 @@
-<?= view('default/common/header') ?>
+<?= view($view_folder.'/common/header') ?>
   
      <div class="container p-0">
 
@@ -137,4 +137,4 @@
             </div>
  
         </div>
-<?= view('default/common/footer') ?>
+<?= view($view_folder.'/common/footer') ?>

@@ -1,4 +1,4 @@
-<?= view('default/common/header') ?>
+<?= view($view_folder.'/common/header') ?>
   
         <!--  breadcrumb -->
         <div class="from-blue-500 via-blue-400 to-blue-500 bg-gradient-to-l breadcrumb-area py-6 text-white">
@@ -254,7 +254,7 @@
         
             </div>
         </div>
-<?= view('default/common/footer') ?>
+<?= view($view_folder.'/common/footer') ?>
 <script>
     function getResData(){
         return {
@@ -284,4 +284,4 @@
          
     }
 </script>
-<?= view('default/common/close') ?>
+<?= view($view_folder.'/common/close') ?>

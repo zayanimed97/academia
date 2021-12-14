@@ -10,6 +10,7 @@ $lang['btn_add_cart']='Aggiungi al carrello';
 $lang['btn_recover']="Recuperare";
 $lang['btn_reset']="Ripristina";
 $lang['btn_send']="Invia";
+$lang['btn_download_attachment']="Carica Materialli";
 
 $lang['field_email']="Email";
 $lang['field_password']="Password";
@@ -29,6 +30,26 @@ $lang['field_confirm_password']="Conferma password";
 $lang['field_professione']="Professione";
 $lang['field_subject']="Oggetto";
 $lang['field_message']="Messagio";
+
+$lang['field_description']="Descrizione";
+$lang['field_modules']="Moduli";
+$lang['field_cv']="Curriculum Vitae";
+$lang['field_cour']="Corso";
+
+$lang['field_programa']="Programma";
+$lang['field_note']="Note";
+$lang['field_indrizzato_a']="Indrizzato a";
+$lang['field_riferimenti']="riferimenti normativi";
+$lang['field_avvisi']="Avvisi";
+$lang['field_doctor_cv']="Docenti CV";
+$lang['field_instructor']="istruttore";
+$lang['field_cour_include']="IL CORSO INCLUDE";
+$lang['field_type_cours']="Tipologia corsi";
+$lang['field_crediti']="Crediti ECM";
+$lang['field_total']="Totali";
+$lang['field_participant']="Participanti";
+$lang['field_attestation']="Attestato di partecipazione";
+
 
 $lang['msg_success_send_contact_form']="il tuo messaggio è stato inviato";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
@@ -62,5 +83,7 @@ $lang['title_page_forgot']="Recupera la password dimenticata";
 $lang['title_page_reset']="Reimpostare la password ";
 $lang['title_section_contact_ente_email']="Emails";
 $lang['title_section_contact_ente_phone']="Telefono";
+$lang['list_view']="visualizzazione elenco";
+$lang['grid_view']="vista a griglia";
 return $lang;
 ?>
