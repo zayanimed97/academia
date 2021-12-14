@@ -175,7 +175,7 @@ class CorsiController extends BaseController
 		$inf_page=$this->PagesModel->where('url','corsi')->where('id_ente',$data['selected_ente']['id'])->first();
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
-        return view('default/courses', $data);
+        return view($data['view_folder'].'/courses', $data);
     }
 
     public function details($url)
@@ -227,7 +227,7 @@ class CorsiController extends BaseController
         // exit;
 		$data['seo_title']=$data['corsi']['seo_title'];
 		$data['seo_description']=$data['corsi']['seo_description'];
-        return view('default/detaglio-corso', $data);
+        return view($data['view_folder'].'/detaglio-corso', $data);
         
     }
 
@@ -294,7 +294,7 @@ class CorsiController extends BaseController
         
 		$data['seo_title']=$data['module']['seo_title'];
 		$data['seo_description']=$data['module']['seo_description'];
-        return view('default/detaglio-modulo', $data);
+        return view($data['view_folder'].'/detaglio-modulo', $data);
         
     }
 }

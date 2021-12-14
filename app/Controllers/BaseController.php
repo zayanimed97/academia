@@ -148,6 +148,9 @@ class BaseController extends Controller
 		$selected_ente=$this->UserModel->where('role','ente')->where('domain_ente',$_SERVER['SERVER_NAME'] ?? 'localhost')->first();
 		if(!empty($selected_ente)){
 			$common_data['selected_ente']=$selected_ente;
+			if($selected_ente['domain_ente']=='localhost' || $selected_ente['domain_ente']=='' || !file_exists(APPPATH.'Views/'.$selected_ente['domain_ente'])) $common_data['view_folder']='default';
+			else $common_data['view_folder']=$selected_ente['domain_ente'];
+			
 			$inf_package=$this->EntePackageModel->where('id_ente',$selected_ente['id'])->orderBy('expired_date','DESC')->first();
 			$det=json_decode($inf_package['package'],true);
 			$common_data['ente_package']=array("expired_date"=>$inf_package['expired_date'],"type_cours"=>$det['type_cours'],"extra"=>$det['extra']);

@@ -11,7 +11,7 @@ class Home extends BaseController
 		$inf_page=$this->PagesModel->where('url','home')->where('id_ente',$data['selected_ente']['id'])->first();
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
-        return view('default/home', $data);
+        return view($data['view_folder'].'/home', $data);
     }
 
 	public function page($url)
@@ -25,7 +25,7 @@ class Home extends BaseController
 		$data['inf_page']=$inf_page;
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
-        return view('default/page', $data);
+        return view($data['view_folder'].'/page', $data);
     }
 	
 	public function contact_page(){
@@ -78,7 +78,7 @@ class Home extends BaseController
 		$data['inf_page']=$inf_page;
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
-        return view('default/contact', $data);
+        return view($data['view_folder'].'/contact', $data);
 	}
     public function getCourses()
     {
@@ -155,6 +155,6 @@ class Home extends BaseController
     {
         $data = $this->common_data();
 
-        return view('default/blog', $data);
+        return view($data['view_folder'].'/blog', $data);
     }
 }
