@@ -286,7 +286,7 @@
                     </a>
                     <div uk-drop="mode: click" class="dropdown_cart">
                         <div class="cart-headline"> <?php echo lang('front.title_my_cart')?> 
-                            <a href="#" class="checkout"><?php echo lang('front.title_checkout')?> </a>
+                            <a href="<?= base_url('/order/checkout') ?>" class="checkout"><?php echo lang('front.title_checkout')?> </a>
                         </div>
                         <ul class="dropdown_cart_scrollbar" data-simplebar>
                             <template x-for="item in cartItems" :key="item.id">

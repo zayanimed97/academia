@@ -108,7 +108,7 @@ class Home extends BaseController
 
             $html = '<select name="'.$this->request->getVar('name').'" class="form-control selectpicker border rounded-md"';
             if (!(($this->request->getVar('name') ?? '') == "nascita_provincia")) {
-                $html .= '@change="fetch(`'.base_url().'/getComm?prov=${$event.target.value}&name='.$selectName.'`, {method: &quot;get&quot;,  headers: {&quot;Content-Type&quot;: &quot;application/json&quot;, &quot;X-Requested-With&quot;: &quot;XMLHttpRequest&quot; }}).then( el => el.text() ).then(res => {'.$fieldName.' = res; if(jQuery().selectpicker){$(&quot;select&quot;).selectpicker();}})"';
+                $html .= '@change="fetch(`'.base_url().'/getComm?prov=${$event.target.value}&name='.$selectName.'`, {method: &quot;get&quot;,  headers: {&quot;Content-Type&quot;: &quot;application/json&quot;, &quot;X-Requested-With&quot;: &quot;XMLHttpRequest&quot; }}).then( el => el.text() ).then(res => {'.$fieldName.' = res; if(jQuery().selectpicker){setTimeout(() => {$(&quot;select&quot;).selectpicker(&quot;render&quot;)}, 50);}})"';
             }
             $html .= '><option value="0"> Select Provincia </option>';
             foreach ($provs as $prov) {

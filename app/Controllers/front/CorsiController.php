@@ -86,6 +86,7 @@ class CorsiController extends BaseController
                                                 ->join('corsi', "corsi.id = corsi_modulo.id_corsi AND corsi_modulo.id_corsi in ({$courses('modulo')}) AND corsi.buy_type <> 'cours'")
                                                 ->join('users u', 'u.id = corsi_modulo.instructor', 'left')
                                                 ->join('corsi_modulo_prezzo_prof prezz', 'corsi_modulo.id = prezz.id_modulo', 'left')
+                                                ->where('corsi_modulo.banned', 'no')
                                                 ->groupBy('corsi_modulo.id')
                                                 ->getCompiledSelect();
 
@@ -194,13 +195,14 @@ class CorsiController extends BaseController
                                             ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, SUM(cm.crediti) as ECM , pdf.filename as pdf, GROUP_CONCAT(DISTINCT u.display_name) doctor_names, GROUP_CONCAT(DISTINCT cat.titolo) categories, arg.nomeargomento")
                                             ->groupBy('corsi.id')
                                             ->first();
-        $data['doctors'] = $this->UserModel->where("find_in_set(id, '{$data['corsi']['ids_doctors']}') > 0")->find();
+        $data['doctors'] = $this->UserModel->join('user_cv cv', 'cv.user_id = users.id', 'left')->where("find_in_set(users.id, '{$data['corsi']['ids_doctors']}') > 0")->select('users.*, cv.cv as cv')->find();
 
         $data['module'] = $this->CorsiModuloModel   ->where('corsi_modulo.id_corsi', $data['corsi']['id'])
                                                     ->join('users u', 'u.id = instructor')
                                                     ->join('corsi', 'corsi.id = corsi_modulo.id_corsi')
                                                     ->join('corsi_modulo_prezzo_prof prezz', '(corsi_modulo.id = prezz.id_modulo)'. $joinLoggedIn, 'left')
                                                     ->join('categorie cat', 'find_in_set(cat.id, corsi.id_categorie) > 0', 'left')
+                                                    ->where('corsi_modulo.banned','no')
                                                     ->select('  corsi_modulo.*, 
                                                                 u.display_name,
                                                                 MAX(prezz.prezzo) as max_price, 

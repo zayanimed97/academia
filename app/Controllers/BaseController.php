@@ -175,6 +175,12 @@ class BaseController extends Controller
 		}
 
 		$common_data['cart'] = $this->cart;
+		$common_data['tax'] = 0;
+		foreach ($common_data['cart']->contents() as $item) {
+            if ($item['price'] != 'ND') {
+                $common_data['tax'] += round($item['price']*0.22, 2);
+            }
+        }
 		return $common_data;
 	}
 	
@@ -201,7 +207,7 @@ class BaseController extends Controller
 
 	public function discounts(&$course, $discount)
 	{
-		$filter = array_filter($discount ?? [], function($el) use ($course) {return $el['id_corsi'] == $course['id'];});
+		$filter = array_filter($discount ?? [], function($el) use ($course) {return ($el['id_corsi'] ?? '') == $course['id'];});
 
             // calculate max price with default included
             if ($course['have_def_price'] == 'yes') {
@@ -231,5 +237,66 @@ class BaseController extends Controller
 
             // if free return gratuito
             $course['prezzo'] = $course['free'] == 'yes' ? 'gratuito' : ((strpos($course['prezzo'], '€') || $course['prezzo'] == "") ? $course['prezzo'] : $this->amount->format($course['prezzo']));
+	}
+
+	public function updateCart()
+	{
+		$cartItems = $this->cart->contents();
+		$corsi_in_cart = array_filter(array_map(function($el){if($el['type'] == 'corsi') return str_replace($el['type'], '', $el['id']);}, $cartItems));
+
+		$modulo_in_cart = array_filter(array_map(function($el){if($el['type'] == 'modulo') return str_replace($el['type'], '', $el['id']);}, $cartItems));
+
+		
+
+		$corsi = $this->CorsiModel->whereIn('corsi.id', $corsi_in_cart ?: ['empty value for init']);
+		$modulo = $this->CorsiModuloModel->whereIn('corsi_modulo.id', $modulo_in_cart ?: ['empty value for init']);
+
+		$withPriceProfession = '';
+		if (((session('user_data')['role'] ?? '') == 'participant')){
+			$withPriceProfession = ', prezz.prezzo as price_for_prof';
+			
+			$corsi->join('corsi_prezzo_prof prezz', 'prezz.id_corsi = corsi.id AND prezz.id_professione = '.session('user_data')['profile']['professione'], 'left')->groupBy('corsi.id');
+			$modulo->join('corsi_modulo_prezzo_prof prezz', 'prezz.id_modulo = corsi_modulo.id AND prezz.id_professione = '.session('user_data')['profile']['professione'], 'left')->groupBy('corsi_modulo.id');
+		}
+		$corsi = $corsi->select('corsi.id, corsi.prezzo, corsi.free, corsi.have_def_price'.$withPriceProfession)->find();
+		$modulo = $modulo->select('corsi_modulo.id, corsi_modulo.prezzo, corsi_modulo.free, corsi_modulo.have_def_price'.$withPriceProfession)->find();
+
+		if (is_array($corsi)) {	
+			foreach ($corsi_in_cart as $key => $item) {
+				$filter = array_filter($corsi, function($el) use ($item){return $el['id'] == str_replace('corsi', '', $item);});
+				$thiscorsi = reset($filter);
+				$prezzo = ($thiscorsi['free'] == 'yes')  
+															? '0'  
+															: (($thiscorsi['price_for_prof'] ?? false) 
+																? $thiscorsi['price_for_prof'] 
+																: (($thiscorsi['have_def_price'] == 'yes') 
+																	? $thiscorsi['prezzo'] 
+																	: 'ND'));
+				$this->cart->update(['rowid' => $key, 'price' => $prezzo]);
+			}
+		}
+
+		if (is_array($modulo)) {	
+			foreach ($modulo_in_cart as $key => $item) {
+				$filter = array_filter($modulo, function($el) use ($item){return $el['id'] == str_replace('modulo', '', $item);});
+				$thismodulo = reset($filter);
+				$prezzo = ($thismodulo['free'] == 'yes') 
+															? '0' 
+															: (($thismodulo['price_for_prof'] ?? false) 
+																? $thismodulo['price_for_prof'] 
+																: (($thismodulo['have_def_price'] == 'yes') 
+																	? $thismodulo['prezzo'] 
+																	: 'ND'));
+				$this->cart->update(['rowid' => $key, 'price' => $prezzo]);
+			}
+		}
+		
+
+		// echo '<pre>';
+        // // print_r($this->cart->contents());
+        // print_r($corsi);
+        // echo '</pre>';
+        // exit;
+
 	}
 }

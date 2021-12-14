@@ -35,6 +35,7 @@
                 cartItems: <?= json_encode($cart->contents()) ?>,
                 total: <?= $cart->total() ?>,
                 items: <?= $cart->totalItems() ?>,
+                tax: <?= $tax ?>,
                 addToCart(id, prezzo, type, url, item) {
                     if (type == 'date') {
                         location.href = '<?= base_url() ?>/corsi/'+url
@@ -46,7 +47,7 @@
                             data: {"id": id, "price": prezzo, "type": item}, 
                             dataType: 'json'
                         })
-                        .done((res)=>{this.cartItems = res.cart; this.total = res.totalPrice; this.items = res.total})
+                        .done((res)=>{this.cartItems = res.cart; this.total = res.totalPrice; this.items = res.total; this.tax = res.tax})
                     }
                 },
                 removeFromCart(row){
@@ -55,7 +56,7 @@
                             method: "get",  
                             headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
                             .then( el => el.json() )
-                            .then(res => {this.cartItems = res.cart; this.total = res.totalPrice; this.items = res.total})
+                            .then(res => {this.cartItems = res.cart; this.total = res.totalPrice; this.items = res.total; this.tax = res.tax})
                 }
             }
         }
