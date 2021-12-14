@@ -376,6 +376,7 @@ $lang['field_menu']="Menu";
 $lang['new_page']="Nuova pagina";
 $lang['field_static']="Statica";
 $lang['field_dynamic']="Dynamica";
+$lang['field_copyright']="Copyright";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -513,6 +514,7 @@ $lang['title_page_settings_cms']="List Pagina";
 $lang['title_page_settings_cms_add']="Nuova Pagina";
 $lang['title_page_settings_cms_edit']="Modifica Pagina";
 $lang['modal_title_delete_page']="Elemina Pagina";
+$lang['title_section_copyrigh']="Copyright";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
