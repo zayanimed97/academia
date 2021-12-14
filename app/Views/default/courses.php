@@ -216,10 +216,10 @@ a[disabled] {
                             <div class="flex items-center justify-end">
         
                                 <div class="bg-gray-100 border inline-flex p-0.5 rounded-md text-lg self-center">
-                                    <button type="button" class="py-1.5 px-2.5 rounded-md" :class="view == 'list' ? 'bg-white shadow' : ''" @click="view = 'list'" data-tippy-placement="top" title="List view"> 
+                                    <button type="button" class="py-1.5 px-2.5 rounded-md" :class="view == 'list' ? 'bg-white shadow' : ''" @click="view = 'list'" data-tippy-placement="top" title="<?php echo lang('front.list_view')?>"> 
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg> 
                                     </button>
-                                    <button type="button" href="#" class="py-1.5 px-2.5 rounded-md" :class="view == 'grid' ? 'bg-white shadow' : ''" @click="view = 'grid'" data-tippy-placement="top" title="Grid view"> 
+                                    <button type="button" href="#" class="py-1.5 px-2.5 rounded-md" :class="view == 'grid' ? 'bg-white shadow' : ''" @click="view = 'grid'" data-tippy-placement="top" title="<?php echo lang('front.grid_view')?>"> 
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
                                     </button>
                                 </div>
