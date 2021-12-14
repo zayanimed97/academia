@@ -1,4 +1,4 @@
-<?= view('default/common/header') ?>
+<?= view($view_folder.'/common/header') ?>
 
         <div class="bg-gradient-to-bl from-purple-600 to-purple-400 text-black lg:-mt-20 lg:pt-20">
             <div class="container p-0">
@@ -741,7 +741,7 @@
         </div>
     </div>
     
-<?= view('default/common/footer') ?>
+<?= view($view_folder.'/common/footer') ?>
 
 <script>
     function getData() {
@@ -759,4 +759,4 @@
         }
     }
 </script>
-    <?= view('default/common/close') ?>
+    <?= view($view_folder.'/common/close') ?>

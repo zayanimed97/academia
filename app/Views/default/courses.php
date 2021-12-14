@@ -367,7 +367,7 @@ a[disabled] {
                             </div>
                         </template>
                         <!-- Pagination -->
-                        <?= view('default/common/pagination', $pagination) ?>
+                        <?= view($view_folder.'/common/pagination', $pagination) ?>
                     </div>
 
                 </div> 
@@ -398,7 +398,7 @@ a[disabled] {
                 </div>
             </div>
         </div>
-<?= view('default/common/footer') ?>
+<?= view($view_folder.'/common/footer') ?>
  
 <script>
     function getFilters($watch) {
@@ -468,4 +468,4 @@ a[disabled] {
     }
 
 </script>
-<?= view('default/common/close') ?>
+<?= view($view_folder.'/common/close') ?>

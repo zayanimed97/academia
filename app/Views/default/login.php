@@ -1,4 +1,4 @@
-<?= view('default/common/header') ?>
+<?= view($view_folder.'/common/header') ?>
   
 <style>
     .border{
@@ -84,5 +84,5 @@
         </div>
 
     </div>
-<?= view('default/common/footer') ?>
-<?= view('default/common/close') ?>
+<?= view($view_folder.'/common/footer') ?>
+<?= view($view_folder.'/common/close') ?>
