@@ -343,6 +343,17 @@ class Settings extends BaseController
 						$data['success']=lang('app.success_update');
 					}
 				break;
+				case 'copyright':
+					$copyright=$this->request->getVar('copyright');
+					$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'copyright')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'copyright','meta_value'=>$copyright));
+							else{
+								
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'copyright')->update($id['id'],array('meta_value'=>$copyright));
+							}
+					$data=$this->common_data();
+					$data['success']=lang('app.success_update');
+				break;
 			}
 		}
 			$list=$this->PagesModel->where('id_ente',$user_data['id'])->where('banned','no')->find();
