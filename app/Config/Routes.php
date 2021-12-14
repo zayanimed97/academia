@@ -112,6 +112,13 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 	
 	//media settings
 	$routes->add('settings/media', 'Settings::media');
+	
+	//CMS settings
+	$routes->add('settings/cms/edit/(:any)', 'Settings::cms_edit/$1');
+	$routes->add('settings/cms/add', 'Settings::cms_add');
+	$routes->add('settings/cms', 'Settings::cms');
+	
+	
 });
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
@@ -189,9 +196,14 @@ $routes->post('/addToCart', 'front\CartController::addToCart');
 $routes->get('/removeFromCart/(:any)', 'front\CartController::remove/$1');
 
 
+
 $routes->group("order", ["filter" => "auth:participant"], function ($routes) {
     $routes->get('checkout', 'front\CartController::getCheckout');
 });
+
+$routes->add('/contact', 'Home::contact_page'); 
+$routes->add('/page/(:any)', 'Home::page/$1'); 
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

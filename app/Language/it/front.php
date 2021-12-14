@@ -9,7 +9,7 @@ $lang['btn_filter']="Filtro";
 $lang['btn_add_cart']='Aggiungi al carrello';
 $lang['btn_recover']="Recuperare";
 $lang['btn_reset']="Ripristina";
-
+$lang['btn_send']="Invia";
 
 $lang['field_email']="Email";
 $lang['field_password']="Password";
@@ -27,7 +27,10 @@ $lang['field_mobile']="Cellulare";
 $lang['field_select']="Selezione";
 $lang['field_confirm_password']="Conferma password";
 $lang['field_professione']="Professione";
+$lang['field_subject']="Oggetto";
+$lang['field_message']="Messagio";
 
+$lang['msg_success_send_contact_form']="il tuo messaggio è stato inviato";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
 $lang['success_reset_password']="la password è stata modificata con successo";
 $lang['success_register']="Registrazione avvenuta con successo, controlla la tua email per confermare il tuo indirizzo ";
@@ -57,5 +60,7 @@ $lang['per_page']="per pagina";
 $lang['title_non_disponible']="non disponibile";
 $lang['title_page_forgot']="Recupera la password dimenticata";
 $lang['title_page_reset']="Reimpostare la password ";
+$lang['title_section_contact_ente_email']="Emails";
+$lang['title_section_contact_ente_phone']="Telefono";
 return $lang;
 ?>
