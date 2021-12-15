@@ -6,7 +6,14 @@
 
                     <div class="lg:w-4/12">
                         <div class="w-full lg:h-52 h-40 overflow-hidden rounded-lg relative lg:mb-0 mb-4 flex items-center">
-                            <img src="<?= $module['foto'] ? base_url('uploads/corsi/'.$module['foto']) : base_url('front/assets/images/courses/img-1.jpg') ?>" alt="" class="w-full h-auto">
+						<?php $default_image=base_url('front/assets/images/courses/img-1.jpg');
+								switch($corsi['tipologia_corsi']){
+									case 'online': if($settings['default_img_online']!="") $default_image=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if($settings['default_img_aula']!="") $default_image=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'webinar': if($settings['default_img_webinar']!="") $default_image=base_url('uploads/'.$settings['default_img_webinar']); break;
+								}
+								?>
+                            <img src="<?= $module['foto'] ? base_url('uploads/corsi/'.$module['foto']) : $default_image ?>" alt="" class="w-full h-auto">
                             <?php if($module['video_promo']) { ?>
                             <a href="#trailer-modal" class="uk-position-center" uk-toggle>
                                 <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16" alt="">
