@@ -247,11 +247,17 @@ a[disabled] {
 
                         <template x-if="view == 'grid'">
                             <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-5">
-                                <?php foreach($corsi as $c) { ?>
+                                <?php foreach($corsi as $c) { 
+								$default_image=base_url('front/assets/images/courses/img-4.jpg');
+								switch($c['tipologia_corsi']){
+									case 'online': if($settings['default_img_online']!="") $default_image=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if($settings['default_img_aula']!="") $default_image=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'webinar': if($settings['default_img_webinar']!="") $default_image=base_url('uploads/'.$settings['default_img_webinar']); break;
+								}?>
                                     <div class="card uk-transition-toggle flex flex-col justify-between">
                                         <div class="card-media h-40 flex items-center" @click="showModalPromo('https://www.youtube.com/embed/<?= $c['video_promo'] ?>')">
                                             <div class="card-media-overly"></div>
-                                            <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : base_url('front/assets/images/courses/img-4.jpg') ?>" alt="" class="">
+                                            <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : $default_image ?>" alt="" class="">
                                             <?php if($c['video_promo']) {?>
                                                 <span class="icon-play"></span>
                                             <?php } ?>
@@ -289,10 +295,16 @@ a[disabled] {
                             
             
                                 <div class="divide-y">
-                                    <?php foreach($corsi as $c) { ?>
+                                    <?php foreach($corsi as $c) { 
+									$default_image=base_url('front/assets/images/courses/img-4.jpg');
+								switch($c['tipologia_corsi']){
+									case 'online': if($settings['default_img_online']!="") $default_image=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if($settings['default_img_aula']!="") $default_image=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'webinar': if($settings['default_img_webinar']!="") $default_image=base_url('uploads/'.$settings['default_img_webinar']); break;
+								}?>
                                         <div class="flex md:space-x-6 space-x-3 md:p-5 p-2 relative">
                                             <div class="md:w-60 md:h-36 w-28 h-20 overflow-hidden rounded-lg relative shadow-sm flex items-center" @click="showModalPromo('https://www.youtube.com/embed/<?= $c['video_promo'] ?>')">
-                                                <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : base_url('front/assets/images/courses/img-4.jpg') ?>" alt=""  class="rounded-lg w-full h-auto">
+                                                <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : $default_image ?>" alt=""  class="rounded-lg w-full h-auto">
                                                 <?php if($c['video_promo']) {?>
                                                     <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">
                                                 <?php } ?>
