@@ -43,7 +43,25 @@
             <!-- <div class="sm:my-4 my-3 flex items-end justify-between pt-3">
                 <h2 class="text-2xl font-semibold"> Featured Classes   </h2> 
             </div>  -->
-            
+            <?php if(isset($_SESSION['success'])){ ?>
+                <div class="bg-green-500 border p-4 relative rounded-md uk-alert" uk-alert="">
+                    <button class="uk-alert-close absolute bg-gray-100 bg-opacity-20 m-5 p-0.5 pb-0 right-0 rounded text-gray-200 text-xl top-0">
+                        <i class="icon-feather-x"></i>
+                    </button>
+                    <h3 class="text-lg font-semibold text-white">Success</h3>
+                    <p class="text-white text-opacity-75"><?=$_SESSION['success']?></p>
+                </div>
+            <?php } ?>
+
+            <?php if(isset($_SESSION['cancelled'])){ ?>
+                <div class="bg-yellow-500 border p-4 relative rounded-md uk-alert" uk-alert="">
+                    <button class="uk-alert-close absolute bg-gray-100 bg-opacity-20 m-5 p-0.5 pb-0 right-0 rounded text-gray-200 text-xl top-0">
+                        <i class="icon-feather-x"></i>
+                    </button>
+                    <h3 class="text-lg font-semibold text-white">Cancelled</h3>
+                    <p class="text-white text-opacity-75"><?=$_SESSION['cancelled']?></p>
+                </div>
+            <?php } ?>
             <div class="relative -mt-3" uk-slider="finite: true">
                 <div class="uk-slider-container px-1 py-3">
                     <ul class="uk-slider-items uk-child-width-1-1@m uk-grid">

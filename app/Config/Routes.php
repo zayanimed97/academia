@@ -199,6 +199,9 @@ $routes->get('/removeFromCart/(:any)', 'front\CartController::remove/$1');
 
 $routes->group("order", ["filter" => "auth:participant"], function ($routes) {
     $routes->get('checkout', 'front\CartController::getCheckout');
+    $routes->post('checkout', 'front\CartController::pay');
+    $routes->get('confirm', 'front\CartController::confirm');
+    $routes->get('cancel', 'front\CartController::cancel');
 });
 
 $routes->add('/contact', 'Home::contact_page'); 

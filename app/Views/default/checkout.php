@@ -94,22 +94,22 @@
                                 </li>
                             </ul> -->
 
-                            <form action="" class="grid sm:grid-cols-2 gap-x-6 gap-y-4 mt-4 p-6">
+                            <form method="POST" action="<?= base_url('/order/checkout') ?>" class="grid sm:grid-cols-2 gap-x-6 gap-y-4 mt-4 p-6">
                                     <div class="col-span-2 flex justify-around">
                                         <div class="radio">
-                                            <input id="radio-1" name="radio" type="radio" x-model="type" value="company">
+                                            <input id="radio-1" name="type" type="radio" x-model="type" value="company">
                                             <label for="radio-1"><span class="radio-label" ></span> Azienda
                                             </label>
                                         </div>
                                         <br>
                                         <div class="radio">
-                                            <input id="radio-2" name="radio" type="radio" x-model="type" value="professional">
+                                            <input id="radio-2" name="type" type="radio" x-model="type" value="professional">
                                             <label for="radio-2"><span class="radio-label"></span> Professionista
                                             </label>
                                         </div>
                                         <br>
                                         <div class="radio">
-                                            <input id="radio-3" name="radio" type="radio" x-model="type" value="private">
+                                            <input id="radio-3" name="type" type="radio" x-model="type" value="private">
                                             <label for="radio-3"><span class="radio-label"></span> Privato
                                             </label>
                                         </div>
@@ -140,7 +140,7 @@
                                     </div>
                                     <div>
                                         <label for="residenza_stato" class="text-sm font-medium"> <?php echo lang('front.field_country')?> </label>
-                                        <select class="selectpicker border rounded-md" id="residenza_stato" name="residenza_stato" @change="handleCountry">
+                                        <select class="selectpicker border rounded-md" id="residenza_stato" name="residenza_stato" x-model="stato" @change="handleCountry">
                                             <option value="0"><?php echo lang('front.field_select')?></option>
                                             <?php foreach($country as $stato) { ?>
                                                 <option value="<?= $stato['id'] ?>" <?php if(null !==old('residenza_stato') && old('residenza_stato')==$stato['id']) echo 'selected'?>><?= $stato['nazione'] ?></option>
@@ -179,38 +179,57 @@
                                     </template>
 
                                     <div class="col-span-2 flex justify-around">
-                                        <div class="radio">
-                                            <input id="paypal" name="paymethod" type="radio" x-model="paymethod" value="paypal">
-                                            <label for="paypal"><span class="radio-label" ></span> <span class="icon-brand-cc-paypal text-3xl"></span>
-                                            </label>
-                                        </div>
+                                        <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '2';}))){ ?>
+                                            <div class="radio">
+                                                <input id="paypal" name="paymethod" type="radio" x-model="paymethod" value="paypal">
+                                                <label for="paypal"><span class="radio-label" ></span> <span class="icon-brand-cc-paypal text-3xl"></span>
+                                                </label>
+                                            </div>
                                         <br>
-                                        <div class="radio">
-                                            <input id="stripe" name="paymethod" type="radio" x-model="paymethod" value="stripe">
-                                            <label for="stripe"><span class="radio-label"></span> <span class="icon-brand-cc-stripe text-3xl"></span>
-                                            </label>
-                                        </div>
-                                        <br>
-                                        <div class="radio">
-                                            <input id="iban" name="paymethod" type="radio" x-model="paymethod" value="iban">
-                                            <label for="iban"><span class="radio-label"></span> <span class="icon-brand-cc-mastercard text-3xl"></span>
-                                            </label>
-                                        </div>
+                                        <?php } ?>
+
+                                        <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '3';}))){ ?>
+                                            <div class="radio">
+                                                <input id="stripe" name="paymethod" type="radio" x-model="paymethod" value="stripe">
+                                                <label for="stripe"><span class="radio-label"></span> <span class="icon-brand-cc-stripe text-3xl"></span>
+                                                </label>
+                                            </div>
+                                            <br>
+                                        <?php } ?>
+
+                                        <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '1';}))){ ?>
+                                            <div class="radio">
+                                                <input id="iban" name="paymethod" type="radio" x-model="paymethod" value="iban">
+                                                <label for="iban"><span class="radio-label"></span> <span class="icon-brand-cc-mastercard text-3xl"></span>
+                                                </label>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+
+                                    <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '1';}))){ ?>
+                                    <?php $methIban = array_filter($methods, function($el){return $el['id_method'] == '1';}) ?>
+                                        <template x-if="paymethod == 'iban'">
+                                            <div class="uk-alert-primary uk-alert col-span-2" uk-alert="">
+                                                <p>IBAN: <?= json_decode(reset($methIban)['details'])->iban ?></p>
+                                            </div>
+                                        </template>
+                                    <?php } ?>
+                                    
+                                    <div class="flex justify-between col-span-2">
+                                        <a class="bg-gray-200 flex font-medium items-center justify-center py-3 rounded-md w-1/3" href="pages-cart.html">
+                                            <i class="icon-feather-chevron-left mr-1"></i>
+                                            <span class="md:block hidden">Back to Cart</span><span class="md:hidden block">Back</span>
+                                        </a>
+                                        <button class="bg-blue-600 text-white flex font-medium items-center justify-center py-3 rounded-md hover:text-white w-1/3">
+                                            <span class="md:block hidden">Billing address </span><span class="md:hidden block">Review</span>
+                                            <i class="icon-feather-chevron-right ml-1"></i>
+                                        </button>
                                     </div>
                                 </form>
             
                         </div>
     
-                        <div class="grid grid-cols-2 md:gap-6 gap-3 md:mt-10 mt-5">
-                            <a class="bg-gray-200 flex font-medium items-center justify-center py-3 rounded-md" href="pages-cart.html">
-                                <i class="icon-feather-chevron-left mr-1"></i>
-                                <span class="md:block hidden">Back to Cart</span><span class="md:hidden block">Back</span>
-                            </a>
-                            <a class="bg-blue-600 text-white flex font-medium items-center justify-center py-3 rounded-md hover:text-white" href="pages-account-info.html">
-                                <span class="md:block hidden">Billing address </span><span class="md:hidden block">Review</span>
-                                <i class="icon-feather-chevron-right ml-1"></i>
-                            </a>
-                        </div>
+                        
                         
         
                     </div>
@@ -258,14 +277,13 @@
 <script>
     function getResData(){
         return {
-            stato: '', 
+            stato: '<?= $user_data['profile']['fattura_stato'] ?? '' ?>', 
             paymethod: 'paypal',
             type: '<?= $user_data['profile']['type'] ?? 'private' ?>',
             comuni: '<input type="text" id="residenza_comune" name="residenza_comune" class="form-control with-border">', 
             provincia : '<input type="text" id="residenza_provincia" name="residenza_provincia" class="form-control with-border">',
 
-            nascita_stato: '', 
-            nascita_provincia : '<input type="text" id="nascita_provincia" name="nascita_provincia" class="form-control">',
+            
 
             handleCountry(e){
                 if (e.target.value == '106') {
@@ -279,6 +297,28 @@
                 }
             },
             
+            init(){
+                Promise.allSettled([
+                            new Promise((resolve, reject) => setTimeout(() => {if ('<?= $user['fattura_stato'] ?>' == '106') {
+                                // $('#loading').modal('show');
+                                
+                                return fetch(`<?php echo base_url()?>/getProv?country=106&selected=<?= $user['fattura_provincia'] ?>&name=residenza_provincia`, 
+                                    {method: "get",  headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
+                                    .then( el => el.text() ).then(res => {this.provincia = res; setTimeout(() => {$('select').selectpicker('render');}, 50); resolve()})
+                            } resolve();})) ,
+
+
+                            new Promise((resolve, reject) => setTimeout(() => {if ('<?= $user['fattura_stato'] ?>' == '106' && '<?= $user['fattura_provincia'] ?>') {
+                                // $('#loading').modal('show');
+
+                                return fetch(`<?php echo base_url()?>/getComm?prov=<?= $user['fattura_provincia'] ?>&selected=<?= $user['fattura_comune'] ?>&name=residenza_comune`, 
+                                    {method: "get",  headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
+                                    .then( el => el.text() ).then(res => {this.comuni = res; setTimeout(() => {$('select').selectpicker('render');}, 50); resolve()})
+                            } resolve();})),
+
+                            
+                        ])
+            }
         }
 
          
