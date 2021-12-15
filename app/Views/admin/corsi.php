@@ -62,12 +62,14 @@
                                                 </thead>
                                             
                                                 <tbody>
-                                                    <?php foreach($list as $arg) { ?>
+                                                    <?php 
+													$type_cours=json_decode($settings['type_cours'] ?? '',true);
+													foreach($list as $arg) { ?>
                                                     <tr>
                                                         <td><?= $arg['id'] ?></td>
 														 <td><?= $arg['codice'] ?></td>
                                                         <td><?= $arg['sotto_titolo'] ?></td>
-                                                        <td><?= $arg['tipologia_corsi'] ?></td>
+                                                        <td><?= $type_cours[$arg['tipologia_corsi']] ?? $arg['tipologia_corsi'] ?></td>
 														  <td><?= $arg['price'] ?></td>
 														    <td><?= $arg['nb_module'] ?></td>
 															 <td><?= $arg['duration'] ?></td>

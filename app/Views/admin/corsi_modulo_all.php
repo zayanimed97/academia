@@ -71,8 +71,10 @@
                                               <label class="form-label" for="name"><?php echo lang('app.field_type_cours')?></label>
                                                     <select  class="form-control"  id="tipologia_corsi" name="tipologia_corsi">
 													   <option value=""><?php echo lang('app.field_select')?></option>
-													<?php foreach($ente_package['type_cours'] as $k=>$v){?>
-														<option value="<?php echo $v?>" <?php if(isset($search_form) && $search_form['tipologia_corsi']==$v) echo 'selected'?>><?php echo $v?></option>
+													<?php 
+													$type_cours=json_decode($settings['type_cours'] ?? '',true);
+													foreach($ente_package['type_cours'] as $k=>$v){?>
+														<option value="<?php echo $v?>" <?php if(isset($search_form) && $search_form['tipologia_corsi']==$v) echo 'selected'?>><?php echo $type_cours[$v] ?? $v ?></option>
 													<?php } ?>
 													</select>
                                             </div>

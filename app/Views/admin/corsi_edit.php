@@ -139,7 +139,9 @@
                                                            <div class="col-md-4">
 																<div class="form-group required-field">
 																	<label for="acc-lastname"><?php echo lang('app.field_type_cours')?> <span class="text-danger">*</span></label>
-																	<?php $input = [
+																	<?php 
+																	$type_cours=json_decode($settings['type_cours'] ?? '',true);
+																	$input = [
 																	
 																	'name'  => 'tipologia_corsi',
 																	'id'    => 'tipologia_corsi',
@@ -149,7 +151,7 @@
 															$options=array();
 															$options['']=lang('app.field_select');
 															foreach($ente_package['type_cours'] as $k=>$v){
-																$options[$v]=$v;
+																$options[$v]=$type_cours[$v] ?? $v;
 															}
 															$js=' onchange="type_cours(this.value)"';
 															echo form_dropdown($input, $options,$inf_corsi['tipologia_corsi'],$js);
