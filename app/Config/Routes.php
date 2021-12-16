@@ -33,7 +33,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->add('/login', 'Users::login');
 $routes->get('/login', 'Users::index');
-
+$routes->addRedirect('user', 'user/login');
 
 $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes) {
     //CATEGORIES
@@ -143,6 +143,7 @@ $routes->get('/admin/forgotPassword', 'Users::forgotPassword');
 $routes->add('/admin/ResetPassword/(:any)/(:any)', 'Users::resetPassword/$1/$2');
 $routes->get('/admin/ResetPassword/(:any)/(:any)', 'Users::resetPassword/$1/$2');
 
+$routes->addRedirect('admin', 'admin/login');
 
 ###################" SUPERADMIN #########################
 
