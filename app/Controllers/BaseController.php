@@ -310,6 +310,7 @@ class BaseController extends Controller
 			$list_items=$this->CartItemsModel->where('banned','no')->where('id_cart',$id_cart)->find();
 			$list_payment=$this->CartPaymentModel->where('banned','no')->where('id_cart',$id_cart)->find();
 			$inf_participant=$this->UserModel->where('id',$inf_cart['id_user'])->first();
+			
 			$inf_profile=$this->UserProfileModel->where('user_id',$inf_cart['id_user'])->first();
 			//$inf_payment=$this->MethodPaymentModel->find($inf_cart['payment_method']);
 			//$temp=$this->TemplatesModel->where('module','order')->find();
@@ -411,7 +412,7 @@ class BaseController extends Controller
 									case 'webinar': if($settings['default_img_webinar']!="") $foto=base_url('uploads/'.$settings['default_img_webinar']); break;
 								}
 							}
-							if($inf_corsi['tipologia_corsi']!='online'){
+							if($inf_item['tipologia_corsi']!='online'){
 								$start_date=$this->CorsiModuloDateModel->where("id_modulo IN (select id from corsi_modulo where banned='no' and status='si' and id_corsi='".$one['item_id']."')")->where('banned','no')->orderBy('date','ASC')->first();
 								$end_date=$this->CorsiModuloDateModel->where("id_modulo IN (select id from corsi_modulo where banned='no' and status='si' and id_corsi='".$one['item_id']."')")->where('banned','no')->orderBy('date','DESC')->first();
 								if(!empty($start_date) && !empty($end_date))$str_date=lang('front.field_de')." ".date('d/m/Y H:i',strtotime($start_date['date'].' '.$start_date['start_time']))." ".lang('front.field_a')." ".date('d/m/Y H:i',strtotime($end_date['date'].' '.$end_date['end_time']));
@@ -444,6 +445,7 @@ class BaseController extends Controller
 							$url=base_url('modulo/'.$inf_item['url']);
 							$inf_docente=$this->UserProfileModel->where('user_id',$inf_item['instructor'])->first();
 							$str_docente=$inf_docente['nome'].' '.	$inf_docente['nome'];
+							$inf_corsi=$this->CorsiModel->find($inf_item['id_corsi']);
 							if($inf_item['foto']!="") $foto=base_url('uploads/corsi/'.$inf_item['foto']);
 							else{
 								$foto=base_url('front/assets/images/courses/img-4.jpg');
@@ -481,11 +483,25 @@ class BaseController extends Controller
 						</tr>
 		 <?php } }
 			$cart_items=ob_get_clean();
-			echo $html=str_replace(array("{var_name}","{var_email}","{var_date}","{var_total_ht}","{var_discount_row}","{var_total_tax}","{var_total}","{var_payment_status}","{var_coupon}","{var_invoice_data}","{var_cart_details}","{var_payment_details}"),
+			$html=str_replace(array("{var_name}","{var_email}","{var_date}","{var_total_ht}","{var_discount_row}","{var_total_tax}","{var_total}","{var_payment_status}","{var_coupon}","{var_invoice_data}","{var_cart_details}","{var_payment_details}"),
 			array($inf_participant['display_name'],$inf_participant['email'],date('d/m/Y',strtotime($inf_cart['date'])),number_format($inf_cart['total_ht'],2,',','.'),$discount_row,number_format($inf_cart['total_vat'],2,',','.'),number_format($inf_cart['total_vat']+$inf_cart['total_ht'],2,',','.'),$payment_status,$coupon,$invoice_data,$cart_items,$payment_details ),
 			$temp[0]['html']);
 			
-			exit;
+			$email = \Config\Services::email();
+			$sender_name=$settings['sender_name'];
+			$sender_email=$settings['sender_email'];
+			$email->setFrom($sender_email,$sender_name);
+				
+			$email->setTo($inf_participant['email']);
+			$email->setSubject($temp[0]['subject']);
+			$email->setMessage($html);
+			$email->setAltMessage(strip_tags($html));
+			
+			$xxx=$email->send();
+			$yy=$this->NotifLogModel->insert(array('id_participant'=>$inf_participant['id'],'type'=>'email','user_to'=>$inf_participant['email'],'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+		
+			
+			
 		}
 	}
 }

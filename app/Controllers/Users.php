@@ -151,6 +151,7 @@ class Users extends BaseController
 						//$TemplatesModel = new TemplatesModel();
 					$email = \Config\Services::email();
 					$subscribe_email=$this->request->getVar('email');
+					
 					$sender_name=$settings['sender_name'];
 					$sender_email=$settings['sender_email'];
 					$temp=$this->TemplatesModel->where('module','forgot_pass')->find();

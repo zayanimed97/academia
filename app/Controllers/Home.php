@@ -12,7 +12,7 @@ class Home extends BaseController
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
 		
-		 $xxx = $this->OrderMail(2);
+		
 		
         return view($data['view_folder'].'/home', $data);
     }
