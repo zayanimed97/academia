@@ -559,7 +559,7 @@
 										</div>
 									</div>
 									<div class="row">
-																  <div class="col-6">
+																  <div class="col-6"  id="div_fattura_nome" <?php if($inf_profile['type']=='company'){?>style="display:none" <?php } ?>>
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_first_name')?></label>
 									<div class="col-md-9">
@@ -580,7 +580,7 @@
 									</div>
 								</div>
 								</div>
-                                  <div class="col-6">
+                                  <div class="col-6"  id="div_fattura_cognome" <?php if($inf_profile['type']=='company'){?>style="display:none" <?php } ?>>
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_last_name')?></label>
                                    <div class="col-md-9">
@@ -948,14 +948,20 @@ function get_type(v){
 	$("#div_cf").hide(0);
 	$("#div_piva").hide(0);
 	$("#div_sdi").hide(0);
+	$("#div_fattura_cognome").hide(0);
+	$("#div_fattura_nome").hide(0);
 	switch(v){
 		case 'private':
 			$("#div_cf").show(0);
+			$("#div_fattura_cognome").show(0);
+			$("#div_fattura_nome").show(0);
 		break;
 		case 'professional':
 			$("#div_cf").show(0);
 			$("#div_piva").show(0);
 			$("#div_sdi").show(0);
+			$("#div_fattura_cognome").show(0);
+			$("#div_fattura_nome").show(0);
 		break;
 		case 'company':
 			$("#div_cf").show(0);
