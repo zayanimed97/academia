@@ -1,4 +1,7 @@
-<?= view($view_folder.'/common/header') ?>
+<?= view($view_folder.'/common/header');
+$type_cours=json_decode($settings['type_cours'] ?? '',true);
+
+ ?>
 
         <div class="bg-gradient-to-bl from-purple-600 to-purple-400 text-black lg:-mt-20 lg:pt-20">
             <div class="container p-0">
@@ -49,7 +52,7 @@
                             </li> -->
                         </ul>
                         <ul class="lg:flex items-center text-black-200">
-                            <li> <?= $corsi['tipologia_corsi'] ?> </li>
+                            <li> <?= $type_cours[$corsi['tipologia_corsi']] ?? $corsi['tipologia_corsi']  ?> </li>
                             <li> <span class="lg:block hidden mx-3 text-2xl">·</span> </li>
                             <li> <?= $corsi['categories'] ?> </li>
                             <li> <span class="lg:block hidden mx-3 text-2xl">·</span> </li>
@@ -581,7 +584,10 @@
                                     <div class="font-semibold mt-3"> <?= $mod['display_name'] ?> </div>
                                     <div class="mt-1 flex items-center justify-between">
                                         <div class="flex space-x-2 items-center text-sm pt-2">
-                                            <div> <?= $mod['tipologia'] ?: $corsi['tipologia_corsi'] ?> </div>
+                                            <div> <?php 
+											
+											if($mod['tipologia']!=""){ echo $type_cours[$mod['tipologia']] ?? $mod['tipologia'] ; } 
+else{							echo $type_cours[$corsi['tipologia_corsi']] ?? $corsi['tipologia_corsi']; }?> </div>
                                             <div>·</div>
                                             <div> <?= $corsi['categories'] ?> </div>
                                             <div>·</div>

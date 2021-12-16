@@ -515,6 +515,7 @@ $lang['title_page_settings_cms_add']="Nuova Pagina";
 $lang['title_page_settings_cms_edit']="Modifica Pagina";
 $lang['modal_title_delete_page']="Elemina Pagina";
 $lang['title_section_copyrigh']="Copyright";
+$lang['title_section_cours_type']="Tipologia corsi Label";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";

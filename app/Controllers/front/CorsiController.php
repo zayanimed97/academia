@@ -227,6 +227,7 @@ class CorsiController extends BaseController
         // exit;
 		$data['seo_title']=$data['corsi']['seo_title'];
 		$data['seo_description']=$data['corsi']['seo_description'];
+		
         return view($data['view_folder'].'/detaglio-corso', $data);
         
     }

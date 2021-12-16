@@ -354,6 +354,19 @@ class Settings extends BaseController
 					$data=$this->common_data();
 					$data['success']=lang('app.success_update');
 				break;
+				case 'cours_type':
+					$type_cours=json_encode(array('aula'=>$this->request->getVar('aula'),
+					'webinar'=>$this->request->getVar('webinar'),
+					'online'=>$this->request->getVar('online')),true);
+					$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'type_cours')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'type_cours','meta_value'=>$type_cours));
+							else{
+								
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'type_cours')->update($id['id'],array('meta_value'=>$type_cours));
+							}
+					$data=$this->common_data();
+					$data['success']=lang('app.success_update');
+				break;
 			}
 		}
 			$list=$this->PagesModel->where('id_ente',$user_data['id'])->where('banned','no')->find();

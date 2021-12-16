@@ -101,7 +101,7 @@
                             </div><!-- end col -->
                         </div>
 						 <div class="row">
-                            <div class="col-12">
+                            <div class="col-6">
                                 <div class="card">
                                     <div class="card-body">
 										<h3><?php echo lang('app.title_section_copyrigh')?></h3>
@@ -120,6 +120,86 @@
 															'required'=>true,
 															'value' => $val,
 															'placeholder' =>lang('app.field_title'),
+															'class' => 'form-control'
+															
+													];
+
+													echo form_input($input);
+													?>
+														</div>
+													</div>
+											</div>
+											    <button type="submit" name="submit" class="btn btn-secondary" ><?php echo lang('app.btn_save')?></button>
+										 </form>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-6">
+                                <div class="card">
+                                    <div class="card-body">
+										<h3><?php echo lang('app.title_section_cours_type')?></h3>
+										 <form method="post" action="<?= base_url('admin/settings/cms/') ?>"  id='add_ente_form'>
+											<input type="hidden" name="action" value="cours_type">
+											<div class="row">
+												
+												<div class="col-md-12">
+														<div class="form-group required-field">
+															<label for="acc-mname">Aula <span class="text-danger">*</span></label>
+														 <?php 
+														 $det=json_decode($settings['type_cours'] ?? "",true);
+														 $val=$det['aula'] ?? 'Aula'; 
+													$input = [
+															'type'  => 'text',
+															'name'  => 'aula',
+															'id'    => 'aula',
+															'required'=>true,
+															'value' => $val,
+															
+															'class' => 'form-control'
+															
+													];
+
+													echo form_input($input);
+													?>
+														</div>
+													</div>
+													
+													<div class="col-md-12">
+														<div class="form-group required-field">
+															<label for="acc-mname">Webinar <span class="text-danger">*</span></label>
+														 <?php 
+														 $det=json_decode($settings['type_cours'] ?? "",true);
+														 $val=$det['webinar'] ?? 'Webinar'; 
+													$input = [
+															'type'  => 'text',
+															'name'  => 'webinar',
+															'id'    => 'webinar',
+															'required'=>true,
+															'value' => $val,
+															
+															'class' => 'form-control'
+															
+													];
+
+													echo form_input($input);
+													?>
+														</div>
+													</div>
+													
+													<div class="col-md-12">
+														<div class="form-group required-field">
+															<label for="acc-mname">Online <span class="text-danger">*</span></label>
+														 <?php 
+														 $det=json_decode($settings['type_cours'] ?? "",true);
+														 $val=$det['online'] ?? 'Online'; 
+													$input = [
+															'type'  => 'text',
+															'name'  => 'online',
+															'id'    => 'online',
+															'required'=>true,
+															'value' => $val,
+															
 															'class' => 'form-control'
 															
 													];

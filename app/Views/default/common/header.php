@@ -129,9 +129,11 @@
                           
                             </li> -->
 							<?php 
+								$type_cours=json_decode($settings['type_cours'] ?? '',true);
+								
 								if(in_array('online',$ente_package['type_cours'])){?>
                             <li> 
-                                <a href="<?= base_url('corsi') ?>?tipo=online"> Online </a> 
+                                <a href="<?= base_url('corsi') ?>?tipo=online"> <?php echo $type_cours['online'] ?? 'Online'?> </a> 
                                 <!-- <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
                                         <li> 
@@ -168,7 +170,7 @@
 							
 								if(in_array('webinar',$ente_package['type_cours'])){?>
                             <li> 
-                                <a href="<?= base_url('corsi') ?>?tipo=webinar"> Webinar </a> 
+                                <a href="<?= base_url('corsi') ?>?tipo=webinar"> <?php echo $type_cours['webinar'] ?? 'Webinar'?> </a> 
                                 <!-- <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
                                         <li> 
@@ -206,7 +208,7 @@
 							
 								if(in_array('aula',$ente_package['type_cours'])){?>
 								  <li> 
-                                <a href="<?= base_url('corsi') ?>?tipo=aula"> Aula </a> 
+                                <a href="<?= base_url('corsi') ?>?tipo=aula"> <?php echo $type_cours['aula'] ?? 'Aula'?> </a> 
 								</li>
 								<?php } ?>
                            <!-- <li> <a href="categories.html" class="active"> Categories </a></li>
