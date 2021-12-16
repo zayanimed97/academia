@@ -12,11 +12,11 @@
         text-overflow: ellipsis;
     }
   </style>
-<?php $settings['banner_home'] = (array)json_decode($settings['banner_home'] ?? "" )?>
+<?php $settings['banner_home'] = (array)json_decode($settings['banner_home'] ?? "" );
+if(!empty($settings['banner_home'])){?>
         <!-- Slideshow -->
         <div class="uk-position-relative contents overflow-hidden lg:-mt-20" tabindex="-1"
-        style="min-height: 200; max-height: 500;">
-        
+        style="min-height: 200; max-height: 500;">       
         <!-- <ul class="uk-slideshow-items rounded"> -->
             <!-- <li> -->
                 <div class="uk-cover-container uk-inline w-full mb-8">
@@ -30,13 +30,9 @@
                     </div>
                 </div>
             <!-- </li>  -->
-
         <!-- </ul>  -->
-        
-        
-
         </div> 
-      
+<?php } ?>     
         <div class="mx-auto max-w-5xl p-4">
             
             <!--  course feature -->
@@ -248,7 +244,7 @@
                                         null,
                                         'id'
                                     ))); 
-                        $courses =  $CorsiModel ->where('find_in_set( '.($uniqueCat[0]['id'] ?? '').', id_categorie) > 0')
+                       $courses =  $CorsiModel ->where("find_in_set( '".($uniqueCat[0]['id'] ?? '')."', id_categorie) > 0")
                                                 ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
                                                 ->where('banned', 'no')
                                                 ->groupBy('corsi.id')
