@@ -317,6 +317,7 @@ class CartController extends BaseController
 			// return $this->response->setJSON($response);
             $this->cart->destroy();
             session()->setFlashdata('success', 'cart payed successfully');
+			 $xxx = $this->OrderMail($payment['id_cart']);
             return redirect()->to(base_url());
 		}catch (HttpException $ex) {
 			echo $ex->statusCode;

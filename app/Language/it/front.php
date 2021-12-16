@@ -49,6 +49,18 @@ $lang['field_crediti']="Crediti ECM";
 $lang['field_total']="Totali";
 $lang['field_participant']="Participanti";
 $lang['field_attestation']="Attestato di partecipazione";
+$lang['field_bank_name']="Banca";
+$lang['field_iban']="IBAN";
+$lang['field_bank_property']="Proprietà Nome";
+$lang['field_status']="Stato";
+$lang['field_date']="Data";
+$lang['field_amount']="Importo";
+$lang['field_method_payment']="Metodo pagamento";
+$lang['field_de']="Dal";
+$lang['field_a']="al";
+
+
+
 
 
 $lang['msg_success_send_contact_form']="il tuo messaggio è stato inviato";
@@ -85,5 +97,9 @@ $lang['title_section_contact_ente_email']="Emails";
 $lang['title_section_contact_ente_phone']="Telefono";
 $lang['list_view']="visualizzazione elenco";
 $lang['grid_view']="vista a griglia";
+
+$lang['status_completed']="Completato";
+$lang['status_canceled']="Annullato";
+$lang['status_pending']="In sospeso pagamento";
 return $lang;
 ?>
