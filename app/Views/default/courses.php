@@ -171,7 +171,7 @@ a[disabled] {
                                 <label class='checkbox blue flex items-center'>
                                     <input type='checkbox' name="tipo[]" @change="changeUrl" x-model="tipo" value="aula">
                                     <span class='indicator'></span>
-                                    <p>Aula</p> 
+                                    <p><?php echo $type_cours['aula'] ?? 'Aula'?></p> 
                                 </label>
                             <!-- </select> -->
                         </div>
@@ -180,7 +180,7 @@ a[disabled] {
                                 <label class='checkbox blue flex items-center'>
                                     <input type='checkbox' name="tipo[]" @change="changeUrl" x-model="tipo" value="online">
                                     <span class='indicator'></span>
-                                    <p>Online</p> 
+                                    <p><?php echo $type_cours['online'] ?? 'Online'?></p> 
                                 </label>
                             <!-- </select> -->
                         </div>
@@ -189,7 +189,7 @@ a[disabled] {
                                 <label class='checkbox blue flex items-center'>
                                     <input type='checkbox' name="tipo[]" @change="changeUrl" x-model="tipo" value="webinar">
                                     <span class='indicator'></span>
-                                    <p>Webinar</p> 
+                                    <p><?php echo $type_cours['webinar'] ?? 'Webinar'?></p> 
                                 </label>
                             <!-- </select> -->
                         </div>
@@ -268,7 +268,7 @@ a[disabled] {
                                                     <div class="font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?>
                                                     </div>
                                                     <div class="flex space-x-2 items-center text-sm pt-3">
-                                                        <div> <?= $c['tipologia_corsi'] ?> </div>
+                                                        <div> <?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi'] ?> </div>
                                                         <div>·</div>
                                                         <div> <?= $c['buy_type'] != 'is_modulo' ? $c['modulo_count'].' modulo' : '<a href="'.base_url('corsi/'.$c['modulo_count']).'">' .$c['corsiSottoTitoloForModulo'].' </a>' ?> </div>
                                                     </div>
@@ -315,7 +315,7 @@ a[disabled] {
                                                 <a href="#" class="md:font-semibold block text-sm"> <?= $c['doctor_names'] ?> </a>
                                                 <div class="flex items-center justify-between">
                                                     <div class="flex space-x-2 items-center text-sm">
-                                                        <div> <?= $c['tipologia_corsi'] ?>  </div>
+                                                        <div> <?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi']?>  </div>
                                                         <div class="md:block hidden">·</div>
                                                         <div class="flex items-center"> 18 Hourse </div>
                                                         <div class="md:block hidden">·</div>
