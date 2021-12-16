@@ -1,5 +1,5 @@
 <?= view('admin/common/header',array('page_title'=>lang('app.title_page_settings_cms'))) ?>
-
+  <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
             <div class="content-page">
                 <div class="content">
 
@@ -124,7 +124,7 @@
 															
 													];
 
-													echo form_input($input);
+													echo form_textarea($input);
 													?>
 														</div>
 													</div>
@@ -261,9 +261,8 @@
 		
 		
       <?= view('admin/common/footer') ?>
-        <!-- Vendor js -->
-        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/vendor.min.js"></script>
-		
+   
+    
 		 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
@@ -281,13 +280,23 @@
 		  <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/flatpickr.min.js"></script>
 		  <script src="https://npmcdn.com/flatpickr/dist/l10n/it.js"></script>
 		 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-		 
+		  <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.js"></script>
+		<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/lang/summernote-it-IT.min.js"></script>
 		  <!-- third party js -->
        
 		 
         <!-- App js -->
 		 <!--script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/form-pickers.init.js"></script-->
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/app.min.js"></script>
+		 <script>
+	 !function(n){
+		 "use strict";function e(){this.$body=n("body")}
+		 e.prototype.init=function(){
+			 n("#copyright").summernote({lang: 'it-IT',placeholder:"Write something...",height:230,callbacks:{onInit:function(e){n(e.editor).find(".custom-control-description").addClass("custom-control-label").parent().removeAttr("for")}}})
+			  }
+			 ,n.Summernote=new e,n.Summernote.Constructor=e}
+			 (window.jQuery),function(){"use strict";window.jQuery.Summernote.init()}();
+	 </script>
         <script>
 	
 		$(document).ready(function(){
