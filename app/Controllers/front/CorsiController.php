@@ -41,12 +41,13 @@ class CorsiController extends BaseController
                                                     GROUP_CONCAT(DISTINCT u.display_name) doctor_names, 
                                                     count(DISTINCT cm.id) as modulo_count,
                                                     corsi.ids_professione,
-                                                    '' as corsiSottoTitoloForModulo" 
+                                                    '' as corsiSottoTitoloForModulo,
+                                                    '' as corsi_id"
                                                 : "corsi.id");
 
         if ($for == 'corsi') {
             $corsi->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left');
-            $corsi->groupBy('corsi.id');
+            $corsi->groupBy('corsi.id')->having('count(cm.id) > 0');
         }
         if ($for != 'corsi') {
             $corsi->distinct();
@@ -72,7 +73,7 @@ class CorsiController extends BaseController
                                                             corsi.tipologia_corsi,
                                                             corsi_modulo.prezzo, 
                                                             corsi_modulo.id, 
-                                                            'is_modulo' as type,
+                                                            corsi.buy_type as type,
                                                             corsi_modulo.obiettivi, 
                                                             corsi_modulo.have_def_price, 
                                                             corsi_modulo.free, 
@@ -81,7 +82,8 @@ class CorsiController extends BaseController
                                                             u.display_name as doctor_names, 
                                                             corsi.url as corsi_url,
                                                             corsi.ids_professione,
-                                                            corsi.sotto_titolo
+                                                            corsi.sotto_titolo,
+                                                            corsi.id
                                                         ")
                                                 ->join('corsi', "corsi.id = corsi_modulo.id_corsi AND corsi_modulo.id_corsi in ({$courses('modulo')}) AND corsi.buy_type <> 'cours'")
                                                 ->join('users u', 'u.id = corsi_modulo.instructor', 'left')
@@ -196,7 +198,8 @@ class CorsiController extends BaseController
                                             ->groupBy('corsi.id')
                                             ->first();
         $data['doctors'] = $this->UserModel->join('user_cv cv', 'cv.user_id = users.id', 'left')->where("find_in_set(users.id, '{$data['corsi']['ids_doctors']}') > 0")->select('users.*, cv.cv as cv')->find();
-
+        
+        
         $data['module'] = $this->CorsiModuloModel   ->where('corsi_modulo.id_corsi', $data['corsi']['id'])
                                                     ->join('users u', 'u.id = instructor')
                                                     ->join('corsi', 'corsi.id = corsi_modulo.id_corsi')
@@ -209,13 +212,18 @@ class CorsiController extends BaseController
                                                                 MIN(prezz.prezzo) as min_price, 
                                                                 GROUP_CONCAT(DISTINCT cat.titolo) categories
                                                             ')
+                                                    ->groupBy('corsi_modulo.id')
                                                     ->find();
+        
+        
+        $idsModulo = array_map(function ($el){return $el['id'];}, $data['module']);
 
         if((session('user_data')['role'] ?? '') == 'participant'){
             $discounts = $this->CorsiPrezzoProfModel->where('id_corsi', $data['corsi']['id'])->where('id_professione', session('user_data')['profile']['professione'] ?? '')->find();
-            $idsModulo = array_map(function ($el){return $el['id'];}, $data['module']);
-            $discountsModulo = $this->CorsiModuloPrezzoProfModel->whereIn('id_modulo', $idsModulo)->where('id_professione', session('user_data')['profile']['professione'] ?? '')->find();
+            $discountsModulo = $this->CorsiModuloPrezzoProfModel->whereIn('id_modulo', $idsModulo ?: ['impossible value'])->where('id_professione', session('user_data')['profile']['professione'] ?? '')->find();
         }
+
+        $data['dates'] = $this->CorsiModuloDateModel->whereIn('id_modulo', $idsModulo ?: ['impossible value'])->where('banned', 'no')->find();
 
         $this->discounts($data['corsi'], $discounts ?? []);
         foreach ($data['module'] as &$mod) {
@@ -241,7 +249,7 @@ class CorsiController extends BaseController
         
 
         $data['module'] = $this->CorsiModuloModel   ->where('corsi_modulo.url', $url)
-                                                    ->join('users u', 'u.id = instructor')
+                                                    ->join('users u', 'u.id = instructor', 'left')
                                                     ->join('corsi', 'corsi.id = corsi_modulo.id_corsi')
                                                     ->join('corsi_modulo_prezzo_prof prezz', '(corsi_modulo.id = prezz.id_modulo)'. $joinLoggedIn, 'left')
                                                     ->join('categorie cat', 'find_in_set(cat.id, corsi.id_categorie) > 0', 'left')
@@ -255,7 +263,10 @@ class CorsiController extends BaseController
                                                     ->groupBy('corsi_modulo.id')
                                                     ->first();
 
-
+        // echo '<pre>';
+        // print_r($data['module']);
+        // echo '</pre>';
+        // exit;
         $data['corsi'] = $this->CorsiModel          ->where('corsi.id_ente', $data['selected_ente']['id'])
                                                     ->where('corsi.id', $data['module']['id_corsi'])
                                                     ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
@@ -276,7 +287,9 @@ class CorsiController extends BaseController
                                                     ->groupBy('corsi.id')
                                                     ->first();
 
-
+        if ($data['corsi']['tipologia_corsi'] != 'online') {
+            $data['dates'] = $this->CorsiModuloDateModel->where('id_modulo', $data['module']['id'])->where('banned', 'no')->find();
+        }
         $data['doctors'] = $this->UserModel->where("find_in_set(id, '{$data['module']['instructor']}') > 0")->find();
         // echo '<pre>';
         // print_r($data['corsi']);

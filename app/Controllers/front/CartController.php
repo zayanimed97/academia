@@ -24,7 +24,8 @@ class CartController extends BaseController
                                         ->where('corsi.id', $this->request->getVar('id'))
                                         ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0', 'left')
                                         ->join('corsi_prezzo_prof prezz', '(prezz.id_corsi = corsi.id)'. $joinLoggedIn, 'left')
-                                        ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price")
+                                        ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
+                                        ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, GROUP_CONCAT(distinct cm.id) as modules")
                                         ->groupBy('corsi.id')
                                         ->first();
         } elseif($this->request->getVar('type') == 'modulo'){
@@ -51,9 +52,12 @@ class CartController extends BaseController
         }
 
         $exist = false;
-        foreach ($this->cart->contents() as $c) {
+        foreach ($this->cart->contents() as $key=>$c) {
             if ($c['id'] == $this->request->getVar('type').$this->request->getVar('id')) {
                 $exist = true;
+            }
+            if (($this->request->getVar('type') == 'corsi') && (in_array(str_replace('modulo', '', $c['id']), explode(',', $corsi['modules'])))) {
+                $this->cart->remove($key);
             }
         }
         

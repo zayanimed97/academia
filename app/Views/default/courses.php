@@ -263,14 +263,14 @@ a[disabled] {
                                             <?php } ?>
                                         </div>
                                             <div class="card-body p-4">
-                                                <a href="<?= $c['buy_type'] != 'is_modulo' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>">
+                                                <a href="<?= $c['corsi_id'] == '' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>">
 
                                                     <div class="font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?>
                                                     </div>
                                                     <div class="flex space-x-2 items-center text-sm pt-3">
                                                         <div> <?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi'] ?> </div>
                                                         <div>·</div>
-                                                        <div> <?= $c['buy_type'] != 'is_modulo' ? $c['modulo_count'].' modulo' : '<a href="'.base_url('corsi/'.$c['modulo_count']).'">' .$c['corsiSottoTitoloForModulo'].' </a>' ?> </div>
+                                                        <div> <?= $c['corsi_id'] == '' ? $c['modulo_count'].' modulo' : '<a href="'.base_url('corsi/'.$c['modulo_count']).'">' .$c['corsiSottoTitoloForModulo'].' </a>' ?> </div>
                                                     </div>
                                                     <div class="pt-1 flex items-center justify-between">
                                                         <div class="text-sm font-semibold"> <?= $c['doctor_names'] ?>  </div>
@@ -279,7 +279,13 @@ a[disabled] {
                                                 </a>
 
                                                 <div class="flex justify-between items-center mt-2">
-                                                    <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', '<?= $c['buy_type'] == 'is_modulo' ? 'modulo' : 'corsi' ?>')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </button>
+                                                    <template x-if="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')">
+                                                        <button  class="bg-transparent flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')"> </button>
+                                                    </template>
+
+                                                    <template x-if="!inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')">
+                                                        <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', '<?= $c['corsi_id'] == '' ? 'corsi' : 'modulo'  ?>')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </button>
+                                                    </template>
                                                     <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
                                                 </div>
                                             </div>
@@ -310,7 +316,7 @@ a[disabled] {
                                                 <?php } ?>
                                             </div>
                                             <div class="flex-1 md:space-y-2 space-y-1">
-                                                <a href="<?= $c['buy_type'] != 'is_modulo' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>" class="md:text-xl font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?> </a>
+                                                <a href="<?= $c['corsi_id'] == '' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>" class="md:text-xl font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?> </a>
                                                 <p class="leading-6 pr-4 line-clamp-2 md:block hidden"> <?= ellipsize($c['obiettivi'], 120) ?> </p>
                                                 <a href="#" class="md:font-semibold block text-sm"> <?= $c['doctor_names'] ?> </a>
                                                 <div class="flex items-center justify-between">
@@ -319,7 +325,7 @@ a[disabled] {
                                                         <div class="md:block hidden">·</div>
                                                         <div class="flex items-center"> 18 Hourse </div>
                                                         <div class="md:block hidden">·</div>
-                                                        <div class="flex items-center"> <?= $c['buy_type'] != 'is_modulo' ? $c['modulo_count'].' modulo' : '<a href="'.base_url('corsi/'.$c['modulo_count']).'">' .$c['corsiSottoTitoloForModulo'].' </a>' ?> </div>
+                                                        <div class="flex items-center"> <?= $c['corsi_id'] == '' ? $c['modulo_count'].' modulo' : '<a href="'.base_url('corsi/'.$c['modulo_count']).'">' .$c['corsiSottoTitoloForModulo'].' </a>' ?> </div>
                                                     </div>
                                                     <div class="-mt-3.5">
                                                         <div class="text-lg font-semibold"> <?= $c['prezzo'] ?> </div>
@@ -475,7 +481,8 @@ a[disabled] {
                 if (urlvid && urlvid != '') {
                     UIkit.modal('#video-promo').show();
                 }
-            }
+            },
+            
         }
     }
 

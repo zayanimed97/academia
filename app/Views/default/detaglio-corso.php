@@ -579,7 +579,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true);
                                     <?php } ?>
                                 </div>
                                 <div class="flex-1 md:p-6 p-4">
-                                    <div class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed"><?= $mod['sotto_titolo'] ?> </div>
+                                    <a href="<?= base_url('/modulo/'.$mod['url']) ?>" class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed"><?= $mod['sotto_titolo'] ?> </a>
                                     <!-- <div class="line-clamp-2 mt-2 md:block hidden">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</div> -->
                                     <div class="font-semibold mt-3"> <?= $mod['display_name'] ?> </div>
                                     <div class="mt-1 flex items-center justify-between">
@@ -598,7 +598,29 @@ else{							echo $type_cours[$corsi['tipologia_corsi']] ?? $corsi['tipologia_cor
                                         
                                     </div>
                                     <?php if($mod['prezzo']){ ?>
-                                        <div class="text-lg font-semibold w-full text-right mt-4"> <?= $mod['prezzo'] ?></div>
+                                        <div class="text-xl tracking-widest font-semibold w-full text-center mt-4"> <?= $mod['prezzo'] ?></div>
+                                    <?php } ?>
+                                    <?php if($corsi['buy_type'] == 'date'){ ?>
+                                        <div class="mt-4">
+                                            <?php if($corsi['tipologia_corsi'] != 'online'){ ?>
+                                                <select name="date" @change="selectedDate($event, 'modulo<?= $mod['id'] ?>'); $nextTick(() => {  console.log(select['modulo<?= $mod['id'] ?>']) })"  class="selectpicker" x-ref="date<?= $mod['id'] ?>">
+                                                    <option value="sgdq">Select Date</option>
+                                                    <?php foreach(array_filter($dates, function($el) use ($mod){return $el['id_modulo'] == $mod['id'];}) as $d){ ?>
+                                                        <option value="<?= $d['id'] ?>"><?= strftime('%e %B %Y', strtotime($d['date'])) ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            <?php } ?>
+                                            <!-- <div x-text="select.modulo<?= $mod['id'] ?>"></div> -->
+                                        </div>
+                                    <?php } ?>
+                                    <?php if($corsi['buy_type'] == 'date' || $corsi['buy_type'] == 'module') {?>
+                                        <template x-if="((('<?= $corsi['buy_type'] ?>' == 'date' && select.modulo<?= $mod['id'] ?> != null) || ('<?= $corsi['buy_type'] ?>' == 'module')) && !inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>'))">
+                                            <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" @click="addToCart('<?= $mod['id'] ?>', '<?= $mod['prezzo'] ?>', '', '<?= $mod['url'] ?>', 'modulo', ('<?= $corsi['tipologia_corsi'] ?>' == 'online') ? null : $refs.date<?= $mod['id'] ?>.value)"> <?php echo lang('front.btn_add_cart')?> </button>
+                                        </template>
+
+                                        <template x-if="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')">
+                                            <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')"> </button>
+                                        </template>
                                     <?php } ?>
                                 </div> 
                                 
@@ -656,9 +678,20 @@ else{							echo $type_cours[$corsi['tipologia_corsi']] ?? $corsi['tipologia_cor
                                 </div>
                                 
                             </div>
-                            <div class="mt-4">
-                                <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" @click="addToCart('<?= $corsi['id'] ?>', '<?= $corsi['prezzo'] ?>', '<?= $corsi['buy_type'] ?>', '<?= $corsi['url'] ?>', 'corsi')"> <?php echo lang('front.btn_add_cart')?></button>
-                            </div>
+                            <?php if($corsi['buy_type'] != 'date') { ?>
+                                <template x-if="!inCart('<?= $corsi['id'] ?>', '')">
+                                    <div class="mt-4">
+                                        <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" @click="addToCart('<?= $corsi['id'] ?>', '<?= $corsi['prezzo'] ?>', '<?= $corsi['buy_type'] ?>', '<?= $corsi['url'] ?>', 'corsi')"> <?php echo lang('front.btn_add_cart')?></button>
+                                    </div>
+                                </template>
+
+                                <template x-if="inCart('<?= $corsi['id'] ?>', '')">
+                                    <div class="mt-4">
+                                        <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '')"></button>
+                                    </div>
+                                </template>
+                            <?php } ?>
+
                             <?php if($corsi['pdf']){ ?>
                                 <div class="mt-4">
                                     <a href="<?= base_url('uploads/corsiPDF/'.$corsi['pdf']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> <?php echo lang('front.btn_download_attachment')?> </a>
@@ -767,6 +800,7 @@ else{							echo $type_cours[$corsi['tipologia_corsi']] ?? $corsi['tipologia_cor
         return {
             video_url: '',
             moduloNamePromo: '',
+            select: {<?php foreach($module as $mod){ echo "'modulo{$mod['id']}': null,";} ?>},
 
             videoPromo(v, name){
                 this.moduloNamePromo = name
@@ -774,6 +808,9 @@ else{							echo $type_cours[$corsi['tipologia_corsi']] ?? $corsi['tipologia_cor
                 if (v && v != '') {
                     UIkit.modal('#video-promo').show();
                 }
+            },
+            selectedDate(e, modName){
+                this.select[modName] = e.target.value
             }
         }
     }
