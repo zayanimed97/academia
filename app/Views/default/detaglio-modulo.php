@@ -591,7 +591,16 @@
                                         
                                     </div>
                                     <?php if($corsi['prezzo']){ ?>
-                                        <div class="text-lg font-semibold w-full text-right mt-4"> <?= $corsi['prezzo'] ?></div>
+                                        <div class="text-xl tracking-widest font-semibold w-full text-center mt-4"> <?= $corsi['prezzo'] ?></div>
+                                    <?php } ?>
+                                    <?php if($corsi['buy_type'] != 'date'){ ?>
+                                        <template x-if="!inCart('<?= $corsi['id'] ?>', '')">
+                                            <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" @click="addToCart('<?= $corsi['id'] ?>', '<?= $corsi['prezzo'] ?>', '<?= $corsi['buy_type'] ?>', '<?= $corsi['url'] ?>', 'corsi')"> <?php echo lang('front.btn_add_cart')?> </button>
+                                        </template>
+
+                                        <template x-if="inCart('<?= $corsi['id'] ?>', '')">
+                                            <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '')"> </button>
+                                        </template>
                                     <?php } ?>
                                 </div> 
                                 
@@ -612,7 +621,7 @@
                                 </div>
                             </div>
                             <div class="mb-8">
-                                <?= $doc['cv'] ?>
+                                <?= $doc['cv'] ?? '' ?>
 
                             </div>
                             <?php } ?>
@@ -649,9 +658,26 @@
                                 </div>
                                 
                             </div>
-                            <div class="mt-4">
-                                <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" @click="addToCart('<?= $module['id'] ?>', '<?= $module['prezzo'] ?>', '', '<?= $module['url'] ?>', 'corsi')"> <?php echo lang('front.btn_add_cart')?> </button>
-                            </div>
+                            <?php if($corsi['buy_type'] != 'cours'){ ?>
+                                <div class="mt-4">
+                                    <?php if($corsi['buy_type'] == 'date'){ ?>
+                                        <select name="date" @change="selectedDate($event, 'date')" class="selectpicker" x-ref="date">
+                                            <option value="sgdq">Select Date</option>
+                                            <?php foreach($dates as $d){ ?>
+                                                <option value="<?= $d['id'] ?>"><?= strftime('%e %B %Y', strtotime($d['date'])) ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    <?php } ?>
+                                    <template x-if="(((select.modulo != null) && '<?= $corsi['buy_type']?>'== 'date') || '<?= $corsi['buy_type']?>' != 'date') && !inCart('<?= $corsi['id'] ?>', '<?= $module['id'] ?>')">
+                                        <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" @click="addToCart('<?= $module['id'] ?>', '<?= $module['prezzo'] ?>', '', '<?= $module['url'] ?>', 'modulo', ('<?= $corsi['buy_type'] ?>' != 'date') ? null : $refs.date.value)"> <?php echo lang('front.btn_add_cart')?> </button>
+                                    </template>
+
+                                    <template x-if="inCart('<?= $corsi['id'] ?>', '<?= $module['id'] ?>')">
+                                        <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $module['id'] ?>')"> </button>
+                                    </template>
+                                    <!-- <div x-text="select.modulo"></div> -->
+                                </div>
+                            <?php } ?>
                         </div>
                         
                     
@@ -755,6 +781,7 @@
         return {
             video_url: '',
             moduloNamePromo: '',
+            select: {'modulo' : null},
 
             videoPromo(v, name){
                 this.moduloNamePromo = name
@@ -762,6 +789,10 @@
                 if (v && v != '') {
                     UIkit.modal('#video-promo').show();
                 }
+            },
+            selectedDate(e, modName){
+                console.log(modName);
+                this.select.modulo = e.target.value
             }
         }
     }

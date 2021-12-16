@@ -36,15 +36,15 @@
                 total: <?= $cart->total() ?>,
                 items: <?= $cart->totalItems() ?>,
                 tax: <?= $tax ?>,
-                addToCart(id, prezzo, type, url, item) {
+                addToCart(id, prezzo, type, url, item, date=null) {
                     if (type == 'date') {
-                        location.href = '<?= base_url() ?>/corsi/'+url
+                        location.href = '<?= base_url() ?>/'+item+'/'+url
                     } else {
                         // console.log(id, prezzo, type, url);
                         $.ajax({
                             url: '<?= base_url('addToCart') ?>', 
                             type: 'post',
-                            data: {"id": id, "price": prezzo, "type": item}, 
+                            data: {"id": id, "price": prezzo, "type": item, date: date}, 
                             dataType: 'json'
                         })
                         .done((res)=>{this.cartItems = res.cart; this.total = res.totalPrice; this.items = res.total; this.tax = res.tax})
@@ -57,6 +57,12 @@
                             headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
                             .then( el => el.json() )
                             .then(res => {this.cartItems = res.cart; this.total = res.totalPrice; this.items = res.total; this.tax = res.tax})
+                },
+                inCart(corsi_id, id){
+                    let corsiInCart = (Object.values(this.cartItems)).find(element => {return (corsi_id == '' && element.id == 'corsi'+id) || (element.id == 'corsi'+corsi_id)})
+                    let moduleInCart = (Object.values(this.cartItems)).find(element => {return (corsi_id != '' && element.id == 'modulo'+id)})
+
+                    return corsiInCart ? 'corsi in cart' : (moduleInCart ? 'module in cart' : false);
                 }
             }
         }
