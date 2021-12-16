@@ -27,7 +27,7 @@
          
                     <div class="w-full lg:pr-24"> 
         
-                        <h2 class="text-xl font-semibold md:mb-6 mb-3"> Choose payment method </h2>
+                        <h2 class="text-xl font-semibold md:mb-6 mb-3"> Payment Info </h2>
 
                         <div class="bg-white rounded-md shadow-md">
  
@@ -178,6 +178,8 @@
                                         </div>
                                     </template>
 
+                                    <h2 class="col-span-2 text-xl font-semibold md:mb-6 mb-3"> Choose payment method </h2>
+
                                     <div class="col-span-2 flex justify-around">
                                         <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '2';}))){ ?>
                                             <div class="radio">
@@ -215,13 +217,10 @@
                                         </template>
                                     <?php } ?>
                                     
-                                    <div class="flex justify-between col-span-2">
-                                        <a class="bg-gray-200 flex font-medium items-center justify-center py-3 rounded-md w-1/3" href="pages-cart.html">
-                                            <i class="icon-feather-chevron-left mr-1"></i>
-                                            <span class="md:block hidden">Back to Cart</span><span class="md:hidden block">Back</span>
-                                        </a>
+                                    <div class="flex justify-center col-span-2">
+                                        
                                         <button class="bg-blue-600 text-white flex font-medium items-center justify-center py-3 rounded-md hover:text-white w-1/3">
-                                            <span class="md:block hidden">Billing address </span><span class="md:hidden block">Review</span>
+                                            <span class="md:block hidden">Pay</span><span class="md:hidden block">Pay</span>
                                             <i class="icon-feather-chevron-right ml-1"></i>
                                         </button>
                                     </div>
@@ -277,9 +276,9 @@
 <script>
     function getResData(){
         return {
-            stato: '<?= $user_data['profile']['fattura_stato'] ?? '' ?>', 
+            stato: '<?= $user['fattura_stato'] ?? '' ?>', 
             paymethod: 'paypal',
-            type: '<?= $user_data['profile']['type'] ?? 'private' ?>',
+            type: '<?= $user['type'] ?? 'private' ?>',
             comuni: '<input type="text" id="residenza_comune" name="residenza_comune" class="form-control with-border">', 
             provincia : '<input type="text" id="residenza_provincia" name="residenza_provincia" class="form-control with-border">',
 
