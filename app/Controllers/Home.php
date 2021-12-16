@@ -11,6 +11,9 @@ class Home extends BaseController
 		$inf_page=$this->PagesModel->where('url','home')->where('id_ente',$data['selected_ente']['id'])->first();
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
+		
+		 $xxx = $this->OrderMail(2);
+		
         return view($data['view_folder'].'/home', $data);
     }
 
