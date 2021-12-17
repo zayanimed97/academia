@@ -124,6 +124,53 @@
 													?>
 														</div>
 													</div>
+													<div class="col-md-3">
+														<div class="form-group required-field">
+															<label for="acc-mname"><?php echo lang('app.field_menu_position')?> <span class="text-danger">*</span></label>
+														  <?php $input = [
+												
+																		'name'  => 'menu_position',
+																		'id'    => 'menu_position',
+																		'placeholder' =>lang('app.field_menu_position'),
+																		'class' => 'form-control ',
+																		'data-toggle'=>"select2"
+																];
+																$options=array();
+																
+																$options['header']=lang('app.menu_position_header');
+																$options['footer']=lang('app.menu_position_footer');
+																
+																echo form_dropdown($input, $options,'header');
+																?>
+														</div>
+													</div>
+													<div class="col-md-3">
+														<div class="checkbox form-check-inline">
+															<input type="checkbox" name="is_externel" id="is_externel" value="yes" onclick="is_ext();">
+															<label for="is_externel"> <?php echo lang('app.field_is_externel')?> </label>
+														</div>
+													</div>
+													<div class="col-md-6" id="div_url" style="display:none">
+														<div class="form-group required-field">
+															<label for="acc-mname"><?php echo lang('app.field_url')?> <span class="text-danger">*</span></label>
+														 <?php $val=""; 
+													$input = [
+															'type'  => 'text',
+															'name'  => 'url',
+															'id'    => 'url',
+															'required'=>true,
+															'value' => $val,
+															'placeholder' =>lang('app.field_url'),
+															'class' => 'form-control'
+															
+													];
+
+													echo form_input($input);
+													?>
+														</div>
+													</div>
+														</div>		
+									<div class="row">
 													<div class="col-md-6">
 														<div class="form-group required-field">
 															<label for="acc-mname"><?php echo lang('app.field_seo_title')?> </label>
@@ -143,7 +190,7 @@
 													?>
 														</div>
 													</div>
-													<div class="col-md-6">
+													<div class="col-md-6" >
 														<div class="form-group">
 															<label for="acc-mname"><?php echo lang('app.field_seo_description')?></label>
 														 <?php $val=""; 
@@ -163,7 +210,7 @@
 														</div>
 													</div>
 										</div>		
-									<div class="row">
+									<div class="row" id="div_content">
 									<div class="col-md-12">
 														<div class="form-group">
 															<label for="acc-mname"><?php echo lang('app.field_content')?> <span class="text-danger">*</span></label>
@@ -243,6 +290,11 @@
 			  }
 			 ,n.Summernote=new e,n.Summernote.Constructor=e}
 			 (window.jQuery),function(){"use strict";window.jQuery.Summernote.init()}();
+	function is_ext(){
+		var x=$("#is_externel").is(':checked');
+		if(x==true){ $("#div_url").show(0); $("#div_content").hide(0);}
+		else{ $("#div_url").hide(0); $("#div_content").show(0);}
+	}
 	 </script>
 		
      <?= view('admin/common/endtag') ?>

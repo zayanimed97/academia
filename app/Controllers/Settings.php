@@ -273,7 +273,13 @@ class Settings extends BaseController
 							
 							
 					]);
-					
+					if($this->request->getVar('is_externel')!==null){
+						$val = $this->validate([
+				
+							'url' => ['label' => lang('app.field_url'), 'rules' => 'trim|required|valid_url'],	
+							
+					]);
+					}
 					if (!$val)
 					{
 						
@@ -284,9 +290,18 @@ class Settings extends BaseController
 					
 					else{
 						if($this->request->getVar('enable')!==null) $enable="yes"; else $enable="no";
-						$url=strtolower(url_title($this->request->getVar('title')));
+						if($this->request->getVar('is_externel')!==null){
+							$url=$this->request->getVar('url');
+							$is_externel="yes";
+						}
+						else{
+							$url=strtolower(url_title($this->request->getVar('title')));
+							$is_externel="no";
+						}
 						$tab=array("title"=>$this->request->getVar('title'),
 						"menu_title"=>$this->request->getVar('menu_title'),
+						"menu_position"=>$this->request->getVar('menu_position'),
+						'is_externel'=>$is_externel,
 						"content"=>$this->request->getVar('html'),
 						"seo_title"=>$this->request->getVar('seo_title'),
 						"seo_description"=>$this->request->getVar('seo_description'),
