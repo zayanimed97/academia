@@ -58,6 +58,8 @@
 															<th data-sorting="disabled"></th>
 															<th><?php echo lang('app.field_type')?></th>
 															<th><?php echo lang('app.field_menu')?></th>
+															<th><?php echo lang('app.field_menu_position')?></th>
+															<th><?php echo lang('app.field_is_externel')?></th>
 															<th><?php echo lang('app.field_title')?></th>
 															<th><?php echo lang('app.field_seo_title')?></th>
 															<th><?php echo lang('app.field_seo_description')?></th>
@@ -74,6 +76,11 @@
 														<a href="<?php echo base_url('admin/settings/cms/edit/'.$one_customer['id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-edit"></i>
                                                             </a>
+														<?php if( $one_customer['is_externel']=='yes'){?>
+														<a href="<?php echo $one_customer['url']?>" target="_blank" class="btn p-1 mr-2" style="font-size: 1rem">
+                                                                <i class="fe-link"></i>
+                                                            </a>
+														<?php } ?>
 														<?php if( $one_customer['type']=='dynamic'){ ?>
 														 <a data-toggle="modal" data-target="#delete-modal-dialog" onclick="del_data('<?php echo $one_customer['id']?>')" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
                                                                 <i class="fe-x-circle"></i>
@@ -83,6 +90,8 @@
 														</td>
 														<td><?php if( $one_customer['type']=='static') echo lang('app.field_static'); else echo lang('app.field_dynamic');?></td>
 														<td><?php echo $one_customer['menu_title']?></td>
+														<td><?php if( $one_customer['menu_position']=='header') echo lang('app.menu_position_header'); else echo lang('app.menu_position_footer');?></td>
+															<td><?php if( $one_customer['is_externel']=='yes') echo lang('app.yes'); else echo lang('app.no');?></td>
 														<td><?php echo $one_customer['title']?></td>
 														<td><?php echo $one_customer['seo_title']?></td>
 														<td><?php echo $one_customer['seo_description']?></td>

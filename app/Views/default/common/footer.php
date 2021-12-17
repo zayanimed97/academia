@@ -4,9 +4,13 @@
                 <p class="capitalize font-medium"> <?php echo $settings['copyright']?></p>
                 <div class="lg:flex space-x-4 text-gray-700 capitalize hidden">
 				<?php if(!empty($list_static_pages)){
-					foreach($list_static_pages as $k=>$one_page){?>
-                    <a href="<?php echo base_url('page/'.$one_page['url'])?>"> <?php echo $one_page['menu_title']?></a>
-				<?php } }?>
+					foreach($list_static_pages as $k=>$one_page){
+						if($one_page['menu_position']=='footer'){
+							if($one_page['is_externel']=='no') $url=base_url('page/'.$one_page['url']); else $url=$one_page['url'];?>
+							<a href="<?php echo $url?>" <?php if($one_page['is_externel']=='yes') echo "target='_blank'";?> ><?php echo $one_page['menu_title']?></a>
+						<?php } 
+					} 
+				}?>
                    
                 </div>
             </div>

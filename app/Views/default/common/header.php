@@ -271,6 +271,14 @@
                                 <a href="<?php echo base_url($contact_page['url'])?>"> <?php echo $contact_page['menu_title']?>  </a> 
                             </li>
 <?php } ?>
+<?php if(!empty($list_static_pages)){
+					foreach($list_static_pages as $k=>$one_page){
+						if($one_page['menu_position']=='header'){
+							if($one_page['is_externel']=='no') $url=base_url('page/'.$one_page['url']); else $url=$one_page['url'];?>
+							  <li> <a href="<?php echo $url?>" <?php if($one_page['is_externel']=='yes') echo "target='_blank'";?> ><?php echo $one_page['menu_title']?></a></li>
+						<?php } 
+					} 
+				}?>
                         </ul>
                     </nav>
     
