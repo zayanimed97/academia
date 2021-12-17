@@ -377,6 +377,10 @@ $lang['new_page']="Nuova pagina";
 $lang['field_static']="Statica";
 $lang['field_dynamic']="Dynamica";
 $lang['field_copyright']="Copyright";
+$lang['field_menu_position']="Menu Posizione";
+$lang['menu_position_header']="Header";
+$lang['menu_position_footer']="Footer";
+$lang['field_is_externel']="link esterno";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
