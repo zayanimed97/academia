@@ -31,8 +31,9 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->add('/login', 'Users::login');
-$routes->get('/login', 'Users::index');
+/*$routes->add('/login', 'Users::login');
+$routes->get('/login', 'Users::index');*/
+$routes->addRedirect('login', 'user/login');
 $routes->addRedirect('user', 'user/login');
 
 $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes) {

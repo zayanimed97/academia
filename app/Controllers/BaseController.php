@@ -251,18 +251,21 @@ class BaseController extends Controller
 
 		
 
-		$corsi = $this->CorsiModel->whereIn('corsi.id', $corsi_in_cart ?: ['empty value for init']);
-		$modulo = $this->CorsiModuloModel->whereIn('corsi_modulo.id', $modulo_in_cart ?: ['empty value for init']);
+		$corsi=null;
+		$modulo=null;
+		if(!empty( $corsi_in_cart)) $corsi = $this->CorsiModel->whereIn('corsi.id', $corsi_in_cart ?: ['empty value for init']);
+		if(!empty( $modulo_in_cart)) $modulo = $this->CorsiModuloModel->whereIn('corsi_modulo.id', $modulo_in_cart ?: ['empty value for init']);
 
 		$withPriceProfession = '';
-		if (((session('user_data')['role'] ?? '') == 'participant')){
+		/*if (((session('user_data')['role'] ?? '') == 'participant')){
 			$withPriceProfession = ', prezz.prezzo as price_for_prof';
 			
-			$corsi->join('corsi_prezzo_prof prezz', 'prezz.id_corsi = corsi.id AND prezz.id_professione = '.session('user_data')['profile']['professione'], 'left')->groupBy('corsi.id');
-			$modulo->join('corsi_modulo_prezzo_prof prezz', 'prezz.id_modulo = corsi_modulo.id AND prezz.id_professione = '.session('user_data')['profile']['professione'], 'left')->groupBy('corsi_modulo.id');
-		}
-		$corsi = $corsi->select('corsi.id, corsi.prezzo, corsi.free, corsi.have_def_price'.$withPriceProfession)->find();
-		$modulo = $modulo->select('corsi_modulo.id, corsi_modulo.prezzo, corsi_modulo.free, corsi_modulo.have_def_price'.$withPriceProfession)->find();
+			if(!empty( $corsi_in_cart))$corsi->join('corsi_prezzo_prof prezz', 'prezz.id_corsi = corsi.id AND prezz.id_professione = '.session('user_data')['profile']['professione'], 'left')->groupBy('corsi.id');
+			if(!empty( $modulo_in_cart))$modulo->join('corsi_modulo_prezzo_prof prezz', 'prezz.id_modulo = corsi_modulo.id AND prezz.id_professione = '.session('user_data')['profile']['professione'], 'left')->groupBy('corsi_modulo.id');
+		}*/
+		if(!empty( $corsi_in_cart))	$corsi = $corsi->select('corsi.id, corsi.prezzo, corsi.free, corsi.have_def_price'.$withPriceProfession)->find();
+		if(!empty( $modulo_in_cart)) $modulo = $modulo->select('corsi_modulo.id, corsi_modulo.prezzo, corsi_modulo.free, corsi_modulo.have_def_price'.$withPriceProfession)->find();
+
 
 		if (is_array($corsi)) {	
 			foreach ($corsi_in_cart as $key => $item) {

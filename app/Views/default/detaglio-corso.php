@@ -11,9 +11,9 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true);
                         <div class="w-full lg:h-52 h-40 overflow-hidden rounded-lg relative lg:mb-0 mb-4 flex items-center">
 						<?php $default_image=base_url('front/assets/images/courses/img-4.jpg');
 								switch($corsi['tipologia_corsi']){
-									case 'online': if($settings['default_img_online']!="") $default_image=base_url('uploads/'.$settings['default_img_online']); break;
-									case 'aula': if($settings['default_img_aula']!="") $default_image=base_url('uploads/'.$settings['default_img_aula']); break;
-									case 'webinar': if($settings['default_img_webinar']!="") $default_image=base_url('uploads/'.$settings['default_img_webinar']); break;
+									case 'online': if(isset( $settings['default_img_online']) && $settings['default_img_online']!="") $default_image=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if(isset( $settings['default_img_aula']) && $settings['default_img_aula']!="") $default_image=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'webinar': if(isset( $settings['default_img_webinar']) && $settings['default_img_webinar']!="") $default_image=base_url('uploads/'.$settings['default_img_webinar']); break;
 								}
 								?>
                             <img src="<?= $corsi['foto'] ? base_url('uploads/corsi/'.$corsi['foto']) : $default_image ?>" alt="" class="w-full h-auto">
