@@ -158,7 +158,7 @@ class Corsi extends BaseController
 				
 				$x=true;
 				while($x){
-					$exist_url=$this->CorsiModel->where('url',$url)->find();
+					$exist_url=$this->CorsiModel->where('url',$url)->where('id_ente',$common_data['user_data']['id'])->find();
 					if(!empty($exist_url)) $url=url_title($this->request->getVar('sotto_titolo'))."-".rand(0,99);
 					else $x=false;
 				}
@@ -306,6 +306,9 @@ class Corsi extends BaseController
 				$vv['price']=lang('app.have_def_price');
 			}
 			else $vv['price']=$vv['prezzo'];
+			
+			$achat=$this->ParticipationModel->where('banned','no')->where('id_modulo',$vv['id'])->countAllResults();
+			$vv['achat']=$achat;
 			$res[]=$vv;
 		}
 		
@@ -346,6 +349,10 @@ class Corsi extends BaseController
 				$vv['price']=lang('app.have_def_price');
 			}
 			else $vv['price']=$vv['prezzo'];
+			
+			$achat=$this->ParticipationModel->where('banned','no')->where('id_modulo',$vv['id'])->countAllResults();
+			$vv['achat']=$achat;
+			
 			$res[]=$vv;
 		}
 		
@@ -448,7 +455,7 @@ class Corsi extends BaseController
 				
 				$x=true;
 				while($x){
-					$exist_url=$this->CorsiModel->where('url',$url)->find();
+					$exist_url=$this->CorsiModuloModel->where('url',$url)->find();
 					if(!empty($exist_url)) $url=url_title($this->request->getVar('sotto_titolo'))."-".rand(0,99);
 					else $x=false;
 				}

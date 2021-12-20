@@ -205,13 +205,27 @@ class Settings extends BaseController
 						}
 				break;
 				case 'banner':
-				$validated2 = $this->validate([
+				$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'banner_home')->first();
+				//$validated2=false;
+				$det=json_decode($id['meta_value'] ?? '',true) ?? array();
+				if(!empty($id) && $det['image']!=""){
+					$banner_home=json_encode(array("title"=>$this->request->getVar('title'),"subtitle"=>$this->request->getVar('subtitle'),"image"=>$det['image'],"url"=>$this->request->getVar('url'),"btn_label"=>$this->request->getVar('btn_label')),true);
+							$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'banner_home')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'banner_home','meta_value'=>$banner_home));
+							else{
+								
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'banner_home')->update($id['id'],array('meta_value'=>$banner_home));
+							}
+				}
+				else{
+					$validated2 = $this->validate([
 							'image' => [
 								'uploaded[image]',
 								'mime_in[image,image/jpg,image/jpeg,image/gif,image/png,image/ico]',
 								'max_size[image,4096]',
 							],
 						]);
+				
 						if ($validated2) { 
 							$avatar_logo = $this->request->getFile('image');
 							 $logo_name = $avatar_logo->getRandomName();
@@ -230,6 +244,7 @@ class Settings extends BaseController
 							$validation=$this->validator;
 							$data['error']=$validation->listErrors();
 						}
+				}
 				break;
 			}
 		}

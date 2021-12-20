@@ -1,4 +1,4 @@
-<?= view('admin/common/header',array('page_title'=>lang('app.title_page_cours_modulo'))) ?>
+<?= view('admin/common/header',array('page_title'=>lang('app.title_page_participation'))) ?>
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -21,16 +21,14 @@
                                         <ol class="breadcrumb m-0">
                                           <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard')?>"><?php echo lang('app.menu_dashboard')?></a></li>
 											 <li class="breadcrumb-item"><a href="<?php echo base_url('admin/corsi')?>"><?php echo lang('app.menu_corsi')?></a></li>
-											  <li class="breadcrumb-item active"><?php echo lang('app.menu_corsi_modulo')?></li>
-											
+											  <li class="breadcrumb-item"><a href="<?php echo base_url('admin/modulo')?>"><?php echo lang('app.menu_corsi_modulo')?></a></li>
+											 <li class="breadcrumb-item active"><?php echo lang('app.menu_participation')?></li>
                                         </ol>
                                     </div>
                                     <div class="row align-items-center">
-                                        <h4 class="page-title"><?= lang('app.title_page_cours_modulo') ?></h4>
+                                        <h4 class="page-title"><?= lang('app.title_page_participation') ?></h4>
 										
-                                        <a href="<?php echo base_url('admin/corsi/'.$inf_corsi['id'].'/modulo/add')?>" class="btn btn-info btn-rounded waves-effect waves-light ml-4" style="height: fit-content;">
-                                            <span class="btn-label"><i class="mdi mdi-database-plus"></i></span><?= lang('app.new_modulo') ?>
-                                        </a>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -38,14 +36,14 @@
                         <!-- end page title --> 
 						<div class="row">
 							<div class="alert alert-primary col-12" role="alert">
-  <h4 class="alert-heading"><?php echo $inf_corsi['titolo']?></h4>
+  <h4 class="alert-heading"><?php echo $inf_modulo['titolo']?></h4>
   <p> 
 	<ul>
-		<li><b><?php echo lang('app.field_subtitle')?>: </b><?php echo $inf_corsi['sotto_titolo']?></li>
+		<li><b><?php echo lang('app.field_subtitle')?>: </b><?php echo $inf_modulo['sotto_titolo']?></li>
 		<li><b><?php echo lang('app.field_type_cours')?>: </b><?php echo $inf_corsi['tipologia_corsi']?></li>
-		<li><b><?php echo lang('app.field_type_formation')?>: </b><?php echo $inf_corsi['tipologia_formazione']?></li>
-		<li><b><?php echo lang('app.field_doctors')?>: </b><?php echo $inf_corsi['list_doctors']?></li>
-		<?php if($inf_corsi['free']=='yes'){?><li><b><?php echo lang('app.field_free_cours')?>: </b><?php echo lang('app.yes')?></li>
+		<!--li><b><?php echo lang('app.field_type_formation')?>: </b><?php echo $inf_corsi['tipologia_formazione']?></li-->
+		<li><b><?php echo lang('app.field_doctors')?>: </b><?php echo $inf_doctor?></li>
+		<?php if($inf_modulo['free']=='yes'){?><li><b><?php echo lang('app.field_free_cours')?>: </b><?php echo lang('app.yes')?></li>
 		<?php } else{?>
 		<li><b><?php echo lang('app.field_buy_type')?>: </b><?php if($inf_corsi['buy_type']=='cours') echo lang('app.field_buy_type_cours'); elseif($inf_corsi['buy_type']=='module')  echo lang('app.field_buy_type_modulo'); else echo lang('app.field_buy_type_date');?></li>
 		<?php } ?>
@@ -66,34 +64,29 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th><?php echo lang('app.field_title')?></th>
-														<th><?php echo lang('app.field_price')?></th>
-														<th><?php echo lang('app.field_instructor')?></th>
-														<th><?php echo lang('app.field_active_status')?></th>
-														<th><?php echo lang('app.field_achat')?></th>
-                                                        <th>&nbsp;</th>
+														<th><?php echo lang('app.field_last_name')?></th>	
+														<th><?php echo lang('app.field_first_name')?></th>	  
+														 <th><?php echo lang('app.field_credentiel')?></th>
+														<th><?php echo lang('app.field_cart')?></th>		
+														<th><?php echo lang('app.field_date_inscrit')?></th>														
+                                                       <?php if($inf_corsi['buy_type']=='date'){?>
+													   <th><?php echo lang('app.field_date_session')?></th>	
+													   <?php } ?>
                                                     </tr>
                                                 </thead>
                                             
                                                 <tbody>
-                                                    <?php foreach($list as $arg) { ?>
+                                                    <?php foreach($list as $k=>$arg) { ?>
                                                     <tr>
-                                                        <td><?= $arg['id'] ?></td>
-                                                        <td><?= $arg['sotto_titolo'] ?></td>
-                                                        <td><?= $arg['price'] ?></td>
-														 <td><?= $arg['instructor'] ?></td>
-														 <td><?php if($arg['status']=='si') echo lang('app.yes'); else echo lang('app.no'); ?></td>
-														   <td><a href="<?php echo base_url('admin/participation/'.$arg['id'])?>"><?= $arg['achat'] ?></a></td>
-                                                        <td class="row pt-1">
-                                                          <a href="<?php echo base_url('admin/corsi/'.$arg['id_corsi'].'/modulo/edit/'.$arg['id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
-                                                                <i class="fe-edit"></i>
-                                                            </a>
-
-                                                            <a data-toggle="modal" data-target="#delete-modal" onclick="get_del('<?php echo $arg['id']?>')" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
-                                                                <i class="fe-x-circle"></i>
-                                                            </a>
-                                                           
-                                                        </td>
+														  <td><?= ($k+1) ?></td>
+                                                        <td><?= $arg['participante'] ?></td>
+                                                        <td><?= $arg['participant_cognome'] ?></td>
+                                                        <td><?= $arg['credentiel'] ?></td>
+														<td><?= $arg['quota'] ?></td>
+														<td><?php echo date('d/m/Y',strtotime($arg['date'])) ?></td>
+														 <?php if($inf_corsi['buy_type']=='date'){?>
+                                                        <td><?php echo date('d/m/Y',strtotime($arg['date_session'])) ?></td>
+														 <?php } ?>
                                                     </tr>
                                                     <?php } ?>
                                                 </tbody>

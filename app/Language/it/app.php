@@ -381,6 +381,19 @@ $lang['field_menu_position']="Menu Posizione";
 $lang['menu_position_header']="Header";
 $lang['menu_position_footer']="Footer";
 $lang['field_is_externel']="link esterno";
+$lang['field_achat']="Participazioni";
+$lang['field_credentiel']="Credenziali";
+$lang['field_quota_corso']="Quota Corso";
+$lang['field_date_inscrit']="Data iscrizione";
+$lang['field_cart']="Carello";
+$lang['field_date_session']="Data Evento";
+$lang['field_total']="Totale";
+
+$lang['status_completed']="Completato";
+$lang['status_canceled']="Annullato";
+$lang['status_pending']="In sospeso pagamento";
+$lang['field_item']="Articolo";
+$lang['field_item_type']="Articolo tipo";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -450,6 +463,8 @@ $lang['new_coupon']="Nuovo coupon";
 $lang['update_coupon']="Modifica Coupon";
 $lang['menu_setting_media']="Media";
 $lang['menu_setting_cms']="CMS";
+$lang['menu_participation']="Participazioni";
+$lang['menu_cart']="Ordini";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -520,6 +535,10 @@ $lang['title_page_settings_cms_edit']="Modifica Pagina";
 $lang['modal_title_delete_page']="Elemina Pagina";
 $lang['title_section_copyrigh']="Copyright";
 $lang['title_section_cours_type']="Tipologia corsi Label";
+$lang['title_page_participation']="Participazioni";
+$lang['title_page_cart']="Lista Ordini";
+$lang['title_modal_cart_items']="articoli nel carrello";
+$lang['title_modal_cart_payments']="Pagamento nelc arello";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";

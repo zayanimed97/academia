@@ -119,7 +119,11 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 	$routes->add('settings/cms/add', 'Settings::cms_add');
 	$routes->add('settings/cms', 'Settings::cms');
 	
+	// Participation 
+	$routes->add('participation/(:any)', 'Participation::index/$1');
 	
+	// Cart 
+	$routes->add('cart', 'Cart::index');
 });
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {

@@ -127,6 +127,7 @@
 													   <th><?php echo lang('app.field_price')?></th>
 														<th><?php echo lang('app.field_instructor')?></th>
 														<th><?php echo lang('app.field_active_status')?></th>
+														<th><?php echo lang('app.field_achat')?></th>
                                                         <th>&nbsp;</th>
                                                     </tr>
                                                 </thead>
@@ -140,6 +141,7 @@
                                                        <td><?= $arg['price'] ?></td>
 														 <td><?= $arg['instructor'] ?></td>
 														 <td><?php if($arg['status']=='si') echo lang('app.yes'); else echo lang('app.no'); ?></td>
+														  <td><a href="<?php echo base_url('admin/participation/'.$arg['id'])?>"><?= $arg['achat'] ?></a></td>
                                                         <td class="row pt-1">
                                                           <a href="<?php echo base_url('admin/corsi/'.$arg['id_corsi'].'/modulo/edit/'.$arg['id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-edit"></i>

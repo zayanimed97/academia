@@ -524,4 +524,78 @@ if($this->request->getVar('Password')!=""){
 		}
 		echo json_encode($res,true);
 	}
+	
+	public function get_cart_items(){
+		$common_data=$this->common_data();
+		$id=$this->request->getVar('id');
+		$verif=$this->CartModel->where('id_ente',$common_data['user_data']['id'])->where('id',$id)->find();
+		if(!empty($verif)){
+			$list=$this->CartItemsModel->where('id_cart',$id)->where('banned','no')->find();
+			?>
+			<table  class="table dt-responsive nowrap w-100">
+				<tr>	
+					<th><?php echo lang('app.field_item_type')?></th>
+					<th><?php echo lang('app.field_item')?></th>
+					<th><?php echo lang('app.field_amount')?></th>
+				</tr>
+				<?php foreach($list as $k=>$v){
+					switch($v['item_type']){
+						case 'corsi': $st= lang('app.field_per_corsi');
+							$inf_corsi=$this->CorsiModel->find($v['item_id']);
+							$corso=$inf_corsi['sotto_titolo'];
+						break;
+						default: $st=lang('app.field_per_modulo');
+							$inf_corsi=$this->CorsiModuloModel->find($v['item_id']);
+							$corso=$inf_corsi['sotto_titolo'];
+					}?>
+				<tr>
+					<td><?php echo $st ?></td>
+					<td><?php echo $corso ?></td>
+					<td><?php echo number_format($v['price_ht']+($v['price_ht']*$v['vat']/100),2,',','.') ?>€</td>
+				</tr>
+				<?php } ?>
+			</table>
+		<?php 
+		}
+		else 
+			echo '<div class="alert alert-danger">'.lang('app.error_query').'</div>';
+	}
+	
+	public function get_cart_payment(){
+			$common_data=$this->common_data();
+		$id=$this->request->getVar('id');
+		$verif=$this->CartModel->where('id_ente',$common_data['user_data']['id'])->where('id',$id)->find();
+		if(!empty($verif)){
+			$list=$this->CartPaymentModel->where('id_cart',$id)->where('banned','no')->find();
+			?>
+			<table  class="table dt-responsive nowrap w-100">
+				<tr>	
+					
+					<th><?php echo lang('app.field_method_payment')?></th>
+					<th><?php echo lang('app.field_amount')?></th>
+					<th><?php echo lang('app.field_date')?></th>
+					<th><?php echo lang('app.field_status')?></th>
+				</tr>
+				<?php foreach($list as $k=>$v){
+					switch(strtolower($v['status'])){
+						case 'pending': $st=lang('app.status_pending'); break;
+						case 'completed': $st=lang('app.status_completed'); break;
+						case 'canceled': $st=lang('app.status_canceled'); break;
+					}
+					$inf_method=$this->MethodPaymentModel->find($v['id_method']);
+					?>
+				<tr>
+					<td><?php echo $inf_method['title'] ?></td>
+					
+					<td><?php echo number_format($v['amount'],2,',','.') ?>€</td>
+					<td><?php echo date('d/m/Y',strtotime($v['date'])) ?></td>
+						<td><?php echo $st ?></td>
+				</tr>
+				<?php } ?>
+			</table>
+		<?php 
+		}
+		else 
+			echo '<div class="alert alert-danger">'.lang('app.error_query').'</div>';
+	}
 }//end class
