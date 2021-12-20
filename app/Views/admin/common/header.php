@@ -204,6 +204,12 @@
                             <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?>  href="<?= base_url('admin/modulo') ?>"><i data-feather="grid"></i> <span><?php echo lang('app.menu_all_module')?> </span></a>
                                         
                             </li>
+							 <li>
+                            
+                                
+                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?>  href="<?= base_url('admin/cart') ?>"><i data-feather="shopping-cart"></i> <span><?php echo lang('app.menu_cart')?> </span></a>
+                                        
+                            </li>
 							<?php if(in_array('test',$ente_package['extra'])){?>
 							 <li>
                             
@@ -214,7 +220,7 @@
 							<?php } ?>
                             <li>
                                 <a href="#sidebarCourses" data-toggle="collapse">
-                                    <i data-feather="shopping-cart"></i>
+                                    <i data-feather="list"></i>
                                     <span> <?= lang('app.menu_config_corsi') ?> </span>
                                     <span class="menu-arrow"></span>
                                 </a>
