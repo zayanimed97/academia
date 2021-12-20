@@ -24,6 +24,8 @@ class CorsiController extends BaseController
                                         // ->where('corsi.buy_type', 'cours')
                                         ->where('corsi.banned', 'no')
                                         ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
+                                        ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id')
+                                        ->groupBy('corsi.id')
                                         ->select($for == 'corsi' ? 
                                                 "   corsi.video_promo, 
                                                     corsi.foto, 
@@ -46,11 +48,10 @@ class CorsiController extends BaseController
                                                 : "corsi.id");
 
         if ($for == 'corsi') {
-            $corsi->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left');
-            $corsi->groupBy('corsi.id')->having('count(cm.id) > 0');
+            $corsi->having('count(cm.id) > 0');
         }
         if ($for != 'corsi') {
-            $corsi->distinct();
+            $corsi->having('count(DISTINCT cm.id) > 1');
         }
         if ($this->request->getVar('categories')) {
             $corsi->where('corsi.id_categorie <> "0"')->where('corsi.id_categorie is not null')->whereIn('cat.url', explode(',',$this->request->getVar('categories')));
@@ -154,8 +155,8 @@ class CorsiController extends BaseController
 
         // get prices by prof
         if((session('user_data')['role'] ?? '') == 'participant'){
-            $idsCorsi = array_map(function ($el){if($el['buy_type'] != 'is_modulo') return $el['id'];}, $data['corsi']);
-            $idsModulo = array_map(function ($el){if($el['buy_type'] == 'is_modulo') return $el['id'];}, $data['corsi']);
+            $idsCorsi = array_map(function ($el){if($el['corsi_id'] == '') return $el['id'];}, $data['corsi']);
+            $idsModulo = array_map(function ($el){if($el['corsi_id'] != '') return $el['id'];}, $data['corsi']);
 
             $discountsCorsi = $this->CorsiPrezzoProfModel->whereIn('id_corsi', $idsCorsi)->where('id_professione', session('user_data')['profile']['professione'] ?? '')->find();
             $discountsModulo = $this->CorsiModuloPrezzoProfModel->whereIn('id_modulo', $idsModulo)->where('id_professione', session('user_data')['profile']['professione'] ?? '')->find();

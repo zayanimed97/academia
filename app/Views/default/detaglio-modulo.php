@@ -566,24 +566,24 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                         </div> -->
                         <div class="tube-card p-5 lg:p-8" id="Moduli">
                             <h3 class="text-xl font-semibold lg:mb-5"> <?php echo lang('front.field_cour')?> </h3>
-                            <div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2">
-                                <div class="md:w-5/12 md:h-60 h-40 overflow-hidden relative" @click="videoPromo('<?= $corsi['video_promo'] ?>', '<?= $corsi['sotto_titolo'] ?>')">
-                                    <img src="<?= $corsi['foto'] ? base_url('uploads/corsi/'.$corsi['foto']) : base_url('front/assets/images/courses/img-2.jpg') ?>" alt="" class="absolute inset-0 object-cover">
+                            <div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2 pb-2">
+                                <div class="md:w-1/5 md:h-24 h-40 overflow-hidden relative flex justify-center" @click="videoPromo('https://www.youtube.com/embed/<?= $corsi['video_promo'] ?>', '<?= $corsi['sotto_titolo'] ?>')">
+                                    <img src="<?= $corsi['foto'] ? base_url('uploads/corsi/'.$corsi['foto']) : base_url('front/assets/images/courses/img-2.jpg') ?>" alt="" class="h-full">
                                     <?php if($corsi['video_promo']) {?>
                                     <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="">
                                     <?php } ?>
                                 </div>
-                                <div class="flex-1 md:p-6 p-4">
-                                    <a href="<?= base_url('/corsi/'.$corsi['url']) ?>">
-                                        <div class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed"><?= $corsi['sotto_titolo'] ?> </div>
+                                <div class="flex-1 px-4">
+                                    <a href="<?= base_url('/corsi/'.$corsi['url']) ?>" class="font-semibold line-clamp-2 md:text-lg md:leading-relaxed">
+                                        <?= $corsi['sotto_titolo'] ?>
                                     </a>
                                     <!-- <div class="line-clamp-2 mt-2 md:block hidden">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</div> -->
-                                    <div class="font-semibold mt-3"> <?= $corsi['display_name'] ?> </div>
-                                    <div class="mt-1 flex items-center justify-between">
+                                    <div class="font-semibold mt-1"> <?= $corsi['display_name'] ?> </div>
+                                    <div class="mt-1 flex items-center justify-between text-md">
                                         <div class="flex space-x-2 items-center text-sm pt-2">
                                             <div> <?php 
-if($corsi['tipologia_corsi']!=""){ echo $type_cours[$corsi['tipologia_corsi']] ?? $corsi['tipologia_corsi'] ; } 
-else{							echo $type_cours[$module['tipologia_corsi']] ?? $module['tipologia_corsi']; }
+                                            if($corsi['tipologia_corsi']!=""){ echo $type_cours[$corsi['tipologia_corsi']] ?? $corsi['tipologia_corsi'] ; } 
+                                            else{							echo $type_cours[$module['tipologia_corsi']] ?? $module['tipologia_corsi']; }
 											//$corsi['tipologia_corsi'] ?: $module['tipologia_corsi'] ?> </div>
                                             <div>·</div>
                                             <div> <?= $module['categories'] ?> </div>
@@ -594,8 +594,10 @@ else{							echo $type_cours[$module['tipologia_corsi']] ?? $module['tipologia_c
                                         </div>
                                         
                                     </div>
+                                </div>
+                                <div class="flex justify-between flex-col p-2">
                                     <?php if($corsi['prezzo']){ ?>
-                                        <div class="text-xl tracking-widest font-semibold w-full text-center mt-4"> <?= $corsi['prezzo'] ?></div>
+                                        <div class="text-xl font-semibold w-full text-center"> <?= $corsi['prezzo'] ?></div>
                                     <?php } ?>
                                     <?php if($corsi['buy_type'] != 'date'){ ?>
                                         <template x-if="!inCart('<?= $corsi['id'] ?>', '')">
@@ -761,7 +763,7 @@ else{							echo $type_cours[$module['tipologia_corsi']] ?? $module['tipologia_c
             </div>
           
             <div class="embed-video">
-                <iframe src="<?= $module['video_promo'] ?>" class="w-full"
+                <iframe src="https://www.youtube.com/embed/<?= $module['video_promo'] ?>" class="w-full"
                 uk-video="automute: true" frameborder="0" allowfullscreen uk-responsive></iframe>
             </div>
 

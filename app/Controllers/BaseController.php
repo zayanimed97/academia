@@ -170,6 +170,8 @@ class BaseController extends Controller
 		$common_data['CategorieModel'] = $this->CategorieModel;
 		$common_data['CorsiModel'] = $this->CorsiModel;
 		$common_data['ArgomentiModel'] = $this->ArgomentiModel;
+		$common_data['CorsiPrezzoProfModel'] = $this->CorsiPrezzoProfModel;
+		$common_data['discounts'] = function(&$course, $discounts){$this->discounts($course, $discounts);};
 
 		
 		if(!is_null($this->session->get('login_as'))){
@@ -249,7 +251,6 @@ class BaseController extends Controller
 
 		$modulo_in_cart = array_filter(array_map(function($el){if($el['type'] == 'modulo') return str_replace($el['type'], '', $el['id']);}, $cartItems));
 
-		
 
 		$corsi=null;
 		$modulo=null;
@@ -257,12 +258,12 @@ class BaseController extends Controller
 		if(!empty( $modulo_in_cart)) $modulo = $this->CorsiModuloModel->whereIn('corsi_modulo.id', $modulo_in_cart ?: ['empty value for init']);
 
 		$withPriceProfession = '';
-		/*if (((session('user_data')['role'] ?? '') == 'participant')){
+		if (((session('user_data')['role'] ?? '') == 'participant') && (strlen(session('user_data')['profile']['profession'] ?? '') > 0)){
 			$withPriceProfession = ', prezz.prezzo as price_for_prof';
 			
 			if(!empty( $corsi_in_cart))$corsi->join('corsi_prezzo_prof prezz', 'prezz.id_corsi = corsi.id AND prezz.id_professione = '.session('user_data')['profile']['professione'], 'left')->groupBy('corsi.id');
 			if(!empty( $modulo_in_cart))$modulo->join('corsi_modulo_prezzo_prof prezz', 'prezz.id_modulo = corsi_modulo.id AND prezz.id_professione = '.session('user_data')['profile']['professione'], 'left')->groupBy('corsi_modulo.id');
-		}*/
+		}
 		if(!empty( $corsi_in_cart))	$corsi = $corsi->select('corsi.id, corsi.prezzo, corsi.free, corsi.have_def_price'.$withPriceProfession)->find();
 		if(!empty( $modulo_in_cart)) $modulo = $modulo->select('corsi_modulo.id, corsi_modulo.prezzo, corsi_modulo.free, corsi_modulo.have_def_price'.$withPriceProfession)->find();
 
