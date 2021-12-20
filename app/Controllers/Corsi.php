@@ -306,6 +306,9 @@ class Corsi extends BaseController
 				$vv['price']=lang('app.have_def_price');
 			}
 			else $vv['price']=$vv['prezzo'];
+			
+			$achat=$this->ParticipationModel->where('banned','no')->where('id_modulo',$vv['id'])->countAllResults();
+			$vv['achat']=$achat;
 			$res[]=$vv;
 		}
 		
@@ -346,6 +349,10 @@ class Corsi extends BaseController
 				$vv['price']=lang('app.have_def_price');
 			}
 			else $vv['price']=$vv['prezzo'];
+			
+			$achat=$this->ParticipationModel->where('banned','no')->where('id_modulo',$vv['id'])->countAllResults();
+			$vv['achat']=$achat;
+			
 			$res[]=$vv;
 		}
 		
