@@ -1,6 +1,75 @@
 <?php require_once 'common/header.php' ?>
-  
-  <style>
+<?php   $uniqueCat = array_reverse(array_values(array_column(
+                                        array_reverse($category),
+                                        null,
+                                        'id'
+                                    ))); 
+        $courses =  $CorsiModel ->where("find_in_set( '".($uniqueCat[0]['id'] ?? '')."', id_categorie) > 0")
+                                ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
+                                ->where('corsi.banned', 'no')
+                                ->groupBy('corsi.id')
+                                ->join('corsi_prezzo_prof prezz', 'prezz.id_corsi = corsi.id', 'left')
+                                ->where('corsi.id_ente', $selected_ente['id'])
+                                ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
+                                ->groupBy('corsi.id')->having('count(cm.id) > 0')
+                                ->select("  corsi.video_promo, 
+                                            corsi.foto, 
+                                            corsi.url, 
+                                            corsi.sotto_titolo, 
+                                            corsi.tipologia_corsi, 
+                                            corsi.prezzo, 
+                                            corsi.id, 
+                                            corsi.buy_type, 
+                                            corsi.obiettivi, 
+                                            corsi.have_def_price, 
+                                            corsi.free, 
+                                            MAX(prezz.prezzo) as max_price, 
+                                            MIN(prezz.prezzo) as min_price, 
+                                            GROUP_CONCAT(DISTINCT u.display_name) doctor_names, 
+                                            count(DISTINCT cm.id) as modulo_count,
+                                            corsi.ids_professione
+                                        ")
+                                ->find();
+
+
+        $featured = $CorsiModel ->where("corsi.featured = 'yes'")
+                                ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
+                                ->where('corsi.banned', 'no')
+                                ->groupBy('corsi.id')
+                                ->join('corsi_prezzo_prof prezz', 'prezz.id_corsi = corsi.id', 'left')
+                                ->where('corsi.id_ente', $selected_ente['id'])
+                                ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
+                                ->groupBy('corsi.id')->having('count(cm.id) > 0')
+                                ->select("  corsi.video_promo, 
+                                            corsi.foto, 
+                                            corsi.url, 
+                                            corsi.sotto_titolo, 
+                                            corsi.tipologia_corsi, 
+                                            corsi.prezzo, 
+                                            corsi.id, 
+                                            corsi.buy_type, 
+                                            corsi.obiettivi, 
+                                            corsi.have_def_price, 
+                                            corsi.free, 
+                                            MAX(prezz.prezzo) as max_price, 
+                                            MIN(prezz.prezzo) as min_price, 
+                                            GROUP_CONCAT(DISTINCT u.display_name) doctor_names, 
+                                            count(DISTINCT cm.id) as modulo_count,
+                                            corsi.ids_professione
+                                        ")
+                                ->find();
+        $idsCorsi = array_map(function ($el){return $el['id'];}, array_merge($courses, $featured));
+        $discountsCorsi = $CorsiPrezzoProfModel->whereIn('id_corsi', $idsCorsi)->where('id_professione', session('user_data')['profile']['professione'] ?? '')->find();
+        foreach ($courses as $key => &$course) {
+            // get profs for this course
+            $discounts($course, $discountsCorsi ?? []);
+        }
+        foreach ($featured as $key => &$course) {
+            // get profs for this course
+            $discounts($course, $discountsCorsi ?? []);
+        }
+?>
+<style>
     
     .card .card-media img{
         height: auto;
@@ -61,52 +130,48 @@ if(!empty($settings['banner_home'])){?>
             <div class="relative -mt-3" uk-slider="finite: true">
                 <div class="uk-slider-container px-1 py-3">
                     <ul class="uk-slider-items uk-child-width-1-1@m uk-grid">
+                    <?php foreach($featured as $c){
+                        $default_image=base_url('front/assets/images/courses/img-4.jpg');
+                        switch($c['tipologia_corsi']){
+                            case 'online': if(isset( $settings['default_img_online']) && $settings['default_img_online']!="") $default_image=base_url('uploads/'.$settings['default_img_online']); break;
+                            case 'aula': if(isset( $settings['default_img_aula']) && $settings['default_img_aula']!="") $default_image=base_url('uploads/'.$settings['default_img_aula']); break;
+                            case 'webinar': if(isset( $settings['default_img_webinar']) && $settings['default_img_webinar']!="") $default_image=base_url('uploads/'.$settings['default_img_webinar']); break;
+                        }?> 
                         <li>
                                     
                             <div class="bg-white  uk-transition-toggle md:flex">
                                 <div class="md:w-5/12 md:h-60 h-40 overflow-hidden rounded-l-lg relative">
-                                    <img src="<?= base_url('front') ?>/assets/images/courses/img-6.jpg" alt="" class="w-full h-full absolute inset-0 object-cover">
-                                    <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="">
+                                    <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : $default_image ?>" alt="" class="w-full h-full absolute inset-0 object-cover">
+                                    <?php if($c['video_promo']) {?>
+                                        <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="">
+                                    <?php } ?>
                                 </div>
                                 <div class="flex-1 md:p-6 p-4">
-                                    <div class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed">Learn How to Build Responsive Web Design Essentials HTML5 CSS3 and Bootstrap </div>
-                                    <div class="line-clamp-2 mt-2 md:block hidden">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</div>
-                                    <div class="font-semibold mt-3"> John Michael </div>
+                                    <a href="<?= base_url('modulo/'.$c['url']) ?>" class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed"><?= ellipsize($c['sotto_titolo'], 35) ?> </a>
+                                    <div class="line-clamp-2 mt-2 md:block hidden"><?= ellipsize($c['obiettivi'], 120) ?></div>
+                                    <div class="font-semibold mt-3"> <?= $c['doctor_names'] ?> </div>
                                     <div class="mt-1 flex items-center justify-between">
                                         <div class="flex space-x-2 items-center text-sm pt-2">
-                                            <div> 13 hours </div>
+                                            <div> <?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi']?> </div>
                                             <div>·</div>
-                                            <div> 32 lectures </div>
+                                            <div> <?= $c['modulo_count'].' modulo'?> </div>
                                         </div>
-                                        <div class="text-lg font-semibold"> $14.99 </div>
                                     </div>
+                                    <div class="flex justify-between items-center mt-2">
+                                            <template x-if="inCart('<?= $c['id'] ?>', '')">
+                                                <button  class="bg-transparent flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['id'] ?>', '')"> </button>
+                                            </template>
+
+                                            <template x-if="!inCart('<?= $c['id'] ?>', '')">
+                                                <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>','<?= $c['url'] ?>' ,'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </button>
+                                            </template>
+                                            <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
+                                        </div>
                                 </div> 
                             </div>
         
                         </li>
-                        <li>
-        
-                            <div class="bg-white  uk-transition-toggle md:flex">
-                                <div class="md:w-5/12 md:h-60 h-40 overflow-hidden rounded-l-lg relative">
-                                    <img src="<?= base_url('front') ?>/assets/images/courses/img-1.jpg" alt="" class="w-full h-full absolute inset-0 object-cover">
-                                    <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="">
-                                </div>
-                                <div class="flex-1 md:p-6 p-4">
-                                    <div class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed"> Learn JavaScript and Express to become a professional JavaScript developer. </div>
-                                    <div class="line-clamp-2 mt-2 md:block hidden">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</div>
-                                    <div class="font-semibold mt-3"> John Michael </div>
-                                    <div class="mt-1 flex items-center justify-between">
-                                        <div class="flex space-x-2 items-center text-sm pt-2">
-                                            <div> 13 hours </div>
-                                            <div>·</div>
-                                            <div> 32 lectures </div>
-                                        </div>
-                                        <div class="text-lg font-semibold"> $14.99 </div>
-                                    </div>
-                                </div> 
-                            </div>
-                                
-                        </li>
+                    <?php } ?>
                     </ul>
                 </div>
                 
@@ -239,19 +304,7 @@ if(!empty($settings['banner_home'])){?>
                 </div>
             
             </div> -->
-            <?php   $uniqueCat = array_reverse(array_values(array_column(
-                                        array_reverse($category),
-                                        null,
-                                        'id'
-                                    ))); 
-                       $courses =  $CorsiModel ->where("find_in_set( '".($uniqueCat[0]['id'] ?? '')."', id_categorie) > 0")
-                                                ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
-                                                ->where('banned', 'no')
-                                                ->groupBy('corsi.id')
-                                                ->select("corsi.*, GROUP_CONCAT(DISTINCT u.display_name) doctor_names")
-                                                ->find();
-                    
-                ?>
+            
             <?php if(!empty($category)) { ?>
             <div x-data="getSlideData" class="mt-8">
 
@@ -372,33 +425,53 @@ if(!empty($settings['banner_home'])){?>
                         .then(res => 
                             {
                                 this.courses = '';
+                                let type_cours = <?= json_encode($type_cours) ?>;
+                
                                 JSON.parse(res).forEach(element => {
+                                let default_image= '<?= base_url('front/assets/images/courses/img-4.jpg') ?>';
+                                switch(element.tipologia_corsi){
+                                    case 'online': if(<?=(($settings['default_img_online'] ?? '')!="") ? 1 : 0?>) {default_image='<?=base_url('uploads/'.($settings['default_img_online'] ??''))?>'}; break;
+                                    case 'aula': if(<?=(isset( $settings['default_img_aula']) && $settings['default_img_aula']!="") ? 1 : 0?>) default_image='<?= base_url('uploads/'.($settings['default_img_aula']??''))?>'; break;
+                                    case 'webinar': if(<?=(isset( $settings['default_img_webinar']) && $settings['default_img_webinar']!="") ? 1 : 0?>) default_image='<?=base_url('uploads/'.($settings['default_img_webinar'] ?? ''))?>'; break;
+                                }
                                     this.courses += `   <li>
 
-                                                            <div class="card uk-transition-toggle">
-                                                                <div class="card-media h-40 flex items-center" @click="showModalPromo('${element.video_promo}')">
-                                                                    <div class="card-media-overly"></div>
-                                                                    <img src="${element.foto ? '<?= base_url('uploads/corsi') ?>/'+element.foto : '<?= base_url('front') ?>/assets/images/courses/img-1.jpg'}" alt="" class="">
-                                                                    <span class="icon-play"></span>
-                                                                </div>
-                                                                <a href="${'<?= base_url('/corsi') ?>'+'/'+element.url}">
-                                                                    <div class="card-body p-4">
-                                                                        <div class="font-semibold line-clamp-2" x-text="'${element.titolo.trunc(20)}'">  </div>
-                                                                        <div class="flex space-x-2 items-center text-sm pt-3">
-                                                                            <div> 13 hours  </div>
-                                                                            <div> · </div>
-                                                                            <div> 32 lectures </div>
-                                                                        </div>
-                                                                        <div class="pt-1 flex items-center justify-between">
-                                                                            <div class="text-sm font-medium"> ${element.doctor_names} </div>
-                                                                            <div class="text-lg font-semibold"> $14.99 </div>
-                                                                        </div>
+                                                                <div class="card uk-transition-toggle flex flex-col justify-between">
+                                                                    <div class="card-media h-40 flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo} ?>')">
+                                                                        <div class="card-media-overly"></div>
+                                                                        <img src="${element.foto ? '<?=base_url('uploads/corsi/')?>/'+element.foto : default_image}" alt="" class="">
+                                                                            ${element.video_promo ? '<span class="icon-play"></span>' : ''}
+                                                                            
                                                                     </div>
-                                                                </a>
-                                                            </div>
+                                                                        <div class="card-body p-4">
+                                                                            <a href="${'<?=base_url('corsi/')?>'+element.url}">
+
+                                                                                <div class="font-semibold line-clamp-2"> ${element.sotto_titolo.trunc(20)}
+                                                                                </div>
+                                                                                <div class="flex space-x-2 items-center text-sm pt-3">
+                                                                                    <div> ${type_cours[element.tipologia_corsi] ? type_cours[element.tipologia_corsi] : element.tipologia_corsi}</div>
+                                                                                </div>
+                                                                                <div class="pt-1 flex items-center justify-between">
+                                                                                    <div class="text-sm font-semibold"> ${element.doctor_names}  </div>
+                                                                                    <div class="text-lg font-semibold"> ${element.prezzo} </div>
+                                                                                </div>
+                                                                            </a>
+
+                                                                            <div class="flex justify-between items-center mt-2">
+                                                                                <template x-if="inCart(${element.corsi_id}, ${element.id})">
+                                                                                    <button  class="bg-transparent flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('${element.corsi_id}, ${element.id})"> </button>
+                                                                                </template>
+
+                                                                                <template x-if="!inCart(${element.corsi_id}, ${element.id})">
+                                                                                    <button @click="addToCart(${element.id}, '${element.prezzo}', '${element.buy_type}', '${element.url}', 'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" ${element.prezzo.length == 0 ? 'disabled' : ''}> ${element.prezzo.length == 0 ? '<?=lang('front.title_non_disponible')?>' : '<?=lang('front.btn_add_cart') ?>'} </button>
+                                                                                </template>
+                                                                                <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
+                                                                            </div>
+                                                                        </div>
+                                                                </div>
 
                                                         </li>   `
-                                })
+                                });
                             }
                         )
             },
@@ -410,30 +483,50 @@ if(!empty($settings['banner_home'])){?>
                 }
             },
             init(){
+                let type_cours = <?= json_encode($type_cours) ?>;
+                
                 <?= json_encode($courses) ?>.forEach(element => {
+                let default_image= '<?= base_url('front/assets/images/courses/img-4.jpg') ?>';
+                switch(element.tipologia_corsi){
+                    case 'online': if(<?=(($settings['default_img_online'] ?? '')!="") ? 1 : 0?>) {default_image='<?=base_url('uploads/'.($settings['default_img_online'] ??''))?>'}; break;
+                    case 'aula': if(<?=(isset( $settings['default_img_aula']) && $settings['default_img_aula']!="") ? 1 : 0?>) default_image='<?= base_url('uploads/'.($settings['default_img_aula']??''))?>'; break;
+                    case 'webinar': if(<?=(isset( $settings['default_img_webinar']) && $settings['default_img_webinar']!="") ? 1 : 0?>) default_image='<?=base_url('uploads/'.($settings['default_img_webinar'] ?? ''))?>'; break;
+                }
                     this.courses += `   <li>
 
-                                            <div class="card uk-transition-toggle">
-                                                <div class="card-media h-40 flex items-center" @click="showModalPromo('${element.video_promo}')">
-                                                    <div class="card-media-overly"></div>
-                                                    <img src="${element.foto ? '<?= base_url('uploads/corsi') ?>/'+element.foto : '<?= base_url('front') ?>/assets/images/courses/img-1.jpg'}" alt="" class="">
-                                                    ${element.video_promo ? '<span class="icon-play"></span>' : ''}
-                                                </div>
-                                                <a href="${'<?= base_url('/corsi') ?>'+'/'+element.url}">
-                                                    <div class="card-body p-4">
-                                                        <div class="font-semibold line-clamp-2" x-text="'${element.titolo.trunc(20)}'">  </div>
-                                                        <div class="flex space-x-2 items-center text-sm pt-3">
-                                                            <div> 13 hours  </div>
-                                                            <div> · </div>
-                                                            <div> 32 lectures </div>
-                                                        </div>
-                                                        <div class="pt-1 flex items-center justify-between">
-                                                            <div class="text-sm font-medium"> ${element.doctor_names} </div>
-                                                            <div class="text-lg font-semibold"> $14.99 </div>
-                                                        </div>
+                                                <div class="card uk-transition-toggle flex flex-col justify-between">
+                                                    <div class="card-media h-40 flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo} ?>')">
+                                                        <div class="card-media-overly"></div>
+                                                        <img src="${element.foto ? '<?=base_url('uploads/corsi/')?>/'+element.foto : default_image}" alt="" class="">
+                                                            ${element.video_promo ? '<span class="icon-play"></span>' : ''}
+                                                            
                                                     </div>
-                                                </a>
-                                            </div>
+                                                        <div class="card-body p-4">
+                                                            <a href="${'<?=base_url('corsi/')?>'+element.url}">
+
+                                                                <div class="font-semibold line-clamp-2"> ${element.sotto_titolo.trunc(20)}
+                                                                </div>
+                                                                <div class="flex space-x-2 items-center text-sm pt-3">
+                                                                    <div> ${type_cours[element.tipologia_corsi] ? type_cours[element.tipologia_corsi] : element.tipologia_corsi}</div>
+                                                                </div>
+                                                                <div class="pt-1 flex items-center justify-between">
+                                                                    <div class="text-sm font-semibold"> ${element.doctor_names}  </div>
+                                                                    <div class="text-lg font-semibold"> ${element.prezzo} </div>
+                                                                </div>
+                                                            </a>
+
+                                                            <div class="flex justify-between items-center mt-2">
+                                                                <template x-if="inCart(${element.corsi_id}, ${element.id})">
+                                                                    <button  class="bg-transparent flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('${element.corsi_id}, ${element.id})"> </button>
+                                                                </template>
+
+                                                                <template x-if="!inCart(${element.corsi_id}, ${element.id})">
+                                                                    <button @click="addToCart(${element.id}, '${element.prezzo}', '${element.buy_type}', '${element.url}', 'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" ${element.prezzo.length == 0 ? 'disabled' : ''}> ${element.prezzo.length == 0 ? '<?=lang('front.title_non_disponible')?>' : '<?=lang('front.btn_add_cart') ?>'} </button>
+                                                                </template>
+                                                                <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
+                                                            </div>
+                                                        </div>
+                                                </div>
 
                                         </li>   `
                 });

@@ -85,13 +85,40 @@ class Home extends BaseController
 	}
     public function getCourses()
     {
-        $courses = $this->CorsiModel->where('find_in_set( '.($this->request->getVar('category') ?? '').', id_categorie) > 0')
-                                    ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
-                                    ->where('banned', 'no')
-                                    ->groupBy('corsi.id')
-                                    ->select("corsi.*, GROUP_CONCAT(DISTINCT u.display_name) doctor_names")
-                                    ->find();
+        $data = $this->common_data();
 
+        $courses = $this->CorsiModel->where("find_in_set( '".($this->request->getVar('category') ?? '')."', id_categorie) > 0")
+                                    ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
+                                    ->where('corsi.banned', 'no')
+                                    ->groupBy('corsi.id')
+                                    ->join('corsi_prezzo_prof prezz', 'prezz.id_corsi = corsi.id', 'left')
+                                    ->where('corsi.id_ente', $data['selected_ente']['id'])
+                                    ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
+                                    ->groupBy('corsi.id')->having('count(cm.id) > 0')
+                                    ->select("  corsi.video_promo, 
+                                                corsi.foto, 
+                                                corsi.url, 
+                                                corsi.sotto_titolo, 
+                                                corsi.tipologia_corsi, 
+                                                corsi.prezzo, 
+                                                corsi.id, 
+                                                corsi.buy_type, 
+                                                corsi.obiettivi, 
+                                                corsi.have_def_price, 
+                                                corsi.free, 
+                                                MAX(prezz.prezzo) as max_price, 
+                                                MIN(prezz.prezzo) as min_price, 
+                                                GROUP_CONCAT(DISTINCT u.display_name) doctor_names, 
+                                                count(DISTINCT cm.id) as modulo_count,
+                                                corsi.ids_professione
+                                            ")
+                                    ->find();
+        $idsCorsi = array_map(function ($el){return $el['id'];}, $courses);
+        $discountsCorsi = $this->CorsiPrezzoProfModel->whereIn('id_corsi', $idsCorsi)->where('id_professione', session('user_data')['profile']['professione'] ?? '')->find();
+        foreach ($courses as $key => &$course) {
+            // get profs for this course
+            $this->discounts($course, $discountsCorsi ?? []);
+        }
         echo json_encode($courses);
     }
 
