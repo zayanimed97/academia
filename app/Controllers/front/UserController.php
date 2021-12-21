@@ -323,4 +323,67 @@ class UserController extends BaseController
 		}
 		return view($common_data['view_folder'].'/reset_password.php',$common_data);
 	}
+	
+	public function valid_user(){
+		$common_data=$this->common_data();
+		$val = $this->validate([
+				
+				'nome' => ['label' => lang('app.field_first_name'), 'rules' => 'trim|required'],	
+				'cognome' => ['label' => lang('app.field_last_name'), 'rules' => 'trim|required'],
+				
+				
+		]);
+		
+		if (!$val)
+		{
+			
+				$validation=$this->validator;
+				$error_msg=$validation->listErrors();
+				$res=array("error"=>true,"validation"=>$error_msg);
+		}
+		
+		else{
+			$display_name=$this->request->getVar('nome').' '.$this->request->getVar('cognome');
+			$this->UserModel->edit($common_data['user_data']['id'],array('display_name'=>$display_name));
+			$inf_profile=$this->UserProfileModel->where('user_id',$common_data['user_data']['id'])->first();
+			$tab=array('user_id'=>$common_data['user_data']['id'],
+				'nome'=>$this->request->getVar('nome'),
+				'cognome'=>$this->request->getVar('cognome'),
+				'mobile'=>$this->request->getVar('mobile'),
+				'telefono'=>$this->request->getVar('telefono'),
+				'cf'=>$this->request->getVar('cf'),
+				'residenza_stato'=>$this->request->getVar('residenza_stato'),
+				'residenza_provincia'=>$this->request->getVar('residenza_provincia'),
+				'residenza_comune'=>$this->request->getVar('residenza_comune'),
+				'residenza_cap'=>$this->request->getVar('cap'),
+				'residenza_indirizzo'=>$this->request->getVar('indirizzo'),
+				'professione'=>$this->request->getVar('professione'),
+				'disciplina'=>$this->request->getVar('disciplina'),
+				
+				
+				);
+			if(!empty($inf_profile)){
+				$tab['id']=$inf_profile['id'];
+			}
+			$this->UserProfileModel->save($tab);
+		
+				$res=array("error"=>false);
+			
+		}
+		echo json_encode($res,true);
+	}
+	
+	
+	public function profile(){
+		$common_data=$this->common_data();
+		$data=$common_data;
+	
+		
+		$data['seo_title']=lang('front.title_page_user_profile');
+		 $data['country'] = $this->NazioniModel->where('status', 'enable')->find();
+		 $data['user'] = $this->UserProfileModel->where('user_id', $data['user_data']['id'])->first();
+		  $data['list_prof'] = $this->ProfessioneModel->where('status', 'enable')->where('id_ente',$common_data['selected_ente']['id'])->find();
+		  if($data['user']['professione']!==null) $data['list_disc']=$this->DisciplineModel->where('status', 'enable')->where('idprofessione',$data['user']['professione'])->find();
+		return view($common_data['view_folder'].'/user_profile.php',$data);
+	}
 }
