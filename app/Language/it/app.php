@@ -465,6 +465,12 @@ $lang['menu_setting_media']="Media";
 $lang['menu_setting_cms']="CMS";
 $lang['menu_participation']="Participazioni";
 $lang['menu_cart']="Ordini";
+$lang['menu_luoghi']="Luoghi";
+$lang['menu_alberghi']="Alberghi";
+$lang['new_luoghi']="Nuovo luoghi";
+$lang['update_luoghi']="Modifica Luoghi";
+$lang['new_alberghi']="Nuovo alberghi";
+$lang['update_alberghi']="Modifica alberghi";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -539,6 +545,20 @@ $lang['title_page_participation']="Participazioni";
 $lang['title_page_cart']="Lista Ordini";
 $lang['title_modal_cart_items']="articoli nel carrello";
 $lang['title_modal_cart_payments']="Pagamento nelc arello";
+$lang['dashboard_luoghi']="Luoghi";
+$lang['modal_title_delete_luoghi']="Elemina Luoghi";
+$lang['dashboard_alberghi']="Alberghi";
+$lang['modal_title_delete_alberghi']="Elemina Alberghi";
+
+$lang['dashboard_section_incomes']="Redditi";
+$lang['dashboard_section_orders']="Ordini";
+$lang['dashboard_section_orders_completed']="Ordini completato";
+$lang['dashboard_section_total_modulo']="Modulo";
+$lang['dashboard_section_total_modulo_buyed']="Modulo acquistato";
+$lang['dashboard_section_total_participant']="Participanti";
+$lang['dashboard_section_total_participant_buyed']="partecipante ha acquistato almeno un modulo";
+
+$lang['title_modal_update_order_status']="Modifica stato ordine";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
@@ -593,6 +613,7 @@ $lang['alert_msg_delete_question']="sei sicuro di voler cancellare questi dati?"
 $lang['msg_delete_foto']="sei sicuro di eliminare immagini?";
 $lang['alert_msg_delete_coupon']="sei sicuro di eliminare coupon?";
 $lang['alert_msg_delete_page']="sei sicuro di eliminare pagina?";
+$lang['alert_msg_delete_luoghi']="sei sicuro di eliminare luoghi?";
 //$lang['alert_msg_delete_response']="sei sicuro di voler cancellare questa risposta?";
 $lang['help_server_name']="i.e: mydomain.it (escluso http://)";
 $lang['help_tabprice_buy_type']="scegli di acquistare il tipo di corso per corso, quindi non puoi impostare i prezzi del modulo";

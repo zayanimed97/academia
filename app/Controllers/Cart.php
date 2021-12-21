@@ -7,7 +7,54 @@ class Cart extends BaseController
 		
 		$common_data=$this->common_data();
 		$data=$common_data;
-		
+		if($this->request->getVar('action')!==null){
+			switch($this->request->getVar('action')){
+				case 'update_status':
+					$id=$this->request->getVar('id');
+					$status=$this->request->getVar('update_status');
+					switch($status){
+						case 'COMPLETED':
+							
+							$this->CartModel->update($id,array('status'=>'COMPLETED'));
+							$ll_payment=$this->CartPaymentModel->where('id_cart',$id)->where('banned','no')->where('id_method','1')->where('status','pending')->find();
+							if(!empty($ll_payment)){
+								foreach($ll_payment as $k=>$v){
+									$this->CartPaymentModel->update($v['id'],array('status'=>'COMPLETED'));
+								}
+							}
+							$list_items=$this->CartItemsModel->where('id_cart',$id)->where('banned','no')->find();
+							$inf_cart=$this->CartModel->find($id);
+							foreach($list_items as $k=>$v){
+								switch($v['item_type']){
+									case 'corsi':
+										$list_modulo=$this->CorsiModuloModel->where('banned','no')->where('status','si')->where('id_corsi',$v['item_id'])->find();
+										foreach($list_modulo as $kk=>$vv){
+											$this->ParticipationModel->insert(array("id_ente"=>$inf_cart['id_ente'],'id_user'=>$inf_cart['id_user'],'id_modulo'=>$vv['id'],'id_cart'=>$id,'date'=>date('Y-m-d H:i:s')));
+										}
+									break;
+									case 'modulo':
+										$det=json_decode($v['details'],true);
+										if(isset($det['options']['date']) && $det['options']['date']!==null) $id_date=$det['options']['date'];
+										else $id_date=null;
+										$this->ParticipationModel->insert(array("id_ente"=>$inf_cart['id_ente'],'id_user'=>$inf_cart['id_user'],'id_modulo'=>$v['item_id'],'id_date'=>$id_date,'id_cart'=>$id,'date'=>date('Y-m-d H:i:s')));
+									break;
+								}
+							}
+						break;
+						case 'CANCELED':
+							$this->CartModel->update($id,array('status'=>'CANCELED'));
+							$ll_payment=$this->CartPaymentModel->where('id_cart',$id)->where('banned','no')->where('id_method','1')->where('status','pending')->find();
+							if(!empty($ll_payment)){
+								foreach($ll_payment as $k=>$v){
+									$this->CartPaymentModel->update($v['id'],array('status'=>'CANCELED'));
+								}
+							}
+						break;
+					}
+					
+				break;
+			}
+		}
 		$ll=$this->CartModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->find();
 		$res=array();
 		foreach($ll as $k=>$v){

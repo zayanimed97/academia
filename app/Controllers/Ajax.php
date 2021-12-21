@@ -598,4 +598,35 @@ if($this->request->getVar('Password')!=""){
 		else 
 			echo '<div class="alert alert-danger">'.lang('app.error_query').'</div>';
 	}
+	
+	public function get_alberghi(){
+		$common_data=$this->common_data();
+		$id_luoghi=$this->request->getVar('id_luoghi');
+		$list=$this->AlberghiModel->where('banned','no')->where('idluogo',$id_luoghi)->where('id_ente',$common_data['user_data']['id'])->orderby('nome','ASC')->findAll();
+		if(!empty($list)){?>
+			<div class="form-group required-field">
+					<label for="acc-name"><?php echo lang('app.field_alberghi')?> <span class="text-danger">*</span></label>
+					<?php $val=""; 
+		
+			$input = [
+					'name'    => 'id_alberghi',
+					'id'    => 'id_alberghi',
+					'placeholder' =>lang('app.field_alberghi'),
+					
+					'class' => 'form-control'
+			];
+			$options=array();
+		
+			foreach($list as $k=>$v){
+				$options[$v['id']]=$v['nome'];
+			}
+			//var_dump($options);
+			echo form_dropdown($input, $options);
+			?>
+					
+				</div>
+		<?php
+		}
+	}
+	
 }//end class

@@ -124,6 +124,12 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 	
 	// Cart 
 	$routes->add('cart', 'Cart::index');
+	
+	// luoghi & alberhhghi
+	
+	$routes->add('luoghi', 'Luoghi::index'); 
+	$routes->add('alberghi/get_data', 'Alberghi::get_data'); 
+	$routes->add('alberghi', 'Alberghi::index'); 
 });
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {

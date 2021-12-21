@@ -393,6 +393,46 @@
 										?>
                                             </div>
 										 </div>
+										 <div class="col-md-4" id="div_luoghi" style="display:<?php if($inf_corsi['tipologia_corsi']=='aula') echo 'block'; else echo 'none' ?>">
+											<div class="form-group required-field">
+                                                <label for="acc-lastname"><?php echo lang('app.field_luoghi')?> <span class="text-danger">*</span></label>
+                                                <?php $input = [
+												
+												'name'  => 'id_luoghi',
+												'id'    => 'id_luoghi',
+												'placeholder' =>lang('app.field_luoghi'),
+												'class' => 'form-control'
+										];
+										$options=array();
+										$options['']=lang('app.field_select');
+										foreach($list_luoghi as $k=>$v){
+											$options[$v['id']]=$v['nome'];
+										}
+										$js=" onchange='get_alberghi(this.value)'";
+										echo form_dropdown($input, $options,$inf_corsi['id_luoghi'],$js);
+										?>
+
+                                            </div>
+										 </div>
+											<div class="col-md-4" id="div_alberghi"  style="display:<?php if($inf_corsi['tipologia_corsi']=='aula') echo 'block'; else echo 'none' ?>">
+												 <label for="acc-lastname"><?php echo lang('app.field_alberghi')?> <span class="text-danger">*</span></label>
+														<?php $input = [
+														
+														'name'  => 'id_alberghi',
+														'id'    => 'id_alberghi',
+														'placeholder' =>lang('app.field_alberghi'),
+														'class' => 'form-control'
+												];
+												$options=array();
+												$options['']=lang('app.field_select');
+												foreach($list_alberghi as $k=>$v){
+													$options[$v['id']]=$v['nome'];
+												}
+												$js=" onchange='get_alberghi(this.value)'";
+												echo form_dropdown($input, $options,$inf_corsi['id_alberghi'],$js);
+												?>
+
+                                            </div>
 										 <div class="col-md-4">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_duration')?> </label>
@@ -1680,17 +1720,39 @@ $("input[name='buy_type']").change(function(){
 		var crediti=$("#crediti").val();
 		$("#div_vimeo").hide(0);
 		$("#div_buy_type_date").hide(0);
+		$("#div_luoghi").hide(0);
+		$("#div_alberghi").hide(0);
 		if(v=='aula' || v=='webinar'){
 			$("#div_inscrizione_aula").show(0);
 			$("#div_nb_person_aula").show(0);
 			$("#div_buy_type_date").show(0);
-			
+			if(v=='aula'){
+				$("#div_luoghi").show(0);
+				$("#div_alberghi").show(0);
+			}
 		}
 		else{
 			$("#div_inscrizione_aula").hide(0);
 			$("#div_nb_person_aula").hide(0);
 			$("#div_buy_type_date").hide(0);
+			$("#div_luoghi").hide(0);
+			$("#div_alberghi").hide(0);
 		}
+	}
+	
+	function get_alberghi(id_luoghi){
+		$.ajax({
+				  url:"<?php echo base_url()?>/ajax/get_alberghi",
+				  method:"POST",
+				  data:{id_luoghi:id_luoghi}
+				  
+			}).done(function(data){
+			
+				$("#div_alberghi").html(data);
+				
+					
+				
+			});
 	}
 	function check_def_price(){
 		

@@ -238,6 +238,14 @@
                                         <li>
                                             <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/obiettivi') ?>"><?= lang('app.menu_obiettivi') ?></a>
                                         </li>
+										<?php if(in_array('aula',$ente_package['type_cours'])){?>
+										<li>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/luoghi') ?>"><?= lang('app.menu_luoghi') ?></a>
+                                        </li>
+										<li>
+                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/alberghi') ?>"><?= lang('app.menu_alberghi') ?></a>
+                                        </li>
+										<?php } ?>
                                     </ul>
                                 </div>
                             </li>

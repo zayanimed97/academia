@@ -37,10 +37,17 @@ class Corsi extends BaseController
 				$str_docente.= ($inf_profile['nome'] ?? '') .' '.($inf_profile['cognome'] ?? '').'<br/>';
 			}
 			$vv['docente']=$str_docente;
+			$luoghi_label="";
+			if($vv['tipologia_corsi']=="aula" && $vv['id_luoghi']!==null){
+				$inf_luoghi=$this->LuoghiModel->find($vv['id_luoghi']);
+				$luoghi_label=$inf_luoghi['nome'];
+			}
+			$vv['luoghi_label']=$luoghi_label;
 			$res[]=$vv;
 		}
 		
 		$data['list']=$res;
+		
 		return view('admin/corsi.php',$data);
 	}
 	
@@ -53,6 +60,8 @@ class Corsi extends BaseController
 		$data['list_doctors']=$this->UserModel->search('doctor',null,null,'yes',null,$common_data['user_data']['id']);
 		$data['list_pdf']=$this->CorsiPDFLibModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->findAll();
 		$data['list_test']=$this->CorsiModuloTestModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->findAll();
+		$list_luoghi=$this->LuoghiModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->orderby("nome",'asc')->findAll();
+		$data['list_luoghi']=$list_luoghi;
 		return view('admin/corsi_add.php',$data);
 	}
 	
@@ -206,6 +215,8 @@ class Corsi extends BaseController
 				'codice'=>$this->request->getVar('codice'),
 				'duration'=>$this->request->getVar('duration'),
 				'banned'=>'no',
+				'id_luoghi' =>$this->request->getVar('id_luoghi'),
+				'id_alberghi' =>$this->request->getVar('id_alberghi'),
 				'updated_at'=>date('Y-m-d H:i:s')
 				);
 				
@@ -295,6 +306,20 @@ class Corsi extends BaseController
 			}
 			$inf_corsi['list_doctors']=$str_doctors;
 			$data['inf_corsi']=$inf_corsi;
+			
+			
+			$luoghi_label="";
+			if($inf_corsi['tipologia_corsi']=="aula" && $inf_corsi['id_luoghi']!==null){
+				$inf_luoghi=$this->LuoghiModel->find($inf_corsi['id_luoghi']);
+				$luoghi_label=$inf_luoghi['nome'];
+				if( $inf_corsi['id_alberghi']!==null){
+					$inf_luoghi=$this->AlberghiModel->find($inf_corsi['id_alberghi']);
+					$luoghi_label.=" - ".$inf_luoghi['nome'];
+				}
+			}
+			$data['luoghi_label']=$luoghi_label;
+			
+			
 		$res=array();
 		
 		$ll=$this->CorsiModuloModel->where('id_corsi',$id_corsi)->where('banned','no')->find();
@@ -602,6 +627,11 @@ class Corsi extends BaseController
 				$data['corsi_test'][]=$inf_test;
 			}
 		}
+		
+		$list_luoghi=$this->LuoghiModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->orderby("nome",'asc')->findAll();
+		$data['list_luoghi']=$list_luoghi;
+		$list_alberghi=$this->AlberghiModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->where('idluogo',$data['inf_corsi']['id_luoghi'])->orderby('nome','ASC')->findAll();
+		$data['list_alberghi']=$list_alberghi;
 		return view('admin/corsi_edit.php',$data);
 	}
 	
@@ -737,6 +767,8 @@ class Corsi extends BaseController
 				'codice'=>$this->request->getVar('codice'),
 				'duration'=>$this->request->getVar('duration'),
 				//'banned'=>'no',
+				'id_luoghi' =>$this->request->getVar('id_luoghi'),
+				'id_alberghi' =>$this->request->getVar('id_alberghi'),
 				'updated_at'=>date('Y-m-d H:i:s')
 				);
 				

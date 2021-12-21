@@ -42,7 +42,10 @@
   <p> 
 	<ul>
 		<li><b><?php echo lang('app.field_subtitle')?>: </b><?php echo $inf_corsi['sotto_titolo']?></li>
-		<li><b><?php echo lang('app.field_type_cours')?>: </b><?php echo $inf_corsi['tipologia_corsi']?></li>
+		<li><b><?php echo lang('app.field_type_cours')?>: </b><?php echo $type_cours[$inf_corsi['tipologia_corsi']] ?? $inf_corsi['tipologia_corsi']?></li>
+		<?php if($inf_corsi['tipologia_corsi']=='aula'){?>
+		<li><b><?php echo lang('app.field_luoghi')?>: </b><?php echo $luoghi_label?></li>
+		<?php } ?>
 		<li><b><?php echo lang('app.field_type_formation')?>: </b><?php echo $inf_corsi['tipologia_formazione']?></li>
 		<li><b><?php echo lang('app.field_doctors')?>: </b><?php echo $inf_corsi['list_doctors']?></li>
 		<?php if($inf_corsi['free']=='yes'){?><li><b><?php echo lang('app.field_free_cours')?>: </b><?php echo lang('app.yes')?></li>
