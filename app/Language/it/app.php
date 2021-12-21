@@ -557,6 +557,8 @@ $lang['dashboard_section_total_modulo']="Modulo";
 $lang['dashboard_section_total_modulo_buyed']="Modulo acquistato";
 $lang['dashboard_section_total_participant']="Participanti";
 $lang['dashboard_section_total_participant_buyed']="partecipante ha acquistato almeno un modulo";
+
+$lang['title_modal_update_order_status']="Modifica stato ordine";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";

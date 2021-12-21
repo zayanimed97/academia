@@ -73,10 +73,11 @@
 															<a  data-toggle="modal" data-target="#items-modal" onclick="get_items('<?php echo $arg['id']?>')" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-list"></i>
                                                             </a>
-                                                            <a data-toggle="modal" data-target="#delete-modal" onclick="get_del('<?php echo $arg['id']?>')" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
-                                                                <i class="fe-x-circle"></i>
+															<?php if(strtolower($arg['status'])=='pending'){?>
+                                                            <a data-toggle="modal" data-target="#status-modal" onclick="get_update_status('<?php echo $arg['id']?>','<?php echo $arg['status']?>')" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
+                                                                <i class="fe-edit-1"></i>
                                                             </a>
-
+															<?php } ?>
                                                            
                                                         </td>
                                                     </tr>
@@ -143,30 +144,46 @@
             </div><!-- /.modal -->
 
 			
-             <?php $attributes = ['class' => '', 'id' => 'pdf_form_list','method'=>'post'];
+             <?php $attributes = ['class' => '', 'id' => 'pdf_form_list','method'=>'post','onsubmit'=>"return verif_update_status();"];
 				echo form_open_multipart( base_url('admin/cart/'), $attributes);?>
-				  <input type="hidden" value="" id="deleteID" name="id">
-				    <input type="hidden" value="delete" id="action" name="action">
-            <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+				  <input type="hidden" value="" id="statusID" name="id">
+				    <input type="hidden" value="update_status" id="action" name="action">
+            <div id="status-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog  modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.title_modal_delete_corsi_modulo') ?></h4>
+                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.title_modal_update_order_status') ?></h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                         <div class="modal-body">
-
-                                <?php echo lang('app.msg_delete_corso_modulo')?>
-
+<div class="form-group required-field">
+                            <label for="acc-lastname"><?php echo lang('app.field_status')?> <span class="text-danger">*</span></label>
+																	<?php 
+																		
+																	$input = [
+																	
+																	'name'  => 'update_status',
+																	'id'    => 'update_status',
+																	'placeholder' =>lang('app.field_status'),
+																	'class' => 'form-control'
+															];
+															$options=array();
+															$options['']=lang('app.field_select');
+															$options['COMPLETED']=lang('app.status_completed');
+															$options['CANCELED']=lang('app.status_canceled');
+															
+															echo form_dropdown($input, $options);
+															?>
+</div>
                         </div>
 						<div class="modal-footer">
 							<a href="javascript:;" class="btn width-100 btn-danger" data-dismiss="modal"><?php echo lang('app.btn_cancel')?></a>
 							<?php $data=["name"=>"save",
-												"value"=>lang('app.btn_delete'),
+												"value"=>lang('app.btn_save'),
 												'class' => 'btn btn-success'
 									];
 								
-									echo form_submit($data,lang('app.btn_delete'));?>
+									echo form_submit($data,lang('app.btn_save'));?>
 							
 						</div>
                     </div><!-- /.modal-content -->
@@ -192,9 +209,10 @@
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/datatables.init.js"></script>
 
 <script>
-     function get_del(id){
+     function get_update_status(id,status){
       
-        $('#deleteID').val(id)
+        $('#statusID').val(id);
+		//$("#update_status").val(status);
     }
 	
 	function get_items(id){
@@ -221,6 +239,14 @@
 				
 			
 			});
+	}
+	function verif_update_status(){
+		var st=$("#update_status").val();
+		if(st==""){
+			alert("<?php echo lang('app.error_required')?>");
+			return false;
+		}
+		else return true;
 	}
 </script>
 <?= view('admin/common/endtag') ?>
