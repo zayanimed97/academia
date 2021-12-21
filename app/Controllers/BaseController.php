@@ -41,6 +41,8 @@ use App\Models\CartItemsModel;
 use App\Models\CartPaymentModel;
 use App\Models\ParticipationModel;
 use App\Models\PagesModel;
+use App\Models\AlberghiModel;
+use App\Models\LuoghiModel;
 /**
  * Class BaseController
  *
@@ -129,6 +131,8 @@ class BaseController extends Controller
 		$this->CartPaymentModel=new CartPaymentModel();
 		$this->ParticipationModel=new ParticipationModel();
 		$this->PagesModel=new PagesModel();
+		$this->AlberghiModel=new AlberghiModel();
+		$this->LuoghiModel=new LuoghiModel();
 	}
 	
 	public function common_data(){
