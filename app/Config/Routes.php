@@ -218,6 +218,7 @@ $routes->group("order", ["filter" => "auth:participant"], function ($routes) {
 
 $routes->group("user", ["filter" => "auth:participant"], function ($routes) {
 	$routes->add('profile', 'front\UserController::profile');
+	$routes->add('settings', 'front\UserController::settings');
 	$routes->add('participation', 'front\UserController::participation');
 });
 $routes->add('/contact', 'Home::contact_page'); 

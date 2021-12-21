@@ -386,4 +386,64 @@ class UserController extends BaseController
 		  if($data['user']['professione']!==null) $data['list_disc']=$this->DisciplineModel->where('status', 'enable')->where('idprofessione',$data['user']['professione'])->find();
 		return view($common_data['view_folder'].'/user_profile.php',$data);
 	}
+	
+	public function settings(){
+		$common_data=$this->common_data();
+		$data=$common_data;
+	
+		
+		$data['seo_title']=lang('front.title_page_user_settings');
+		 $data['country'] = $this->NazioniModel->where('status', 'enable')->find();
+		 $data['user'] = $this->UserModel->where('id', $data['user_data']['id'])->first();
+		 
+		return view($common_data['view_folder'].'/user_settings.php',$data);
+	}
+	
+	public function setting_submit(){
+		$common_data=$this->common_data();
+		$val = $this->validate([
+				
+				'email' => ['label' => 'email', 'rules' => 'trim|required'],	
+				/*'password' => ['label' => lang('app.field_password'), 'rules' => 'trim|required'],
+				'confirm_password' => ['label' => lang('app.field_confirm_password'), 'rules' => 'trim|required|matches[password]'],
+					*/		
+		]);
+		if($this->request->getVar('password')!=""){
+			$val = $this->validate([
+
+				'password' => ['label' => lang('app.field_password'), 'rules' => 'trim|required'],
+				'confirm_password' => ['label' => lang('app.field_confirm_password'), 'rules' => 'trim|required|matches[password]'],
+						
+		]);
+		
+		}
+		if (!$val)
+		{
+			
+				$validation=$this->validator;
+				$error_msg=$validation->listErrors();
+				$res=array("error"=>true,"validation"=>$error_msg);
+		}
+		
+		else{
+			$exist=$this->UserModel->where('email',$this->request->getVar('email'))->where('id_ente',$common_data['selected_ente']['id'])->where('id !=',$common_data['user_data']['id'])->first();
+			if(!empty($exist)){
+				$res=array("error"=>true,"validation"=>lang('front.error_mail_exist'));
+			}
+			else{
+				$tab=array('email'=>$this->request->getVar('email'));
+				if($this->request->getVar('password')!=""){
+					$tab['pass']=$this->request->getVar('password');
+					$tab['password']=md5($this->request->getVar('password'));
+				}
+					$this->UserModel->edit($common_data['user_data']['id'],$tab);
+					$res=array("error"=>false);
+			}
+			
+			
+				
+			
+		}
+		echo json_encode($res,true);
+	}
 }

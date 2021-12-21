@@ -99,6 +99,8 @@ $lang['title_section_contact_ente_phone']="Telefono";
 $lang['list_view']="visualizzazione elenco";
 $lang['grid_view']="vista a griglia";
 $lang['title_page_user_profile']="Mio Profilo";
+$lang['title_page_user_settings']="Impostazioni";
+
 
 $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";
