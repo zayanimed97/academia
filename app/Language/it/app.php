@@ -549,6 +549,14 @@ $lang['dashboard_luoghi']="Luoghi";
 $lang['modal_title_delete_luoghi']="Elemina Luoghi";
 $lang['dashboard_alberghi']="Alberghi";
 $lang['modal_title_delete_alberghi']="Elemina Alberghi";
+
+$lang['dashboard_section_incomes']="Redditi";
+$lang['dashboard_section_orders']="Ordini";
+$lang['dashboard_section_orders_completed']="Ordini completato";
+$lang['dashboard_section_total_modulo']="Modulo";
+$lang['dashboard_section_total_modulo_buyed']="Modulo acquistato";
+$lang['dashboard_section_total_participant']="Participanti";
+$lang['dashboard_section_total_participant_buyed']="partecipante ha acquistato almeno un modulo";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
