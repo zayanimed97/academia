@@ -59,9 +59,9 @@ $lang['field_method_payment']="Metodo pagamento";
 $lang['field_de']="Dal";
 $lang['field_a']="al";
 $lang['field_disciplina']="Disciplina";
-
-
-
+$lang['field_modulo']="Modulo";
+$lang['field_date_inscrit']="Data iscrizione";
+$lang['field_date_session']="Data Evento";
 
 $lang['msg_success_send_contact_form']="il tuo messaggio è stato inviato";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
@@ -100,7 +100,7 @@ $lang['list_view']="visualizzazione elenco";
 $lang['grid_view']="vista a griglia";
 $lang['title_page_user_profile']="Mio Profilo";
 $lang['title_page_user_settings']="Impostazioni";
-
+$lang['title_page_user_participation']="Mio corsi";
 
 $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";

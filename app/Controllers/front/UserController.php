@@ -446,4 +446,25 @@ class UserController extends BaseController
 		}
 		echo json_encode($res,true);
 	}
+	
+	public function participation(){
+		$common_data=$this->common_data();
+		$data=$common_data;		
+		$data['seo_title']=lang('front.title_page_user_participation');
+		$list=$this->ParticipationModel->where('banned','no')->where('id_ente',$common_data['selected_ente']['id'])->where('id_user',$common_data['user_data']['id'])->find();
+		 foreach($list as $kk=>$vv){
+			 $inf_modulo=$this->CorsiModuloModel->find($vv['id_modulo']);
+			 $inf_corsi=$this->CorsiModel->find($inf_modulo['id_corsi']);
+			 $vv['title']=$inf_modulo['sotto_titolo'];
+			 $vv['tipologia_corsi']=$inf_corsi['tipologia_corsi'];
+			 if(!is_null($vv['id_date']) && $vv['id_date']>0){
+				$inf_date=$this->CorsiModuloDateModel->find($vv['id_date']); 
+				$vv['session_date']=$inf_date['date'];
+			 }
+			 else $vv['session_date']="";
+			$res[]=$vv; 
+		 }
+		 $data['list']=$res;
+		return view($common_data['view_folder'].'/user_participation.php',$data);
+	}
 }
