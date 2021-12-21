@@ -69,7 +69,12 @@
                                                         <td><?= $arg['id'] ?></td>
 														 <td><?= $arg['codice'] ?></td>
                                                         <td><?= $arg['sotto_titolo'] ?></td>
-                                                        <td><?= $type_cours[$arg['tipologia_corsi']] ?? $arg['tipologia_corsi'] ?></td>
+                                                        <td><?= $type_cours[$arg['tipologia_corsi']] ?? $arg['tipologia_corsi'];?>
+														<?php if($arg['tipologia_corsi']=='aula'){
+															if($arg['luoghi_label']!=""){?>
+															<br/><b>(<?php echo $arg['luoghi_label']?>)</b>
+															
+														<?php } }?></td>
 														  <td><?= $arg['price'] ?></td>
 														    <td><?= $arg['nb_module'] ?></td>
 															 <td><?= $arg['duration'] ?></td>
