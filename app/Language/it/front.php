@@ -11,6 +11,8 @@ $lang['btn_recover']="Recuperare";
 $lang['btn_reset']="Ripristina";
 $lang['btn_send']="Invia";
 $lang['btn_download_attachment']="Carica Materialli";
+$lang['btn_webinar']="Accedi Zoom";
+
 
 $lang['field_email']="Email";
 $lang['field_password']="Password";
@@ -62,6 +64,9 @@ $lang['field_disciplina']="Disciplina";
 $lang['field_modulo']="Modulo";
 $lang['field_date_inscrit']="Data iscrizione";
 $lang['field_date_session']="Data Evento";
+$lang['field_calendar']="Calendario";
+$lang['field_position']="Posizione";
+
 
 $lang['msg_success_send_contact_form']="il tuo messaggio è stato inviato";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
@@ -101,6 +106,7 @@ $lang['grid_view']="vista a griglia";
 $lang['title_page_user_profile']="Mio Profilo";
 $lang['title_page_user_settings']="Impostazioni";
 $lang['title_page_user_participation']="Mio corsi";
+$lang['title_modal_video_promo']="Video Promo";
 
 $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";

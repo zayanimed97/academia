@@ -459,7 +459,8 @@ class UserController extends BaseController
 			 $vv['tipologia_corsi']=$inf_corsi['tipologia_corsi'];
 			 if(!is_null($vv['id_date']) && $vv['id_date']>0){
 				$inf_date=$this->CorsiModuloDateModel->find($vv['id_date']); 
-				$vv['session_date']=$inf_date['date'];
+				if(!empty($inf_date)) $vv['session_date']=$inf_date['date'];
+				 else $vv['session_date']="";
 			 }
 			 else $vv['session_date']="";
 			$res[]=$vv; 
@@ -467,4 +468,77 @@ class UserController extends BaseController
 		 $data['list']=$res;
 		return view($common_data['view_folder'].'/user_participation.php',$data);
 	}
+	
+	public function participation_detail($id_participation){
+		$common_data=$this->common_data();
+		$data=$common_data;		
+		$inf_participation=$this->ParticipationModel->where('banned','no')->where('id',$id_participation)->where('id_ente',$common_data['selected_ente']['id'])->where('id_user',$common_data['user_data']['id'])->first();
+		if(empty($inf_participation)) return redirect()->back();
+		else{
+			$data['inf_participation']=$inf_participation;
+			 $joinLoggedIn = isset(session('user_data')['profile']['professione']) ? 'AND (prezz.id_professione = '.(session('user_data')['profile']['professione']).')' : '';
+        
+			 $module=$this->CorsiModuloModel->find($inf_participation['id_modulo']);
+			 
+			 $data['module'] = $this->CorsiModuloModel   ->where('corsi_modulo.id', $inf_participation['id_modulo'])
+                                                    ->join('users u', 'u.id = instructor', 'left')
+                                                    ->join('corsi', 'corsi.id = corsi_modulo.id_corsi')
+                                                    ->join('corsi_modulo_prezzo_prof prezz', '(corsi_modulo.id = prezz.id_modulo)'. $joinLoggedIn, 'left')
+                                                    ->join('categorie cat', 'find_in_set(cat.id, corsi.id_categorie) > 0', 'left')
+                                                    ->select('  corsi_modulo.*,
+                                                                corsi.tipologia_corsi,
+                                                                u.display_name,
+                                                                MAX(prezz.prezzo) as max_price, 
+                                                                MIN(prezz.prezzo) as min_price, 
+                                                                GROUP_CONCAT(DISTINCT cat.titolo) categories
+                                                            ')
+                                                    ->groupBy('corsi_modulo.id')
+                                                    ->first();
+			 
+			$data['corsi'] = $this->CorsiModel          ->where('corsi.id_ente', $data['selected_ente']['id'])
+                                                    ->where('corsi.id', $data['module']['id_corsi'])
+                                                    ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
+                                                    ->join('corsi_pdf_lib pdf', 'find_in_set(pdf.id, corsi.ids_pdf) > 0 AND pdf.accesso = "public"', 'left')
+                                                    ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0', 'left')
+                                                    ->join('categorie cat', 'find_in_set(cat.id, corsi.id_categorie) > 0', 'left')
+                                                    ->join('argomenti arg', 'arg.idargomenti = corsi.id_argomenti', 'left')
+                                                    ->join('corsi_prezzo_prof prezz', '(prezz.id_corsi = corsi.id)'. $joinLoggedIn, 'left')
+                                                    ->select("  corsi.*, 
+                                                                MAX(prezz.prezzo) as max_price, 
+                                                                MIN(prezz.prezzo) as min_price, 
+                                                                SUM(cm.crediti) as ECM , 
+                                                                pdf.filename as pdf, 
+                                                                GROUP_CONCAT(DISTINCT u.display_name) display_name, 
+                                                                GROUP_CONCAT(DISTINCT cat.titolo) categories, 
+                                                                arg.nomeargomento
+                                                            ")
+                                                    ->groupBy('corsi.id')
+                                                    ->first();
+													
+			if(!is_null($inf_participation['id_date']) && $inf_participation['id_date']>0){
+				$inf_date=$this->CorsiModuloDateModel->find($inf_participation['id_date']); 
+				
+			 }
+			switch($data['corsi']['tipologia_corsi']){
+				case 'online':
+					$view_page='user_participation_modulo_online.php';
+				break;
+				case 'aula':
+					$view_page='user_participation_modulo_aula.php';
+					 $data['dates'] = $this->CorsiModuloDateModel->where('id_modulo', $module['id'])->where('banned', 'no')->find();
+					 if($data['corsi']['id_luoghi']!==null) $data['inf_luoghi']=$this->LuoghiModel->find($data['corsi']['id_luoghi']);
+					 if($data['corsi']['id_alberghi']!==null) $data['inf_alberghi']=$this->AlberghiModel->find($data['corsi']['id_alberghi']);
+				break;
+				case 'webinar':
+					$view_page='user_participation_modulo_webinar.php';
+					$data['dates'] = $this->CorsiModuloDateModel->where('id_modulo', $module['id'])->where('banned', 'no')->find();
+				break;
+			}
+		
+			$data['inf_date']=$inf_date ?? array();
+			 $data['doctors'] = $this->UserModel->where("find_in_set(id, '{$module['instructor']}') > 0")->find();
+			return view($common_data['view_folder'].'/'.$view_page,$data);
+		}
+	}
+	
 }
