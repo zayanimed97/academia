@@ -245,7 +245,7 @@ class BaseController extends Controller
             
 
             // if free return gratuito
-            $course['prezzo'] = $course['free'] == 'yes' ? 'gratuito' : ((strpos($course['prezzo'], '€') || $course['prezzo'] == "") ? $course['prezzo'] : $this->amount->format($course['prezzo']));
+            $course['prezzo'] = $course['free'] == 'yes' ? 0 : ((strpos($course['prezzo'], '€') || $course['prezzo'] == "") ? $course['prezzo'] : $this->amount->format($course['prezzo']));
 	}
 
 	public function updateCart()
@@ -277,7 +277,7 @@ class BaseController extends Controller
 				$filter = array_filter($corsi, function($el) use ($item){return $el['id'] == str_replace('corsi', '', $item);});
 				$thiscorsi = reset($filter);
 				$prezzo = ($thiscorsi['free'] == 'yes')  
-															? '0'  
+															? 0  
 															: (($thiscorsi['price_for_prof'] ?? false) 
 																? $thiscorsi['price_for_prof'] 
 																: (($thiscorsi['have_def_price'] == 'yes') 
@@ -292,13 +292,13 @@ class BaseController extends Controller
 				$filter = array_filter($modulo, function($el) use ($item){return $el['id'] == str_replace('modulo', '', $item);});
 				$thismodulo = reset($filter);
 				$prezzo = ($thismodulo['free'] == 'yes') 
-															? '0' 
+															? 0 
 															: (($thismodulo['price_for_prof'] ?? false) 
 																? $thismodulo['price_for_prof'] 
 																: (($thismodulo['have_def_price'] == 'yes') 
 																	? $thismodulo['prezzo'] 
 																	: 'ND'));
-				$this->cart->update(['rowid' => $key, 'price' => $prezzo]);
+				$this->cart->update(['rowid' => $key, 'price' => $prezzo, 'originalPrice' => $prezzo]);
 			}
 		}
 		
@@ -431,14 +431,14 @@ class BaseController extends Controller
 							$url=base_url('modulo/'.$inf_item['url']);
 							$inf_corsi=$this->CorsiModel->find($inf_item['id_corsi']);
 							$inf_docente=$this->UserProfileModel->where('user_id',$inf_item['instructor'])->first();
-							$str_docente=$inf_docente['nome'].' '.	$inf_docente['nome'];
+							$str_docente=($inf_docente['nome'] ?? '').' '.	($inf_docente['nome'] ?? '');
 							if($inf_item['foto']!="") $foto=base_url('uploads/corsi/'.$inf_item['foto']);
 							else{
 								$foto=base_url('front/assets/images/courses/img-4.jpg');
 								switch($inf_corsi['tipologia_corsi']){
 									case 'online': if($settings['default_img_online']!="") $foto=base_url('uploads/'.$settings['default_img_online']); break;
 									case 'aula': if($settings['default_img_aula']!="") $foto=base_url('uploads/'.$settings['default_img_aula']); break;
-									case 'webinar': if($settings['default_img_webinar']!="") $foto=base_url('uploads/'.$settings['default_img_webinar']); break;
+									case 'webinar': if(($settings['default_img_webinar'] ?? '')!="") $foto=base_url('uploads/'.$settings['default_img_webinar']); break;
 								}
 							}
 							$str_date="";
