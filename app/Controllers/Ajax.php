@@ -125,7 +125,24 @@ class Ajax extends BaseController
 		
 	}
 	
+	public function get_discipline_by_professione(){
+		$settings=$this->SettingModel->getByMetaKey();
+		
+		$id_prof=$this->request->getVar('id');
+		
 	
+			$list_discipline=$this->DisciplineModel;
+			
+			if(!is_null($id_prof) && $id_prof!="") $this->DisciplineModel->where('idprofessione', $id_prof);
+			$list_discipline=$this->DisciplineModel->findAll();
+		foreach($list_discipline as $k=>$v){?>
+		<option value="<?php echo $v['iddisciplina']?>"><?php echo $v['disciplina']?></option>
+		
+		<?php	
+		}
+		
+		
+	}
 		
 	public function pdf_add_from_list(){
 	$common_data=$this->common_data();

@@ -11,6 +11,8 @@ $lang['btn_recover']="Recuperare";
 $lang['btn_reset']="Ripristina";
 $lang['btn_send']="Invia";
 $lang['btn_download_attachment']="Carica Materialli";
+$lang['btn_webinar']="Accedi Zoom";
+
 
 $lang['field_email']="Email";
 $lang['field_password']="Password";
@@ -58,9 +60,12 @@ $lang['field_amount']="Importo";
 $lang['field_method_payment']="Metodo pagamento";
 $lang['field_de']="Dal";
 $lang['field_a']="al";
-
-
-
+$lang['field_disciplina']="Disciplina";
+$lang['field_modulo']="Modulo";
+$lang['field_date_inscrit']="Data iscrizione";
+$lang['field_date_session']="Data Evento";
+$lang['field_calendar']="Calendario";
+$lang['field_position']="Posizione";
 
 
 $lang['msg_success_send_contact_form']="il tuo messaggio è stato inviato";
@@ -72,6 +77,7 @@ $lang['success_activation_account']="Complimenti, il tuo account è ora attivo. 
 $lang['error_not_exist_account']="email / password errate!";
 $lang['error_not_active_account']="il tuo account non è attivo!";
 $lang['error_not_exist_email']="L'email è non esistente!";
+$lang['success_update']="i dati sono ora aggiornati";
 
 $lang['link_go']="partire!";
 $lang['title_my_cart']="Carello";
@@ -97,9 +103,17 @@ $lang['title_section_contact_ente_email']="Emails";
 $lang['title_section_contact_ente_phone']="Telefono";
 $lang['list_view']="visualizzazione elenco";
 $lang['grid_view']="vista a griglia";
+$lang['title_page_user_profile']="Mio Profilo";
+$lang['title_page_user_settings']="Impostazioni";
+$lang['title_page_user_participation']="Mio corsi";
+$lang['title_modal_video_promo']="Video Promo";
 
 $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";
 $lang['status_pending']="In sospeso pagamento";
+
+$lang['menu_profile']="Profilo";
+$lang['menu_participation']="Mie partecipazioni";
+$lang['menu_account_settings']="Impostazione conto";
 return $lang;
 ?>

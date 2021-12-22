@@ -323,4 +323,222 @@ class UserController extends BaseController
 		}
 		return view($common_data['view_folder'].'/reset_password.php',$common_data);
 	}
+	
+	public function valid_user(){
+		$common_data=$this->common_data();
+		$val = $this->validate([
+				
+				'nome' => ['label' => lang('app.field_first_name'), 'rules' => 'trim|required'],	
+				'cognome' => ['label' => lang('app.field_last_name'), 'rules' => 'trim|required'],
+				
+				
+		]);
+		
+		if (!$val)
+		{
+			
+				$validation=$this->validator;
+				$error_msg=$validation->listErrors();
+				$res=array("error"=>true,"validation"=>$error_msg);
+		}
+		
+		else{
+			$display_name=$this->request->getVar('nome').' '.$this->request->getVar('cognome');
+			$this->UserModel->edit($common_data['user_data']['id'],array('display_name'=>$display_name));
+			$inf_profile=$this->UserProfileModel->where('user_id',$common_data['user_data']['id'])->first();
+			$tab=array('user_id'=>$common_data['user_data']['id'],
+				'nome'=>$this->request->getVar('nome'),
+				'cognome'=>$this->request->getVar('cognome'),
+				'mobile'=>$this->request->getVar('mobile'),
+				'telefono'=>$this->request->getVar('telefono'),
+				'cf'=>$this->request->getVar('cf'),
+				'residenza_stato'=>$this->request->getVar('residenza_stato'),
+				'residenza_provincia'=>$this->request->getVar('residenza_provincia'),
+				'residenza_comune'=>$this->request->getVar('residenza_comune'),
+				'residenza_cap'=>$this->request->getVar('cap'),
+				'residenza_indirizzo'=>$this->request->getVar('indirizzo'),
+				'professione'=>$this->request->getVar('professione'),
+				'disciplina'=>$this->request->getVar('disciplina'),
+				
+				
+				);
+			if(!empty($inf_profile)){
+				$tab['id']=$inf_profile['id'];
+			}
+			$this->UserProfileModel->save($tab);
+		
+				$res=array("error"=>false);
+			
+		}
+		echo json_encode($res,true);
+	}
+	
+	
+	public function profile(){
+		$common_data=$this->common_data();
+		$data=$common_data;
+	
+		
+		$data['seo_title']=lang('front.title_page_user_profile');
+		 $data['country'] = $this->NazioniModel->where('status', 'enable')->find();
+		 $data['user'] = $this->UserProfileModel->where('user_id', $data['user_data']['id'])->first();
+		  $data['list_prof'] = $this->ProfessioneModel->where('status', 'enable')->where('id_ente',$common_data['selected_ente']['id'])->find();
+		  if($data['user']['professione']!==null) $data['list_disc']=$this->DisciplineModel->where('status', 'enable')->where('idprofessione',$data['user']['professione'])->find();
+		return view($common_data['view_folder'].'/user_profile.php',$data);
+	}
+	
+	public function settings(){
+		$common_data=$this->common_data();
+		$data=$common_data;
+	
+		
+		$data['seo_title']=lang('front.title_page_user_settings');
+		 $data['country'] = $this->NazioniModel->where('status', 'enable')->find();
+		 $data['user'] = $this->UserModel->where('id', $data['user_data']['id'])->first();
+		 
+		return view($common_data['view_folder'].'/user_settings.php',$data);
+	}
+	
+	public function setting_submit(){
+		$common_data=$this->common_data();
+		$val = $this->validate([
+				
+				'email' => ['label' => 'email', 'rules' => 'trim|required'],	
+				/*'password' => ['label' => lang('app.field_password'), 'rules' => 'trim|required'],
+				'confirm_password' => ['label' => lang('app.field_confirm_password'), 'rules' => 'trim|required|matches[password]'],
+					*/		
+		]);
+		if($this->request->getVar('password')!=""){
+			$val = $this->validate([
+
+				'password' => ['label' => lang('app.field_password'), 'rules' => 'trim|required'],
+				'confirm_password' => ['label' => lang('app.field_confirm_password'), 'rules' => 'trim|required|matches[password]'],
+						
+		]);
+		
+		}
+		if (!$val)
+		{
+			
+				$validation=$this->validator;
+				$error_msg=$validation->listErrors();
+				$res=array("error"=>true,"validation"=>$error_msg);
+		}
+		
+		else{
+			$exist=$this->UserModel->where('email',$this->request->getVar('email'))->where('id_ente',$common_data['selected_ente']['id'])->where('id !=',$common_data['user_data']['id'])->first();
+			if(!empty($exist)){
+				$res=array("error"=>true,"validation"=>lang('front.error_mail_exist'));
+			}
+			else{
+				$tab=array('email'=>$this->request->getVar('email'));
+				if($this->request->getVar('password')!=""){
+					$tab['pass']=$this->request->getVar('password');
+					$tab['password']=md5($this->request->getVar('password'));
+				}
+					$this->UserModel->edit($common_data['user_data']['id'],$tab);
+					$res=array("error"=>false);
+			}
+			
+			
+				
+			
+		}
+		echo json_encode($res,true);
+	}
+	
+	public function participation(){
+		$common_data=$this->common_data();
+		$data=$common_data;		
+		$data['seo_title']=lang('front.title_page_user_participation');
+		$list=$this->ParticipationModel->where('banned','no')->where('id_ente',$common_data['selected_ente']['id'])->where('id_user',$common_data['user_data']['id'])->find();
+		 foreach($list as $kk=>$vv){
+			 $inf_modulo=$this->CorsiModuloModel->find($vv['id_modulo']);
+			 $inf_corsi=$this->CorsiModel->find($inf_modulo['id_corsi']);
+			 $vv['title']=$inf_modulo['sotto_titolo'];
+			 $vv['tipologia_corsi']=$inf_corsi['tipologia_corsi'];
+			 if(!is_null($vv['id_date']) && $vv['id_date']>0){
+				$inf_date=$this->CorsiModuloDateModel->find($vv['id_date']); 
+				if(!empty($inf_date)) $vv['session_date']=$inf_date['date'];
+				 else $vv['session_date']="";
+			 }
+			 else $vv['session_date']="";
+			$res[]=$vv; 
+		 }
+		 $data['list']=$res;
+		return view($common_data['view_folder'].'/user_participation.php',$data);
+	}
+	
+	public function participation_detail($id_participation){
+		$common_data=$this->common_data();
+		$data=$common_data;		
+		$inf_participation=$this->ParticipationModel->where('banned','no')->where('id',$id_participation)->where('id_ente',$common_data['selected_ente']['id'])->where('id_user',$common_data['user_data']['id'])->first();
+		if(empty($inf_participation)) return redirect()->back();
+		else{
+			$data['inf_participation']=$inf_participation;
+			 $joinLoggedIn = isset(session('user_data')['profile']['professione']) ? 'AND (prezz.id_professione = '.(session('user_data')['profile']['professione']).')' : '';
+        
+			 $module=$this->CorsiModuloModel->find($inf_participation['id_modulo']);
+			 
+			 $data['module'] = $this->CorsiModuloModel   ->where('corsi_modulo.id', $inf_participation['id_modulo'])
+                                                    ->join('users u', 'u.id = instructor', 'left')
+                                                    ->join('corsi', 'corsi.id = corsi_modulo.id_corsi')
+                                                    ->join('corsi_modulo_prezzo_prof prezz', '(corsi_modulo.id = prezz.id_modulo)'. $joinLoggedIn, 'left')
+                                                    ->join('categorie cat', 'find_in_set(cat.id, corsi.id_categorie) > 0', 'left')
+                                                    ->select('  corsi_modulo.*,
+                                                                corsi.tipologia_corsi,
+                                                                u.display_name,
+                                                                MAX(prezz.prezzo) as max_price, 
+                                                                MIN(prezz.prezzo) as min_price, 
+                                                                GROUP_CONCAT(DISTINCT cat.titolo) categories
+                                                            ')
+                                                    ->groupBy('corsi_modulo.id')
+                                                    ->first();
+			 
+			$data['corsi'] = $this->CorsiModel          ->where('corsi.id_ente', $data['selected_ente']['id'])
+                                                    ->where('corsi.id', $data['module']['id_corsi'])
+                                                    ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
+                                                    ->join('corsi_pdf_lib pdf', 'find_in_set(pdf.id, corsi.ids_pdf) > 0 AND pdf.accesso = "public"', 'left')
+                                                    ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0', 'left')
+                                                    ->join('categorie cat', 'find_in_set(cat.id, corsi.id_categorie) > 0', 'left')
+                                                    ->join('argomenti arg', 'arg.idargomenti = corsi.id_argomenti', 'left')
+                                                    ->join('corsi_prezzo_prof prezz', '(prezz.id_corsi = corsi.id)'. $joinLoggedIn, 'left')
+                                                    ->select("  corsi.*, 
+                                                                MAX(prezz.prezzo) as max_price, 
+                                                                MIN(prezz.prezzo) as min_price, 
+                                                                SUM(cm.crediti) as ECM , 
+                                                                pdf.filename as pdf, 
+                                                                GROUP_CONCAT(DISTINCT u.display_name) display_name, 
+                                                                GROUP_CONCAT(DISTINCT cat.titolo) categories, 
+                                                                arg.nomeargomento
+                                                            ")
+                                                    ->groupBy('corsi.id')
+                                                    ->first();
+													
+			if(!is_null($inf_participation['id_date']) && $inf_participation['id_date']>0){
+				$inf_date=$this->CorsiModuloDateModel->find($inf_participation['id_date']); 
+				
+			 }
+			switch($data['corsi']['tipologia_corsi']){
+				case 'online':
+					$view_page='user_participation_modulo_online.php';
+				break;
+				case 'aula':
+					$view_page='user_participation_modulo_aula.php';
+					 $data['dates'] = $this->CorsiModuloDateModel->where('id_modulo', $module['id'])->where('banned', 'no')->find();
+					 if($data['corsi']['id_luoghi']!==null) $data['inf_luoghi']=$this->LuoghiModel->find($data['corsi']['id_luoghi']);
+					 if($data['corsi']['id_alberghi']!==null) $data['inf_alberghi']=$this->AlberghiModel->find($data['corsi']['id_alberghi']);
+				break;
+				case 'webinar':
+					$view_page='user_participation_modulo_webinar.php';
+					$data['dates'] = $this->CorsiModuloDateModel->where('id_modulo', $module['id'])->where('banned', 'no')->find();
+				break;
+			}
+		
+			$data['inf_date']=$inf_date ?? array();
+			 $data['doctors'] = $this->UserModel->where("find_in_set(id, '{$module['instructor']}') > 0")->find();
+			return view($common_data['view_folder'].'/'.$view_page,$data);
+		}
+	}
+	
 }

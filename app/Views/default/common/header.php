@@ -357,58 +357,38 @@
                                         <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-2.jpg" alt="">
                                     </div>
                                     <div class="user_name">
-                                        <div> Stella Johnson </div>
-                                        <span> @Johnson </span>
+                                        <div> <?php echo session('user_data')['display_name']?> </div>
+                                        <span> <?php echo session('user_data')['email']?></span>
                                     </div>
                                 </a>
                             </li>
+                            
                             <li> 
                                 <hr>
                             </li>
                             <li> 
-                                <a href="#" class="is-link">
-                                    <ion-icon name="rocket-outline" class="is-icon"></ion-icon> <span>  Upgrade Membership  </span>
-                                </a>
-                            </li> 
-                            <li> 
-                                <hr>
-                            </li>
-                            <li> 
-                                <a href="#">
+                                <a href="<?php echo base_url('user/profile')?>">
                                     <ion-icon name="person-circle-outline" class="is-icon"></ion-icon>
-                                     My Account 
+                                     <?php echo lang('front.menu_profile')?>
                                 </a>
                             </li>
                             <li> 
-                                <a href="#">
+                                <a href="<?php echo base_url('user/participation')?>">
                                     <ion-icon name="card-outline" class="is-icon"></ion-icon>
-                                    Subscriptions
+                                     <?php echo lang('front.menu_participation')?>
                                 </a>
                             </li>
-                            <li> 
-                                <a href="#">
-                                    <ion-icon name="color-wand-outline" class="is-icon"></ion-icon>
-                                    My Billing 
-                                </a>
-                            </li>
+                            
                             <li>
-                                <a href="#">
+                                <a href="<?php echo base_url('user/settings')?>">
                                     <ion-icon name="settings-outline" class="is-icon"></ion-icon>
-                                    Account Settings  
+                                   <?php echo lang('front.menu_account_settings')?>
                                 </a>
                             </li>
                             <li> 
                                 <hr>
                             </li>
-                            <li> 
-                                <a href="#" id="night-mode" class="btn-night-mode" onclick="UIkit.notification({ message: 'Hmm...  <strong> Night mode </strong> feature is not available yet. ' , pos: 'bottom-right'  })">
-                                    <ion-icon name="moon-outline" class="is-icon"></ion-icon>
-                                     Night mode
-                                    <span class="btn-night-mode-switch">
-                                        <span class="uk-switch-button"></span>
-                                    </span>
-                                </a>
-                            </li>
+                           
                             <li> 
                                 <a href="<?= base_url('logout') ?>">
                                     <ion-icon name="log-out-outline" class="is-icon"></ion-icon>
