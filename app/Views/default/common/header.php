@@ -60,9 +60,26 @@
     <link rel="stylesheet" href="<?= base_url('front') ?>/assets/css/style.css">
     <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .discounted{ 
+            position: relative;
+            color: red !important;
+            font-size: .75rem !important;
+        }
+        .discounted::after{
+            content: "";
+            width: 100%;
+            height: 1px;
+            background: red;
+            position: absolute;
+            bottom: 7px;
+            left: 0;
+            transform: skewY(-11deg);
+        } 
+    </style>
 </head>
 
-<body class="bg-white"  x-data="headerData">
+<body class="bg-white"  x-data="headerData($watch)">
 
 
     <div id="wrapper" class="horizontal flex flex-col relative min-h-screen">
@@ -309,6 +326,9 @@
                                         <h4 x-text="item.name">  </h4>
                                     </div>
                                     <div class="cart_price">
+                                        <template x-if="item.price != item.originalPrice">
+                                            <span class="font-bold mt-0.5 discounted" x-text="formatter.format(item.originalPrice)"></span>
+                                        </template>
                                         <span x-text="formatter.format(item.price)"> </span>
                                         <button type="button" @click="removeFromCart(item.rowid)" class="type"> <?php echo lang('front.btn_delete')?></button>
                                     </div>

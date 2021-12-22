@@ -34,12 +34,34 @@
             //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
             //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
         });
-        function headerData() {
+        function headerData($watch) {
             return {
                 cartItems: <?= json_encode($cart->contents()) ?>,
                 total: <?= $cart->total() ?>,
                 items: <?= $cart->totalItems() ?>,
                 tax: <?= $tax ?>,
+                coupons: <?= json_encode(array_values(array_map(function($el){return $el['coupon'];},$cart->contents()))) ?>,
+                couponSum: {},
+                flashMessage: {status: '', message:''},
+                init(){
+                    if (this.coupons.length > 0) {
+                        this.coupons.forEach(el => {Object.keys(el).forEach(key=> this.couponSum[key] = null)});
+                        Object.keys(this.couponSum).forEach(key => {
+                            this.couponSum[key] = this.coupons.map(el=> {return el[key]}).reduce((pv,cv)=>{return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}, 0);
+                        });
+                    }
+                    $watch('coupons', value => {
+                        this.couponSum = {};
+                        if (this.coupons.length > 0) {
+                            this.coupons.forEach(el => {Object.keys(el).forEach(key=> this.couponSum[key] = null)});
+                            Object.keys(this.couponSum).forEach(key => {
+                                this.couponSum[key] = this.coupons.map(el=> {return el[key]}).reduce((pv,cv)=>{return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}, 0);
+                            });
+                        }
+                        console.log(this.couponSum);
+                    })
+
+                },
                 addToCart(id, prezzo, type, url, item, date=null) {
                     if (type == 'date') {
                         location.href = '<?= base_url() ?>/'+item+'/'+url
@@ -51,7 +73,12 @@
                             data: {"id": id, "price": prezzo, "type": item, date: date}, 
                             dataType: 'json'
                         })
-                        .done((res)=>{this.cartItems = res.cart; this.total = res.totalPrice; this.items = res.total; this.tax = res.tax})
+                        .done((res)=>{  this.cartItems = res.cart; 
+                                        this.total = res.totalPrice; 
+                                        this.items = res.total; 
+                                        this.tax = res.tax;
+                                        this.coupons = res.coupons; 
+                                    })
                     }
                 },
                 removeFromCart(row){
@@ -60,13 +87,36 @@
                             method: "get",  
                             headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
                             .then( el => el.json() )
-                            .then(res => {this.cartItems = res.cart; this.total = res.totalPrice; this.items = res.total; this.tax = res.tax})
+                            .then(res =>{   this.cartItems = res.cart; 
+                                            this.total = res.totalPrice; 
+                                            this.items = res.total; 
+                                            this.tax = res.tax;
+                                            this.coupons = res.coupons;
+                                        })
                 },
                 inCart(corsi_id, id){
                     let corsiInCart = (Object.values(this.cartItems)).find(element => {return (corsi_id == '' && element.id == 'corsi'+id) || (element.id == 'corsi'+corsi_id)})
                     let moduleInCart = (Object.values(this.cartItems)).find(element => {return (corsi_id != '' && element.id == 'modulo'+id)})
 
                     return corsiInCart ? 'corsi in cart' : (moduleInCart ? 'module in cart' : false);
+                },
+                applyCoupon(code){
+                    fetch('<?= base_url('/order/coupon') ?>', {
+                        method: 'post',
+                        headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" },
+                        body: JSON.stringify({coupon: code})
+                    })
+                    .then( el => el.json() )
+                    .then(res =>    {   
+                                        this.cartItems = res.cartItems; 
+                                        this.total = res.total; 
+                                        this.tax = res.tax, 
+                                        this.coupons = res.coupons; 
+                                        this.flashMessage.status = res.status, 
+                                        this.flashMessage.message = res.message
+                                    })
+
+                        
                 }
             }
         }

@@ -208,6 +208,7 @@ $routes->group("order", ["filter" => "auth:participant"], function ($routes) {
     $routes->post('checkout', 'front\CartController::pay');
     $routes->get('confirm', 'front\CartController::confirm');
     $routes->get('cancel', 'front\CartController::cancel');
+    $routes->post('coupon', 'front\CartController::coupon');
 });
 
 $routes->add('/contact', 'Home::contact_page'); 

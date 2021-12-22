@@ -1,5 +1,5 @@
 <?= view($view_folder.'/common/header') ?>
-  
+
         <!--  breadcrumb -->
         <div class="from-blue-500 via-blue-400 to-blue-500 bg-gradient-to-l breadcrumb-area py-6 text-white">
             <div class="container mx-auto lg:pt-5">
@@ -117,30 +117,30 @@
                                     <template x-if="type != 'private'">
                                         <div>
                                             <label for="piva" class="text-sm font-medium"> P.iva </label>
-                                            <input type="text" class="with-border" id="piva" name="piva" value="<?= $user['fattura_piva'] ?>">
+                                            <input type="text" class="with-border" id="piva" name="piva" value="<?= $user['fattura_piva'] ?>" required>
                                         </div>
                                     </template>
                                     <template x-if="type == 'company'">
                                         <div>
                                             <label for="regione" class="text-sm font-medium"> Ragione Sociale </label>
-                                            <input type="text" class="with-border" id="regione" name="regione" value="<?= $user['ragione_sociale'] ?>">
+                                            <input type="text" class="with-border" id="regione" name="regione" value="<?= $user['ragione_sociale'] ?>" required>
                                         </div>
                                     </template>
                                     <div>
                                         <label for="cf" class="text-sm font-medium"> Codice fiscale </label>
-                                        <input type="text" class="with-border" id="cf" name="cf" value="<?= $user['fattura_cf'] ?>">
+                                        <input type="text" class="with-border" id="cf" name="cf" value="<?= $user['fattura_cf'] ?>" required>
                                     </div>
                                     <div>
                                         <label for="name" class="text-sm font-medium"> First Name</label>
-                                        <input type="text" class="with-border" id="name" name="name" value="<?= $user['fattura_nome'] ?>">
+                                        <input type="text" class="with-border" id="name" name="name" value="<?= $user['fattura_nome'] ?>" required>
                                     </div>
                                     <div>
                                         <label for="cognome" class="text-sm font-medium"> Last Name</label>
-                                        <input type="text" class="with-border" id="cognome" name="cognome" value="<?= $user['fattura_cognome'] ?>">
+                                        <input type="text" class="with-border" id="cognome" name="cognome" value="<?= $user['fattura_cognome'] ?>" required>
                                     </div>
                                     <div>
                                         <label for="residenza_stato" class="text-sm font-medium"> <?php echo lang('front.field_country')?> </label>
-                                        <select class="selectpicker border rounded-md" id="residenza_stato" name="residenza_stato" x-model="stato" @change="handleCountry">
+                                        <select class="selectpicker border rounded-md" id="residenza_stato" name="residenza_stato" x-model="stato" @change="handleCountry" required>
                                             <option value="0"><?php echo lang('front.field_select')?></option>
                                             <?php foreach($country as $stato) { ?>
                                                 <option value="<?= $stato['id'] ?>" <?php if(null !==old('residenza_stato') && old('residenza_stato')==$stato['id']) echo 'selected'?>><?= $stato['nazione'] ?></option>
@@ -157,24 +157,24 @@
                                     </div>
                                     <div>
                                         <label for="indirizzo" class="text-sm font-medium"> Indirizzo</label>
-                                        <input type="text" class="with-border" id="indirizzo" name="indirizzo" value="<?= $user['fattura_indirizzo'] ?>">
+                                        <input type="text" class="with-border" id="indirizzo" name="indirizzo" value="<?= $user['fattura_indirizzo'] ?>" required>
                                     </div>
                                     <div>
                                         <label for="cap" class="text-sm font-medium"> CAP</label>
-                                        <input type="text" class="with-border" id="cap" name="cap" value="<?= $user['fattura_cap'] ?>">
+                                        <input type="text" class="with-border" id="cap" name="cap" value="<?= $user['fattura_cap'] ?>" required>
                                     </div>
                                     <div>
                                         <label for="telefono" class="text-sm font-medium"> Telefono </label>
-                                        <input type="text" class="with-border" id="telefono" name="telefono" value="<?= $user['fattura_phone'] ?>">
+                                        <input type="text" class="with-border" id="telefono" name="telefono" value="<?= $user['fattura_phone'] ?>" required>
                                     </div>
                                     <div>
                                         <label for="pec" class="text-sm font-medium"> PEC </label>
-                                        <input type="text" class="with-border" id="pec" name="pec" value="<?= $user['fattura_pec'] ?>">
+                                        <input type="text" class="with-border" id="pec" name="pec" value="<?= $user['fattura_pec'] ?>" required>
                                     </div>
                                     <template x-if="type != 'private'">
                                         <div>
                                             <label for="sdi" class="text-sm font-medium"> SDI </label>
-                                            <input type="text" class="with-border" id="sdi" name="sdi" value="<?= $user['fattura_sdi'] ?>">
+                                            <input type="text" class="with-border" id="sdi" name="sdi" value="<?= $user['fattura_sdi'] ?>" required>
                                         </div>
                                     </template>
 
@@ -238,28 +238,55 @@
                         <div class="bg-white rounded-md shadow-lg lg:p-6 p-3" uk-sticky="offset:; offset:90 ; media: 1024 ; bottom: true">
         
                             <div class="font-semibold px-5 pb-3 text-lg text-center"> Order summary </div>
-        
+                            <template x-if="flashMessage.status == 'success'">
+                                <div class="uk-alert-success uk-alert" uk-alert="">
+                                    <p x-text="flashMessage.message"></p>
+                                </div>
+                            </template>
+                            <template x-if="flashMessage.status == 'error'">
+                                <div class="uk-alert-warning uk-alert" uk-alert="">
+                                    <p x-text="flashMessage.message"></p>
+                                </div>
+                            </template>
                             <div>
                                 <template x-for="item in cartItems" :key="item.id">
                                     <div class="flex py-3 space-x-2.5 delimiter-bottom">
                                         <a class="block md:mr-2" href="#"><img class="w-16 h-11 object-cover rounded" :src="item.options.image ? item.options.image : '<?= base_url('front/assets/images/courses/img-1.jpg') ?>'" alt="Product"></a>
                                         <div class="flex-1">
                                             <h6 class="font-medium"><a href="#" class="line-clamp-2" x-text="item.name"></a></h6>
-                                            <div class="flex justify-between mt-1"><span class="font-medium text-sm text-blue-500" x-text="item.type"></span><span class="font-bold mt-0.5" x-text="formatter.format(item.price)"></span></div>
+                                            <div class="flex justify-between mt-1">
+                                                
+                                                <span class="font-medium text-sm text-blue-500" x-text="item.type"></span>
+                                                <div>
+                                                    <template x-if="item.price != item.originalPrice">
+                                                        <span class="font-bold mt-0.5 discounted" x-text="formatter.format(item.originalPrice)"></span>
+                                                    </template>
+                                                    <span class="font-bold mt-0.5" x-text="formatter.format(item.price)"></span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </template>
                             </div>
         
-                            <ul class="border-b border-t my-3 py-3 text-sm">
-                                <li class="flex justify-between align-center"><span class="mr-2">Subtotal:</span><span x-text="formatter.format(total)"></span></li>
+                            <ul class="border-b border-t my-3 py-3 text-sm space-y-4">
+                                <li class="flex justify-between align-center"><span class="mr-2">Subtotal:</span><span x-text="formatter.format(total+(Object.keys(couponSum).length > 0 ? Object.values(couponSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0))"></span></li>
+                                <li class="flex justify-between align-center"><span class="mr-2">Discount:</span>
+                                    <span>
+                                        <template x-for="(discount,idx) in couponSum">
+                                            <span class="block text-xs text-right"><span x-text="idx + ': '"></span> <span class="ml-4" x-text="formatter.format(discount)"></span></span>
+                                        </template>
+                                            <span class="block text-right" x-text="formatter.format(Object.keys(couponSum).length > 0 ? Object.values(couponSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0)"></span>
+                                    </span>
+                                </li>
+                                <li class="flex justify-between align-center"><span class="mr-2">Subtotal After Discount:</span><span x-text="formatter.format(total)"></span></li>
                                 <li class="flex justify-between align-center"><span class="mr-2">tax:</span><span x-text="formatter.format(tax)"></span></li>
-                                <li class="flex justify-between align-center"><span class="mr-2">Discount:</span><span><span class="text-right">—</span></span></li>
+
                             </ul>
         
                             <h3 class="font-semibold text-center my-6 text-2xl" x-text="formatter.format(total+tax)"></h3>
-                            <form method="post" class="space-y-3">
-                                <input class="form-control with-border" type="text" placeholder="Promo code" required="">
+                            <form method="post" @submit.prevent="applyCoupon($refs.coupon.value)" class="space-y-3" action="<?= base_url('/order/coupon') ?>">
+                                <input class="form-control with-border" type="text" name="coupon" x-ref="coupon" placeholder="Promo code">
                                 <div class="col-span-2 border rounded-md border-blue-500">
                                     <button class="w-full py-2.5 font-semibold rounded text-blue-600 text-base block" type="submit">Apply promo code</button>
                                 </div>
@@ -279,8 +306,8 @@
             stato: '<?= $user['fattura_stato'] ?? '' ?>', 
             paymethod: 'paypal',
             type: '<?= $user['type'] ?? 'private' ?>',
-            comuni: '<input type="text" id="residenza_comune" name="residenza_comune" class="form-control with-border">', 
-            provincia : '<input type="text" id="residenza_provincia" name="residenza_provincia" class="form-control with-border">',
+            comuni: '<input type="text" id="residenza_comune" name="residenza_comune" class="form-control with-border" required>', 
+            provincia : '<input type="text" id="residenza_provincia" name="residenza_provincia" class="form-control with-border" required>',
 
             
 
@@ -291,8 +318,8 @@
                         .then( el => el.text() ).then(res => {this.provincia = res; setTimeout(() => {$('select').selectpicker('render');}, 50)})
                 }
                 else {
-                    this.provincia = '<input type="text" id="residenza_provincia" name="residenza_provincia" class="form-control with-border">'
-                    this.comuni = '<input type="text" id="residenza_comune" name="residenza_comune" class="form-control with-border">'
+                    this.provincia = '<input type="text" id="residenza_provincia" name="residenza_provincia" class="form-control with-border" required>'
+                    this.comuni = '<input type="text" id="residenza_comune" name="residenza_comune" class="form-control with-border" required>'
                 }
             },
             

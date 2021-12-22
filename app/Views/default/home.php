@@ -147,7 +147,7 @@ if(!empty($settings['banner_home'])){?>
                                     <?php } ?>
                                 </div>
                                 <div class="flex-1 md:p-6 p-4">
-                                    <a href="<?= base_url('modulo/'.$c['url']) ?>" class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed"><?= ellipsize($c['sotto_titolo'], 35) ?> </a>
+                                    <a href="<?= base_url('corsi/'.$c['url']) ?>" class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed"><?= ellipsize($c['sotto_titolo'], 35) ?> </a>
                                     <div class="line-clamp-2 mt-2 md:block hidden"><?= ellipsize($c['obiettivi'], 120) ?></div>
                                     <div class="font-semibold mt-3"> <?= $c['doctor_names'] ?> </div>
                                     <div class="mt-1 flex items-center justify-between">
@@ -444,7 +444,7 @@ if(!empty($settings['banner_home'])){?>
                                                                             
                                                                     </div>
                                                                         <div class="card-body p-4">
-                                                                            <a href="${'<?=base_url('corsi/')?>'+element.url}">
+                                                                            <a href="${'<?=base_url('corsi')?>/'+element.url}">
 
                                                                                 <div class="font-semibold line-clamp-2"> ${element.sotto_titolo.trunc(20)}
                                                                                 </div>
@@ -502,7 +502,7 @@ if(!empty($settings['banner_home'])){?>
                                                             
                                                     </div>
                                                         <div class="card-body p-4">
-                                                            <a href="${'<?=base_url('corsi/')?>'+element.url}">
+                                                            <a href="${'<?=base_url('corsi')?>/'+element.url}">
 
                                                                 <div class="font-semibold line-clamp-2"> ${element.sotto_titolo.trunc(20)}
                                                                 </div>
