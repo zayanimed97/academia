@@ -16,26 +16,48 @@ class CartController extends BaseController
         // var_dump($this->request->getVar());
         // exit;
         $data = $this->common_data();
-
+        $id = $this->request->getVar('id');
+        $type = $this->request->getVar('type');
         
         $joinLoggedIn = isset(session('user_data')['profile']['professione']) ? 'AND (prezz.id_professione = '.(session('user_data')['profile']['professione']).')' : '';
-        if ($this->request->getVar('type') == 'corsi') {
+        if ($type == 'corsi') {
             $corsi = $this->CorsiModel  ->where('corsi.id_ente', $data['selected_ente']['id'])
-                                        ->where('corsi.id', $this->request->getVar('id'))
+                                        ->where('corsi.id', $id)
                                         ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0', 'left')
                                         ->join('corsi_prezzo_prof prezz', '(prezz.id_corsi = corsi.id)'. $joinLoggedIn, 'left')
                                         ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
                                         ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, GROUP_CONCAT(distinct cm.id) as modules")
                                         ->groupBy('corsi.id')
                                         ->first();
-        } elseif($this->request->getVar('type') == 'modulo'){
+        } elseif($type == 'modulo'){
             $corsi = $this->CorsiModuloModel    ->where('corsi.id_ente', $data['selected_ente']['id'])
-                                                ->where('corsi_modulo.id', $this->request->getVar('id'))
+                                                ->where('corsi_modulo.id', $id)
                                                 ->join('corsi_modulo_prezzo_prof prezz', '(prezz.id_modulo = corsi_modulo.id)'. $joinLoggedIn, 'left')
                                                 ->join('corsi', 'corsi.id = corsi_modulo.id_corsi')
-                                                ->select("corsi_modulo.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, corsi.vat")
+                                                ->select("corsi_modulo.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, corsi.vat, corsi.buy_type")
                                                 ->groupBy('corsi_modulo.id')
                                                 ->first();
+            if ($corsi['buy_type'] == 'module') {
+                $moduli = $this->CorsiModuloModel->where('id_corsi', $corsi['id_corsi'])->where('banned', 'no')->select('id')->find();
+                $moduli = array_map(function($el){return $el['id'];}, $moduli);
+                $moduli_in_cart = array_map(function($key){return $key;},array_keys(array_filter($this->cart->contents(), function($el) use ($moduli){if($el['type'] == 'modulo') return in_array(str_replace('modulo', '', $el['id']), $moduli);})));
+                if (count($moduli_in_cart) +1 == count($moduli)) {
+                    foreach ($moduli_in_cart as $item) {
+                        $this->cart->remove($item);
+                    }
+                    $type = 'corsi';
+                    $corsi = $this->CorsiModel  ->where('corsi.id_ente', $data['selected_ente']['id'])
+                                                ->where('corsi.id', $corsi['id_corsi'])
+                                                ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0', 'left')
+                                                ->join('corsi_prezzo_prof prezz', '(prezz.id_corsi = corsi.id)'. $joinLoggedIn, 'left')
+                                                ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
+                                                ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, GROUP_CONCAT(distinct cm.id) as modules")
+                                                ->groupBy('corsi.id')
+                                                ->first();
+                    $id = $corsi['id'];
+                }
+            }
+            
         }
         
         if ($corsi['have_def_price'] == 'yes') {
@@ -53,18 +75,18 @@ class CartController extends BaseController
 
         $exist = false;
         foreach ($this->cart->contents() as $key=>$c) {
-            if ($c['id'] == $this->request->getVar('type').$this->request->getVar('id')) {
+            if ($c['id'] == $type.$id) {
                 $exist = true;
             }
-            if (($this->request->getVar('type') == 'corsi') && (in_array(str_replace('modulo', '', $c['id']), explode(',', $corsi['modules'])))) {
+            if (($type == 'corsi') && (in_array(str_replace('modulo', '', $c['id']), explode(',', $corsi['modules'])))) {
                 $this->cart->remove($key);
             }
         }
         
         if ($exist == false) {
             $this->cart->insert([
-                'id' => $this->request->getVar('type').$this->request->getVar('id'),
-                'type' => $this->request->getVar('type'),
+                'id' => $type.$id,
+                'type' => $type,
                 'qty' => 1,
                 'tax' => $corsi['vat'],
                 'price' => $price,
