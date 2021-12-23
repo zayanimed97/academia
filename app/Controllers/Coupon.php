@@ -18,17 +18,23 @@ class Coupon extends BaseController
 					case 'corsi':
 						$inf=$this->CorsiModel->find($v['id_corsi']); 
 						$corsi_titolo=$inf['sotto_titolo'];
-						$docenti_titolo='';
+						$docenti_titolo='';$argomenti_titolo='';
 					break;
 					case 'docenti':
-						$corsi_titolo=''; 
+						$corsi_titolo=''; $argomenti_titolo='';
 						$inf=$this->UserModel->find($v['id_docenti']);
 						$docenti_titolo=$inf['display_name'];
 					break;
-					default:$corsi_titolo='';$docenti_titolo='';
+					case 'argomenti': 
+						$corsi_titolo=''; $docenti_titolo='';
+						$inf=$this->ArgomentiModel->find($v['id_argomenti']);
+						$argomenti_titolo=$inf['nomeargomento'];
+					break;
+					default:$corsi_titolo='';$docenti_titolo='';$argomenti_titolo='';
 				}
 				$v['corsi_titolo']=$corsi_titolo;
 				$v['docenti_titolo']=$docenti_titolo;
+				$v['argomenti_titolo']=$argomenti_titolo;
 				if($v['start_date']!=null) $v['start_date']=date('d/m/Y',strtotime($v['start_date']));
 				if($v['end_date']!=null) $v['end_date']=date('d/m/Y',strtotime($v['end_date']));
 				

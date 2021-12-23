@@ -30,8 +30,9 @@ class UserController extends BaseController
     {
         $request = $this->request->getVar();
 		$verif=$this->UserModel->where('id_ente',$this->common_data()['selected_ente']['id'])->where('email',$request['email'])->find();
+		$verif2=$this->UserModel->where('role','ente')->where('email',$request['email'])->find();
 	//	var_dump($verif); exit;
-		if(!empty($verif)){
+		if(!empty($verif) || !empty($verif2)){
 			return redirect()->back()->withInput()->with('error',lang('front.error_mail_exist'));
 		}
 		else{
@@ -427,6 +428,7 @@ class UserController extends BaseController
 		
 		else{
 			$exist=$this->UserModel->where('email',$this->request->getVar('email'))->where('id_ente',$common_data['selected_ente']['id'])->where('id !=',$common_data['user_data']['id'])->first();
+			$verif2=$this->UserModel->where('role','ente')->where('email',$this->request->getVar('email'))->find();
 			if(!empty($exist)){
 				$res=array("error"=>true,"validation"=>lang('front.error_mail_exist'));
 			}

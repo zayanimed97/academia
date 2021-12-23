@@ -12,6 +12,8 @@ $lang['btn_reset']="Ripristina";
 $lang['btn_send']="Invia";
 $lang['btn_download_attachment']="Carica Materialli";
 $lang['btn_webinar']="Accedi Zoom";
+$lang['btn_pay']="Vai al pagamento";
+$lang['btn_pay2']="Pagamento";
 
 
 $lang['field_email']="Email";
@@ -23,7 +25,7 @@ $lang['field_logo']="Logo";
 $lang['field_address']="Indirizzo";
 $lang['field_provincia']="Provincia";
 $lang['field_city']="Comune";
-$lang['field_zip']="Cap";
+$lang['field_zip']="CAP";
 $lang['field_country']="Nazioni";
 $lang["field_phone"]="Telefono";
 $lang['field_mobile']="Cellulare";
@@ -66,8 +68,22 @@ $lang['field_date_inscrit']="Data iscrizione";
 $lang['field_date_session']="Data Evento";
 $lang['field_calendar']="Calendario";
 $lang['field_position']="Posizione";
+$lang['field_azienda']="Azienda";
+$lang['field_prof']="Professionista";
+$lang['field_private']="Privato";
+$lang['field_piva']="P.iva";
+$lang['field_company_name']="Ragione Sociale";
+$lang['field_pec']="PEC";
+$lang['field_sdi']="SDI";
+$lang['field_subtotal']="Totale";
+$lang['field_discount']="Coupon";
+$lang['field_subtotal_after_discount']="Totale acquisto";
+$lang['field_tax']="IVA";
+$lang['field_total_to_pay']="";
+$lang['field_insert_code']="Inserisci codice coupon";
 
 
+$lang['apply_coupon']="Applica il codice coupon";
 $lang['msg_success_send_contact_form']="il tuo messaggio è stato inviato";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
 $lang['success_reset_password']="la password è stata modificata con successo";
@@ -78,6 +94,9 @@ $lang['error_not_exist_account']="email / password errate!";
 $lang['error_not_active_account']="il tuo account non è attivo!";
 $lang['error_not_exist_email']="L'email è non esistente!";
 $lang['success_update']="i dati sono ora aggiornati";
+$lang['succes_coupon_applied']="Coupon applicato al carrello";
+
+
 
 $lang['link_go']="partire!";
 $lang['title_my_cart']="Carello";
@@ -107,6 +126,12 @@ $lang['title_page_user_profile']="Mio Profilo";
 $lang['title_page_user_settings']="Impostazioni";
 $lang['title_page_user_participation']="Mio corsi";
 $lang['title_modal_video_promo']="Video Promo";
+$lang['title_page_checkout']="Informazioni sul pagamento";
+$lang['title_section_profile_fatturazione']="Dati di fatturazione";
+$lang['title_section_payment_method']="Scegli il tuo metodo di pagamento ";
+$lang['title_section_order_summary']="Riepilogo ordine";
+
+
 
 $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";
