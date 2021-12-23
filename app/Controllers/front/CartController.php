@@ -183,8 +183,8 @@ class CartController extends BaseController
         $total_vat = 0;
         $cart = $this->cart->contents();
         foreach ($cart as $item) {
-            if (is_numeric($item['price'])) {
-                $total_vat += $item['price'] * ($item['tax']/100);
+            $total_vat += $item['price'] * ($item['tax']/100);
+            if (is_numeric($item['price']) && floatVal($item['price']) > 0) {
                 array_push  ($items, [
                         "reference_id" => $item['id'],
                         "amount" => [
@@ -228,86 +228,131 @@ class CartController extends BaseController
         // }
 
 		// Creating an environment
-        switch ($this->request->getVar('paymethod')) {
-            case 'paypal':
-                // $this->CartPaymentModel->insert([   'id_cart'=>$cartId,
-                //                                     'id_method' => 2,
-                //                                     'amount' => $this->cart->total() + $total_vat,
-                //                                     'date' => date('Y-m-d H:i:s'),
-                //                                     'status' => 'pending',
-                //                                     'details' => json_encode($items)
-                                                // ]);
-                $payment = $this->EnteMethodPaymentModel->where('id_method', 2)
-                                                        ->where('id_ente', $data['selected_ente']['id'])
-                                                        ->where('banned', 'no')
-                                                        ->where('enable', 'yes')
-                                                        ->first();
-                $clientId = json_decode($payment['details'])->clientId;
-                $clientSecret = json_decode($payment['details'])->clientSecret;
-
-                $environment = new SandboxEnvironment($clientId, $clientSecret);
-                $client = new PayPalHttpClient($environment);
-
-                $request = new OrdersCreateRequest();
-                $request->prefer('return=representation');
-                
-                $request->body = [
-                                    "intent" => "CAPTURE",
-                                    "purchase_units" => $items,
-                                    "application_context" => [
-                                        "cancel_url" => base_url("/order/cancel"),
-                                        "return_url" => base_url("/order/confirm"),
-                                    ] 
-                                ];
-
-                try {
-                    // Call API with your client and get a response for your call
-                    $response = $client->execute($request);
-                    $this->CartPaymentModel->insert([   'id_cart'=>$cartId,
-                                                        'id_method' => 2,
-                                                        'amount' => $this->cart->total() + $total_vat,
-                                                        'date' => date('Y-m-d H:i:s'),
-                                                        'status' => 'pending',
-                                                        'details' => $response->result->id
-                                                    ]);
-                    // echo '<pre>';
-                    // print_r($response);
-                    // echo '</pre>';
-                    // exit;
-                    $res = array_filter($response->result->links, function ($el)
-                    {
-                        return $el->rel == "approve";
-                    });
-                    // print_r("Location: ". reset($res)->href);
-                    header("Location: ". reset($res)->href);
-                    exit();
-                    // If call returns body in response, you can get the deserialized version from the result attribute of the response
-                    // return $this->response->setJSON($response);
-                }catch (HttpException $ex) {
-                    echo $ex->statusCode;
-                    print_r($ex->getMessage());
+        if ($this->cart->total() <= 0) {
+            $this->CartPaymentModel->insert([   'id_cart'=>$cartId,
+                                                'id_method' => 2,
+                                                'amount' => $this->cart->total() + $total_vat,
+                                                'date' => date('Y-m-d H:i:s'),
+                                                'status' => 'COMPLETED',
+                                                'details' => 'free cart'
+                                            ]);
+            $this->CartModel->update($cartId, ['status' => 'COMPLETED']);
+            $modules = [];
+            foreach ($cartItems as $item) {
+                if ($item['item_type'] == 'modulo') {
+                    array_push($modules, ['id'=>$item['item_id'], 'date'=>json_decode($item['details'])->options->date]);
                 }
-                break;
-                case 'iban':
-                    $this->CartPaymentModel->insert([   'id_cart'=>$cartId,
-                                                        'id_method' => 1,
-                                                        'amount' => $this->cart->total() + $total_vat,
-                                                        'date' => date('Y-m-d H:i:s'),
-                                                        'status' => 'pending',
-                                                    ]);
-                    $usedCoupons = $this->usedCoupons();
-                    foreach ($usedCoupons as $used) {
-                        $this->CouponModel->where('code', $used)->where('id_ente', $data['selected_ente']['id'])->set('used', 'used+1', FALSE)->update();
+                if ($item['item_type'] == 'corsi') {
+                    $modulo = $this->CorsiModuloModel->where('id_corsi', $item['item_id'])->where('banned', 'no')->select('id')->find();
+                    foreach ($modulo as $mod) {
+                        array_push($modules, $mod['id']);
                     }
-                    $this->cart->destroy();
-                    session()->setFlashdata('success', 'Order Placed Please Pay To Confirm');
-                    return redirect()->to(base_url());
-                break;
-            default:
-                return;
-                break;
+                }
+            }
+            $participation = [];
+            foreach ($modules as $module) {
+                array_push($participation,  [   'id_ente'=> $data['selected_ente']['id'],
+                                                'id_user' => session('user_data')['id'],
+                                                'id_modulo' => $module['id'] ?? $module ?? null,
+                                                'id_date' => $module['date'] ?? null,
+                                                'id_cart' => $cartId,
+                                                'date' => date('Y-m-d H:i:s')
+                                            ]);
+            }
+            $this->ParticipationModel->insertBatch($participation);
+            // If call returns body in response, you can get the deserialized version from the result attribute of the response
+            // return $this->response->setJSON($response);
+            
+            $usedCoupons = $this->usedCoupons();
+            foreach ($usedCoupons as $used) {
+                $this->CouponModel->where('code', $used)->where('id_ente', $data['selected_ente']['id'])->set('used', 'used+1', FALSE)->update();
+            }
+            $this->cart->destroy();
+            session()->setFlashdata('success', 'Free cart added to your account');
+            $xxx = $this->OrderMail($cartId);
+            return redirect()->to(base_url());
         }
-		
+        else {
+            switch ($this->request->getVar('paymethod')) {
+                case 'paypal':
+                    // $this->CartPaymentModel->insert([   'id_cart'=>$cartId,
+                    //                                     'id_method' => 2,
+                    //                                     'amount' => $this->cart->total() + $total_vat,
+                    //                                     'date' => date('Y-m-d H:i:s'),
+                    //                                     'status' => 'pending',
+                    //                                     'details' => json_encode($items)
+                                                    // ]);
+                    $payment = $this->EnteMethodPaymentModel->where('id_method', 2)
+                                                            ->where('id_ente', $data['selected_ente']['id'])
+                                                            ->where('banned', 'no')
+                                                            ->where('enable', 'yes')
+                                                            ->first();
+                    $clientId = json_decode($payment['details'])->clientId;
+                    $clientSecret = json_decode($payment['details'])->clientSecret;
+
+                    $environment = new SandboxEnvironment($clientId, $clientSecret);
+                    $client = new PayPalHttpClient($environment);
+
+                    $request = new OrdersCreateRequest();
+                    $request->prefer('return=representation');
+                    
+                    $request->body = [
+                                        "intent" => "CAPTURE",
+                                        "purchase_units" => $items,
+                                        "application_context" => [
+                                            "cancel_url" => base_url("/order/cancel"),
+                                            "return_url" => base_url("/order/confirm"),
+                                        ] 
+                                    ];
+
+                    try {
+                        // Call API with your client and get a response for your call
+                        $response = $client->execute($request);
+                        $this->CartPaymentModel->insert([   'id_cart'=>$cartId,
+                                                            'id_method' => 2,
+                                                            'amount' => $this->cart->total() + $total_vat,
+                                                            'date' => date('Y-m-d H:i:s'),
+                                                            'status' => 'pending',
+                                                            'details' => $response->result->id
+                                                        ]);
+                        // echo '<pre>';
+                        // print_r($response);
+                        // echo '</pre>';
+                        // exit;
+                        $res = array_filter($response->result->links, function ($el)
+                        {
+                            return $el->rel == "approve";
+                        });
+                        // print_r("Location: ". reset($res)->href);
+                        header("Location: ". reset($res)->href);
+                        exit();
+                        // If call returns body in response, you can get the deserialized version from the result attribute of the response
+                        // return $this->response->setJSON($response);
+                    }catch (HttpException $ex) {
+                        echo $ex->statusCode;
+                        print_r($ex->getMessage());
+                    }
+                    break;
+                    case 'iban':
+                        $this->CartPaymentModel->insert([   'id_cart'=>$cartId,
+                                                            'id_method' => 1,
+                                                            'amount' => $this->cart->total() + $total_vat,
+                                                            'date' => date('Y-m-d H:i:s'),
+                                                            'status' => 'pending',
+                                                        ]);
+                        $usedCoupons = $this->usedCoupons();
+                        foreach ($usedCoupons as $used) {
+                            $this->CouponModel->where('code', $used)->where('id_ente', $data['selected_ente']['id'])->set('used', 'used+1', FALSE)->update();
+                        }
+                        $this->cart->destroy();
+                        session()->setFlashdata('success', 'Order Placed Please Pay To Confirm');
+                        return redirect()->to(base_url());
+                    break;
+                default:
+                    return;
+                    break;
+            }
+        }           
     }
 
     public function confirm()
@@ -468,7 +513,7 @@ class CartController extends BaseController
                             if (strlen($item['coupon'][$coupon['code']] ??'') == 0) {
                                     $prevPrice = $item['price'];
                                     if ($coupon['type'] == 'fixed') {
-                                    $this->cart->update(['rowid'=>$key, 'price' => $prevPrice - $coupon['amount'], 'coupon'=>$coupons]);
+                                    $this->cart->update(['rowid'=>$key, 'price' => ($prevPrice - $coupon['amount'] > 0) ?: 0, 'coupon'=>$coupons]);
                                 } elseif ($coupon['type'] == 'percent'){
                                     // $prevPrice = $item['price'];
                                     $this->cart->update(['rowid'=>$key, 'price' => round($prevPrice*(1-($coupon['amount']/100)), 2), 'coupon'=>$coupons]);
@@ -516,7 +561,7 @@ class CartController extends BaseController
                     if (strlen($item['coupon'][$coupon['code']] ??'') == 0) {
                         if ($coupon['type'] == 'fixed') {
                             $prevPrice = $item['price'];
-                            $this->cart->update(['rowid'=>$key, 'price' => $prevPrice - $coupon['amount'], 'coupon'=>$coupons]);
+                            $this->cart->update(['rowid'=>$key, 'price' => ($prevPrice - $coupon['amount'] > 0) ?: 0, 'coupon'=>$coupons]);
                         } elseif ($coupon['type'] == 'percent'){
                             $prevPrice = $item['originalPrice'];
                             $this->cart->update(['rowid'=>$key, 'price' => round($prevPrice*(1-($coupon['amount']/100)), 2), 'coupon'=>$coupons]);

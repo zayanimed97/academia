@@ -7,6 +7,7 @@ $lang['btn_save']= "Salva";
 $lang['btn_register']="Restistrati";
 $lang['btn_filter']="Filtro";
 $lang['btn_add_cart']='Aggiungi al carrello';
+$lang['btn_add_cart_date']='Vedi tutte le date';
 $lang['btn_recover']="Recuperare";
 $lang['btn_reset']="Ripristina";
 $lang['btn_send']="Invia";

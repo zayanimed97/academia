@@ -2,7 +2,11 @@
 $type_cours=json_decode($settings['type_cours'] ?? '',true);
 
  ?>
-
+<style>
+    button[disabled]{
+        background-color: grey !important;
+    }
+</style>
         <div class="bg-gradient-to-bl from-purple-600 to-purple-400 text-black lg:-mt-20 lg:pt-20">
             <div class="container p-0">
                 <div class="lg:flex items-center lg:space-x-12 lg:py-14 lg:px-20 p-3">
@@ -634,7 +638,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true);
                                         </template>
 
                                         <template x-if="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')">
-                                            <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')"> </button>
+                                            <button type="button" :disabled="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>', '<?= $date['id'] ?>') != 'in cart'" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')"> </button>
                                         </template>
                                 </div> 
                                 
