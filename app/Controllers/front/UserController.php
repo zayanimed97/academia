@@ -428,6 +428,7 @@ class UserController extends BaseController
 		
 		else{
 			$exist=$this->UserModel->where('email',$this->request->getVar('email'))->where('id_ente',$common_data['selected_ente']['id'])->where('id !=',$common_data['user_data']['id'])->first();
+			$verif2=$this->UserModel->where('role','ente')->where('email',$this->request->getVar('email'))->find();
 			if(!empty($exist)){
 				$res=array("error"=>true,"validation"=>lang('front.error_mail_exist'));
 			}
