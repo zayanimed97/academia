@@ -6,7 +6,7 @@
                 <div class="breadcrumb text-white">
                     <ul class="m-0">
                         <li>
-                            <a href="index.html"> <i class="icon-feather-home"></i> </a>
+                            <a href="<?= base_url() ?>"> <i class="icon-feather-home"></i> </a>
                         </li>
                         <li>
                             <a href="<?= base_url() ?>">Home</a>
@@ -16,7 +16,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="md:text-2xl text-base font-semibold mt-6 md:mb-6"> Checkout </div>
+                <div class="md:text-2xl text-base font-semibold mt-6 md:mb-6"> <?php echo lang('front.title_page_checkout')?> </div>
             </div>
         </div>
         
@@ -27,7 +27,7 @@
          
                     <div class="w-full lg:pr-24"> 
         
-                        <h2 class="text-xl font-semibold md:mb-6 mb-3"> Payment Info </h2>
+                        <h2 class="text-xl font-semibold md:mb-6 mb-3"> <?php echo lang('front.title_section_profile_fatturazione')?></h2>
 
                         <div class="bg-white rounded-md shadow-md">
  
@@ -98,44 +98,44 @@
                                     <div class="col-span-2 flex justify-around">
                                         <div class="radio">
                                             <input id="radio-1" name="type" type="radio" x-model="type" value="company">
-                                            <label for="radio-1"><span class="radio-label" ></span> Azienda
+                                            <label for="radio-1"><span class="radio-label" ></span> <?php echo lang('front.field_azienda')?>
                                             </label>
                                         </div>
                                         <br>
                                         <div class="radio">
                                             <input id="radio-2" name="type" type="radio" x-model="type" value="professional">
-                                            <label for="radio-2"><span class="radio-label"></span> Professionista
+                                            <label for="radio-2"><span class="radio-label"></span> <?php echo lang('front.field_prof')?>
                                             </label>
                                         </div>
                                         <br>
                                         <div class="radio">
                                             <input id="radio-3" name="type" type="radio" x-model="type" value="private">
-                                            <label for="radio-3"><span class="radio-label"></span> Privato
+                                            <label for="radio-3"><span class="radio-label"></span> <?php echo lang('front.field_private')?>
                                             </label>
                                         </div>
                                     </div>
                                     <template x-if="type != 'private'">
                                         <div>
-                                            <label for="piva" class="text-sm font-medium"> P.iva </label>
+                                            <label for="piva" class="text-sm font-medium"><?php echo lang('front.field_piva')?></label>
                                             <input type="text" class="with-border" id="piva" name="piva" value="<?= $user['fattura_piva'] ?>" required>
                                         </div>
                                     </template>
                                     <template x-if="type == 'company'">
                                         <div>
-                                            <label for="regione" class="text-sm font-medium"> Ragione Sociale </label>
+                                            <label for="regione" class="text-sm font-medium"> <?php echo lang('front.field_company_name')?> </label>
                                             <input type="text" class="with-border" id="regione" name="regione" value="<?= $user['ragione_sociale'] ?>" required>
                                         </div>
                                     </template>
                                     <div>
-                                        <label for="cf" class="text-sm font-medium"> Codice fiscale </label>
+                                        <label for="cf" class="text-sm font-medium"> <?php echo lang('front.field_cf')?> </label>
                                         <input type="text" class="with-border" id="cf" name="cf" value="<?= $user['fattura_cf'] ?>" required>
                                     </div>
                                     <div>
-                                        <label for="name" class="text-sm font-medium"> First Name</label>
+                                        <label for="name" class="text-sm font-medium"> <?php echo lang('front.field_first_name')?></label>
                                         <input type="text" class="with-border" id="name" name="name" value="<?= $user['fattura_nome'] ?>" required>
                                     </div>
                                     <div>
-                                        <label for="cognome" class="text-sm font-medium"> Last Name</label>
+                                        <label for="cognome" class="text-sm font-medium"> <?php echo lang('front.field_last_name')?></label>
                                         <input type="text" class="with-border" id="cognome" name="cognome" value="<?= $user['fattura_cognome'] ?>" required>
                                     </div>
                                     <div>
@@ -156,29 +156,29 @@
                                         <div x-html="comuni"></div>
                                     </div>
                                     <div>
-                                        <label for="indirizzo" class="text-sm font-medium"> Indirizzo</label>
+                                        <label for="indirizzo" class="text-sm font-medium"> <?php echo lang('front.field_address')?></label>
                                         <input type="text" class="with-border" id="indirizzo" name="indirizzo" value="<?= $user['fattura_indirizzo'] ?>" required>
                                     </div>
                                     <div>
-                                        <label for="cap" class="text-sm font-medium"> CAP</label>
+                                        <label for="cap" class="text-sm font-medium"> <?php echo lang('front.field_zip')?></label>
                                         <input type="text" class="with-border" id="cap" name="cap" value="<?= $user['fattura_cap'] ?>" required>
                                     </div>
                                     <div>
-                                        <label for="telefono" class="text-sm font-medium"> Telefono </label>
+                                        <label for="telefono" class="text-sm font-medium"> <?php echo lang('front.field_phone')?> </label>
                                         <input type="text" class="with-border" id="telefono" name="telefono" value="<?= $user['fattura_phone'] ?>" required>
                                     </div>
                                     <div>
-                                        <label for="pec" class="text-sm font-medium"> PEC </label>
+                                        <label for="pec" class="text-sm font-medium"> <?php echo lang('front.field_pec')?> </label>
                                         <input type="text" class="with-border" id="pec" name="pec" value="<?= $user['fattura_pec'] ?>" required>
                                     </div>
                                     <template x-if="type != 'private'">
                                         <div>
-                                            <label for="sdi" class="text-sm font-medium"> SDI </label>
+                                            <label for="sdi" class="text-sm font-medium"> <?php echo lang('front.field_sdi')?> </label>
                                             <input type="text" class="with-border" id="sdi" name="sdi" value="<?= $user['fattura_sdi'] ?>" required>
                                         </div>
                                     </template>
 
-                                    <h2 class="col-span-2 text-xl font-semibold md:mb-6 mb-3"> Choose payment method </h2>
+                                    <h2 class="col-span-2 text-xl font-semibold md:mb-6 mb-3"> <?php echo lang('front.title_section_payment_method')?></h2>
 
                                     <div class="col-span-2 flex justify-around">
                                         <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '2';}))){ ?>
@@ -209,10 +209,15 @@
                                     </div>
 
                                     <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '1';}))){ ?>
-                                    <?php $methIban = array_filter($methods, function($el){return $el['id_method'] == '1';}) ?>
+                                    <?php $methIban = array_filter($methods, function($el){return $el['id_method'] == '1';})
+									?>
                                         <template x-if="paymethod == 'iban'">
                                             <div class="uk-alert-primary uk-alert col-span-2" uk-alert="">
-                                                <p>IBAN: <?= json_decode(reset($methIban)['details'])->iban ?></p>
+											<?php $methIban=json_decode($methIban[0]['details']); 
+										?>
+                                                <p><?php echo lang('front.field_iban')?>: <?php echo $methIban->iban ?></p>
+												<p><?php echo lang('front.field_bank_name')?>: <?php echo $methIban->bank_name ?></p>
+												 <p><?php echo lang('front.field_bank_property')?>: <?php echo $methIban->property ?></p>
                                             </div>
                                         </template>
                                     <?php } ?>
@@ -220,7 +225,7 @@
                                     <div class="flex justify-center col-span-2">
                                         
                                         <button class="bg-blue-600 text-white flex font-medium items-center justify-center py-3 rounded-md hover:text-white w-1/3">
-                                            <span class="md:block hidden">Pay</span><span class="md:hidden block">Pay</span>
+                                            <span class="md:block hidden"><?php echo lang('front.btn_pay')?></span><span class="md:hidden block"><?php echo lang('front.btn_pay2')?></span>
                                             <i class="icon-feather-chevron-right ml-1"></i>
                                         </button>
                                     </div>
@@ -237,7 +242,7 @@
                     <div class="lg:w-5/12 lg:-ml-12 lg:mt-0 mt-8">
                         <div class="bg-white rounded-md shadow-lg lg:p-6 p-3" uk-sticky="offset:; offset:90 ; media: 1024 ; bottom: true">
         
-                            <div class="font-semibold px-5 pb-3 text-lg text-center"> Order summary </div>
+                            <div class="font-semibold px-5 pb-3 text-lg text-center"> <?php echo lang('front.title_section_order_summary')?> </div>
                             <template x-if="flashMessage.status == 'success'">
                                 <div class="uk-alert-success uk-alert" uk-alert="">
                                     <p x-text="flashMessage.message"></p>
@@ -270,8 +275,8 @@
                             </div>
         
                             <ul class="border-b border-t my-3 py-3 text-sm space-y-4">
-                                <li class="flex justify-between align-center"><span class="mr-2">Subtotal:</span><span x-text="formatter.format(total+(Object.keys(couponSum).length > 0 ? Object.values(couponSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0))"></span></li>
-                                <li class="flex justify-between align-center"><span class="mr-2">Discount:</span>
+                                <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_subtotal')?>:</span><span x-text="formatter.format(total+(Object.keys(couponSum).length > 0 ? Object.values(couponSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0))"></span></li>
+                                <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_discount')?>:</span>
                                     <span>
                                         <template x-for="(discount,idx) in couponSum">
                                             <span class="block text-xs text-right"><span x-text="idx + ': '"></span> <span class="ml-4" x-text="formatter.format(discount)"></span></span>
@@ -279,16 +284,16 @@
                                             <span class="block text-right" x-text="formatter.format(Object.keys(couponSum).length > 0 ? Object.values(couponSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0)"></span>
                                     </span>
                                 </li>
-                                <li class="flex justify-between align-center"><span class="mr-2">Subtotal After Discount:</span><span x-text="formatter.format(total)"></span></li>
-                                <li class="flex justify-between align-center"><span class="mr-2">tax:</span><span x-text="formatter.format(tax)"></span></li>
+                                <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_subtotal_after_discount')?>:</span><span x-text="formatter.format(total)"></span></li>
+                                <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_tax')?>:</span><span x-text="formatter.format(tax)"></span></li>
 
                             </ul>
         
                             <h3 class="font-semibold text-center my-6 text-2xl" x-text="formatter.format(total+tax)"></h3>
                             <form method="post" @submit.prevent="applyCoupon($refs.coupon.value)" class="space-y-3" action="<?= base_url('/order/coupon') ?>">
-                                <input class="form-control with-border" type="text" name="coupon" x-ref="coupon" placeholder="Promo code">
+                                <input class="form-control with-border" type="text" name="coupon" x-ref="coupon" placeholder="<?php echo lang('front.field_insert_code')?>">
                                 <div class="col-span-2 border rounded-md border-blue-500">
-                                    <button class="w-full py-2.5 font-semibold rounded text-blue-600 text-base block" type="submit">Apply promo code</button>
+                                    <button class="w-full py-2.5 font-semibold rounded text-blue-600 text-base block" type="submit"><?php echo lang('front.apply_coupon')?></button>
                                 </div>
                             </form>
                              
