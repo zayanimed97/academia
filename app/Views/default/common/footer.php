@@ -94,11 +94,13 @@
                                             this.coupons = res.coupons;
                                         })
                 },
-                inCart(corsi_id, id){
+                inCart(corsi_id, id, date=null){
                     let corsiInCart = (Object.values(this.cartItems)).find(element => {return (corsi_id == '' && element.id == 'corsi'+id) || (element.id == 'corsi'+corsi_id)})
-                    let moduleInCart = (Object.values(this.cartItems)).find(element => {return (corsi_id != '' && element.id == 'modulo'+id)})
-
-                    return corsiInCart ? 'corsi in cart' : (moduleInCart ? 'module in cart' : false);
+                    let moduleInCart = (Object.values(this.cartItems)).filter(element => {return (corsi_id != '' && element.id == 'modulo'+id)})
+                    if (date && moduleInCart.length>0) {
+                        return moduleInCart.find(el => {return el.options.date == date}) ? 'in cart' : 'disabled';
+                    }
+                    return corsiInCart ? 'corsi in cart' : (moduleInCart.length>0 ? 'module in cart' : false);
                 },
                 applyCoupon(code){
                     fetch('<?= base_url('/order/coupon') ?>', {

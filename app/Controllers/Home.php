@@ -106,6 +106,7 @@ class Home extends BaseController
                                                 corsi.obiettivi, 
                                                 corsi.have_def_price, 
                                                 corsi.free, 
+                                                corsi.duration, 
                                                 MAX(prezz.prezzo) as max_price, 
                                                 MIN(prezz.prezzo) as min_price, 
                                                 GROUP_CONCAT(DISTINCT u.display_name) doctor_names, 

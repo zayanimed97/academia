@@ -1,4 +1,5 @@
 <?php require_once 'common/header.php' ?>
+<div x-data="getSlideData">
 <?php   $uniqueCat = array_reverse(array_values(array_column(
                                         array_reverse($category),
                                         null,
@@ -23,6 +24,7 @@
                                             corsi.obiettivi, 
                                             corsi.have_def_price, 
                                             corsi.free, 
+                                            corsi.duration, 
                                             MAX(prezz.prezzo) as max_price, 
                                             MIN(prezz.prezzo) as min_price, 
                                             GROUP_CONCAT(DISTINCT u.display_name) doctor_names, 
@@ -51,6 +53,7 @@
                                             corsi.obiettivi, 
                                             corsi.have_def_price, 
                                             corsi.free, 
+                                            corsi.duration, 
                                             MAX(prezz.prezzo) as max_price, 
                                             MIN(prezz.prezzo) as min_price, 
                                             GROUP_CONCAT(DISTINCT u.display_name) doctor_names, 
@@ -81,8 +84,8 @@
         text-overflow: ellipsis;
     }
   </style>
-<?php $settings['banner_home'] = (array)json_decode($settings['banner_home'] ?? "" );
-if(!empty($settings['banner_home'])){?>
+        <?php $settings['banner_home'] = (array)json_decode($settings['banner_home'] ?? "" );
+        if(!empty($settings['banner_home'])){?>
         <!-- Slideshow -->
         <div class="uk-position-relative contents overflow-hidden lg:-mt-20" tabindex="-1"
         style="min-height: 200; max-height: 500;">       
@@ -101,13 +104,13 @@ if(!empty($settings['banner_home'])){?>
             <!-- </li>  -->
         <!-- </ul>  -->
         </div> 
-<?php } ?>     
+        <?php } ?>     
         <div class="mx-auto max-w-5xl p-4">
             
             <!--  course feature -->
-            <!-- <div class="sm:my-4 my-3 flex items-end justify-between pt-3">
-                <h2 class="text-2xl font-semibold"> Featured Classes   </h2> 
-            </div>  -->
+            <div class="sm:my-4 my-3 flex items-end justify-between pt-3">
+                <h2 class="text-2xl font-semibold"> Il nostro preferito per te  </h2> 
+            </div> 
             <?php if(isset($_SESSION['success'])){ ?>
                 <div class="bg-green-500 border p-4 relative rounded-md uk-alert" uk-alert="">
                     <button class="uk-alert-close absolute bg-gray-100 bg-opacity-20 m-5 p-0.5 pb-0 right-0 rounded text-gray-200 text-xl top-0">
@@ -143,18 +146,25 @@ if(!empty($settings['banner_home'])){?>
                                 <div class="md:w-5/12 md:h-60 h-40 overflow-hidden rounded-l-lg relative">
                                     <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : $default_image ?>" alt="" class="w-full h-full absolute inset-0 object-cover">
                                     <?php if($c['video_promo']) {?>
-                                        <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="">
+                                        <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="" @click="showModalPromo('https://www.youtube.com/embed/<?= $c['video_promo'] ?>', '<?= $c['sotto_titolo'] ?>')">
                                     <?php } ?>
                                 </div>
                                 <div class="flex-1 md:p-6 p-4">
                                     <a href="<?= base_url('corsi/'.$c['url']) ?>" class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed"><?= ellipsize($c['sotto_titolo'], 35) ?> </a>
                                     <div class="line-clamp-2 mt-2 md:block hidden"><?= ellipsize($c['obiettivi'], 120) ?></div>
-                                    <div class="font-semibold mt-3"> <?= $c['doctor_names'] ?> </div>
+                                    <div class="font-semibold mt-3 text-sm"> <?= $c['doctor_names'] ?> </div>
                                     <div class="mt-1 flex items-center justify-between">
                                         <div class="flex space-x-2 items-center text-sm pt-2">
-                                            <div> <?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi']?> </div>
+                                            <div> <a href="<?= base_url('corsi') ?>?tipo=<?=$c['tipologia_corsi']?>"><?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi']?></a> </div>
                                             <div>·</div>
-                                            <div> <?= $c['modulo_count'].' modulo'?> </div>
+                                            <div> <?= $c['modulo_count'].' modul'. ($c['modulo_count'] > 1 ? 'i': 'o')?> </div>
+                                            <?php if(strlen($c['duration']) > 0){ ?>
+                                                <div>·</div>
+                                                <div> <?= $c['duration']?> </div>
+                                            <?php } ?>
+                                        </div>
+                                        <div class="pt-2">
+                                            <?= $c['prezzo'] ?>
                                         </div>
                                     </div>
                                     <div class="flex justify-between items-center mt-2">
@@ -163,7 +173,7 @@ if(!empty($settings['banner_home'])){?>
                                             </template>
 
                                             <template x-if="!inCart('<?= $c['id'] ?>', '')">
-                                                <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>','<?= $c['url'] ?>' ,'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </button>
+                                                <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>','<?= $c['url'] ?>' ,'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : ($c['buy_type'] != 'date' ?lang('front.btn_add_cart') :lang('front.btn_add_cart_date')) ?> </button>
                                             </template>
                                             <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
                                         </div>
@@ -306,7 +316,7 @@ if(!empty($settings['banner_home'])){?>
             </div> -->
             
             <?php if(!empty($category)) { ?>
-            <div x-data="getSlideData" class="mt-8">
+            <div class="mt-8">
 
                 <!-- title -->
                 <div class="mb-2">
@@ -379,7 +389,7 @@ if(!empty($settings['banner_home'])){?>
                     <div class="uk-modal-dialog shadow-lg rounded-md">
                         <button class="uk-modal-close-default m-2.5" type="button" uk-close></button>
                         <div class="uk-modal-header  rounded-t-md">
-                            <h4 class="text-lg font-semibold mb-2"> Trailer video </h4>
+                            <h4 class="text-lg font-semibold mb-2" x-text="sotto_titolo"></h4>
                         </div>
                     
                         <div class="embed-video">
@@ -404,6 +414,7 @@ if(!empty($settings['banner_home'])){?>
             
 
         </div>
+</div>
 <?= view($view_folder.'/common/footer') ?>
 
 <script>
@@ -416,6 +427,7 @@ if(!empty($settings['banner_home'])){?>
     function getSlideData(){
         return {
             video_url: '',
+            sotto_titolo: '',
             active: <?= $category[0]['id'] ?? '' ?>,
             courses: '',
             getCourses(id){
@@ -437,7 +449,7 @@ if(!empty($settings['banner_home'])){?>
                                     this.courses += `   <li>
 
                                                                 <div class="card uk-transition-toggle flex flex-col justify-between">
-                                                                    <div class="card-media h-40 flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo} ?>')">
+                                                                    <div class="card-media h-40 flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo}', '${element.sotto_titolo}')">
                                                                         <div class="card-media-overly"></div>
                                                                         <img src="${element.foto ? '<?=base_url('uploads/corsi/')?>/'+element.foto : default_image}" alt="" class="">
                                                                             ${element.video_promo ? '<span class="icon-play"></span>' : ''}
@@ -446,16 +458,20 @@ if(!empty($settings['banner_home'])){?>
                                                                         <div class="card-body p-4">
                                                                             <a href="${'<?=base_url('corsi')?>/'+element.url}">
 
-                                                                                <div class="font-semibold line-clamp-2"> ${element.sotto_titolo.trunc(20)}
-                                                                                </div>
-                                                                                <div class="flex space-x-2 items-center text-sm pt-3">
-                                                                                    <div> ${type_cours[element.tipologia_corsi] ? type_cours[element.tipologia_corsi] : element.tipologia_corsi}</div>
-                                                                                </div>
-                                                                                <div class="pt-1 flex items-center justify-between">
-                                                                                    <div class="text-sm font-semibold"> ${element.doctor_names}  </div>
-                                                                                    <div class="text-lg font-semibold"> ${element.prezzo} </div>
-                                                                                </div>
+                                                                                <div class="font-semibold line-clamp-2"> ${element.sotto_titolo.trunc(20)}</div>
                                                                             </a>
+                                                                                
+                                                                            <div class="flex space-x-2 items-center text-sm pt-3">
+                                                                                <div><a href="<?= base_url('corsi') ?>?tipo=${element.tipologia_corsi}">${type_cours[element.tipologia_corsi] ? type_cours[element.tipologia_corsi] : element.tipologia_corsi} </a> </div>
+                                                                                <div>·</div>
+                                                                                <div> ${element.modulo_count+ ' modul'+ (element.modulo_count > 1 ? 'i': 'o')} </div>
+                                                                                ${(element.duration &&  element.duration.length > 0) ?
+                                                                                    '<div>·</div><div>' +element.duration+ '</div>' : ''}
+                                                                            </div>
+                                                                            <div class="pt-1 flex items-center justify-between">
+                                                                                <div class="text-sm font-semibold"> ${element.doctor_names}  </div>
+                                                                                <div class="text-lg font-semibold"> ${element.prezzo} </div>
+                                                                            </div>
 
                                                                             <div class="flex justify-between items-center mt-2">
                                                                                 <template x-if="inCart(${element.corsi_id}, ${element.id})">
@@ -463,7 +479,7 @@ if(!empty($settings['banner_home'])){?>
                                                                                 </template>
 
                                                                                 <template x-if="!inCart(${element.corsi_id}, ${element.id})">
-                                                                                    <button @click="addToCart(${element.id}, '${element.prezzo}', '${element.buy_type}', '${element.url}', 'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" ${element.prezzo.length == 0 ? 'disabled' : ''}> ${element.prezzo.length == 0 ? '<?=lang('front.title_non_disponible')?>' : '<?=lang('front.btn_add_cart') ?>'} </button>
+                                                                                    <button @click="addToCart(${element.id}, '${element.prezzo}', '${element.buy_type}', '${element.url}', 'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" ${element.prezzo.length == 0 ? 'disabled' : ''}> ${element.prezzo.length == 0 ? '<?=lang('front.title_non_disponible')?>' : element.buy_type != 'date' ? '<?=lang('front.btn_add_cart') ?>' : '<?=lang('front.btn_add_cart_date') ?>'} </button>
                                                                                 </template>
                                                                                 <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
                                                                             </div>
@@ -475,8 +491,9 @@ if(!empty($settings['banner_home'])){?>
                             }
                         )
             },
-            showModalPromo(urlvid) {
+            showModalPromo(urlvid,sotto_titolo) {
                 // console.log(urlvid);
+                this.sotto_titolo = sotto_titolo
                 this.video_url = urlvid
                 if (urlvid && urlvid != '') {
                     UIkit.modal('#video-promo').show();
@@ -495,7 +512,7 @@ if(!empty($settings['banner_home'])){?>
                     this.courses += `   <li>
 
                                                 <div class="card uk-transition-toggle flex flex-col justify-between">
-                                                    <div class="card-media h-40 flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo} ?>')">
+                                                    <div class="card-media h-40 flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo}', '${element.sotto_titolo}')">
                                                         <div class="card-media-overly"></div>
                                                         <img src="${element.foto ? '<?=base_url('uploads/corsi/')?>/'+element.foto : default_image}" alt="" class="">
                                                             ${element.video_promo ? '<span class="icon-play"></span>' : ''}
@@ -504,16 +521,20 @@ if(!empty($settings['banner_home'])){?>
                                                         <div class="card-body p-4">
                                                             <a href="${'<?=base_url('corsi')?>/'+element.url}">
 
-                                                                <div class="font-semibold line-clamp-2"> ${element.sotto_titolo.trunc(20)}
-                                                                </div>
-                                                                <div class="flex space-x-2 items-center text-sm pt-3">
-                                                                    <div> ${type_cours[element.tipologia_corsi] ? type_cours[element.tipologia_corsi] : element.tipologia_corsi}</div>
-                                                                </div>
-                                                                <div class="pt-1 flex items-center justify-between">
-                                                                    <div class="text-sm font-semibold"> ${element.doctor_names}  </div>
-                                                                    <div class="text-lg font-semibold"> ${element.prezzo} </div>
-                                                                </div>
+                                                                <div class="font-semibold line-clamp-2"> ${element.sotto_titolo.trunc(20)}</div>
                                                             </a>
+                                                            <div class="flex space-x-2 items-center text-sm pt-3">
+                                                                <div><a href="<?= base_url('corsi') ?>?tipo=${element.tipologia_corsi}">${type_cours[element.tipologia_corsi] ? type_cours[element.tipologia_corsi] : element.tipologia_corsi} </a> </div>
+                                                                <div>·</div>
+                                                                <div> ${element.modulo_count+ ' modul'+ (element.modulo_count > 1 ? 'i': 'o')} </div>
+                                                                ${(element.duration && element.duration.length> 0) ?
+                                                                '<div>·</div><div>' +element.duration+ '</div>' : ''}
+                                                            </div>
+                                                            <div class="pt-1 flex items-center justify-between">
+                                                                <div class="text-sm font-semibold"> ${element.doctor_names}  </div>
+                                                                <div class="text-lg font-semibold"> ${element.prezzo} </div>
+                                                            </div>
+                                                            
 
                                                             <div class="flex justify-between items-center mt-2">
                                                                 <template x-if="inCart(${element.corsi_id}, ${element.id})">
@@ -521,7 +542,7 @@ if(!empty($settings['banner_home'])){?>
                                                                 </template>
 
                                                                 <template x-if="!inCart(${element.corsi_id}, ${element.id})">
-                                                                    <button @click="addToCart(${element.id}, '${element.prezzo}', '${element.buy_type}', '${element.url}', 'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" ${element.prezzo.length == 0 ? 'disabled' : ''}> ${element.prezzo.length == 0 ? '<?=lang('front.title_non_disponible')?>' : '<?=lang('front.btn_add_cart') ?>'} </button>
+                                                                    <button @click="addToCart(${element.id}, '${element.prezzo}', '${element.buy_type}', '${element.url}', 'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" ${element.prezzo.length == 0 ? 'disabled' : ''}> ${element.prezzo.length == 0 ? '<?=lang('front.title_non_disponible')?>' : element.buy_type != 'date' ? '<?=lang('front.btn_add_cart') ?>' : '<?=lang('front.btn_add_cart_date') ?>'} </button>
                                                                 </template>
                                                                 <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
                                                             </div>
