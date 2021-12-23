@@ -64,9 +64,9 @@
                                                     <tr>
                                                          <td><?php echo $one_customer['code']?></td>
 														  <td><?php switch( $one_customer['coupon_type']){
-															  case 'corsi': echo lang('app.field_type_coupon_corsi').'<br/><b>'.$one_customer['corsi_titolo'].'</b>';break;
-															   case 'docenti': echo lang('app.field_type_coupon_docenti').'<br/><b>'.$one_customer['docenti_titolo'].'</b>';break;
-																 case 'argomenti': echo lang('app.field_type_coupon_argomenti').'<br/><b>'.$one_customer['argomenti_titolo'].'</b>';break;
+															  case 'corsi': echo lang('app.field_type_coupon_corsi').'<br/><b>'.$one_customer['corsi_titolo'] ?? ''.'</b>';break;
+															   case 'docenti': echo lang('app.field_type_coupon_docenti').'<br/><b>'.$one_customer['docenti_titolo'] ?? ''.'</b>';break;
+																 case 'argomenti': echo lang('app.field_type_coupon_argomenti').'<br/><b>'.$one_customer['argomenti_titolo'] ?? ''.'</b>';break;
 																case 'cart': echo lang('app.field_type_coupon_cart');break;
 														  }?></td>
 															<td><?php echo $one_customer['discount']?></td>
