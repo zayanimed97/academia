@@ -132,6 +132,8 @@ $lang['title_section_profile_fatturazione']="Dati di fatturazione";
 $lang['title_section_payment_method']="Scegli il tuo metodo di pagamento ";
 $lang['title_section_order_summary']="Riepilogo ordine";
 $lang['help_text_page_forgot']="Inserisci il tuo indirizzo email per reimpostare la password. Potresti dover consultare la cartella dello spam o sbloccare l'indirizzo no-reply.";
+$lang['title_page_contact']="Contattaci";
+$lang['help_text_page_contact']="Richiedi assistenza tematica.";
 
 
 $lang['status_completed']="Completato";
@@ -141,5 +143,6 @@ $lang['status_pending']="In sospeso pagamento";
 $lang['menu_profile']="Profilo";
 $lang['menu_participation']="Mie partecipazioni";
 $lang['menu_account_settings']="Impostazione conto";
+$lang['menu_contact']="Contatti";
 return $lang;
 ?>
