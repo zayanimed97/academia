@@ -9,6 +9,7 @@
         color: red;
         font-size: .75 rem;
     }
+	a{font-family: 'Libre Franklin', sans-serif !important;} 
 </style>
         <div class="lg:py-10 py-5"  x-data="getResData">
             <div class="container">
@@ -17,9 +18,10 @@
          
                     <div class="w-full lg:pr-24"> 
         
-                        <div class="shadow bg-white rounded-md">
+                        <div class="tube-card bg-white">
                                             
-                            <h3 class="border-b flex font-semibold items-center justify-between px-7 py-5 text-base"> <?php echo lang('front.title_register')?> <a href="<?php echo base_url('user/login')?>" class="font-medium inline-block text-blue-500 text-sm hover:underline"><?php echo lang('front.help_have_account')?></a> </h3>
+                            <h3 class="border-b flex font-semibold items-center justify-between px-7 py-5 text-base"> Registrati e inizia a imparare!<?php //echo lang('front.title_register')?> <a href="<?php echo base_url('user/login')?>" class="font-medium inline-block txtlinkcolor-primary hover:underline">Hai già un account? Accedi<?php //echo lang('front.help_have_account')?></a> </h3>
+							
                         
                             <div class="lg:p-8 p-5">
      <?php if(isset($_SESSION['error']) ){ ?>
@@ -42,10 +44,10 @@
                                         <label for="email" class="text-sm font-medium"> <?php echo lang('front.field_email')?> </label>
                                         <input type="text" class="with-border" id="email" name="email" required data-parsley-trigger="focusout" id="email" value="<?php echo old('email') ?? ''?>">
                                     </div>
-                                    <div>
-                                        <label for="telefono" class="text-sm font-medium"> <?php echo lang('front.field_phone')?> </label>
-                                        <input type="text" class="with-border" name="telefono" id="telefono" value="<?php echo old('telefono') ?? ''?>">
-                                    </div>
+                                    <!--div>
+                                        <label for="telefono" class="text-sm font-medium"> <?php //echo lang('front.field_phone')?> </label>
+                                        <input type="text" class="with-border" name="telefono" id="telefono" value="<?php //echo old('telefono') ?? ''?>">
+                                    </div-->
 
                                     <div>
                                         <label for="password" class="text-sm font-medium"> <?php echo lang('front.field_password')?> </label>
@@ -55,7 +57,7 @@
                                         <label for="confirm-password" class="text-sm font-medium"> <?php echo lang('front.field_confirm_password')?> </label>
                                         <input type="password" class="with-border" name="confirm" data-parsley-equalto="#password" required data-parsley-trigger="focusout" id="confirm-password" value="<?php echo old('password') ?? ''?>">
                                     </div>
- 
+                                    <?php if(!empty($prof)){ ?>
                                     <div>
                                         <label for="professione" class="text-sm font-medium"> <?php echo lang('front.field_professione')?> </label>
                                         <select class="selectpicker border rounded-md" id="professione" name="professione">
@@ -65,23 +67,23 @@
                                             <?php } ?>
                                         </select>
                                     </div>
+                                    <?php } ?>
+                                    <!--div>
+                                        <label for="cf" class="text-sm font-medium"> <?php //echo lang('front.field_cf')?> </label>
+                                        <input type="text" class="with-border" id="cf" name="cf" value="<?php //echo old('cf') ?? ''?>">
+                                    </div-->
 
-                                    <div>
-                                        <label for="cf" class="text-sm font-medium"> <?php echo lang('front.field_cf')?> </label>
-                                        <input type="text" class="with-border" id="cf" name="cf" value="<?php echo old('cf') ?? ''?>">
-                                    </div>
 
-
-                                    <div>
-                                        <label for="residenza_stato" class="text-sm font-medium"> <?php echo lang('front.field_country')?> </label>
+                                    <!--div>
+                                        <label for="residenza_stato" class="text-sm font-medium"> <?php //echo lang('front.field_country')?> </label>
                                         <select class="selectpicker border rounded-md" id="residenza_stato" name="residenza_stato" @change="handleCountry">
-                                            <option value="0"><?php echo lang('front.field_select')?></option>
+                                            <option value="0"><?php //echo lang('front.field_select')?></option>
                                             <?php foreach($country as $stato) { ?>
                                                 <option value="<?= $stato['id'] ?>" <?php if(null !==old('residenza_stato') && old('residenza_stato')==$stato['id']) echo 'selected'?>><?= $stato['nazione'] ?></option>
                                             <?php } ?>
                                         </select>
-                                    </div>
-                                    <div>
+                                    </div-->
+                                    <!--div>
                                         <label for="residenza_provincia" class="text-sm font-medium"> <?php echo lang('front.field_provincia')?> </label>
                                         <div x-html="provincia"></div>
                                     </div>
@@ -96,11 +98,15 @@
                                     <div>
                                         <label for="indirizzo" class="text-sm font-medium"> <?php echo lang('front.field_address')?> </label>
                                         <input type="text" class="with-border"id="indirizzo" name="indirizzo" value="<?php echo old('indirizzo') ?? ''?>">
+                                    </div-->
+                                    <div class="cols-span-2 checkbox my-2">
+                                        <input type="checkbox" id="use_privacy">
+                                        <label for="use_privacy" class="text-sm"><span class="checkbox-icon"></span> Accetto le <a target="_blank" href="#" class="font-semibold">Condizioni</a>. Scopri come utilizziamo e proteggiamo i tuoi dati nelle nostre <a target="_blank" href="#" class="font-semibold">Norme sulla privacy</a>.</label>
                                     </div>
-                                    <!-- <div class="cols-span-2 checkbox my-2">
-                                        <input type="checkbox" id="use_points">
-                                        <label for="use_points" class="text-sm"><span class="checkbox-icon"></span> I agree to the <a target="_blank" href="#" class="font-semibold">Terms and Conditions</a> </label>
-                                    </div> -->
+									<div class="cols-span-2 checkbox my-2">
+                                        <input type="checkbox" id="use_newsletter">
+                                        <label for="use_newsletter" class="text-sm"><span class="checkbox-icon"></span> Vorrei ricevere gli aggiornamenti via email relativi al marketing diretto.</label>
+                                    </div>
                                 </form>
                             </div>
     
