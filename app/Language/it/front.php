@@ -8,7 +8,7 @@ $lang['btn_register']="Restistrati";
 $lang['btn_filter']="Filtro";
 $lang['btn_add_cart']='Aggiungi al carrello';
 $lang['btn_add_cart_date']='Vedi tutte le date';
-$lang['btn_recover']="Recuperare";
+$lang['btn_recover']="Invia";
 $lang['btn_reset']="Ripristina";
 $lang['btn_send']="Invia";
 $lang['btn_download_attachment']="Carica Materialli";
@@ -117,7 +117,7 @@ $lang['title_filter_sottoargomenti']="sottoargomenti";
 $lang['title_filter_type']="Tipologia";
 $lang['per_page']="per pagina";
 $lang['title_non_disponible']="non disponibile";
-$lang['title_page_forgot']="Recupera la password dimenticata";
+$lang['title_page_forgot']="Hai dimenticato la password?";
 $lang['title_page_reset']="Reimpostare la password ";
 $lang['title_section_contact_ente_email']="Emails";
 $lang['title_section_contact_ente_phone']="Telefono";
@@ -131,7 +131,9 @@ $lang['title_page_checkout']="Informazioni sul pagamento";
 $lang['title_section_profile_fatturazione']="Dati di fatturazione";
 $lang['title_section_payment_method']="Scegli il tuo metodo di pagamento ";
 $lang['title_section_order_summary']="Riepilogo ordine";
-
+$lang['help_text_page_forgot']="Inserisci il tuo indirizzo email per reimpostare la password. Potresti dover consultare la cartella dello spam o sbloccare l'indirizzo no-reply.";
+$lang['title_page_contact']="Contattaci";
+$lang['help_text_page_contact']="Richiedi assistenza tematica.";
 
 
 $lang['status_completed']="Completato";
@@ -141,5 +143,6 @@ $lang['status_pending']="In sospeso pagamento";
 $lang['menu_profile']="Profilo";
 $lang['menu_participation']="Mie partecipazioni";
 $lang['menu_account_settings']="Impostazione conto";
+$lang['menu_contact']="Contatti";
 return $lang;
 ?>

@@ -1,19 +1,40 @@
 <?= view($view_folder.'/common/header') ?>
-  
-     <div class="container p-0">
 
-            <div class="lg:flex lg:space-x-4 lg:-mx-4">
-            
+		<div class="uk-sticky-placeholder" style="height: 72px; margin: 0px;"></div>
+		<!--  breadcrumb -->
+        <div class="from-blue-500 bg-grey breadcrumb-area py-6 text-black">
+            <div class="container mx-auto lg:pt-5">
+                <div class="breadcrumb text-black">
+                    <ul class="m-0">
+                        <li>
+                            <a href="<?= base_url() ?>"> <i class="icon-feather-home"></i> </a>
+                        </li>
+                        <li>
+                            <a href="<?= base_url() ?>">Home</a>
+                        </li> 
+                        <li class="active">
+                            <a href="#"><?php echo lang('front.menu_contact')?> </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="md:text-2xl text-base font-semibold mt-6 md:mb-6"> <?php echo lang('front.title_page_contact')?> </div>
+            </div>
+        </div>
+
+        <div class="lg:py-10 py-5" x-data="getResData">        
+     		<div class="container">
+				<div class="lg:w-12/12">
+					<h1 class="lg:text-2xl text-xl font-semibold mb-1"> <?php echo $inf_page['title']?> </h1>
+					<p class="mb-6 mt-1"><?php echo lang('front.help_text_page_contact')?></p>
+				</div>
+				<div class="lg:flex lg:space-x-4 lg:-mx-4">
+					
                 <div class="lg:w-9/12 lg:space-y-6">
                     
                     <div class="tube-card">
 
-                       
-
                         <div class="md:p-6 p-4">
 
-                            <h1 class="lg:text-2xl text-xl font-semibold mb-6"> <?php echo $inf_page['title']?> </h1>
-    
                             
                             <div class="space-y-3">
                               <form method="POST" action="<?= base_url($contact_page['url']) ?>" class="grid sm:grid-cols-2 gap-x-6 gap-y-4 mt-4">
@@ -93,7 +114,7 @@
 							$tt=explode(",,,",$settings['contact_email']);
 							foreach($tt as $kk=>$vv){?>				
                                 <li>
-                                    <a href="blog-read.html" class="hover:bg-gray-50 rounded-md p-2 -mx-2 block">
+                                    <a href="mail-to:<?php echo $vv?>" class="hover:bg-gray-50 rounded-md p-2 -mx-2 block">
                                        
                                         <div class="flex items-center my-auto text-xs space-x-1.5 mt-1.5">
                                           <div><?php echo $vv?></div> 
@@ -118,7 +139,7 @@
 							$tt=explode(",,,",$settings['contact_phone']);
 							foreach($tt as $kk=>$vv){?>				
                                 <li>
-                                    <a href="blog-read.html" class="hover:bg-gray-50 rounded-md p-2 -mx-2 block">
+                                    <a href="#" class="hover:bg-gray-50 rounded-md p-2 -mx-2 block">
                                        
                                         <div class="flex items-center my-auto text-xs space-x-1.5 mt-1.5">
                                           <div><?php echo $vv?></div> 
@@ -137,4 +158,6 @@
             </div>
  
         </div>
+                            </div>
 <?= view($view_folder.'/common/footer') ?>
+

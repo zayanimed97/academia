@@ -29,7 +29,7 @@
     $filter = function($tipologia, $type, $argomenti = null){return array_filter($type, function($el) use ($tipologia){ return $el['sum_'.$tipologia] > 0 ;});};
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <style>
     /* .header_menu ul ul li a:after{
         content: "" !important;

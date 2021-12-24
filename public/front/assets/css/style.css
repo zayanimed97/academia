@@ -28,7 +28,7 @@ a.button, span.button, button.button {background-color: #ff7700;height: 38px;pad
   border: none;
   border-radius: 7px;
 }
-
+.bg-grey{background-color:#e6e9ec !important;}
 input[type="button"], input[type="submit"] {
   background-color: #ff7700;
   height: 38px;
@@ -121,6 +121,7 @@ a.button i[class^="icon-feather"] {
   display: inline-block;
   margin-left: 3px;
 }
+a.txtlinkcolor-primary{color:#FF7700;}
 
 /* Dark Style */
 button.button.dark {background-color: #333;color: #fff;}
@@ -253,7 +254,7 @@ select, textarea, input, input[type="text"], input[type="password"], input[type=
   background-color: #fff;
   font-weight: 400;
   opacity: 1;
-  border-radius: 7px;
+  border-radius: 0px;
   border: none;
 }
 
@@ -9160,8 +9161,9 @@ input[type="button"].dark1, input[type="submit"].dark1 {
 .tube-card {
   --tw-bg-opacity: 2;
   background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-  /*border-radius: 0;
-  border-width: 1px;*/
+  /*border-radius: 0;*/
+  border-width: 1px;
+	border-color: #e6e9ec;
 }
 
 /* play button on hover course card image*/
