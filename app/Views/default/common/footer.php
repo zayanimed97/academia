@@ -1,7 +1,7 @@
         <!-- footer -->
         <div class="mb-7 px-12 border-t pt-7 mt-auto">
-            <div class="flex flex-col items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
-                <p class="capitalize font-medium"> <?php echo $settings['copyright'] ?? ''?></p>
+          <div class="flex flex-col justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
+                <?php echo $settings['copyright'] ?? ''?>
                 <div class="lg:flex space-x-4 text-gray-700 capitalize hidden">
 				<?php if(!empty($list_static_pages)){
 					foreach($list_static_pages as $k=>$one_page){
