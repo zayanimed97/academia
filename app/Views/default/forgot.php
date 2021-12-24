@@ -45,10 +45,11 @@
     </div>
 <?php }?>
                 <h1 class="lg:text-2xl text-xl font-semibold mb-6"> <?php echo lang('front.title_page_forgot')?> </h1>
+				<p class="mb-6" style="font-size: 13px;line-height: 17px;"><?php echo lang('front.help_text_page_forgot')?></p>
 
                 <div>
                     <label class="mb-0" for="username"> <?php echo lang('front.field_email')?> </label>
-                    <input type="text" name="email" id="username" placeholder="Email" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    <input type="text" name="email" id="username" placeholder="Email" class="with-border bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
                
 
@@ -59,7 +60,7 @@
 
                 <div class="flex justify-between">
                     <a href="<?= base_url('/user/login') ?>"> <?php echo lang('front.help_have_account')?> </a>
-                    <a href="<?= base_url('/register') ?>"> <?php echo lang('front.help_havnot_account')?> </a>
+                    <a href="<?= base_url('/register') ?>"  class="txtlinkcolor-primary"> <?php echo lang('front.help_havnot_account')?> </a>
                 </div>
 
                
