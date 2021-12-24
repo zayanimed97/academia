@@ -36,11 +36,11 @@
 
                 <div>
                     <label class="mb-0" for="username"> <?php echo lang('front.field_email')?> </label>
-                    <input type="text" name="email" id="username" placeholder="Email" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    <input type="text" name="email" id="username" placeholder="Email" class="with-border bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
                 <div>
                     <label class="mb-0" for="password"> <?php echo lang('front.field_password')?> </label>
-                    <input type="password" name="password" id="password" placeholder="******" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    <input type="password" name="password" id="password" placeholder="******" class="with-border bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
 
                 <div>
