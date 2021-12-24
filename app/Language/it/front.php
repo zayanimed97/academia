@@ -85,6 +85,10 @@ $lang['field_insert_code']="Inserisci codice coupon";
 
 
 $lang['apply_coupon']="Applica il codice coupon";
+$lang['coupon_applied']="Coupon applicato al {0}";
+$lang['coupon_no_items']="Nessun articolo da scontare";
+$lang['empty_cart']="Il carrello è vuoto";
+$lang['no_coupon']="Coupon inesistente o scaduto";
 $lang['msg_success_send_contact_form']="il tuo messaggio è stato inviato";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
 $lang['success_reset_password']="la password è stata modificata con successo";

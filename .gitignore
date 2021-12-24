@@ -127,3 +127,4 @@ nb-configuration.xml
 /.phpunit.*.cache
 
 app/Config/App.php
+app/Views/default/register2.php
