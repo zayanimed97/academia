@@ -100,7 +100,7 @@
                     if (date && moduleInCart.length>0) {
                         return moduleInCart.find(el => {return el.options.date == date}) ? 'in cart' : 'disabled';
                     }
-                    return corsiInCart ? 'corsi in cart' : (moduleInCart.length>0 ? 'module in cart' : false);
+                    return (corsiInCart || moduleInCart.length>0) ? '<?= lang('front.title_checkout') ?>' : false;
                 },
                 applyCoupon(code){
                     fetch('<?= base_url('/order/coupon') ?>', {

@@ -21,7 +21,8 @@
                                             <li class="breadcrumb-item active"><?php echo lang('app.menu_profile')?></li>
                                         </ol>
                                     </div>
-                                    <h4 class="page-title"><?php echo lang('app.title_page_profile')?></h4>
+                                    <h4 class="page-title"><?php echo lang('app.title_page_profile')?> pubblico</h4>
+									<p>Aggiungi informazioni su di te</p>
                                 </div>
                             </div>
                         </div>     

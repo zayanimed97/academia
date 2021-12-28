@@ -198,7 +198,7 @@ class CorsiController extends BaseController
                                             ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, SUM(cm.crediti) as ECM , pdf.filename as pdf, GROUP_CONCAT(DISTINCT u.display_name) doctor_names, GROUP_CONCAT(DISTINCT cat.titolo) categories, arg.nomeargomento")
                                             ->groupBy('corsi.id')
                                             ->first();
-        $data['doctors'] = $this->UserModel->join('user_cv cv', 'cv.user_id = users.id', 'left')->where("find_in_set(users.id, '{$data['corsi']['ids_doctors']}') > 0")->select('users.*, cv.cv as cv')->find();
+        $data['doctors'] = $this->UserModel->join('user_cv cv', 'cv.user_id = users.id', 'left')->join('user_profile profile', 'profile.user_id = users.id', 'left')->where("find_in_set(users.id, '{$data['corsi']['ids_doctors']}') > 0")->select('users.*,profile.logo ,cv.cv as cv')->find();
         
         
         $data['module'] = $this->CorsiModuloModel   ->where('corsi_modulo.id_corsi', $data['corsi']['id'])

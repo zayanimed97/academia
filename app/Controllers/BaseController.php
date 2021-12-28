@@ -247,7 +247,7 @@ class BaseController extends Controller
             
 
             // if free return gratuito
-            $course['prezzo'] = $course['free'] == 'yes' ? 0 : ((strpos($course['prezzo'], '€') || $course['prezzo'] == "") ? $course['prezzo'] : $this->amount->format($course['prezzo']));
+            $course['prezzo'] = $course['free'] == 'yes' ? lang('front.field_free') : ((strpos($course['prezzo'], '€') || $course['prezzo'] == "") ? $course['prezzo'] : $this->amount->format($course['prezzo']));
 	}
 
 	public function updateCart()

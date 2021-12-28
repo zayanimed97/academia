@@ -265,7 +265,7 @@ a[disabled] {
                                             <div class="card-body p-4">
                                                 <a href="<?= $c['corsi_id'] == '' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>">
 
-                                                    <div class="font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?>
+                                                    <div class="font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 50) ?>
                                                     </div>
                                                     <div class="flex space-x-2 items-center text-sm pt-3">
                                                         <div> <?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi'] ?> </div>
@@ -280,11 +280,11 @@ a[disabled] {
 
                                                 <div class="flex justify-between items-center mt-2">
                                                     <template x-if="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')">
-                                                        <button  class="bg-transparent flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')"> </button>
+                                                        <a href="<?= base_url('/order/checkout') ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')"> </a>
                                                     </template>
 
                                                     <template x-if="!inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')">
-                                                        <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', '<?= $c['corsi_id'] == '' ? 'corsi' : 'modulo'  ?>')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </button>
+                                                        <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', '<?= $c['corsi_id'] == '' ? 'corsi' : 'modulo'  ?>')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : ($c['buy_type'] != 'date' ?lang('front.btn_add_cart') :lang('front.btn_add_cart_date')) ?> </button>
                                                     </template>
                                                     <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
                                                 </div>

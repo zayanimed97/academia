@@ -60,7 +60,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                 </div>
             </div>
         </div>
-            <div class="container p-0" x-data="getData">
+            <div class="container p-0">
 
                 
                 <div class="lg:flex lg:space-x-4 mt-4">
@@ -144,23 +144,35 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
 						  <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_calendar')?> </h3>
 							<?php if(!empty($inf_date)){
 								?>
-							<div class="uk-container">
-							<b><?php echo date('d/m/Y',strtotime($inf_date['date'])).'</b> '.lang('front.field_de').' <b>'.date('H:i',strtotime($inf_date['start_time'])).'</b> '.lang('front.field_a').' <b>'.date('H:i',strtotime($inf_date['end_time']))?></b>
-							  <?php if(strtotime($inf_date['date'])>strtotime(date('Y-m-d'))){?>
+							<div class="uk-container flex justify-between">
+                            <div>
+							    <b><?php echo date('d/m/Y',strtotime($inf_date['date'])).'</b> '.lang('front.field_de').' <b>'.date('H:i',strtotime($inf_date['start_time'])).'</b> '.lang('front.field_a').' <b>'.date('H:i',strtotime($inf_date['end_time']))?></b>
+                            </div>
+                              <?php if(strtotime($inf_date['date'])>strtotime(date('Y-m-d'))){?>
+                            <div>
 							  <button class="uk-button uk-button-default disabled" disabled><?php echo lang('front.btn_webinar')?></button>
+                            </div>
 							  <?php } else{?>
+                            <div>
 							  <a href="<?php echo $inf_date['zoom_url']?>" class="uk-button uk-button-primary"><?php echo lang('front.btn_webinar')?></a>
-							  <?php } ?>
+                            </div>
+                            <?php } ?>
 							</div>
 							<?php } else{ 
 							if(!empty($dates)){
 							foreach($dates as $k=>$v){?>
-							<div class="uk-container">
-							<b><?php echo date('d/m/Y',strtotime($v['date'])).'</b> '.lang('front.field_de').' <b>'.date('H:i',strtotime($v['start_time'])).'</b> '.lang('front.field_a').' <b>'.date('H:i',strtotime($v['end_time']))?></b>
-							  <?php if(strtotime($v['date'])>strtotime(date('Y-m-d'))){?>
-							  <button class="uk-button uk-button-default disabled" disabled><?php echo lang('front.btn_webinar')?></button>
+							<div class="uk-container flex justify-between">
+                            <div>
+							    <b><?php echo date('d/m/Y',strtotime($v['date'])).'</b> '.lang('front.field_de').' <b>'.date('H:i',strtotime($v['start_time'])).'</b> '.lang('front.field_a').' <b>'.date('H:i',strtotime($v['end_time']))?></b>
+                            </div>
+                              <?php if(strtotime($v['date'])>strtotime(date('Y-m-d'))){?>
+                            <div>
+                              <button class="uk-button uk-button-default disabled" disabled><?php echo lang('front.btn_webinar')?></button>
+                            </div>
 							  <?php } else{?>
+                            <div>
 							  <a href="<?php echo $v['zoom_url']?>" class="uk-button uk-button-primary"><?php echo lang('front.btn_webinar')?></a>
+                            </div>
 							  <?php } ?>
 							</div>
 							<?php } } }?>

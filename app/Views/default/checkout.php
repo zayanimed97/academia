@@ -276,7 +276,7 @@
         
                             <ul class="border-b border-t my-3 py-3 text-sm space-y-4">
                                 <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_subtotal')?>:</span><span x-text="formatter.format(total+(Object.keys(couponSum).length > 0 ? Object.values(couponSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0))"></span></li>
-                                <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_discount')?>:</span>
+                                <li class="flex justify-between align-center" @click="shareFacebook"><span class="mr-2"><?php echo lang('front.field_discount')?>:</span>
                                     <span>
                                         <template x-for="(discount,idx) in couponSum">
                                             <span class="block text-xs text-right"><span x-text="idx + ': '"></span> <span class="ml-4" x-text="formatter.format(discount)"></span></span>
@@ -306,6 +306,18 @@
         </div>
 <?= view($view_folder.'/common/footer') ?>
 <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : '990429294759295',
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v12.0'
+    });
+  };
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+<script>
     function getResData(){
         return {
             stato: '<?= $user['fattura_stato'] ?? '' ?>', 
@@ -326,6 +338,12 @@
                     this.provincia = '<input type="text" id="residenza_provincia" name="residenza_provincia" class="form-control with-border" required>'
                     this.comuni = '<input type="text" id="residenza_comune" name="residenza_comune" class="form-control with-border" required>'
                 }
+            },
+            shareFacebook(){
+                FB.ui({
+                    method: 'share',
+                    href: 'https://developers.facebook.com/docs/',
+                }, response => {console.log(response);});
             },
             
             init(){
