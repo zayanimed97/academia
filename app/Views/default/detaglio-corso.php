@@ -612,7 +612,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true);
                                         </template>
 
                                         <template x-if="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')">
-                                            <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')"> </button>
+                                            <a href="<?= base_url('/order/checkout') ?>" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')"> </a>
                                         </template>
                                     <?php } ?>
                                 </div> 
@@ -638,7 +638,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true);
                                         </template>
 
                                         <template x-if="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')">
-                                            <button type="button" :disabled="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>', '<?= $date['id'] ?>') != 'in cart'" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')"> </button>
+                                            <a href="<?= base_url('/order/checkout') ?>" :disabled="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>', '<?= $date['id'] ?>') != 'in cart'" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')"> </a>
                                         </template>
                                 </div> 
                                 
@@ -654,7 +654,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true);
                             <?php foreach($doctors as $doc){ ?>
 
                             <div class="flex items-center gap-x-4 mb-5" id="doctor<?= $doc['id'] ?>">
-                                <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-4.jpg" alt="" class="rounded-full shadow w-12 h-12">
+                                <img src="<?= $doc['logo']?base_url('uploads/users/'.$doc['logo']):base_url('front/assets/images/avatars/avatar-4.jpg') ?>" alt="" class="rounded-full shadow w-12 h-12">
                                 <div>
                                     <h4 class="-mb-1 text-base"> <?= $doc['display_name'] ?></h4>
                                     <span class="text-sm"> <?php echo lang('front.field_instructor')?> </span>
@@ -706,7 +706,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true);
 
                                 <template x-if="inCart('<?= $corsi['id'] ?>', '')">
                                     <div class="mt-4">
-                                        <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '')"></button>
+                                        <a href="<?= base_url('/order/checkout') ?>" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '')"></a>
                                     </div>
                                 </template>
                             <?php } ?>

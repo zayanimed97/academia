@@ -453,7 +453,14 @@ class UserController extends BaseController
 		$common_data=$this->common_data();
 		$data=$common_data;		
 		$data['seo_title']=lang('front.title_page_user_participation');
-		$list=$this->ParticipationModel->where('banned','no')->where('id_ente',$common_data['selected_ente']['id'])->where('id_user',$common_data['user_data']['id'])->find();
+		$list=$this->ParticipationModel	->where('participation.banned','no')
+										->join('cart_payment cp', 'cp.id_cart = participation.id_cart', 'left')
+										->join('method_payment mp', 'mp.id = cp.id_method')
+										->where('participation.id_ente',$common_data['selected_ente']['id'])
+										->where('participation.id_user',$common_data['user_data']['id'])
+										->groupBy('participation.id')
+										->select('participation.*, mp.title as payment_method')
+										->find();
 		 foreach($list as $kk=>$vv){
 			 $inf_modulo=$this->CorsiModuloModel->find($vv['id_modulo']);
 			 $inf_corsi=$this->CorsiModel->find($inf_modulo['id_corsi']);

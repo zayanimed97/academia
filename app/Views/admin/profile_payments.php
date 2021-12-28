@@ -1,9 +1,5 @@
 <?= view('admin/common/header',array('page_title'=>lang('app.title_page_profile_payment'))) ?>
   <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/mohithg-switchery/switchery.min.css" rel="stylesheet" type="text/css" />
-            <!-- ============================================================== -->
-            <!-- Start Page Content here -->
-            <!-- ============================================================== -->
-
             <div class="content-page">
                 <div class="content">
 
@@ -22,6 +18,7 @@
                                         </ol>
                                     </div>
                                     <h4 class="page-title"><?php echo lang('app.title_page_profile_payment')?></h4>
+									<p>Indica qui sotto il metodo con il quale vuoi essere pagato.</p>
                                 </div>
                             </div>
                         </div>     
@@ -44,64 +41,57 @@
 															?>
                                                             <div class="col-12">
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="Email"><?php echo $v['title']?></label>
+                                                                    <label class="col-md-3 col-form-label" for="Email"><?php echo $v['title']?> (Si/No)</label>
                                                                     <div class="col-md-9">
                                                                          <input id="payment_<?php echo $v['id']?>" name="ente_payment[]" value="<?php echo $v['id']?>" <?php if($chk==true) echo 'checked'?> type="checkbox" data-plugin="switchery" data-color="#1bb99a" data-secondary-color="#ff5d48" />
                                                                     </div>
-                                                                </div> 
+                                                                </div>
                                                             </div> <!-- end col -->
 															<?php switch($v['id']){
 																case 1:?>
 																	<div class="col-12"  <?php if($chk==false){?>style="display:none"<?php } ?> id="div_payment_<?php echo $v['id']?>">
-																		<div class="row">
-																			 <div class="col-4">
-																				<div class="form-group row mb-3">
-																					<label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_bank_name')?></label>
-																					<div class="col-md-9">
-																						<input type="text" id="bank_name" name="bank_name" class="form-control" value="<?php echo $details['bank_name'] ?? ''?>">
-																					</div>
-																				</div>
-																			</div>
-																			<div class="col-4">
-																				<div class="form-group row mb-3">
-																					<label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_iban')?></label>
-																					<div class="col-md-9">
-																						<input type="text" id="iban" name="iban" class="form-control" value="<?php echo $details['iban'] ?? ''?>">
-																					</div>
-																				</div>
-																			</div>
-																			<div class="col-4">
-																				<div class="form-group row mb-3">
-																					<label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_bank_property')?></label>
-																					<div class="col-md-9">
-																						<input type="text" id="property" name="property" class="form-control" value="<?php echo $details['property'] ?? ''?>">
-																					</div>
-																				</div>
+																		
+																		<div class="form-group row mb-3">
+																			<label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_bank_name')?></label>
+																			<div class="col-md-9">
+																				<input type="text" id="bank_name" name="bank_name" class="form-control" value="<?php echo $details['bank_name'] ?? ''?>">
 																			</div>
 																		</div>
+
+																		<div class="form-group row mb-3">
+																			<label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_iban')?></label>
+																			<div class="col-md-9">
+																				<input type="text" id="iban" name="iban" class="form-control" value="<?php echo $details['iban'] ?? ''?>">
+																			</div>
+																		</div>
+
+																		<div class="form-group row mb-3">
+																			<label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_bank_property')?></label>
+																			<div class="col-md-9">
+																				<input type="text" id="property" name="property" class="form-control" value="<?php echo $details['property'] ?? ''?>">
+																			</div>
+																		</div>
+																		<hr>
 																	</div>
 																<?php break;
 																case 2:?>
 																	<div class="col-12"  <?php if($chk==false){?>style="display:none"<?php } ?> id="div_payment_<?php echo $v['id']?>">
-																		<div class="row">
-																			 <div class="col-6">
-																				<div class="form-group row mb-3">
-																					<label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_paypal_clientID')?></label>
-																					<div class="col-md-9">
-																						<input type="text" id="clientID" name="clientID" class="form-control" value="<?php echo $details['clientID'] ?? ''?>">
-																					</div>
-																				</div>
+																		<p><b>Controlla le informazione richieste direttamente dal tuo account business di PAYPAL</b></p>
+																		
+																		<div class="form-group row mb-3">
+																			<label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_paypal_clientID')?></label>
+																			<div class="col-md-9">
+																				<input type="text" id="clientID" name="clientID" class="form-control" value="<?php echo $details['clientID'] ?? ''?>">
 																			</div>
-																			<div class="col-6">
-																				<div class="form-group row mb-3">
-																					<label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_paypal_clientSecret')?></label>
-																					<div class="col-md-9">
-																						<input type="text" id="clientSecret" name="clientSecret" class="form-control" value="<?php echo $details['clientSecret'] ?? ''?>">
-																					</div>
-																				</div>
-																			</div>
-																			
 																		</div>
+
+																		<div class="form-group row mb-3">
+																			<label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_paypal_clientSecret')?></label>
+																			<div class="col-md-9">
+																				<input type="text" id="clientSecret" name="clientSecret" class="form-control" value="<?php echo $details['clientSecret'] ?? ''?>">
+																			</div>
+																		</div>
+																		<hr>
 																	</div>
 																<?php break;
 															} ?>
@@ -133,9 +123,6 @@
 
             </div>
 
-            <!-- ============================================================== -->
-            <!-- End Page content -->
-            <!-- ============================================================== -->
 
             <!-- Center modal content -->
             <div class="modal fade" id="loading" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-hidden="true">

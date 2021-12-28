@@ -1,5 +1,12 @@
 <?= view($view_folder.'/common/header') ?>
-
+<style>
+    input[type="radio"]:checked ~ label div{
+        border: .5px solid #FF7700;
+    }
+    input[type="radio"] ~ label div{
+        border: .5px solid #666;
+    }
+</style>
         <!--  breadcrumb -->
         <div class="from-blue-500 via-blue-400 to-blue-500 bg-gradient-to-l breadcrumb-area py-6 text-white">
             <div class="container mx-auto lg:pt-5">
@@ -180,29 +187,38 @@
 
                                     <h2 class="col-span-2 text-xl font-semibold md:mb-6 mb-3"> <?php echo lang('front.title_section_payment_method')?></h2>
 
-                                    <div class="col-span-2 flex justify-around">
+                                    <div class="col-span-2 flex justify-around flex-wrap space-y-4">
                                         <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '2';}))){ ?>
-                                            <div class="radio">
+                                            <div class="radio w-full md:w-1/2 h-24 mt-4">
                                                 <input id="paypal" name="paymethod" type="radio" x-model="paymethod" value="paypal">
-                                                <label for="paypal"><span class="radio-label" ></span> <span class="icon-brand-cc-paypal text-3xl"></span>
+                                                <label for="paypal" class="h-full w-full">
+                                                    <div class="h-full w-full flex justify-center items-center rounded-lg">
+                                                        <img class="h-full" src="https://news-tunisia.tunisienumerique.com/wp-content/uploads/2020/09/IMGBN67678gargah-2-5-5.png" alt="">
+                                                    </div>
                                                 </label>
                                             </div>
                                         <br>
                                         <?php } ?>
 
-                                        <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '3';}))){ ?>
-                                            <div class="radio">
+                                        <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '3';})) || true){ ?>
+                                            <div class="radio w-full md:w-1/2 h-24">
                                                 <input id="stripe" name="paymethod" type="radio" x-model="paymethod" value="stripe">
-                                                <label for="stripe"><span class="radio-label"></span> <span class="icon-brand-cc-stripe text-3xl"></span>
+                                                <label for="stripe" class="h-full w-full">
+                                                    <div class="h-full w-full flex justify-center items-center rounded-lg">
+                                                        <img class="h-full" src="http://assets.stickpng.com/images/5842a8e9a6515b1e0ad75b01.png" alt="">
+                                                    </div>
                                                 </label>
                                             </div>
                                             <br>
                                         <?php } ?>
 
                                         <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '1';}))){ ?>
-                                            <div class="radio">
+                                            <div class="radio w-full md:w-1/2 h-24">
                                                 <input id="iban" name="paymethod" type="radio" x-model="paymethod" value="iban">
-                                                <label for="iban"><span class="radio-label"></span> <span class="icon-brand-cc-mastercard text-3xl"></span>
+                                                <label for="iban" class="h-full w-full">
+                                                <div class="h-full w-full flex justify-center items-center rounded-lg">
+                                                    <img class="h-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNwEgcoA0L5KK7goHFzHR9VYChO5SI7i8wpA&usqp=CAU" alt="">
+                                                </div>
                                                 </label>
                                             </div>
                                         <?php } ?>
@@ -276,7 +292,7 @@
         
                             <ul class="border-b border-t my-3 py-3 text-sm space-y-4">
                                 <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_subtotal')?>:</span><span x-text="formatter.format(total+(Object.keys(couponSum).length > 0 ? Object.values(couponSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0))"></span></li>
-                                <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_discount')?>:</span>
+                                <li class="flex justify-between align-center" @click="shareFacebook"><span class="mr-2"><?php echo lang('front.field_discount')?>:</span>
                                     <span>
                                         <template x-for="(discount,idx) in couponSum">
                                             <span class="block text-xs text-right"><span x-text="idx + ': '"></span> <span class="ml-4" x-text="formatter.format(discount)"></span></span>
@@ -306,6 +322,18 @@
         </div>
 <?= view($view_folder.'/common/footer') ?>
 <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : '990429294759295',
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v12.0'
+    });
+  };
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+<script>
     function getResData(){
         return {
             stato: '<?= $user['fattura_stato'] ?? '' ?>', 
@@ -326,6 +354,12 @@
                     this.provincia = '<input type="text" id="residenza_provincia" name="residenza_provincia" class="form-control with-border" required>'
                     this.comuni = '<input type="text" id="residenza_comune" name="residenza_comune" class="form-control with-border" required>'
                 }
+            },
+            shareFacebook(){
+                FB.ui({
+                    method: 'share',
+                    href: 'https://developers.facebook.com/docs/',
+                }, response => {console.log(response);});
             },
             
             init(){

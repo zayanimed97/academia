@@ -265,7 +265,7 @@ a[disabled] {
                                             <div class="card-body p-4">
                                                 <a href="<?= $c['corsi_id'] == '' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>">
 
-                                                    <div class="font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?>
+                                                    <div class="font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 50) ?>
                                                     </div>
                                                     <div class="flex space-x-2 items-center text-sm pt-3">
                                                         <div> <?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi'] ?> </div>
@@ -280,11 +280,11 @@ a[disabled] {
 
                                                 <div class="flex justify-between items-center mt-2">
                                                     <template x-if="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')">
-                                                        <button  class="bg-transparent flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')"> </button>
+                                                        <button href="<?= base_url('/order/checkout') ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')"> </button>
                                                     </template>
 
                                                     <template x-if="!inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')">
-                                                        <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', '<?= $c['corsi_id'] == '' ? 'corsi' : 'modulo'  ?>')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </button>
+                                                        <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', '<?= $c['corsi_id'] == '' ? 'corsi' : 'modulo'  ?>')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : ($c['buy_type'] != 'date' ?lang('front.btn_add_cart') :lang('front.btn_add_cart_date')) ?> </button>
                                                     </template>
                                                     <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
                                                 </div>
@@ -316,26 +316,35 @@ a[disabled] {
                                                 <?php } ?>
                                             </div>
                                             <div class="flex-1 md:space-y-2 space-y-1">
-                                                <a href="<?= $c['corsi_id'] == '' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>" class="md:text-xl font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 20) ?> </a>
+                                                <a href="<?= $c['corsi_id'] == '' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>" class="md:text-xl font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 50) ?> </a>
                                                 <p class="leading-6 pr-4 line-clamp-2 md:block hidden"> <?= ellipsize($c['obiettivi'], 120) ?> </p>
                                                 <a href="#" class="md:font-semibold block text-sm"> <?= $c['doctor_names'] ?> </a>
                                                 <div class="flex items-center justify-between">
                                                     <div class="flex space-x-2 items-center text-sm">
                                                         <div> <?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi']?>  </div>
+                                                        <?php if(strlen($c['duration']) > 0){ ?>
                                                         <div class="md:block hidden">·</div>
-                                                        <div class="flex items-center"> 18 Hourse </div>
+                                                        <div class="flex items-center"> <?= $c['duration'] ?> </div>
+                                                        <?php } ?>
                                                         <div class="md:block hidden">·</div>
                                                         <div class="flex items-center"> <?= $c['corsi_id'] == '' ? $c['modulo_count'].' modulo' : '<a href="'.base_url('corsi/'.$c['modulo_count']).'">' .$c['corsiSottoTitoloForModulo'].' </a>' ?> </div>
                                                     </div>
-                                                    <div class="-mt-3.5">
-                                                        <div class="text-lg font-semibold"> <?= $c['prezzo'] ?> </div>
+                                                    <div class="-mt-3.5 w-1/3">
+                                                        <div class="flex justify-between items-center mt-2">
+                                                            <div class="flex flex-col flex-1 mr-4">
+                                                                <div class="text-lg font-semibold text-right"> <?= $c['prezzo'] ?> </div>
+                                                                <template x-if="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')">
+                                                                    <a href="<?= base_url('/order/checkout') ?>" class=" mr-4 bg-blue-600 flex justify-center items-center w-full rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')"> </a>
+                                                                </template>
 
-                                                        <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', '<?= $c['buy_type'] == 'is_modulo' ? 'modulo' : 'corsi' ?>')" class="md:flex items-center justify-center h-9 px-8 rounded-md border hidden addtocartbtn" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : lang('front.btn_add_cart') ?> </button>
+                                                                <template x-if="!inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')">
+                                                                    <button @click="addToCart('<?= $c['id'] ?>', '<?= $c['prezzo'] ?>', '<?= $c['buy_type'] ?>', '<?= $c['url'] ?>', '<?= $c['corsi_id'] == '' ? 'corsi' : 'modulo'  ?>')" class=" mr-4 bg-blue-600 flex justify-center items-center w-full rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" <?= strlen($c['prezzo']) == 0 ? 'disabled' : '' ?>> <?= strlen($c['prezzo']) == 0 ? lang('front.title_non_disponible') : ($c['buy_type'] != 'date' ?lang('front.btn_add_cart') :lang('front.btn_add_cart_date')) ?> </button>
+                                                                </template>
+                                                            </div>
+                                                            <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <?php if($c['buy_type'] == 'module') { ?>
-                                                    <p class="text-xs text-red-400">Frase avec possibilità di comprare il corso completo o il singolo modulo</p>
-                                                <?php } ?>
                                                 <!-- <div class="absolute top-1 right-3 md:flex hidden">
                                                     <a href="#" class="hover:bg-gray-200 p-1.5 inline-block rounded-full">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6">

@@ -1,9 +1,5 @@
 <?= view('admin/common/header',array('page_title'=>lang('app.title_page_profile_fattura'))) ?>
 
-            <!-- ============================================================== -->
-            <!-- Start Page Content here -->
-            <!-- ============================================================== -->
-
             <div class="content-page">
                 <div class="content">
 
@@ -35,11 +31,11 @@
                                      	<div class="alert alert-danger" role="alert" id="error_alert" style="display:none"></div>   
 										<?php $inf_profile=$user?>
                                         <form method="post" action="<?= base_url('admin/profile/'. $profile_menu) ?>"  id='add_ente_form'>
-										<input type="hidden" name="profile_menu" value="<?php echo $profile_menu?>">
+											<input type="hidden" name="profile_menu" value="<?php echo $profile_menu?>">
                                         
                                                         	<div class="row">
-															<div class="col-12">
-                                                                
+																<div class="col-12 mb-3">
+                                                                	<div class="alert alert-warning help_type text-primary" role="alert"><b>La fattura verrà intestata:</b></div>
                                                                         <div class="radio form-check-inline">
 																			<input type="radio" name="type" id="type_private" value="private" onclick="return get_type('private')" <?php if($inf_profile['type']=='private') echo 'checked'?>>
 																			<label for="type_private"> <?php echo lang('app.field_type_private')?> </label>
@@ -57,8 +53,9 @@
 																		</div>
 															</div>
 														</div>
+
 														<div class="row">
-															 <div class="col-4" id="div_company"  <?php if($inf_profile['type']!='company'){?>style="display:none" <?php } ?>>
+															 <div class="col-6" id="div_company"  <?php if($inf_profile['type']!='company'){?>style="display:none" <?php } ?>>
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_company_name')?></label>
 									<div class="col-md-9">
@@ -79,7 +76,7 @@
 									</div>
 								</div>
 								</div>
-                                  <div class="col-4" id="div_piva" <?php if($inf_profile['type']=='private'){?>style="display:none" <?php } ?>>
+                                  <div class="col-6" id="div_piva" <?php if($inf_profile['type']=='private'){?>style="display:none" <?php } ?>>
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_piva')?></label>
                                    <div class="col-md-9">
@@ -100,10 +97,10 @@
 									</div>
 								</div>
 								</div>
-								<div class="col-4" id="div_cf" >
+								<div class="col-6" id="div_cf" >
 														 <div class="form-group row mb-3">
-													<label class="col-md-5 col-form-label" for="acc-name"><?php echo lang('app.field_cf')?></label>
-													<div class="col-md-7">
+													<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_cf')?></label>
+													<div class="col-md-9">
 														<?php $val=$val=$inf_profile['fattura_cf']; 
 														$input = [
 																'type'  => 'text',
@@ -167,7 +164,7 @@
 								</div>
                               
 								
-								<div class="col-4">
+								<div class="col-6">
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_country')?></label>
                                     <div class="col-md-9">
@@ -190,7 +187,7 @@
 									</div>
 								</div>
                                </div>
-                                   <div class="col-4" >
+                                   <div class="col-6" >
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_provincia')?></label>
                                     <div class="col-md-9" id="div_fattura_provincia">
@@ -222,7 +219,7 @@
 									</div>
 								</div>
 							</div>
-                                   <div class="col-4" >
+                                   <div class="col-6" >
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_city')?></label>
 									<div class="col-md-9" id="div_fattura_comune">
@@ -295,7 +292,7 @@
 									</div>
 								</div>
                                </div>
-							    <div class="col-4">
+							    <div class="col-6">
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_phone')?></label>
                                     <div class="col-md-9">
@@ -316,7 +313,7 @@
 									</div>
 								</div>
 							</div>
-								<div class="col-4" >
+								<div class="col-6" >
 														 <div class="form-group row mb-3">
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_pec')?></label>
                                     <div class="col-md-9">
@@ -337,7 +334,7 @@
 									</div>
 								</div>
                                </div>
-<div class="col-4" >
+<div class="col-6" >
 														 <div class="form-group row mb-3" id="div_sdi" <?php if($inf_profile['type']=='private'){?>style="display:none" <?php } ?>>
 									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_sdi')?></label>
                                     <div class="col-md-9">

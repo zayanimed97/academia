@@ -62,7 +62,11 @@
                                         ")
                                 ->find();
         $idsCorsi = array_map(function ($el){return $el['id'];}, array_merge($courses, $featured));
-        $discountsCorsi = $CorsiPrezzoProfModel->whereIn('id_corsi', $idsCorsi)->where('id_professione', session('user_data')['profile']['professione'] ?? '')->find();
+        $discountsCorsi = $CorsiPrezzoProfModel->whereIn('id_corsi', $idsCorsi ?: ['impossible value']);
+        if (session('user_data')['profile']['professione'] ?? false) {
+            $discountsCorsi->where('id_professione', session('user_data')['profile']['professione'] ?? '');
+        }
+        $discountsCorsi = $discountsCorsi->find();
         foreach ($courses as $key => &$course) {
             // get profs for this course
             $discounts($course, $discountsCorsi ?? []);
@@ -105,11 +109,11 @@
         <!-- </ul>  -->
         </div> 
         <?php } ?>     
-        <div class="mx-auto max-w-5xl p-4">
+        <div class="container p-4">
             
             <!--  course feature -->
-            <div class="sm:my-4 my-3 flex items-end justify-between pt-3">
-                <h2 class="text-2xl font-semibold"> Il nostro preferito per te  </h2> 
+            <div class="sm:my-4 my-3 flex items-end justify-between pt-3 pb-6">
+                <h2 class="text-2xl font-semibold"> Creazioneimpresa Academy<br>Benvenuti nella Accademia delle Startup e PMI innovative  </h2>
             </div> 
             <?php if(isset($_SESSION['success'])){ ?>
                 <div class="bg-green-500 border p-4 relative rounded-md uk-alert" uk-alert="">
@@ -130,7 +134,7 @@
                     <p class="text-white text-opacity-75"><?=$_SESSION['cancelled']?></p>
                 </div>
             <?php } ?>
-            <div class="relative -mt-3" uk-slider="finite: true">
+            <div class="tube-card relative p-6 -mt-3" uk-slider="finite: true">
                 <div class="uk-slider-container px-1 py-3">
                     <ul class="uk-slider-items uk-child-width-1-1@m uk-grid">
                     <?php foreach($featured as $c){
@@ -143,7 +147,7 @@
                         <li>
                                     
                             <div class="bg-white  uk-transition-toggle md:flex">
-                                <div class="md:w-5/12 md:h-60 h-40 overflow-hidden rounded-l-lg relative">
+                                <div class="md:w-5/12 md:h-60 h-40 overflow-hidden relative">
                                     <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : $default_image ?>" alt="" class="w-full h-full absolute inset-0 object-cover">
                                     <?php if($c['video_promo']) {?>
                                         <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="" @click="showModalPromo('https://www.youtube.com/embed/<?= $c['video_promo'] ?>', '<?= $c['sotto_titolo'] ?>')">
@@ -169,7 +173,7 @@
                                     </div>
                                     <div class="flex justify-between items-center mt-2">
                                             <template x-if="inCart('<?= $c['id'] ?>', '')">
-                                                <button  class="bg-transparent flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['id'] ?>', '')"> </button>
+                                                <a href="<?= base_url('/order/checkout') ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['id'] ?>', '')"> </a>
                                             </template>
 
                                             <template x-if="!inCart('<?= $c['id'] ?>', '')">
@@ -350,7 +354,7 @@
                                 <!-- <li>
 
                                     <a href="course-intro.html" class="uk-link-reset">
-                                        <div class="card uk-transition-toggle">
+                                        <div class="card uk-transition-toggle flex-1">
                                             <div class="card-media h-40">
                                                 <div class="card-media-overly"></div>
                                                 <img src="<?= base_url('front') ?>/assets/images/courses/img-1.jpg" alt="" class="">
@@ -428,7 +432,7 @@
         return {
             video_url: '',
             sotto_titolo: '',
-            active: <?= $category[0]['id'] ?? '' ?>,
+            active: <?= $category[0]['id'] ?? 'null' ?>,
             courses: '',
             getCourses(id){
                 this.active = id;
@@ -448,8 +452,8 @@
                                 }
                                     this.courses += `   <li>
 
-                                                                <div class="card uk-transition-toggle flex flex-col justify-between">
-                                                                    <div class="card-media h-40 flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo}', '${element.sotto_titolo}')">
+                                                                <div class="card uk-transition-toggle flex-1 flex flex-col justify-between">
+                                                                    <div class="card-media h-auto flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo}', '${element.sotto_titolo}')">
                                                                         <div class="card-media-overly"></div>
                                                                         <img src="${element.foto ? '<?=base_url('uploads/corsi/')?>/'+element.foto : default_image}" alt="" class="">
                                                                             ${element.video_promo ? '<span class="icon-play"></span>' : ''}
@@ -474,11 +478,11 @@
                                                                             </div>
 
                                                                             <div class="flex justify-between items-center mt-2">
-                                                                                <template x-if="inCart(${element.corsi_id}, ${element.id})">
-                                                                                    <button  class="bg-transparent flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('${element.corsi_id}, ${element.id})"> </button>
+                                                                                <template x-if="inCart(${element.id}, ${element.id})">
+                                                                                    <a href="<?= base_url('/order/checkout') ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('${element.id}, ${element.id})"> </a>
                                                                                 </template>
 
-                                                                                <template x-if="!inCart(${element.corsi_id}, ${element.id})">
+                                                                                <template x-if="!inCart(${element.id}, ${element.id})">
                                                                                     <button @click="addToCart(${element.id}, '${element.prezzo}', '${element.buy_type}', '${element.url}', 'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" ${element.prezzo.length == 0 ? 'disabled' : ''}> ${element.prezzo.length == 0 ? '<?=lang('front.title_non_disponible')?>' : element.buy_type != 'date' ? '<?=lang('front.btn_add_cart') ?>' : '<?=lang('front.btn_add_cart_date') ?>'} </button>
                                                                                 </template>
                                                                                 <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
@@ -511,8 +515,8 @@
                 }
                     this.courses += `   <li>
 
-                                                <div class="card uk-transition-toggle flex flex-col justify-between">
-                                                    <div class="card-media h-40 flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo}', '${element.sotto_titolo}')">
+                                                <div class="card uk-transition-toggle flex-1 flex flex-col justify-between">
+                                                    <div class="card-media h-auto flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo}', '${element.sotto_titolo}')">
                                                         <div class="card-media-overly"></div>
                                                         <img src="${element.foto ? '<?=base_url('uploads/corsi/')?>/'+element.foto : default_image}" alt="" class="">
                                                             ${element.video_promo ? '<span class="icon-play"></span>' : ''}
@@ -537,11 +541,11 @@
                                                             
 
                                                             <div class="flex justify-between items-center mt-2">
-                                                                <template x-if="inCart(${element.corsi_id}, ${element.id})">
-                                                                    <button  class="bg-transparent flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('${element.corsi_id}, ${element.id})"> </button>
+                                                                <template x-if="inCart(${element.id}, ${element.id})">
+                                                                    <a href="<?= base_url('/order/checkout') ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart(${element.id}, ${element.id})"> </a>
                                                                 </template>
 
-                                                                <template x-if="!inCart(${element.corsi_id}, ${element.id})">
+                                                                <template x-if="!inCart(${element.id}, ${element.id})">
                                                                     <button @click="addToCart(${element.id}, '${element.prezzo}', '${element.buy_type}', '${element.url}', 'corsi')" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-white text-center text-base h-8 hover:text-white hover:bg-blue-700" ${element.prezzo.length == 0 ? 'disabled' : ''}> ${element.prezzo.length == 0 ? '<?=lang('front.title_non_disponible')?>' : element.buy_type != 'date' ? '<?=lang('front.btn_add_cart') ?>' : '<?=lang('front.btn_add_cart_date') ?>'} </button>
                                                                 </template>
                                                                 <a class="bg-transparent flex items-center justify-center rounded-full text-sm w-8 h-8 dark:bg-gray-800 dark:text-white border-solid border" href="#" uk-slider-item="next"> <i class="icon-feather-heart"></i></a>
