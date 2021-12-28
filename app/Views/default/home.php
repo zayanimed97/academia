@@ -354,7 +354,7 @@
                                 <!-- <li>
 
                                     <a href="course-intro.html" class="uk-link-reset">
-                                        <div class="card uk-transition-toggle">
+                                        <div class="card uk-transition-toggle flex-1">
                                             <div class="card-media h-40">
                                                 <div class="card-media-overly"></div>
                                                 <img src="<?= base_url('front') ?>/assets/images/courses/img-1.jpg" alt="" class="">
@@ -452,7 +452,7 @@
                                 }
                                     this.courses += `   <li>
 
-                                                                <div class="card uk-transition-toggle flex flex-col justify-between">
+                                                                <div class="card uk-transition-toggle flex-1 flex flex-col justify-between">
                                                                     <div class="card-media h-auto flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo}', '${element.sotto_titolo}')">
                                                                         <div class="card-media-overly"></div>
                                                                         <img src="${element.foto ? '<?=base_url('uploads/corsi/')?>/'+element.foto : default_image}" alt="" class="">
@@ -515,7 +515,7 @@
                 }
                     this.courses += `   <li>
 
-                                                <div class="card uk-transition-toggle flex flex-col justify-between">
+                                                <div class="card uk-transition-toggle flex-1 flex flex-col justify-between">
                                                     <div class="card-media h-auto flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo}', '${element.sotto_titolo}')">
                                                         <div class="card-media-overly"></div>
                                                         <img src="${element.foto ? '<?=base_url('uploads/corsi/')?>/'+element.foto : default_image}" alt="" class="">
