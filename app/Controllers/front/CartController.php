@@ -346,7 +346,9 @@ class CartController extends BaseController
                         }
                         $this->cart->destroy();
                         session()->setFlashdata('success', 'Order Placed Please Pay To Confirm');
-                        return redirect()->to(base_url());
+                        $data['cartItems'] = $cartItems;
+                        $data['payment_method'] = 'Bonifico bancario';
+                        return view($data['view_folder'].'/invoice', $data);
                     break;
                 default:
                     return;
@@ -414,7 +416,9 @@ class CartController extends BaseController
             $this->cart->destroy();
             session()->setFlashdata('success', 'cart payed successfully');
 			 $xxx = $this->OrderMail($payment['id_cart']);
-            return redirect()->to(base_url());
+             $data['cartItems'] = $items;
+             $data['payment_method'] = 'PayPal';
+             return view($data['view_folder'].'/invoice', $data);
 		}catch (HttpException $ex) {
 			echo $ex->statusCode;
 			print_r($ex->getMessage());
@@ -513,7 +517,7 @@ class CartController extends BaseController
                             if (strlen($item['coupon'][$coupon['code']] ??'') == 0) {
                                     $prevPrice = $item['price'];
                                     if ($coupon['type'] == 'fixed') {
-                                    $this->cart->update(['rowid'=>$key, 'price' => ($prevPrice - $coupon['amount'] > 0) ?: 0, 'coupon'=>$coupons]);
+                                    $this->cart->update(['rowid'=>$key, 'price' => ($prevPrice - $coupon['amount'] > 0) ? $prevPrice - $coupon['amount']: 0, 'coupon'=>$coupons]);
                                 } elseif ($coupon['type'] == 'percent'){
                                     // $prevPrice = $item['price'];
                                     $this->cart->update(['rowid'=>$key, 'price' => round($prevPrice*(1-($coupon['amount']/100)), 2), 'coupon'=>$coupons]);
@@ -529,7 +533,7 @@ class CartController extends BaseController
                         }
                     }
                     return json_encode  ([  "status" => 'success', 
-                                            "message" => 'Coupon applied to '.$coupon['coupon_type'], 
+                                            "message" => lang('front.coupon_applied', [$coupon['coupon_type']]), 
                                             'cartItems' => $this->cart->contents(), 
                                             'total' => $this->cart->total(),
                                             'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
@@ -543,7 +547,7 @@ class CartController extends BaseController
                         }
                     }
                     return json_encode  ([  "status" => 'error', 
-                                            "message" => 'No Items to discount', 
+                                            "message" => lang('front.coupon_no_items'), 
                                             'cartItems' => $this->cart->contents(), 
                                             'total' => $this->cart->total(),
                                             'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
@@ -561,7 +565,7 @@ class CartController extends BaseController
                     if (strlen($item['coupon'][$coupon['code']] ??'') == 0) {
                         if ($coupon['type'] == 'fixed') {
                             $prevPrice = $item['price'];
-                            $this->cart->update(['rowid'=>$key, 'price' => ($prevPrice - $coupon['amount'] > 0) ?: 0, 'coupon'=>$coupons]);
+                            $this->cart->update(['rowid'=>$key, 'price' => ($prevPrice - $coupon['amount'] > 0) ? $prevPrice - $coupon['amount']: 0, 'coupon'=>$coupons]);
                         } elseif ($coupon['type'] == 'percent'){
                             $prevPrice = $item['originalPrice'];
                             $this->cart->update(['rowid'=>$key, 'price' => round($prevPrice*(1-($coupon['amount']/100)), 2), 'coupon'=>$coupons]);
@@ -575,7 +579,7 @@ class CartController extends BaseController
                         }
                     }
                     return json_encode  ([  "status" => 'success', 
-                                            "message" => 'Coupon applied to cart', 
+                                            "message" => lang('front.coupon_applied', ['cart']), 
                                             'cartItems' => $this->cart->contents(), 
                                             'total' => $this->cart->total(),
                                             'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
@@ -589,7 +593,7 @@ class CartController extends BaseController
                         }
                     }
                     return json_encode  ([  "status" => 'error', 
-                                            "message" => 'Cart is empty', 
+                                            "message" => lang('front.empty_cart'), 
                                             'cartItems' => $this->cart->contents(), 
                                             'total' => $this->cart->total(),
                                             'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
@@ -608,7 +612,7 @@ class CartController extends BaseController
                         }
                     }
                     return json_encode  ([  "status" => 'error', 
-                                            "message" => 'Inexisting or Expired coupon', 
+                                            "message" => lang('front.no_coupon'), 
                                             'cartItems' => $this->cart->contents(), 
                                             'total' => $this->cart->total(),
                                             'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
@@ -626,5 +630,15 @@ class CartController extends BaseController
         $x = array_values(array_map(function($el){return array_keys($el['coupon']);},$this->cart->contents()));
         array_walk($x, function($walk) use(&$array) {$array = array_merge($array, $walk);});
         return array_unique($array);
+    }
+
+    public function invoice()
+    {
+        $data = $this->common_data();
+        $items = $this->CartItemsModel->where('id_cart', '10')->find();
+
+        $data['payment_method'] = 'PayPal';
+        $data['cartItems'] = $items;
+        return view($data['view_folder'].'/invoice', $data);
     }
 }

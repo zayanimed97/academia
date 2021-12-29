@@ -1,9 +1,5 @@
 <?= view('admin/common/header',array('page_title'=>lang('app.title_page_profile_mailing'))) ?>
 
-            <!-- ============================================================== -->
-            <!-- Start Page Content here -->
-            <!-- ============================================================== -->
-
             <div class="content-page">
                 <div class="content">
 
@@ -22,10 +18,10 @@
                                         </ol>
                                     </div>
                                     <h4 class="page-title"><?php echo lang('app.title_page_profile_mailing')?></h4>
+									<p>Configurazione manuale della posta in uscità (SMTP).<br>Per default, tutte le email verrano inviate tramite il server di posta in uscita di Auledigitali: no-reply@auledigitali.it</p>
                                 </div>
                             </div>
-                        </div>     
-                        <!-- end page title -->
+                        </div>
                         
                         <div class="row" x-data="{ private: '<?= (($user['type'] ?? "") == "private") ? 'private' : 'company' ?>'}">
                             <div class="col-12">
@@ -36,13 +32,13 @@
 										<?php $smtp=json_decode($SMTP,true);?>
                                         <form method="post" action="<?= base_url('admin/profile/'. $profile_menu) ?>"  id='add_ente_form'>
 										<input type="hidden" name="profile_menu" value="<?php echo $profile_menu?>">
-														<h4><?php echo lang('app.title_section_SMTP')?></h4>
+														<h4>Configurazione manuale</h4>
                                                         <div class="row" >
                                                           <div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_smtp_host')?></label>
                                                                     <div class="col-md-9">
-                                                                        <input type="text" id="host" name="host" class="form-control" value="<?= $smtp['host'] ?? ""?>">
+                                                                        <input placeholder="es.: nomedominio.it" type="text" id="host" name="host" class="form-control" value="<?= $smtp['host'] ?? ""?>">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -50,7 +46,7 @@
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="cognome"> <?php echo lang('app.field_smtp_username')?></label>
                                                                     <div class="col-md-9">
-                                                                        <input type="text" id="username" name="username" class="form-control" value="<?= $smtp['username'] ?? ""?>">
+                                                                        <input placeholder="es.: mail@nomedominio.it" type="text" id="username" name="username" class="form-control" value="<?= $smtp['username'] ?? ""?>">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -59,7 +55,7 @@
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="cognome"> <?php echo lang('app.field_smtp_password')?></label>
                                                                     <div class="col-md-9">
-                                                                        <input type="text" id="password" name="password" class="form-control" value="<?= $smtp['password'] ?? ""?>">
+                                                                        <input placeholder="password della tua email" type="text" id="password" name="password" class="form-control" value="<?= $smtp['password'] ?? ""?>">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -68,25 +64,25 @@
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="cognome"> <?php echo lang('app.field_smtp_port')?></label>
                                                                     <div class="col-md-9">
-                                                                        <input type="text" id="port" name="port" class="form-control" value="<?= $smtp['port'] ?? '25' ?>">
+                                                                        <input placeholder="es.: 995 o 465" type="text" id="port" name="port" class="form-control" value="<?= $smtp['port'] ?? '25' ?>">
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                               
 															  <div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="cognome"> <?php echo lang('app.field_sender_email')?></label>
+                                                                    <label class="col-md-3 col-form-label" for="cognome"> <?php //echo lang('app.field_sender_email')?>Da</label>
                                                                     <div class="col-md-9">
-                                                                        <input type="text" id="sender_email" name="sender_email" class="form-control" value="<?= $smtp['sender_email'] ?? '25' ?>">
+                                                                        <input placeholder="es.: mail@nomedominio.it" type="text" id="sender_email" name="sender_email" class="form-control" value="<?= $smtp['sender_email'] ?? '25' ?>">
                                                                     </div>
                                                                 </div>
                                                             </div>
 															
 															<div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="cognome"> <?php echo lang('app.field_sender_name')?></label>
+                                                                    <label class="col-md-3 col-form-label" for="cognome"> <?php //echo lang('app.field_sender_name')?>Nome mittente</label>
                                                                     <div class="col-md-9">
-                                                                        <input type="text" id="sender_name" name="sender_name" class="form-control" value="<?= $smtp['sender_name'] ?? '25' ?>">
+                                                                        <input placeholder="es.: nomedominio.it" type="text" id="sender_name" name="sender_name" class="form-control" value="<?= $smtp['sender_name'] ?? '25' ?>">
                                                                     </div>
                                                                 </div>
                                                             </div>

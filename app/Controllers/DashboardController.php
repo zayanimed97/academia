@@ -24,7 +24,7 @@ class DashboardController extends BaseController
 		
 		$tot_orders=$this->CartModel->where('id_ente',$common_data['user_data']['id'])->where('banned','no')->countAllResults();
 		$tot_orders_success=$this->CartModel->where('id_ente',$common_data['user_data']['id'])->where('status','COMPLETED')->where('banned','no')->countAllResults();
-		$data['percent_success']=round(100*$tot_orders_success/$tot_orders,2);
+		$data['percent_success']=round(100*($tot_orders > 0)?$tot_orders_success/$tot_orders : 0,2);
 		$data['tot_orders_success']=$tot_orders_success;
 		
 		$data['tot_modulo']=$this->CorsiModuloModel->where('banned','no')->where('status','si')->where("id_corsi IN(select id from corsi where banned='no' and status='si' and id_ente='".$common_data['user_data']['id']."')")->countAllResults();
@@ -33,7 +33,7 @@ class DashboardController extends BaseController
 		$data['tot_participant']=$this->UserModel->where('id_ente',$common_data['user_data']['id'])->where('role','participant')->where('active','yes')->countAllResults();
 		 $tot=$this->ParticipationModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->select('distinct(id_user)')->find();
 		
-		$data['tot_participant_buyed']=round(100*count($tot)/$data['tot_participant'],2);
+		$data['tot_participant_buyed']=round(100*($data['tot_participant'] > 0) ? count($tot)/$data['tot_participant'] : 0,2);
 		return view('admin/dashboard.php',$data);
 	}
 

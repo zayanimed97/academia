@@ -175,6 +175,8 @@ class BaseController extends Controller
 		$common_data['CorsiModel'] = $this->CorsiModel;
 		$common_data['ArgomentiModel'] = $this->ArgomentiModel;
 		$common_data['CorsiPrezzoProfModel'] = $this->CorsiPrezzoProfModel;
+		$common_data['UserProfileModel'] = $this->UserProfileModel;
+		$common_data['amount'] = $this->amount;
 		$common_data['discounts'] = function(&$course, $discounts){$this->discounts($course, $discounts);};
 
 		
@@ -245,7 +247,7 @@ class BaseController extends Controller
             
 
             // if free return gratuito
-            $course['prezzo'] = $course['free'] == 'yes' ? 0 : ((strpos($course['prezzo'], '€') || $course['prezzo'] == "") ? $course['prezzo'] : $this->amount->format($course['prezzo']));
+            $course['prezzo'] = $course['free'] == 'yes' ? lang('front.field_free') : ((strpos($course['prezzo'], '€') || $course['prezzo'] == "") ? $course['prezzo'] : $this->amount->format($course['prezzo']));
 	}
 
 	public function updateCart()

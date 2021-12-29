@@ -605,7 +605,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                                         </template>
 
                                         <template x-if="inCart('<?= $corsi['id'] ?>', '')">
-                                            <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '')"> </button>
+                                            <a href="<?= base_url('/order/checkout') ?>" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '')"> </a>
                                         </template>
                                     <?php } ?>
                                 </div> 
@@ -679,7 +679,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                                     </template>
 
                                     <template x-if="inCart('<?= $corsi['id'] ?>', '<?= $module['id'] ?>')">
-                                        <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $module['id'] ?>')"> </button>
+                                        <a href="<?= base_url('/order/checkout') ?>" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $module['id'] ?>')"> </a>
                                     </template>
                                     <!-- <div x-text="select.modulo"></div> -->
                                 </div>

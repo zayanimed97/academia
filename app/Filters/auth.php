@@ -31,7 +31,7 @@ class auth implements FilterInterface
             if (in_array('participant', $arguments ?? [])) {
                 return redirect()->to(base_url('/user/login'));
             }
-            return redirect()->to(base_url('/login'));
+            return redirect()->to(base_url('/admin/login'));
         } 
     }
 

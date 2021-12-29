@@ -22,6 +22,7 @@
                                         </ol>
                                     </div>
                                     <h4 class="page-title"><?php echo lang('app.title_page_profile_account')?></h4>
+									<p>Modifica le impostazioni dell'account e modifica la tua password qui.</p>
                                 </div>
                             </div>
                         </div>     
@@ -43,6 +44,7 @@
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="Email">Email</label>
                                                                     <div class="col-md-9">
+																		Il tuo indirizzo email è
                                                                         <input type="text" class="form-control" id="Email" name="email" value="<?= $user['user_email'] ?>">
                                                                     </div>
                                                                 </div>
@@ -51,6 +53,7 @@
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="password"><?php echo lang('app.field_password')?></label>
                                                                     <div class="col-md-9">
+																		Inserisci la nuova password
                                                                         <input type="password" id="password" name="password" class="form-control" value="">
                                                                     </div>
                                                                 </div>
@@ -59,7 +62,7 @@
                                                    
                                                 
                                                   
-                                                            <button type="button" name="submit" class="btn btn-secondary" onclick="save_ente();"><?php echo lang('app.btn_save')?></button>
+                                                            <button type="button" name="submit" class="btn btn-secondary" onclick="save_ente();">Modifica password</button>
                                                       
 
                                         </form>
