@@ -524,6 +524,10 @@ class UserController extends BaseController
 			switch($data['corsi']['tipologia_corsi']){
 				case 'online':
 					$view_page='user_participation_modulo_online.php';
+					$data['list_vimeo']=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$module['id'])->orderBy('ord','ASC')->find();
+					$last_opened=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$module['id'])->orderBy('ord','ASC')->first();
+					$data['last_opened']=$last_opened ?? array();
+					//var_dump($data['list_vimeo']);
 				break;
 				case 'aula':
 					$view_page='user_participation_modulo_aula.php';
