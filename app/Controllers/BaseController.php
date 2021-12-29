@@ -43,6 +43,9 @@ use App\Models\ParticipationModel;
 use App\Models\PagesModel;
 use App\Models\AlberghiModel;
 use App\Models\LuoghiModel;
+
+use App\Models\ParticipationOnlineStatusModel;
+use App\Models\ParticipationOnlineEventModel;
 /**
  * Class BaseController
  *
@@ -133,6 +136,8 @@ class BaseController extends Controller
 		$this->PagesModel=new PagesModel();
 		$this->AlberghiModel=new AlberghiModel();
 		$this->LuoghiModel=new LuoghiModel();
+		$this->ParticipationOnlineStatusModel=new ParticipationOnlineStatusModel();
+		$this->ParticipationOnlineEventModel=new ParticipationOnlineEventModel();
 	}
 	
 	public function common_data(){
