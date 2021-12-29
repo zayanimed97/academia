@@ -15,7 +15,7 @@ $lang['btn_download_attachment']="Carica Materialli";
 $lang['btn_webinar']="Accedi Zoom";
 $lang['btn_pay']="Vai al pagamento";
 $lang['btn_pay2']="Pagamento";
-
+$lang['btn_play_video']="Play";
 
 $lang['field_email']="Email";
 $lang['field_password']="Password";
@@ -84,7 +84,7 @@ $lang['field_subtotal_after_discount']="Totale acquisto";
 $lang['field_tax']="IVA";
 $lang['field_total_to_pay']="";
 $lang['field_insert_code']="Inserisci codice coupon";
-
+$lang['field_section']="sezione";
 
 $lang['apply_coupon']="Applica il codice coupon";
 $lang['coupon_applied']="Coupon applicato al {0}";
@@ -150,5 +150,6 @@ $lang['menu_profile']="Profilo";
 $lang['menu_participation']="Mie partecipazioni";
 $lang['menu_account_settings']="Impostazione conto";
 $lang['menu_contact']="Contatti";
+$lang['menu_back']="indietro";
 return $lang;
 ?>
