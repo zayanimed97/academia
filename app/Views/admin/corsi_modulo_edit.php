@@ -724,7 +724,9 @@
 															foreach($corsi_date as $k=>$v){
 																?>
 															<div data-repeater-item="">
+															
 															<div class="row">
+														<input type="hidden" name="ids_update" value="<?php echo $v['id']?>">
 																  <div class="col-md-2" >
 														<div class="form-group">
 															<label for="acc-mname"><?php echo lang('app.field_incontro')?></label>
@@ -786,7 +788,7 @@
 													</div>
 													
 																 <div class="col-md-1" style="margin-top:25px">
-																	 <input class="btn btn-danger" data-repeater-delete type="button" value="<?php echo lang('app.btn_delete')?>"/>
+																	 <input class="btn btn-danger" onclick="del_corsi_date('<?php echo $v['id']?>')" data-repeater-delete type="button" value="<?php echo lang('app.btn_delete')?>"/>
 																</div>
 															</div>
 															</div>
@@ -808,6 +810,7 @@
 														<?php if(!empty($corsi_date)){
 															foreach($corsi_date as $k=>$v){?>
 																<div data-repeater-item="">
+																	<input type="hidden" name="ids_update" value="<?php echo $v['id']?>">
 															<div class="row">
 																  <div class="col-md-2" >
 														<div class="form-group">
@@ -840,7 +843,7 @@
 														</div>
 													</div>
 																 <div class="col-md-1" style="margin-top:25px">
-																	 <input class="btn btn-danger" data-repeater-delete type="button" value="<?php echo lang('app.btn_delete')?>"/>
+																	 <input class="btn btn-danger" onclick="del_corsi_date('<?php echo $v['id']?>')" data-repeater-delete type="button" value="<?php echo lang('app.btn_delete')?>"/>
 																</div>
 															</div>
 															</div>
@@ -1782,7 +1785,11 @@ $('.repeater-corsidate').repeater({
             hide: function (deleteElement) {
                 if(confirm("<?php echo lang('app.alert_msg_delete_row')?>")) {
                     $(this).slideUp(deleteElement);
+
                 }
+				else{
+					$( "input[name='ids_delete_date[]']" ).last().remove();
+				}
             },
             ready: function (setIndexes) {
 				
@@ -1959,6 +1966,10 @@ function del_foto(){
 		$("#div_foto").remove();
 		$("#delete_foto").val('yes');
 	}
+}
+
+function del_corsi_date(id){
+	$("#add_corsi_form").append("<input type='hidden' name='ids_delete_date[]' value='"+id+"'>");
 }
 </script>
 <?= view('admin/common/endtag') ?>
