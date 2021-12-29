@@ -1031,7 +1031,12 @@ class Corsi extends BaseController
 						}
 					}
 					
-					$this->CorsiModuloDateModel->where('id_modulo',$id_modulo)->delete();
+				//	$this->CorsiModuloDateModel->where('id_modulo',$id_modulo)->delete();
+				if(null !==$this->request->getVar('ids_delete_date')){
+					foreach($this->request->getVar('ids_delete_date') as $kk=>$vv){
+						if($vv!='') $this->CorsiModuloDateModel->update($vv,array('banned'=>'yes'));
+					}
+				}
 					if(null !==$this->request->getVar('corsidate')){
 						foreach($this->request->getVar('corsidate') as $kk=>$vv){
 							
@@ -1039,14 +1044,26 @@ class Corsi extends BaseController
 								/*$dt=explode("/",$vv['date']);
 								$date=$dt[2]."-".$dt[1]."-".$dt[0];*/
 								$date=$vv['date'];
-								$this->CorsiModuloDateModel->insert(array(
-									'id_modulo'=>$id_modulo,
-									'date'=>$date,
-									'incontro'=>$vv['incontro'],
-									'start_time'=>$vv['start_time'],
-									'end_time'=>$vv['end_time'],
-									'zoom_url'=>$vv['zoom_url'] ?? null,
-								));
+								if($vv['ids_update']!=""){
+									$this->CorsiModuloDateModel->update($vv['ids_update'],array(
+										'id_modulo'=>$id_modulo,
+										'date'=>$date,
+										'incontro'=>$vv['incontro'],
+										'start_time'=>$vv['start_time'],
+										'end_time'=>$vv['end_time'],
+										'zoom_url'=>$vv['zoom_url'] ?? null,
+									));
+								}
+								else{
+									$this->CorsiModuloDateModel->insert(array(
+										'id_modulo'=>$id_modulo,
+										'date'=>$date,
+										'incontro'=>$vv['incontro'],
+										'start_time'=>$vv['start_time'],
+										'end_time'=>$vv['end_time'],
+										'zoom_url'=>$vv['zoom_url'] ?? null,
+									));
+								}
 							}
 						}
 					}

@@ -33,7 +33,7 @@ class Participation extends BaseController
 				$v['credentiel']="User:".$inf_user['email'].'<br>Password:'.$inf_user['pass'].'<br>Cell:'.$inf_user_profile['mobile'];
 				if($v['id_date']!==null){
 					$inf_date=$this->CorsiModuloDateModel->find($v['id_date']);
-					$v['date_session']=$inf_date['date'];
+					if(!empty($inf_date)) $v['date_session']=$inf_date['date'];
 				}
 				
 				$quota="";
@@ -41,7 +41,8 @@ class Participation extends BaseController
 					$inf_cart=$this->CartModel->find($v['id_cart']);
 					$inf_payment=$this->CartPaymentModel->where('id_cart',$v['id_cart'])->where('status','COMPLETED')->where('banned','no')->find();
 					$total_paid=$inf_cart['total_ht']+$inf_cart['total_vat'];
-					$inf_method=$this->MethodPaymentModel->find($inf_payment[0]['id_method']);
+					if(!empty($inf_payment)) $inf_method=$this->MethodPaymentModel->find($inf_payment[0]['id_method']);
+					else $inf_method['title']="--";
 					$quota=number_format($total_paid,2,',','.').'€ <br/>'.date('d/m/Y',strtotime($inf_cart['date'])).'<br/>'.$inf_method['title'];
 					/*if($inf_cart['coupon_discount']!=""){
 						$det=json_decode($inf_cart['coupon_discount'],true);
