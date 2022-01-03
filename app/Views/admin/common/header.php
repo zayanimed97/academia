@@ -92,7 +92,7 @@
 								<?php if(isset($is_admin) && $is_admin==true){?>
 								<a href="<?= $redirect_admin ?>" class="dropdown-item notify-item">
                                     <i class="fe-log-out"></i>
-                                    <span><?php echo lang('admin')?></span>
+                                    <span><?php echo lang('app.admin')?></span>
                                 </a>
 									
 									<?php } ?>

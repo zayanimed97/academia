@@ -52,7 +52,7 @@
 											</div>
 										 <?php }?>
 										<?php $attributes = ['class' => 'form-input-flat', 'id' => 'aaaa','method'=>'post'];
-										echo form_open( base_url().'/admin/settings/cms', $attributes);
+										echo form_open_multipart( base_url().'/admin/settings/cms', $attributes);
 										
 										?>
 										<input type="hidden" name="action" value="add">
@@ -158,7 +158,7 @@
 															'type'  => 'text',
 															'name'  => 'url',
 															'id'    => 'url',
-															'required'=>true,
+														
 															'value' => $val,
 															'placeholder' =>lang('app.field_url'),
 															'class' => 'form-control'
@@ -209,7 +209,28 @@
 													?>
 														</div>
 													</div>
-										</div>		
+										</div>
+											<div class="row">
+												<div class="col-md-12">
+														<div class="form-group required-field">
+															<label for="acc-mname"><?php echo lang('app.field_image')?> </label>
+														 <?php $val=""; 
+													$input = [
+															'type'  => 'file',
+															'name'  => 'image',
+															'id'    => 'image',
+															
+														
+															'placeholder' =>lang('app.field_image'),
+															'class' => 'form-control'
+															
+													];
+
+													echo form_input($input);
+													?>
+														</div>
+													</div>
+											</div>	
 									<div class="row" id="div_content">
 									<div class="col-md-12">
 														<div class="form-group">

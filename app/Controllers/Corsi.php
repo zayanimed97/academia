@@ -476,6 +476,7 @@ class Corsi extends BaseController
 				//if(!is_null($this->request->getVar('featured'))) $featured='yes'; else $featured='no';
 				if(!is_null($this->request->getVar('attestato'))) $attestato="si"; else $attestato="no";
 				if(!is_null($this->request->getVar('test_required'))) $test_required="si"; else $test_required="no";
+				if(!is_null($this->request->getVar('cuepoint_block'))) $cuepoint_block='yes'; else $cuepoint_block='no';
 				$url=url_title($this->request->getVar('sotto_titolo'));
 				
 				$x=true;
@@ -520,7 +521,7 @@ class Corsi extends BaseController
 				'nb_person_aula' =>$this->request->getVar('nb_person_aula') ?? '0',
 				'duration' =>$this->request->getVar('duration'),
 				'free'=>$free,
-				
+				'cuepoint_block'=>$cuepoint_block
 			
 				);
 				
@@ -707,6 +708,7 @@ class Corsi extends BaseController
 				if(!is_null($this->request->getVar('slide'))) $slide='yes'; else $slide='no';
 				if(!is_null($this->request->getVar('featured'))) $featured='yes'; else $featured='no';
 				if(!is_null($this->request->getVar('attestato'))) $attestato="si"; else $attestato="no";
+				
 				//if(!is_null($this->request->getVar('test_required'))) $test_required="si"; else $test_required="no";
 				$test_required=$this->request->getVar('test_required');
 				if(!is_null($this->request->getVar('stop_next_modulo')) && $this->request->getVar('buy_type')=='cours') $stop_next_modulo="yes"; else $stop_next_modulo="no";
@@ -955,6 +957,7 @@ class Corsi extends BaseController
 				//if(!is_null($this->request->getVar('featured'))) $featured='yes'; else $featured='no';
 				if(!is_null($this->request->getVar('attestato'))) $attestato="si"; else $attestato="no";
 				if(!is_null($this->request->getVar('test_required'))) $test_required="si"; else $test_required="no";
+				if(!is_null($this->request->getVar('cuepoint_block'))) $cuepoint_block="yes"; else $cuepoint_block="no";
 				$url=url_title($this->request->getVar('sotto_titolo'));
 				
 				$x=true;
@@ -999,7 +1002,7 @@ class Corsi extends BaseController
 				'nb_person_aula' =>$this->request->getVar('nb_person_aula') ?? '0',
 				'duration' =>$this->request->getVar('duration'),
 				'free'=>$free,
-				
+				'cuepoint_block'=>$cuepoint_block
 			
 				);
 				if($this->request->getVar('delete_foto')=='yes'){

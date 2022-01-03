@@ -388,7 +388,14 @@
                             <li> 
                                 <hr>
                             </li>
-                           
+                           	<?php if(isset($is_admin) && $is_admin==true){?>
+							<li> 
+                                <a href="<?= $redirect_admin ?>">
+                                    <ion-icon name="log-out-outline" class="is-icon"></ion-icon>
+                                    <?php echo lang('app.admin')?>
+                                </a>
+                            </li>
+							<?php } ?>
                             <li> 
                                 <a href="<?= base_url('logout') ?>">
                                     <ion-icon name="log-out-outline" class="is-icon"></ion-icon>

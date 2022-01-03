@@ -187,7 +187,9 @@ class BaseController extends Controller
 		
 		if(!is_null($this->session->get('login_as'))){
 			$common_data['is_admin']=true;
-			$common_data['redirect_admin']=base_url('superadmin/loginBack');//$this->session->get('redirect_admin');
+			$inf_loginas_user=$this->UserModel->find($this->session->get('login_as'));
+			if($inf_loginas_user['role']=='ente') $common_data['redirect_admin']=base_url('admin/loginBack');
+			else $common_data['redirect_admin']=base_url('superadmin/loginBack');//$this->session->get('redirect_admin');
 		}
 
 		$common_data['cart'] = $this->cart;
