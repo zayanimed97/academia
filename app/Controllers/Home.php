@@ -128,7 +128,7 @@ class Home extends BaseController
         $country = $this->request->getVar('country');
         
         if ($country == '106') {
-            $provs = $this->ProvinceModel->find();
+            $provs = $this->ProvinceModel->orderBy('provincia','ASC')->find();
             if (($this->request->getVar('name') ?? '') == "fattura_provincia") {
                 $fieldName = 'fattura_comuni';
                 $selectName = 'fattura_comune';
@@ -163,7 +163,7 @@ class Home extends BaseController
     {
         $prov = $this->request->getVar('prov');
 
-            $comuni = $this->ComuniModel->where('id_prov', $prov)->find();
+            $comuni = $this->ComuniModel->where('id_prov', $prov)->orderBy('comune','ASC')->find();
 
             $html = '<select name="'.$this->request->getVar('name').'" class="form-control selectpicker border rounded-md" ><option value="0"> Select Comune </option>';
             foreach ($comuni as $com) {
