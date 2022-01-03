@@ -31,7 +31,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                             <?php foreach($doctors as $doc){ ?>
                             <li class="flex items-center">
                                 <div class="flex items-center gap-x-4 mb-5">
-                                    <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-4.jpg" alt="" class="rounded-full shadow w-12 h-12">
+                                    <img src="<?= $doc['logo']?base_url('uploads/users/'.$doc['logo']):base_url('front/assets/images/avatars/avatar-4.jpg') ?>" alt="" class="rounded-full shadow w-12 h-12">
                                     <a href="#doctor<?= $doc['id'] ?>" uk-scroll>
                                         <h4 class="-mb-1 text-base"> <?= $doc['display_name'] ?></h4>
                                         <!-- <span class="text-sm"> Bio </span> -->
@@ -620,7 +620,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                             <?php foreach($doctors as $doc){ ?>
 
                             <div class="flex items-center gap-x-4 mb-5" id="doctor<?= $doc['id'] ?>">
-                                <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-4.jpg" alt="" class="rounded-full shadow w-12 h-12">
+                                <img src="<?= $doc['logo']?base_url('uploads/users/'.$doc['logo']):base_url('front/assets/images/avatars/avatar-4.jpg') ?>" alt="" class="rounded-full shadow w-12 h-12">
                                 <div>
                                     <h4 class="-mb-1 text-base"> <?= $doc['display_name'] ?></h4>
                                     <span class="text-sm"> <?php echo lang('front.field_instructor')?> </span>

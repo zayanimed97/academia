@@ -34,7 +34,7 @@ class CartController extends BaseController
                                                 ->where('corsi_modulo.id', $id)
                                                 ->join('corsi_modulo_prezzo_prof prezz', '(prezz.id_modulo = corsi_modulo.id)'. $joinLoggedIn, 'left')
                                                 ->join('corsi', 'corsi.id = corsi_modulo.id_corsi')
-                                                ->select("corsi_modulo.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, corsi.vat, corsi.buy_type")
+                                                ->select("corsi_modulo.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, corsi.vat, corsi.buy_type, corsi.url as corsi_url")
                                                 ->groupBy('corsi_modulo.id')
                                                 ->first();
             if ($corsi['buy_type'] == 'module') {
@@ -86,12 +86,14 @@ class CartController extends BaseController
         if ($exist == false) {
             $this->cart->insert([
                 'id' => $type.$id,
+                'url' => $this->request->getVar('date') ? base_url('/corsi/'.$corsi['corsi_url']) : base_url("/$type/{$corsi['url']}"),
                 'type' => $type,
                 'qty' => 1,
                 'tax' => $corsi['vat'],
                 'price' => $price,
                 'originalPrice' => $price,
                 'coupon' => [],
+                'share' => [],
                 'name' => $corsi['sotto_titolo'],
                 'options' => ['date' => $this->request->getVar('date') ?? null, 'image' => base_url('uploads/corsi/'.$corsi['foto'])]
             ]);
@@ -287,7 +289,7 @@ class CartController extends BaseController
                                                             ->where('banned', 'no')
                                                             ->where('enable', 'yes')
                                                             ->first();
-                    $clientId = json_decode($payment['details'])->clientId;
+                    $clientId = json_decode($payment['details'])->clientID;
                     $clientSecret = json_decode($payment['details'])->clientSecret;
 
                     $environment = new SandboxEnvironment($clientId, $clientSecret);
@@ -367,7 +369,7 @@ class CartController extends BaseController
                                                     ->where('banned', 'no')
                                                     ->where('enable', 'yes')
                                                     ->first();
-        $clientId = json_decode($payment['details'])->clientId;
+        $clientId = json_decode($payment['details'])->clientID;
         $clientSecret = json_decode($payment['details'])->clientSecret;
 
 		$environment = new SandboxEnvironment($clientId, $clientSecret);
@@ -561,13 +563,13 @@ class CartController extends BaseController
                     
                 foreach ($this->cart->contents() as $key=>$item) {
                     $coupons = $item['coupon'];
-                    $coupons[$coupon['code']] = ($coupon['type'] == 'fixed') ? $coupon['amount'] : round($item['originalPrice']*($coupon['amount']/100), 2);
+                    $coupons[$coupon['code']] = ($coupon['type'] == 'fixed') ? $coupon['amount'] : round($item['price']*($coupon['amount']/100), 2);
                     if (strlen($item['coupon'][$coupon['code']] ??'') == 0) {
                         if ($coupon['type'] == 'fixed') {
                             $prevPrice = $item['price'];
                             $this->cart->update(['rowid'=>$key, 'price' => ($prevPrice - $coupon['amount'] > 0) ? $prevPrice - $coupon['amount']: 0, 'coupon'=>$coupons]);
                         } elseif ($coupon['type'] == 'percent'){
-                            $prevPrice = $item['originalPrice'];
+                            $prevPrice = $item['price'];
                             $this->cart->update(['rowid'=>$key, 'price' => round($prevPrice*(1-($coupon['amount']/100)), 2), 'coupon'=>$coupons]);
                         }
                     }
@@ -622,6 +624,55 @@ class CartController extends BaseController
 
         
         
+    }
+
+    public function postShared()
+    {
+        $data = $this->common_data();
+        
+        
+
+        $id = $this->request->getVar('rowid');
+        $platform = $this->request->getVar('platform');
+        $row = $this->cart->getItem($id);
+        $item = $row['type'] == 'corsi' ? $this->CorsiModel : $this->CorsiModuloModel;
+        $item = $item->where('id', str_replace($row['type'], '', $row['id']))->where('banned', 'no')->first();
+
+        if ($item && !empty($row)) {
+            if (in_array($platform,array_map(function($el){return $el['platform'] ?? '';},$row['share']))) {
+                $tax = 0;
+                foreach ($this->cart->contents() as $item) {
+                    if ($item['price'] != 'ND') {
+                        $tax += round($item['price']*0.22, 2);
+                    }
+                }
+                return json_encode  ([      "status" => 'error', 
+                                            "message" => lang('front.post_shared'), 
+                                            'cartItems' => $this->cart->contents(), 
+                                            'total' => $this->cart->total(),
+                                            'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
+                                            'tax' => $tax
+                                        ]);
+            } else {
+                // if (shareable) {
+                        array_push($row['share'], ['platform'=>$platform, 'amount'=>5]);
+                        $this->cart->update(['rowid' => $id, 'price'=> $row['price'] - 5 > 0 ? $row['price'] - 5 : 0, 'share' => $row['share']]);
+                        $tax = 0;
+                        foreach ($this->cart->contents() as $item) {
+                            if ($item['price'] != 'ND') {
+                                $tax += round($item['price']*0.22, 2);
+                            }
+                        }
+                        return json_encode  ([      "status" => 'success', 
+                                                    "message" => lang('front.success_share'), 
+                                                    'cartItems' => $this->cart->contents(), 
+                                                    'total' => $this->cart->total(),
+                                                    'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
+                                                    'tax' => $tax
+                                                ]);
+                // }
+            }
+        } 
     }
 
     public function usedCoupons()

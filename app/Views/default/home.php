@@ -96,7 +96,7 @@
         <!-- <ul class="uk-slideshow-items rounded"> -->
             <!-- <li> -->
                 <div class="uk-cover-container uk-inline w-full mb-8">
-                    <?php if($settings['banner_home']["image"]!=""){?><img src="<?= base_url('uploads/banner/'.$settings['banner_home']["image"]) ?>" class="object-cover" alt="" uk-cover><?php } ?>
+                    <?php if($settings['banner_home']["image"]!=""){?><img src="<?= base_url('uploads/banner/'.$settings['banner_home']["image"]) ?>" style="max-width: 100vw" class="object-cover" alt="" uk-cover><?php } ?>
                     <div class="container relative p-20 lg:mt-12 h-full uk-overlay"> 
                         <div  class="flex flex-col justify-center h-full w-full space-y-3">
                             <h1  class="lg:text-4xl text-2xl text-black font-semibold"> <?= $settings['banner_home']["title"] ?? ''?> </h1>

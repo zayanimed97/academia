@@ -6,7 +6,7 @@
         height: 100%;
         padding-top: 50px;
     }
-    #headerimage{
+    /*#headerimage{
         z-index:-1;
         position:relative;
         top: -50px;
@@ -20,12 +20,12 @@
         background-attachment: fixed;
         background-size: 1920px 80%;
         background-position: 50% -90%;
-    }
+    }*/
     #invoice{
-        position: relative;
+        /*position: relative;
         top: -290px;
         margin: 0 auto;
-        width: 700px;
+        width: 700px;*/
         background: #FFF;
     }
 
@@ -45,26 +45,10 @@
         background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;
         background-size: 60px 60px;
     }
-    .clientlogo{
-        float: left;
-        height: 60px;
-        width: 60px;
-        background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
-        background-size: 60px 60px;
-        border-radius: 50px;
-    }
-    .enteLogo{
-        float: left;
-        height: 60px;
-        width: 60px;
-        background: url(<?= base_url('front/assets/images/avatars/placeholder.png') ?>) no-repeat;
-        background-size: 60px 60px;
-        border-radius: 50px;
-    }
+    
     .info{
         display: block;
         float:left;
-        margin-left: 20px;
     }
     .title{
         float: right;
@@ -138,15 +122,40 @@
         width:70%;
     }
 </style>
+
+        <div class="from-blue-500 bg-grey breadcrumb-area py-6 text-black">
+            <div class="container mx-auto lg:pt-5">
+                <div class="breadcrumb text-black">
+                    <ul class="m-0">
+                        <li>
+                            <a href="<?= base_url() ?>"> <i class="icon-feather-home"></i> </a>
+                        </li>
+                        <li>
+                            <a href="<?= base_url() ?>">Home</a>
+                        </li> 
+                        <li class="active">
+                            <a href="#">Ordine </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="md:text-2xl text-base font-semibold mt-6 md:mb-6"> Conferma dell'ordine </div>
+            </div>
+        </div>
 <?php $enteProfile = $UserProfileModel->where('user_id', $selected_ente['id'])->first() ?>
-<div class="lg:py-10 py-5">
+
+
+		<div class="lg:py-10 py-5">
             <div class="container">
+				<div class="lg:w-12/12">
+					<h1 class="lg:text-2xl text-xl font-semibold mb-1">Grazie per il tuo ordine! </h1>
+					<p class="mb-6 mt-1">Qui sotto troverai un riepilogo dell'ordine appena effettuato.  Ti abbiamo inviato una mail con il dettaglio del pagamento se hai scelto il pagamento tramite bonifico bancario.  Puoi consultare nella sezione "I miei acquisti" del tuo profilo lo stato del tuo ordine.</p>
+				</div>
 
                 <div class="lg:flex">
-                <div id="invoiceholder">
+                	<div id="invoiceholder">
 
-                    <div id="headerimage"></div>
-                    <div id="invoice" class="effect2">
+                    <!--div id="headerimage"></div-->
+                    	<div id="invoice" class="effect2">
                     
                     <!-- <div id="invoice-top">
                         <div class="logo"></div>
@@ -167,22 +176,19 @@
                     
                     <div id="invoice-mid" class="flex justify-between">
                         <div>
-                            <div class="clientlogo"></div>
-                            <div class="info">
-                            <h2><?= session('user_data')['display_name'] ?? '' ?></h2>
-                            <p><?= session('user_data')['profile']['email'] ?? '' ?></br>
-                            <?= session('user_data')['profile']['fattura_phone'] ?? '' ?></br>
+                            <div class="info" style="text-align: left;">
+                            	<h2><?= $selected_ente['display_name'] ?? '' ?></h2>
+                                <p><?= $enteProfile['email'] ?? '' ?><br />
+                                <?= $enteProfile['fattura_phone'] ?? '' ?><br />
                             </div>
                         </div>
                         <div>
-                            <div class="flex">
-                                <div class="mr-4">
-                                    <h2><?= $selected_ente['display_name'] ?? '' ?></h2>
-                                    <p><?= $enteProfile['email'] ?? '' ?></br>
-                                    <?= $enteProfile['fattura_phone'] ?? '' ?></br>
+                            <div class="flex" style="text-align: right;">
+                                <div>
+                                    <h2>Acquistato da:<br><?= session('user_data')['display_name'] ?? '' ?></h2>
+                            		<p><?= session('user_data')['profile']['email'] ?? '' ?><br />
+                            		<?= session('user_data')['profile']['fattura_phone'] ?? '' ?><br />
                                 </div>
-                                
-                                <div class="enteLogo"></div>
                             </div>
                         </div>
 
@@ -193,15 +199,15 @@
 
                     </div><!--End Invoice Mid-->
                     
-                    <div id="invoice-bot">
+                    <div id="invoice-bot" style="border:none !important;">
                         
                         <div id="table">
                         <table>
                             <tr class="tabletitle">
-                            <td class="item"><h2>Item Description</h2></td>
-                            <td class="Hours"><h2>Price</h2></td>
+                            <td class="item"><h2>Descrizione</h2></td>
+                            <td class="Hours"><h2>Importo netto</h2></td>
                             <td class="Rate"><h2>Coupons</h2></td>
-                            <td class="subtotal"><h2>Sub-total</h2></td>
+                            <td class="subtotal"><h2>Importo totale</h2></td>
                             </tr>
                             <?php $tax = 0;$total=0;foreach($cartItems as $item){ $tax += floatVal($item['price_ht'])*(floatVal($item['vat']/100)); $total += $item['price_ht'];?>
                                 
@@ -220,7 +226,7 @@
                             
                             <tr class="tabletitle">
                                 <td></td>
-                                <td class="Hours"><h2>Sub Total</h2></td>
+                                <td class="Hours"><h2>Totale</h2></td>
                                 <td class="Rate"><p><?= $amount->format($coupon) ?></p></td>
                                 <td class="payment"><h2><?= $amount->format($total) ?></h2></td>
                             </tr>
@@ -228,14 +234,14 @@
                             <tr class="tabletitle">
                                 <td></td>
                                 <td class="Hours"></td>
-                                <td class="Rate"><h2>tax</h2></td>
+                                <td class="Rate"><h2>IVA</h2></td>
                                 <td class="payment"><h2><?= $amount->format($tax) ?></h2></td>
                             </tr>
 
                             <tr class="tabletitle">
                                 <td></td>
                                 <td class="Hours"></td>
-                                <td class="Rate"><h2>Total</h2></td>
+                                <td class="Rate"><h2>Totale pagato</h2></td>
                                 <td class="payment"><h2><?= $amount->format($total + $tax) ?></h2></td>
                             </tr>
 

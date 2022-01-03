@@ -119,6 +119,29 @@
                                     })
 
                         
+                },
+                shareFacebook(rowid, url){
+                    FB.ui({
+                        method: 'share',
+                        href: url,
+                    }, response => {
+                        if(typeof(response) == 'object' && Object.keys(response).length == 0){
+                            let fields = {rowid: rowid, url: url, platform: 'facebook'};
+                            $.ajax({
+                                    url:"<?php echo base_url('/user/postShared')?>",
+                                    method:"POST",
+                                    data:fields
+                            
+                                }).done((res) => {  res = JSON.parse(res);
+                                                    this.cartItems = res.cartItems; 
+                                                    this.total = res.total; 
+                                                    this.tax = res.tax, 
+                                                    this.coupons = res.coupons; 
+                                                    this.flashMessage.status = res.status, 
+                                                    this.flashMessage.message = res.message
+                                                })
+                        }
+                    })
                 }
             }
         }

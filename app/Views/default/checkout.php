@@ -6,6 +6,34 @@
     input[type="radio"] ~ label div{
         border: .5px solid #666;
     }
+    #fb-share-button {
+    background: #3b5998;
+    border-radius: 3px;
+    font-weight: 600;
+    padding: 0px 5px;
+    display: flex;
+    align-items: center;
+    position: static;
+    }
+
+    #fb-share-button:hover {
+        cursor: pointer;
+        background: #213A6F
+    }
+
+    #fb-share-button svg {
+        width: 12px;
+        fill: white;
+        vertical-align: middle;
+        border-radius: 2px
+    }
+
+    #fb-share-button span {
+        vertical-align: middle;
+        color: white;
+        font-size: .75em;
+        padding: 0 3px
+    }
 </style>
         <!--  breadcrumb -->
         <div class="from-blue-500 via-blue-400 to-blue-500 bg-gradient-to-l breadcrumb-area py-6 text-white">
@@ -193,7 +221,7 @@
                                                 <input id="paypal" name="paymethod" type="radio" x-model="paymethod" value="paypal">
                                                 <label for="paypal" class="h-full w-full">
                                                     <div class="h-full w-full flex justify-center items-center rounded-lg">
-                                                        <img class="h-full" src="https://news-tunisia.tunisienumerique.com/wp-content/uploads/2020/09/IMGBN67678gargah-2-5-5.png" alt="">
+                                                        <img class="h-full" src="<?= base_url('/front/assets/images/paypal.png') ?>" alt="">
                                                     </div>
                                                 </label>
                                             </div>
@@ -255,7 +283,7 @@
                     </div>
         
                     <!-- Sidebar -->
-                    <div class="lg:w-5/12 lg:-ml-12 lg:mt-0 mt-8">
+                    <div class="lg:w-7/12 lg:-ml-12 lg:mt-0 mt-8">
                         <div class="bg-white rounded-md shadow-lg lg:p-6 p-3" uk-sticky="offset:; offset:90 ; media: 1024 ; bottom: true">
         
                             <div class="font-semibold px-5 pb-3 text-lg text-center"> <?php echo lang('front.title_section_order_summary')?> </div>
@@ -274,7 +302,7 @@
                                     <div class="flex py-3 space-x-2.5 delimiter-bottom">
                                         <a class="block md:mr-2" href="#"><img class="w-16 h-11 object-cover rounded" :src="item.options.image ? item.options.image : '<?= base_url('front/assets/images/courses/img-1.jpg') ?>'" alt="Product"></a>
                                         <div class="flex-1">
-                                            <h6 class="font-medium"><a href="#" class="line-clamp-2" x-text="item.name"></a></h6>
+                                            <h6 class="font-medium"><a :href="item.url" class="line-clamp-2" x-text="item.name"></a></h6>
                                             <div class="flex justify-between mt-1">
                                                 
                                                 <span class="font-medium text-sm text-blue-500" x-text="item.type"></span>
@@ -285,6 +313,9 @@
                                                     <span class="font-bold mt-0.5" x-text="formatter.format(item.price)"></span>
                                                 </div>
                                             </div>
+                                            <div class="flex justify-between mt-1">
+                                                <p @click="shareFacebook(item.rowid, item.url)" class="text-green-400 cursor-pointer hover:underline">Risparmia <?= $amount->format($settings['facebook_discount']) ?></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </template>
@@ -292,7 +323,7 @@
         
                             <ul class="border-b border-t my-3 py-3 text-sm space-y-4">
                                 <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_subtotal')?>:</span><span x-text="formatter.format(total+(Object.keys(couponSum).length > 0 ? Object.values(couponSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0))"></span></li>
-                                <li class="flex justify-between align-center" @click="shareFacebook"><span class="mr-2"><?php echo lang('front.field_discount')?>:</span>
+                                <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_discount')?>:</span>
                                     <span>
                                         <template x-for="(discount,idx) in couponSum">
                                             <span class="block text-xs text-right"><span x-text="idx + ': '"></span> <span class="ml-4" x-text="formatter.format(discount)"></span></span>
@@ -355,12 +386,7 @@
                     this.comuni = '<input type="text" id="residenza_comune" name="residenza_comune" class="form-control with-border" required>'
                 }
             },
-            shareFacebook(){
-                FB.ui({
-                    method: 'share',
-                    href: 'https://developers.facebook.com/docs/',
-                }, response => {console.log(response);});
-            },
+            
             
             init(){
                 Promise.allSettled([
