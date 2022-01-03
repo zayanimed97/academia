@@ -232,7 +232,7 @@
 		$("#error_alert").hide('slow');
 		var fields = $( "#profile_form" ).serializeArray();
 		$.ajax({
-				  url:"<?php echo base_url('front/UserController/valid_user')?>",
+				  url:"<?php echo base_url('user/profile/valid_user')?>",
 				  method:"POST",
 				 data:fields
 				  
