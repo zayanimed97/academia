@@ -61,6 +61,7 @@ else{
                                                         <th><?php echo lang('app.field_first_name')?></th>
                                                         <th><?php echo lang('app.field_email')?></th>
                                                         <th><?php echo lang('app.field_phone')?></th>
+														
 														 <th><?php echo lang('app.field_cf')?></th>
 														  <th><?php echo lang('app.field_active_status')?></th>
                                                         <th>&nbsp;</th>
@@ -73,7 +74,7 @@ else{
 														 <td><?= $user['id'] ?></td>
                                                         <td><?= $user['display_name'] ?></td>
                                                         <td><?= $user['user_email'] ?></td>
-                                                        <td><?= $user['telefono']; /*.' | '. $user['mobile']*/?></td>
+                                                        <td><?= $user['telefono']; if($user['mobile']!='') echo ' | '. $user['mobile']?></td>
 														  <td><?= $user['cf'] ?></td>
 														   <td><?php if($user['active']=='yes') echo lang('app.yes'); else echo lang('app.no'); ?></td>
                                                         <td class="row pt-1">
@@ -88,6 +89,10 @@ else{
                                                             <a href="<?= base_url() ?>/admin/edit_user/<?= $user['idu'] ?>" class="p-1" style="height: fit-content; font-size: 1rem">
                                                                 <i class="fe-edit"></i>
                                                             </a>
+															
+															<?php if($user['role']=='participant'){?>
+															<a href="<?php echo base_url('admin/loginAs/'.$user['idu'])?>" class="p-1" style="height: fit-content; font-size: 1rem"><?php echo lang('app.btn_login')?></a>
+															<?php }?>
                                                         </td>
                                                     </tr>
                                                     <?php } ?>

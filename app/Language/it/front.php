@@ -16,6 +16,7 @@ $lang['btn_webinar']="Accedi Zoom";
 $lang['btn_pay']="Vai al pagamento";
 $lang['btn_pay2']="Pagamento";
 $lang['btn_play_video']="Play";
+$lang['btn_close']="chiudere";
 
 $lang['field_email']="Email";
 $lang['field_password']="Password";
@@ -140,8 +141,8 @@ $lang['title_section_order_summary']="Riepilogo ordine";
 $lang['help_text_page_forgot']="Inserisci il tuo indirizzo email per reimpostare la password. Potresti dover consultare la cartella dello spam o sbloccare l'indirizzo no-reply.";
 $lang['title_page_contact']="Contattaci";
 $lang['help_text_page_contact']="Richiedi assistenza tematica.";
-
-
+$lang['title_modal_block_video']="sali in video";
+$lang['msg_modal_block_video']="Non puoi saltare il resto di questo video e passare al prossimo!";
 $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";
 $lang['status_pending']="In sospeso pagamento";
@@ -154,5 +155,8 @@ $lang['menu_back']="indietro";
 
 $lang['post_shared']="post già condiviso";
 $lang['success_share']="post condiviso con successo";
+
+$lang['text_last_activity']="Ultima attività il";
+
 return $lang;
 ?>

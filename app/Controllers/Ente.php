@@ -140,6 +140,21 @@ class Ente extends BaseController
 				$expired_date=$this->request->getVar('expired_date');
 				$this->EntePackageModel->insert(array("id_ente"=>$id_user,"package"=>$tt,"expired_date"=>$expired_date));
 				
+				$list_pages=$this->PagesModel->where('id_ente IS NULL')->find();
+				foreach($list_pages as $k=>$v){
+					$tab=$v;
+					unset($tab['id']);
+					$tab['id_ente']=$id_user;
+					$this->PagesModel->insert($tab);
+				}
+				
+				$list_pages=$this->TemplatesModel->where('id_ente IS NULL')->find();
+				foreach($list_pages as $k=>$v){
+					$tab=$v;
+					unset($tab['id']);
+					$tab['id_ente']=$id_user;
+					$this->TemplatesModel->insert($tab);
+				}
 				############# send Email ################
 				$common_data=$this->common_data();			
 				$email = \Config\Services::email();

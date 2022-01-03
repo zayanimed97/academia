@@ -388,7 +388,7 @@ $lang['field_date_inscrit']="Data iscrizione";
 $lang['field_cart']="Carello";
 $lang['field_date_session']="Data Evento";
 $lang['field_total']="Totale";
-
+$lang['field_cuepoint_block']="Controllo video (cuepoint)";
 $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";
 $lang['status_pending']="In sospeso pagamento";
@@ -471,6 +471,7 @@ $lang['new_luoghi']="Nuovo luoghi";
 $lang['update_luoghi']="Modifica Luoghi";
 $lang['new_alberghi']="Nuovo alberghi";
 $lang['update_alberghi']="Modifica alberghi";
+$lang['edit_modulo']="Modifica modulo";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";

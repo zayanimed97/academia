@@ -85,7 +85,7 @@
 														<td><?= $arg['quota'] ?></td>
 														<td><?php echo date('d/m/Y',strtotime($arg['date'])) ?></td>
 														 <?php if($inf_corsi['buy_type']=='date'){?>
-                                                        <td><?php echo date('d/m/Y',strtotime($arg['date_session'])) ?></td>
+                                                        <td><?php if(isset($arg['date_session']) && $arg['date_session']!="") echo date('d/m/Y',strtotime($arg['date_session'])) ?></td>
 														 <?php } ?>
                                                     </tr>
                                                     <?php } ?>

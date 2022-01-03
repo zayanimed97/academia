@@ -7,7 +7,7 @@ class PagesModel extends Model
 	
     protected $table = 'pages';
 	protected $primaryKey = 'id';
-    protected $allowedFields = ['id_ente','type', 'menu_title','title','content','seo_title','seo_description','ord','enable','banned','url','is_externel','menu_position'];
+    protected $allowedFields = ['id_ente','type', 'menu_title','title','content','seo_title','seo_description','ord','enable','banned','url','is_externel','menu_position','image'];
 	
 	protected $returnType = 'array';
 	

@@ -186,7 +186,7 @@ class CorsiController extends BaseController
     public function details($url)
     {
         $data = $this->common_data();
-
+		$settings=$data['settings'];
         $joinLoggedIn = isset(session('user_data')['profile']['professione']) ? 'AND (prezz.id_professione = '.(session('user_data')['profile']['professione']).')' : '';
         $data['corsi'] = $this->CorsiModel  ->select('corsi.*')
                                             ->where('corsi.id_ente', $data['selected_ente']['id'])
@@ -238,7 +238,48 @@ class CorsiController extends BaseController
         // exit;
 		$data['seo_title']=$data['corsi']['seo_title'];
 		$data['seo_description']=$data['corsi']['seo_description'];
+		if($data['corsi']['foto']!=""){ $seo_image=base_url('uploads/corsi/'.$data['corsi']['foto']);
+			$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/corsi/'.$data['corsi']['foto'])
+										->getFile()
+										->getProperties(true);
+		}
+		else{ $seo_image=base_url('front/assets/images/courses/img-4.jpg');
+		$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/front/assets/images/courses/img-4.jpg')
+										->getFile()
+										->getProperties(true);
+			switch($data['corsi']['tipologia_corsi']){
+									case 'online': if(isset( $settings['default_img_online']) && $settings['default_img_online']!=""){
+										$seo_image=base_url('uploads/'.$settings['default_img_online']); 
+											$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/'.$settings['default_img_online'])
+										->getFile()
+										->getProperties(true);
+									}break;
+									case 'aula': if(isset( $settings['default_img_aula']) && $settings['default_img_aula']!=""){
+										$seo_image=base_url('uploads/'.$settings['default_img_aula']); 
+											$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/'.$settings['default_img_aula'])
+										->getFile()
+										->getProperties(true);
+									} 
+									break;
+									case 'webinar': if(isset( $settings['default_img_webinar']) && $settings['default_img_webinar']!=""){
+									 $seo_image=base_url('uploads/'.$settings['default_img_webinar']); 
+											$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/'.$settings['default_img_webinar'])
+										->getFile()
+										->getProperties(true);
+									}
+									break;
+								}
+			
+		}
 		
+			
+			$data['seo_image_info']=$info;
+		$data['seo_image']=$seo_image;
         return view($data['view_folder'].'/detaglio-corso', $data);
         
     }
@@ -313,6 +354,48 @@ class CorsiController extends BaseController
         
 		$data['seo_title']=$data['module']['seo_title'];
 		$data['seo_description']=$data['module']['seo_description'];
+		if($data['module']['foto']!=""){
+			$seo_image=base_url('uploads/corsi/'.$data['module']['foto']);
+			$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/corsi/'.$data['module']['foto'])
+										->getFile()
+										->getProperties(true);
+		}
+		else{ $seo_image=base_url('front/assets/images/courses/img-4.jpg');
+		$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/front/assets/images/courses/img-4.jpg')
+										->getFile()
+										->getProperties(true);
+			switch($data['corsi']['tipologia_corsi']){
+									case 'online': if(isset( $settings['default_img_online']) && $settings['default_img_online']!=""){
+										$seo_image=base_url('uploads/'.$settings['default_img_online']); 
+											$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/'.$settings['default_img_online'])
+										->getFile()
+										->getProperties(true);
+									}break;
+									case 'aula': if(isset( $settings['default_img_aula']) && $settings['default_img_aula']!=""){
+										$seo_image=base_url('uploads/'.$settings['default_img_aula']); 
+											$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/'.$settings['default_img_aula'])
+										->getFile()
+										->getProperties(true);
+									} 
+									break;
+									case 'webinar': if(isset( $settings['default_img_webinar']) && $settings['default_img_webinar']!=""){
+									 $seo_image=base_url('uploads/'.$settings['default_img_webinar']); 
+											$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/'.$settings['default_img_webinar'])
+										->getFile()
+										->getProperties(true);
+									}
+									break;
+								}
+			
+		}
+		
+			$data['seo_image_info']=$info;
+		$data['seo_image']=$seo_image;
         return view($data['view_folder'].'/detaglio-modulo', $data);
         
     }

@@ -137,7 +137,7 @@ else{
 
 
                                                         <div class="row">
-                                                            <div class="col-12 col-md-6">
+                                                            <div class="col-12 col-md-4">
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="email_profile"> email</label>
                                                                     <div class="col-md-9">
@@ -145,7 +145,7 @@ else{
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-12 col-md-6">
+                                                            <div class="col-12 col-md-4">
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="telefono"> <?php echo lang('app.field_phone')?></label>
                                                                     <div class="col-md-9">
@@ -153,7 +153,14 @@ else{
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                                
+                                                               <div class="col-12 col-md-4">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="mobile"> <?php echo lang('app.field_mobile')?></label>
+                                                                    <div class="col-md-9">
+                                                                        <input type="text" id="mobile" name="mobile" class="form-control" value="<?= $user['mobile'] ?>">
+                                                                    </div>
+                                                                </div>
+                                                            </div>  
                                                         </div> <!-- end row -->
 
                                                         <!-- <template x-if="private == 'private'"> -->

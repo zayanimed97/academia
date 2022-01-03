@@ -304,6 +304,23 @@ class Settings extends BaseController
 					}
 					
 					else{
+						
+						$validated2 = $this->validate([
+							'image' => [
+								'uploaded[image]',
+								'mime_in[image,image/jpg,image/jpeg,image/gif,image/png,image/ico]',
+								'max_size[image,4096]',
+							],
+						]);
+				
+						if ($validated2) { 
+							$avatar_logo = $this->request->getFile('image');
+							 $logo_name = $avatar_logo->getRandomName();
+							
+							$avatar_logo->move(ROOTPATH.'public/uploads/pages/',$logo_name);
+						}
+						else $logo_name =null;
+						
 						if($this->request->getVar('enable')!==null) $enable="yes"; else $enable="no";
 						if($this->request->getVar('is_externel')!==null){
 							$url=$this->request->getVar('url');
@@ -325,6 +342,7 @@ class Settings extends BaseController
 						"type"=>'dynamic',
 						"enable"=>$enable,
 						"id_ente"=>$user_data['id'],
+						'image'=>$logo_name,
 						);
 						
 						$this->PagesModel->insert($tab);
@@ -357,6 +375,8 @@ class Settings extends BaseController
 						$tab=array("title"=>$this->request->getVar('title'),
 						"seo_title"=>$this->request->getVar('seo_title'),
 						"seo_description"=>$this->request->getVar('seo_description'));
+						
+						
 						if($inf_page['type']=='dynamic'){
 							
 					
@@ -369,6 +389,20 @@ class Settings extends BaseController
 							"enable"=>$enable
 						);
 							}
+						$validated2 = $this->validate([
+							'image' => [
+								'uploaded[image]',
+								'mime_in[image,image/jpg,image/jpeg,image/gif,image/png,image/ico]',
+								'max_size[image,4096]',
+							],
+						]);
+				
+						if ($validated2) { 
+							$avatar_logo = $this->request->getFile('image');
+							 $logo_name = $avatar_logo->getRandomName();
+							$tab['image']=$logo_name;
+							$avatar_logo->move(ROOTPATH.'public/uploads/pages/',$logo_name);
+						}	
 						$this->PagesModel->update($id,$tab);
 						$data['success']=lang('app.success_update');
 					}

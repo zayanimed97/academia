@@ -9,7 +9,7 @@ class CorsiModuloModel extends Model
 	protected $primaryKey = 'id';
     protected $allowedFields = ['banned', 'id_corsi','titolo','sotto_titolo','foto','description','instructor','tipologia','test_required','prezzo','codice','crediti','video_promo','url',
 	'obiettivi','programa','note','indrizzato_a','riferimenti','avvisi','seo_title','seo_description','attestato','status','ids_pdf','have_def_price','edition','min_points','ord','free',
-	'inscrizione_aula','nb_person_aula','duration'];
+	'inscrizione_aula','nb_person_aula','duration','cuepoint_block'];
 	
 	protected $returnType = 'array';
 	

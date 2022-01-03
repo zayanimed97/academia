@@ -757,6 +757,22 @@
 												<div class="tab-pane fade" id="tab_vimeo">
                                                     <div id="aulaDateForm" >
 													<div class="row">
+														<div class="col-12">
+                                                                <div class="form-group row mb-3">
+                                                                   
+                                                                    <div class="col-md-9">
+                                                                        <div class="checkbox form-check-inline">
+																			<input type="checkbox" name="cuepoint_block" id="cuepoint_block" value="yes" >
+																			<label for="cuepoint_block"> <?php echo lang('app.field_cuepoint_block')?> </label>
+																		</div>
+																		
+																		
+																		                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+													</div>
+													<div class="row">
 														<div class="repeater-corsivimeo m-t-30 col-md-12">
 														<div data-repeater-list="corsivimeo">
 															<div data-repeater-item="">

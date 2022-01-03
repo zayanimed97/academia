@@ -134,6 +134,7 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
     $routes->get('dashboard', 'DashboardController::show');
+	$routes->add('loginAs/(:num)', 'Users::loginAs/$1');
 });
 
 $routes->get('/getProv', 'Home::getProv');
@@ -155,7 +156,7 @@ $routes->add('/admin/ResetPassword/(:any)/(:any)', 'Users::resetPassword/$1/$2')
 $routes->get('/admin/ResetPassword/(:any)/(:any)', 'Users::resetPassword/$1/$2');
 
 $routes->addRedirect('admin', 'admin/login');
-
+$routes->add('/admin/loginBack', 'Users::loginBack');
 ###################" SUPERADMIN #########################
 
 $routes->add('/superadmin/login', 'Users::login');
@@ -218,13 +219,17 @@ $routes->group("order", ["filter" => "auth:participant"], function ($routes) {
 });
 
 $routes->group("user", ["filter" => "auth:participant"], function ($routes) {
+	$routes->add('profile/valid_user', 'front\UserController::valid_user');
+	$routes->add('profile/setting_submit', 'front\UserController::setting_submit');
 	$routes->add('profile', 'front\UserController::profile');
 	$routes->add('settings', 'front\UserController::settings');
 	$routes->add('participation/(:any)', 'front\UserController::participation_detail/$1');
 	$routes->add('participation', 'front\UserController::participation');
+
     $routes->post('setting_submit', 'front\UserController::setting_submit');
     $routes->post('valid_user', 'front\UserController::valid_user');
     $routes->post('postShared', 'front\CartController::postShared');
+
 });
 $routes->add('/contact', 'Home::contact_page'); 
 $routes->add('/page/(:any)', 'Home::page/$1'); 

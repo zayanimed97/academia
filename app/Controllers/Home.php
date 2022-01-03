@@ -11,7 +11,15 @@ class Home extends BaseController
 		$inf_page=$this->PagesModel->where('url','home')->where('id_ente',$data['selected_ente']['id'])->first();
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
-		
+		if($inf_page['image']!=""){ $seo_image=base_url('uploads/pages/'.$inf_page['image']);
+		$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/pages/'.$inf_page['image'])
+										->getFile()
+										->getProperties(true);
+			$data['seo_image_info']=$info;
+		}
+		else $seo_image="";
+		$data['seo_image']=$seo_image;
 		
 		
         return view($data['view_folder'].'/home', $data);
@@ -28,6 +36,15 @@ class Home extends BaseController
 		$data['inf_page']=$inf_page;
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
+		if($inf_page['image']!=""){ $seo_image=base_url('uploads/pages/'.$inf_page['image']);
+		$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/pages/'.$inf_page['image'])
+										->getFile()
+										->getProperties(true);
+			$data['seo_image_info']=$info;
+		}
+		else $seo_image="";
+		$data['seo_image']=$seo_image;
         return view($data['view_folder'].'/page', $data);
     }
 	
@@ -81,6 +98,15 @@ class Home extends BaseController
 		$data['inf_page']=$inf_page;
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
+		if($inf_page['image']!=""){ $seo_image=base_url('uploads/pages/'.$inf_page['image']);
+		$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/pages/'.$inf_page['image'])
+										->getFile()
+										->getProperties(true);
+			$data['seo_image_info']=$info;
+		}
+		else $seo_image="";
+		$data['seo_image']=$seo_image;
         return view($data['view_folder'].'/contact', $data);
 	}
     public function getCourses()
@@ -128,7 +154,7 @@ class Home extends BaseController
         $country = $this->request->getVar('country');
         
         if ($country == '106') {
-            $provs = $this->ProvinceModel->find();
+            $provs = $this->ProvinceModel->orderBy('provincia','ASC')->find();
             if (($this->request->getVar('name') ?? '') == "fattura_provincia") {
                 $fieldName = 'fattura_comuni';
                 $selectName = 'fattura_comune';
@@ -163,7 +189,7 @@ class Home extends BaseController
     {
         $prov = $this->request->getVar('prov');
 
-            $comuni = $this->ComuniModel->where('id_prov', $prov)->find();
+            $comuni = $this->ComuniModel->where('id_prov', $prov)->orderBy('comune','ASC')->find();
 
             $html = '<select name="'.$this->request->getVar('name').'" class="form-control selectpicker border rounded-md" ><option value="0"> Select Comune </option>';
             foreach ($comuni as $com) {

@@ -1,3 +1,4 @@
+<?php use CodeIgniter\I18n\Time;?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +32,9 @@
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
 let players=new Array;
+let options_current =new Object ;//options;
+let player_current =new Object ;//player;
+//window.a_href
 </script>
 </head>
 
@@ -61,11 +65,14 @@ let players=new Array;
 
                 <div class="lg:inline hidden">
                     <div class="relative overflow-hidden rounded-md bg-gray-200 h-1 mt-4">
-                        <div class="w-2/4 h-full bg-green-500"></div>
+                        <div class="<?php echo $total_vimeo_width?>  h-full bg-green-500"></div>
                     </div>
                     <div class="mt-2 mb-3 text-sm border-b pb-3">
-                        <div> 46% Complete</div>
-                        <div> Last activity on April 20, 2021</div>
+                        <div> <?php  echo $total_vimeo_percent.'% '.lang('front.status_completed') ?></div>
+                        <div> <?php if(!empty($last_activity)){
+							$time = Time::parse($last_activity['created_at'], 'Europe/Rome', 'it_IT');
+							echo lang('front.text_last_activity').' <b>'.$time->toLocalizedString('d MMM Y, H:m').'</b>'; 
+						}?></div>
                     </div>
                 </div>
 
@@ -199,7 +206,10 @@ let players=new Array;
                         <!-- to autoplay video uk-video="automute: true" -->
 						<?php if(!empty($list_vimeo)){
 							foreach($list_vimeo as $k =>$one_vimeo){
-								
+								if(isset($inf_last_status[$one_vimeo['vimeo']])) $vimeo_position=$inf_last_status[$one_vimeo['vimeo']]['cursor_position'];
+								else $vimeo_position=0;
+							//echo $vimeo_position;
+								//var_dump($inf_last_status[$one_vimeo['vimeo']]['cursor_position']);
 								?>
                         <!--div class="embed-video" id="current_video">
                             <iframe src="https://www.youtube.com/embed/9gTw2EDkaDQ" frameborder="0"
@@ -210,17 +220,33 @@ let players=new Array;
 							 var options = {
         url: 'https://vimeo.com/<?php echo $one_vimeo["vimeo"]?>',
 		myID:'<?php echo $one_vimeo["id"]?>',
-     //   width: 640,
+		vimeo_id:'<?php echo $one_vimeo["vimeo"]?>',
+		cuepoint_block:'<?php echo $module["cuepoint_block"]?>',
         loop: false
     };
 
     var player = new Vimeo.Player('iframe_vimeo_<?php echo $one_vimeo["id"]?>', options);
 
     player.setVolume(1);
-	player.setCurrentTime(0);
-
+	player.setCurrentTime(<?php echo intval($vimeo_position) ?? 0 ?>);
+	//player.setCurrentTime(<?php if(!empty($last_status) && $last_status['cursor_position']>0) echo $last_status['cursor_position']; else echo 0;?>);
+//	player.setCurrentTime(<?php if(!empty($inf_last_status[$one_vimeo['vimeo']]) && $inf_last_status[$one_vimeo['vimeo']]['cursor_position']>0) echo $inf_last_status[$one_vimeo['vimeo']]['cursor_position']; else echo 0;?>);
     player.on('play', function() {
         console.log('played the video!');
+		/*player.getCurrentTime().then(function(seconds) {
+			console.log(seconds);
+			var cursor_position=seconds;
+			$.ajax({
+			  method: "POST",
+			  url:"<?php echo base_url('Ajax/set_online_event'); ?>",
+			  data: { id_participation: "<?php echo $inf_participation['id']?>",action:"play",cursor_position:cursor_position}
+			})
+			 .done(function( msg ) {
+				alert(msg);
+				console.log('event saved!');
+			});
+		});*/
+		
     });
 	player.getVideoTitle().then(function(title) {
 		
@@ -229,6 +255,7 @@ let players=new Array;
 	player.getChapters().then(function(chapters) {
 		if(chapters.length>0){
 		jQuery.each( chapters, function( i, val ) {
+			console.log(val);
 			let totalSeconds = val.startTime;
 			let hours = Math.floor(totalSeconds / 3600);
 			totalSeconds %= 3600;
@@ -241,7 +268,19 @@ let players=new Array;
 		
 			var str=minutes + ":" + seconds;
 			if(hours>0) str=hours + ":"+str;
-			$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li onclick=\"clk_chapter('"+val.startTime+"','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\" ><a class='next_chapter'>"+val.title+"<span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
+			if(i==0 && val.startTime>0){
+				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\"><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> 00:00</span></a></li>");
+			}
+			if(options.cuepoint_block=='yes'){
+				if(val.startTime<=<?php echo $vimeo_position?>)
+					$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li id='<?php echo $one_vimeo['id']?>_cue_point_"+i+"' onclick=\"clk_chapter('"+val.startTime+"','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\" ><a class='next_chapter'>"+val.title+"<span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
+				else{
+					$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li id='<?php echo $one_vimeo['id']?>_cue_point_"+i+"' uk-toggle=\"target: #modal-example \"  ><a class='next_chapter'>"+val.title+"<span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
+				}
+			}
+			else{
+				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li id='<?php echo $one_vimeo['id']?>_cue_point_"+i+"' onclick=\"clk_chapter('"+val.startTime+"','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\" ><a class='next_chapter'>"+val.title+"<span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
+			}
 		});
 		}
 		else{
@@ -258,7 +297,11 @@ let players=new Array;
 		
 			var str=minutes + ":" + seconds;
 			if(hours>0) str=hours + ":"+str;
+			//if(val.startTime<=<?php echo $vimeo_position?>)
 				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\"><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
+			/*else{
+				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li uk-toggle=\"target: #modal-example \" ><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
+			}*/
 			});
 			
 		}
@@ -267,8 +310,82 @@ let players=new Array;
 	});
 	
 	<?php if(isset($last_opened['id']) && $one_vimeo['id']==$last_opened['id']){?>
-	let options_current =options;
-	 let player_current =player;
+	 options_current =options;
+	player_current =player;
+	player_current.on('play', function() {
+        console.log('played the video!');
+			player_current.getDuration().then(function(duration_video) {
+		player_current.getCurrentTime().then(function(seconds) {
+			
+			var cursor_position=seconds;
+			$.ajax({
+			  method: "POST",
+			  url:"<?php echo base_url('Ajax/set_online_event'); ?>",
+			  data: { id_participation: "<?php echo $inf_participation['id']?>",vimeo_id:options_current.vimeo_id,action:"play",cursor_position:cursor_position,duration_video:duration_video}
+			})
+			 .done(function( msg ) {
+				
+				console.log('event saved!');
+			});
+		});
+		});
+    });
+	player_current.on('pause', function() {
+        console.log('stoped the video!'+options_current.myID);
+		player_current.getDuration().then(function(duration_video) {
+		player_current.getCurrentTime().then(function(seconds) {
+			
+			var cursor_position=seconds;
+			$.ajax({
+			  method: "POST",
+			  url:"<?php echo base_url('Ajax/set_online_event'); ?>",
+			  data: { id_participation: "<?php echo $inf_participation['id']?>",vimeo_id:options_current.vimeo_id,action:"stop",cursor_position:cursor_position,duration_video:duration_video}
+			})
+			 .done(function( msg ) {
+				//alert('stop');
+				console.log('event saved!');
+			});
+		});
+		});
+    });
+	
+	player_current.on('ended', function() {
+        console.log('end of video!');
+		player_current.getDuration().then(function(duration) {
+			//alert(duration);
+			var cursor_position=duration;
+			$.ajax({
+			  method: "POST",
+			  url:"<?php echo base_url('Ajax/set_online_event'); ?>",
+			  data: { id_participation: "<?php echo $inf_participation['id']?>",vimeo_id:options_current.vimeo_id,action:"end",cursor_position:cursor_position,duration_video:duration}
+			})
+			 .done(function( msg ) {
+				//alert('ended');
+				console.log('event saved!');
+			});
+		});
+		
+    });
+	
+	setInterval(function() {
+	
+		player_current.getCurrentTime().then(function(seconds) {
+			player_current.getChapters().then(function(chapters) {
+				if(chapters.length>0){
+					jQuery.each( chapters, function( i, val ) {
+						if(val.startTime<=seconds){
+						
+							$("#"+options_current.myID+"_cue_point_"+i).removeAttr("uk-toggle");
+							$("#"+options_current.myID+"_cue_point_"+i).attr('onclick',"clk_chapter('"+val.startTime+"','"+options_current.myID+"','"+options_current.vimeo_id+"')");
+						}
+					}).catch(function(error) {
+						// an error occurred
+					});
+	
+				}
+			});
+		});
+}, 5000);
 	
 	<?php } ?>
 	players[<?php echo $one_vimeo["id"]?>]=new Array(player,options);
@@ -425,13 +542,13 @@ let players=new Array;
                     <i class="icon-feather-x"></i>
                 </button>
 
-                <div class="text-sm mb-2">  Section 2  </div>
-                <h2 class="mb-5 font-semibold text-2xl">  Your First webpage  </h2>
-                <p class="text-base">Do You want to skip the rest of this chapter and chumb to next chapter.</p>
+               
+                <h2 class="mb-5 font-semibold text-2xl">  <?php echo lang('front.title_modal_block_video')?>  </h2>
+                <p class="text-base"><?php echo lang('front.msg_modal_block_video')?> </p>
         
                 <div class="text-right  pt-3 mt-3">
-                    <a href="#" class="py-2 inline-block px-8 rounded-md hover:bg-gray-200 uk-modal-close"> Stay </a>
-                    <a href="#" class="button"> Continue </a>
+                    <button  class="py-2 inline-block px-8 button uk-modal-close"> <?php echo lang('front.btn_close')?> </button>
+                   
                 </div>
             </div>
         </div>  
@@ -450,6 +567,7 @@ let players=new Array;
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
 	
 	<script>
+	
 	<?php /*if(isset($last_opened)){?>
 	let options_current = {
         url: 'https://vimeo.com/<?php echo $last_opened["vimeo"]?>',
@@ -510,46 +628,97 @@ function clk_chapter(t,id_row,id_vimeo=null){
 					break;
 			}
 		});
-	}
-	//alert(id_modulo);
-	//console.log(options_current.myID);
-	/*
-	if(id_modulo==options_current.myID){
-				player_current.setCurrentTime(t).then(function(seconds) {
-			// seconds = the actual time that the player seeked to
-		}).catch(function(error) {
-			switch (error.name) {
-				case 'RangeError':
-					// the time was less than 0 or greater than the video’s duration
-					break;
-
-				default:
-					// some other error occurred
-					break;
-			}
-		});
-	}
-	else{ 
-	$("#current_video").html("");
-	$("#current_video").attr('data-vimeo-initialized','false');
-		let options2 = {
-        url: 'https://vimeo.com/'+id_vimeo,
-		myID:id_modulo,
-     //   width: 640,
-        loop: false
-    };
-
-    let player2 = new Vimeo.Player('current_video', options2);
-console.log(player2);
-    player2.setVolume(1);
-	player2.setCurrentTime(0);
-
-    player2.on('play', function() { 
+		
+		player_current.on('play', function() {
         console.log('played the video!');
+			player_current.getDuration().then(function(duration_video) {
+		player_current.getCurrentTime().then(function(seconds) {
+			
+			var cursor_position=seconds;
+			$.ajax({
+			  method: "POST",
+			  url:"<?php echo base_url('Ajax/set_online_event'); ?>",
+			  data: { id_participation: "<?php echo $inf_participation['id']?>",vimeo_id:options_current.vimeo_id,action:"play",cursor_position:cursor_position,duration_video:duration_video}
+			})
+			 .done(function( msg ) {
+				
+				console.log('event saved!');
+			});
+		});
+		});
     });
-	//$("#current_video").html(player2.iframe.outerHtml);
+	player_current.on('pause', function() {
+        console.log('stoped the video!');
+		player_current.getDuration().then(function(duration_video) {
+		player_current.getCurrentTime().then(function(seconds) {
+			
+			var cursor_position=seconds;
+			$.ajax({
+			  method: "POST",
+			  url:"<?php echo base_url('Ajax/set_online_event'); ?>",
+			  data: { id_participation: "<?php echo $inf_participation['id']?>",vimeo_id:options_current.vimeo_id,action:"stop",cursor_position:cursor_position,duration_video:duration_video}
+			})
+			 .done(function( msg ) {
+				//alert('stop');
+				console.log('event saved!');
+			});
+		});
+		});
+    });
+	
+	player_current.on('ended', function() {
+        console.log('end of video!');
+		player_current.getDuration().then(function(duration) {
+			//alert(duration);
+			var cursor_position=duration;
+			$.ajax({
+			  method: "POST",
+			  url:"<?php echo base_url('Ajax/set_online_event'); ?>",
+			  data: { id_participation: "<?php echo $inf_participation['id']?>",vimeo_id:options_current.vimeo_id,action:"end",cursor_position:cursor_position,duration_video:duration}
+			})
+			 .done(function( msg ) {
+				//alert('ended');
+				console.log('event saved!');
+			});
+		});
+		
+    });
+	
+	setInterval(function() {
+	
+		player_current.getCurrentTime().then(function(seconds) {
+			player_current.getChapters().then(function(chapters) {
+				if(chapters.length>0){
+					jQuery.each( chapters, function( i, val ) {
+						if(val.startTime<=seconds){
+						
+							$("#"+options_current.myID+"_cue_point_"+i).removeAttr("uk-toggle");
+							$("#"+options_current.myID+"_cue_point_"+i).attr('onclick',"clk_chapter('"+val.startTime+"','"+options_current.myID+"','"+options_current.vimeo_id+"')");
+						}
+					}).catch(function(error) {
+						// an error occurred
+					});
+	
+				}
+			});
+		});
+}, 5000);
+		
 	}
-	*/
+	
+	
+	$.ajax({
+			  method: "POST",
+			  url:"<?php echo base_url('Ajax/set_online_event'); ?>",
+			  data: { id_participation: "<?php echo $inf_participation['id']?>",vimeo_id:options_current.vimeo_id,action:"start_session"}
+			})
+			 .done(function( msg ) {
+				//alert('ended');
+				console.log('event saved!');
+			});
+	
+	
+	
 }
 </script>
 </body>
