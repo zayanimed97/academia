@@ -11,7 +11,15 @@ class Home extends BaseController
 		$inf_page=$this->PagesModel->where('url','home')->where('id_ente',$data['selected_ente']['id'])->first();
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
-		
+		if($inf_page['image']!=""){ $seo_image=base_url('uploads/pages/'.$inf_page['image']);
+		$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/pages/'.$inf_page['image'])
+										->getFile()
+										->getProperties(true);
+			$data['seo_image_info']=$info;
+		}
+		else $seo_image="";
+		$data['seo_image']=$seo_image;
 		
 		
         return view($data['view_folder'].'/home', $data);
@@ -28,6 +36,15 @@ class Home extends BaseController
 		$data['inf_page']=$inf_page;
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
+		if($inf_page['image']!=""){ $seo_image=base_url('uploads/pages/'.$inf_page['image']);
+		$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/pages/'.$inf_page['image'])
+										->getFile()
+										->getProperties(true);
+			$data['seo_image_info']=$info;
+		}
+		else $seo_image="";
+		$data['seo_image']=$seo_image;
         return view($data['view_folder'].'/page', $data);
     }
 	
@@ -81,6 +98,15 @@ class Home extends BaseController
 		$data['inf_page']=$inf_page;
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
+		if($inf_page['image']!=""){ $seo_image=base_url('uploads/pages/'.$inf_page['image']);
+		$info = \Config\Services::image()
+										->withFile(ROOTPATH.'public/uploads/pages/'.$inf_page['image'])
+										->getFile()
+										->getProperties(true);
+			$data['seo_image_info']=$info;
+		}
+		else $seo_image="";
+		$data['seo_image']=$seo_image;
         return view($data['view_folder'].'/contact', $data);
 	}
     public function getCourses()
