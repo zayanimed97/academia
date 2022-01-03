@@ -94,7 +94,7 @@ class Settings extends BaseController
 						$validated2 = $this->validate([
 							'faveicon' => [
 								'uploaded[faveicon]',
-								'mime_in[faveicon,image/jpg,image/jpeg,image/gif,image/png,image/ico]',
+								'mime_in[faveicon,image/ico,image/jpg,image/jpeg,image/gif,image/png]',
 								'max_size[faveicon,4096]',
 							],
 						]);

@@ -21,7 +21,7 @@
           
             <!-- Basic information -->
 			 <form method="POST"  id="profile_form" onsubmit="return valid_user();">
-            <div class="grid lg:grid-cols-3 gap-8 md:mt-12" x-data="getResData">
+            <div class="grid lg:grid-cols-2 gap-8 md:mt-12" x-data="getResData">
                
                 <div class="bg-white rounded-md lg:shadow-md shadow col-span-2">
 
@@ -232,7 +232,7 @@
 		$("#error_alert").hide('slow');
 		var fields = $( "#profile_form" ).serializeArray();
 		$.ajax({
-				  url:"<?php echo base_url('front/UserController/valid_user')?>",
+				  url:"<?php echo base_url('user/valid_user')?>",
 				  method:"POST",
 				 data:fields
 				  

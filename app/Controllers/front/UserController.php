@@ -172,6 +172,11 @@ class UserController extends BaseController
                 $users[0]['profile'] = $this->UserProfileModel->where('user_id', $users[0]['id'])->first();
 				$this->session->set(array('user_data'=>$users[0]));
 				if(!empty($this->cart->contents())) $this->updateCart();
+				if (isset($_SESSION['intended']) && strlen($_SESSION['intended']) > 0) {
+					$intended = $_SESSION['intended'];
+					unset($_SESSION['intended']);
+					return redirect()->to($intended);
+				}
 				return redirect()->to( base_url() );
 			}
 		}

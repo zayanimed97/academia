@@ -29,6 +29,9 @@ class auth implements FilterInterface
                 
             // }
             if (in_array('participant', $arguments ?? [])) {
+
+
+                $_SESSION['intended'] = current_url();
                 return redirect()->to(base_url('/user/login'));
             }
             return redirect()->to(base_url('/admin/login'));

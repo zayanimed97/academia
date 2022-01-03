@@ -151,5 +151,8 @@ $lang['menu_participation']="Mie partecipazioni";
 $lang['menu_account_settings']="Impostazione conto";
 $lang['menu_contact']="Contatti";
 $lang['menu_back']="indietro";
+
+$lang['post_shared']="post già condiviso";
+$lang['success_share']="post condiviso con successo";
 return $lang;
 ?>

@@ -187,7 +187,6 @@ let players=new Array;
             <!-- overly for mobile -->
             <div class="side_overly" uk-toggle="target: #wrapper ; cls: is-collapse is-active"></div>
             
-        </div> 
 
         <!-- Main Contents -->
         <div class="main_content">
@@ -415,7 +414,8 @@ let players=new Array;
             </div>
 
  
-        </div>
+            </div>
+        </div> 
 
         <!-- This is the modal -->
         <div id="modal-example" class="lg:ml-80" uk-modal>
