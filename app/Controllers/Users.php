@@ -41,7 +41,7 @@ class Users extends BaseController
 		$password=$this->request->getVar('password');
 		$url=uri_string();
 		
-		
+		if($this->request->getVar('email')!==null){
 		$val = $this->validate([
            
             'email' => 'required|valid_email',
@@ -107,8 +107,8 @@ class Users extends BaseController
 			}
 		//	var_dump($users);
 		}
-		
-	//	return view('admin/login.php');
+		}
+		return view($url, ['settings'=>$settings]);
 	}
 	
 	public function forgotPassword(){
