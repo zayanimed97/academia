@@ -645,5 +645,56 @@ if($this->request->getVar('Password')!=""){
 		<?php
 		}
 	}
+	public function set_online_event(){
 	
+		$id_participation=$this->request->getVar('id_participation');
+		$duration_video=$this->request->getVar('duration_video');
+		$vimeo_id=$this->request->getVar('vimeo_id');
+		$action=$this->request->getVar('action');
+		switch($action){
+			case 'play':
+				$online_event=array("action"=>$action,'id_participation'=>$id_participation,'vimeo_id'=>$vimeo_id,"cursor_position"=>$this->request->getVar('cursor_position'));
+				$this->session->set(array('online_event'=>$online_event));
+			break;
+			case 'stop':
+				$online_event=$this->session->get('online_event');
+				$duration=$this->request->getVar('cursor_position')-$online_event['cursor_position'];
+				if($duration>0){
+					$this->ParticipationOnlineEventModel->insert(array("id_participation"=>$id_participation,'vimeo_id'=>$vimeo_id,'event'=>'play','duration'=>$duration,'cursor_position'=>$this->request->getVar('cursor_position'),'created_at'=>date('Y-m-d H:i:s')));
+				}
+					$this->session->remove('online_event');
+			break;
+			case 'end':
+				//$online_event=$this->session->get('online_event');
+				$duration=$this->request->getVar('cursor_position');
+				
+				$this->ParticipationOnlineEventModel->insert(array("id_participation"=>$id_participation,'vimeo_id'=>$vimeo_id,'event'=>'end','duration'=>$duration,'cursor_position'=>$this->request->getVar('cursor_position'),'created_at'=>date('Y-m-d H:i:s')));
+				
+				//$this->session->remove('online_event');
+			break;
+			case 'start_session':
+			$this->ParticipationOnlineEventModel->insert(array("id_participation"=>$id_participation,'vimeo_id'=>$vimeo_id,'event'=>'start_session','created_at'=>date('Y-m-d H:i:s')));
+			break;
+		}
+		$this->verif_online_status($id_participation,$duration_video);
+	}
+	
+	public function verif_online_status($id_participation,$duration_video=0){
+		//echo $id_participation;
+		$inf_participation=$this->ParticipationModel->find($id_participation);
+		$list=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$inf_participation['id_modulo'])->orderBy('ord','ASC')->find();
+		foreach($list as $k=>$v){
+			$last_activity=$this->ParticipationOnlineEventModel->where('id_participation',$id_participation)->where('vimeo_id',$v['vimeo'])->where('event','play')->orderBy('created_at','DESC')->selectMax('cursor_position')->find();
+			//var_dump($last_activity);
+			//if(!empty($last_activity) && $last_activity[0]['cursor_position']>= )
+				if(isset( $last_activity[0]['cursor_position'])) $cursor_position=$last_activity[0]['cursor_position']; else $cursor_position=0;
+				if($duration_video==0) $status=0;
+				else $status=$cursor_position*100/$duration_video;
+				if($status>100) $status=100;
+				$verif=$this->ParticipationOnlineStatusModel->where("id_participation",$id_participation)->where('vimeo_id',$v['vimeo'])->orderBy('created_at','DESC')->first();
+				if(!empty($verif) && $verif['status']<100) $this->ParticipationOnlineStatusModel->update($verif['id'],array("id_participation"=>$id_participation,'vimeo_id'=>$v['vimeo'],"status"=>$status,'cursor_position'=>$cursor_position,'created_at'=>date('Y-m-d H:i:s')));
+				elseif(empty($verif)) $this->ParticipationOnlineStatusModel->insert(array("id_participation"=>$id_participation,'vimeo_id'=>$v['vimeo'],"status"=>$status,'cursor_position'=>$cursor_position,'created_at'=>date('Y-m-d H:i:s')));
+				//else $this->ParticipationOnlineStatusModel->update($verif['id'],array("id_participation"=>$id_participation,'vimeo_id'=>$v['vimeo'],"status"=>$status,'cursor_position'=>$cursor_position,'created_at'=>date('Y-m-d H:i:s')));
+		}
+	}
 }//end class

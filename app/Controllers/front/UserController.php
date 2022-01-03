@@ -532,8 +532,36 @@ class UserController extends BaseController
 				case 'online':
 					$view_page='user_participation_modulo_online.php';
 					$data['list_vimeo']=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$module['id'])->orderBy('ord','ASC')->find();
-					$last_opened=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$module['id'])->orderBy('ord','ASC')->first();
+					$last_activity=$this->ParticipationOnlineEventModel->where('id_participation',$id_participation)->where('event','start_session')->orderBy('created_at','DESC')->first();
+					//var_dump($last_activity);
+					if(!empty($last_activity) && $last_activity['vimeo_id']!=""){
+						$last_opened=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$module['id'])->where('vimeo',$last_activity['vimeo_id'])->orderBy('ord','ASC')->first();
+						$data['last_activity']=$last_activity;
+					}
+					else $last_opened=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$module['id'])->orderBy('ord','ASC')->first();
+					$vimeo_id=$last_opened['vimeo'] ?? NULL;
+//var_dump($last_opened);
 					$data['last_opened']=$last_opened ?? array();
+					$last_status=$this->ParticipationOnlineStatusModel->where('id_participation',$id_participation)->where('vimeo_id',$vimeo_id)->orderBy('created_at','DESC')->first();
+					$total_vimeo_percent=0;
+					$total_vimeo_width='w-0'; // w-2/4
+					if(!empty($last_status)){
+						$data['last_status']=$last_status; //else $data['last_status']=array();
+						foreach($data['list_vimeo'] as $kk=>$vv){
+							$inf_last_status=$this->ParticipationOnlineStatusModel->where('id_participation',$id_participation)->where('vimeo_id',$vv['vimeo'])->orderBy('created_at','DESC')->first();
+							$data['inf_last_status'][$vv['vimeo']]=$inf_last_status;
+							$total_vimeo_percent+=$inf_last_status['status'] ?? 0;
+						}
+					}
+					$data['total_vimeo_percent']=round($total_vimeo_percent/count($data['list_vimeo']));
+					if(round($data['total_vimeo_percent']/25)==0) $total_vimeo_width="w-0"; 
+					else $total_vimeo_width='w-'.(round($data['total_vimeo_percent']/25)).'/4';
+					if($data['total_vimeo_percent']>100){
+						$data['total_vimeo_percent']=100;
+						$total_vimeo_width='w-4/4';
+					}
+					$data['total_vimeo_width']=$total_vimeo_width; // w-2/4
+					$this->ParticipationOnlineEventModel->insert(array("id_participation"=>$id_participation,'vimeo_id'=>$vimeo_id,'event'=>'start_session','created_at'=>date('Y-m-d H:i:s')));
 					//var_dump($data['list_vimeo']);
 				break;
 				case 'aula':
