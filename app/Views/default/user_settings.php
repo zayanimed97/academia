@@ -80,7 +80,7 @@
 		$("#error_alert").hide('slow');
 		var fields = $( "#profile_form" ).serializeArray();
 		$.ajax({
-				  url:"<?php echo base_url('front/UserController/setting_submit')?>",
+				  url:"<?php echo base_url('user/profile/setting_submit')?>",
 				  method:"POST",
 				 data:fields
 				  

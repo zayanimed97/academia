@@ -44,6 +44,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="<?php echo $seo_description ?? 'AuleDigitale Corso plateform'?>">
 
+<link rel="canonical" href="<?php echo current_url()?>"> 
+<meta property="og:site_name" content="<?php echo $_SERVER['SERVER_NAME']?>">
+<meta property="og:type" content="website">
+<meta property="og:url" content="<?php echo current_url()?>"> 
+<meta property="og:title" content="<?php echo $seo_title ?? 'AuleDigitale'?>">
+<meta property="og:description" content="<?php echo $seo_description ?? 'AuleDigitale Corso plateform'?>">
+<?php if($seo_image!=""){?>
+<meta property="og:image" content="<?php echo $seo_image?>"> 
+<meta property="og:image:type" content="<?php echo $seo_image_info['mime_type'] ?? 'image/jpeg'?>"> 
+<meta property="og:image:width" content="<?php echo $seo_image_info['width'] ?? ''?>"> 
+<meta property="og:image:height" content="<?php echo $seo_image_info['height'] ?? ''?>">
+<?php } ?>
+<?php if(isset($settings['fb_app_ID']) && $settings['fb_app_ID']!=""){?>
+<meta property="fb:app_id" content="<?php echo $settings['fb_app_ID'] ?? ''?>">
+<?php } ?>
+<meta name="author" content="auledigitali">
+
+
     <!-- Favicon -->
 	<?php if(($settings['faveicon_website'] ?? null)!==null){?>
 	 <link href="<?= base_url('uploads/'.$settings['faveicon_website']) ?>" rel="icon" type="image/png">

@@ -222,7 +222,7 @@ let player_current =new Object ;//player;
         url: 'https://vimeo.com/<?php echo $one_vimeo["vimeo"]?>',
 		myID:'<?php echo $one_vimeo["id"]?>',
 		vimeo_id:'<?php echo $one_vimeo["vimeo"]?>',
-     //   width: 640,
+		cuepoint_block:'<?php echo $module["cuepoint_block"]?>',
         loop: false
     };
 
@@ -272,10 +272,15 @@ let player_current =new Object ;//player;
 			if(i==0 && val.startTime>0){
 				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\"><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> 00:00</span></a></li>");
 			}
-			if(val.startTime<=<?php echo $vimeo_position?>)
-				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li id='<?php echo $one_vimeo['id']?>_cue_point_"+i+"' onclick=\"clk_chapter('"+val.startTime+"','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\" ><a class='next_chapter'>"+val.title+"<span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
+			if(options.cuepoint_block=='yes'){
+				if(val.startTime<=<?php echo $vimeo_position?>)
+					$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li id='<?php echo $one_vimeo['id']?>_cue_point_"+i+"' onclick=\"clk_chapter('"+val.startTime+"','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\" ><a class='next_chapter'>"+val.title+"<span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
+				else{
+					$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li id='<?php echo $one_vimeo['id']?>_cue_point_"+i+"' uk-toggle=\"target: #modal-example \"  ><a class='next_chapter'>"+val.title+"<span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
+				}
+			}
 			else{
-				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li id='<?php echo $one_vimeo['id']?>_cue_point_"+i+"' uk-toggle=\"target: #modal-example \"  ><a class='next_chapter'>"+val.title+"<span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
+				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li id='<?php echo $one_vimeo['id']?>_cue_point_"+i+"' onclick=\"clk_chapter('"+val.startTime+"','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\" ><a class='next_chapter'>"+val.title+"<span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
 			}
 		});
 		}
