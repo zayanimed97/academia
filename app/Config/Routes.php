@@ -134,6 +134,7 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
     $routes->get('dashboard', 'DashboardController::show');
+	$routes->add('loginAs/(:num)', 'Users::loginAs/$1');
 });
 
 $routes->get('/getProv', 'Home::getProv');
@@ -155,7 +156,7 @@ $routes->add('/admin/ResetPassword/(:any)/(:any)', 'Users::resetPassword/$1/$2')
 $routes->get('/admin/ResetPassword/(:any)/(:any)', 'Users::resetPassword/$1/$2');
 
 $routes->addRedirect('admin', 'admin/login');
-
+$routes->add('/admin/loginBack', 'Users::loginBack');
 ###################" SUPERADMIN #########################
 
 $routes->add('/superadmin/login', 'Users::login');

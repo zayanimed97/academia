@@ -700,7 +700,13 @@ class Users extends BaseController
 				$this->session->set(array('user_data'=>$users[0]));
 				switch($users[0]['role']){
 					case 'ente':$redirect_url='admin/dashboard'; break;
+					case 'participant':
+					$inf_ente=$this->UserModel->find($user_data['id']);
 					
+					$redirect_url='https://'.$inf_ente['domain_ente'].'user'; 
+					$url='https://'.$inf_ente['domain_ente'].'/admin/dashboard'; 
+					$this->session->set(array('redirect_admin'=>$url));
+					break;
 					default:$redirect_url='';
 						
 				}
@@ -727,8 +733,8 @@ public function loginBack(){
 				$this->session->set(array('user_data'=>$users[0]));
 				$this->session->remove('login_as');
 				$this->session->remove('redirect_admin');
-				
-		return redirect()->to($redirect_admin );
+		if(	$users[0]['role']=='ente') 	return redirect()->to('https://'.$users[0]['domain_ente'].'admin/dashboard');
+		else return redirect()->to($redirect_admin );
 	}
 	
 	//--------------------------------------------------------------------
