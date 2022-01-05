@@ -359,7 +359,30 @@
 								
 								   
 														</div>
-                                                   
+                                             <hr/>
+											<div class="row">
+<div class="col-6" >
+														 <div class="form-group row mb-4" >
+									<label class="col-md-4 col-form-label" for="acc-name"><?php echo lang('app.field_default_iva')?></label>
+                                    <div class="col-md-8">
+										<?php $val=$settings['default_iva'] ?? '22'; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'default_iva',
+												'id'    => 'default_iva',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_default_iva'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+                               </div>
+											</div>											 
                                                 
                                                   
                                                             <button type="button" name="submit" class="btn btn-secondary" onclick="save_ente();"><?php echo lang('app.btn_save')?></button>

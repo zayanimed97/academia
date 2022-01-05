@@ -394,6 +394,7 @@ $lang['status_canceled']="Annullato";
 $lang['status_pending']="In sospeso pagamento";
 $lang['field_item']="Articolo";
 $lang['field_item_type']="Articolo tipo";
+$lang['field_default_iva']="Predefinito IVA %";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";

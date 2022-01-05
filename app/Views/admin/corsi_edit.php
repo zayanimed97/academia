@@ -731,7 +731,7 @@
 									<div class="row">
 									<div class="col-md-6" >
                                              <div class="form-group row mb-3">
-                                                <label class="col-md-3 col-form-label" for="email"><?php echo lang('app.field_vat')?></label>
+                                                <label class="col-md-3 col-form-label" for="email"><?php echo lang('app.field_vat')?> %</label>
 												<div class="col-md-9">
 												<?php $val=$inf_corsi['vat']; 
 										$input = [
