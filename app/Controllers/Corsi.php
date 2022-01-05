@@ -1021,8 +1021,7 @@ class Corsi extends BaseController
 			//var_dump($_FILES["corsigallery"]);
 			
 		$this->CorsiModuloPrezzoProfModel->where('id_modulo',$id_modulo)->delete();
-		var_dump($free);
-		var_dump($this->request->getVar('prezzo_prof'));
+		
 			if(null !==$this->request->getVar('prezzo_prof') && $free=='no'){
 						foreach($this->request->getVar('prezzo_prof') as $kk=>$vv){
 							if($vv['prezzo_prof']!=""){ 
