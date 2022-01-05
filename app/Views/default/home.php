@@ -8,10 +8,11 @@
         $courses =  $CorsiModel ->where("find_in_set( '".($uniqueCat[0]['id'] ?? '')."', id_categorie) > 0")
                                 ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
                                 ->where('corsi.banned', 'no')
+                                ->where('corsi.status', 'si')
                                 ->groupBy('corsi.id')
                                 ->join('corsi_prezzo_prof prezz', 'prezz.id_corsi = corsi.id', 'left')
                                 ->where('corsi.id_ente', $selected_ente['id'])
-                                ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
+                                ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id AND cm.banned = "no" AND cm.status = "si"', 'left')
                                 ->groupBy('corsi.id')->having('count(cm.id) > 0')
                                 ->select("  corsi.video_promo, 
                                             corsi.foto, 
@@ -37,10 +38,11 @@
         $featured = $CorsiModel ->where("corsi.featured = 'yes'")
                                 ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
                                 ->where('corsi.banned', 'no')
+                                ->where('corsi.status', 'si')
                                 ->groupBy('corsi.id')
                                 ->join('corsi_prezzo_prof prezz', 'prezz.id_corsi = corsi.id', 'left')
                                 ->where('corsi.id_ente', $selected_ente['id'])
-                                ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
+                                ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id AND cm.banned = "no" AND cm.status = "si"', 'left')
                                 ->groupBy('corsi.id')->having('count(cm.id) > 0')
                                 ->select("  corsi.video_promo, 
                                             corsi.foto, 
@@ -87,6 +89,7 @@
     .sottotitolo{
         text-overflow: ellipsis;
     }
+    
   </style>
         <?php $settings['banner_home'] = (array)json_decode($settings['banner_home'] ?? "" );
         if(!empty($settings['banner_home'])){?>
@@ -153,8 +156,8 @@
                                         <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="" @click="showModalPromo('https://www.youtube.com/embed/<?= $c['video_promo'] ?>', '<?= $c['sotto_titolo'] ?>')">
                                     <?php } ?>
                                 </div>
-                                <div class="flex-1 md:p-6 p-4">
-                                    <a href="<?= base_url('corsi/'.$c['url']) ?>" class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed"><?= ellipsize($c['sotto_titolo'], 35) ?> </a>
+                                <div class="md:w-7/12 flex-1 md:p-6 p-4">
+                                    <a href="<?= base_url('corsi/'.$c['url']) ?>" class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed ellipsize"><?= $c['sotto_titolo'] ?> </a>
                                     <div class="line-clamp-2 mt-2 md:block hidden"><?= ellipsize($c['obiettivi'], 120) ?></div>
                                     <div class="font-semibold mt-3 text-sm"> <?= $c['doctor_names'] ?> </div>
                                     <div class="mt-1 flex items-center justify-between">
@@ -393,7 +396,7 @@
                     <div class="uk-modal-dialog shadow-lg rounded-md">
                         <button class="uk-modal-close-default m-2.5" type="button" uk-close></button>
                         <div class="uk-modal-header  rounded-t-md">
-                            <h4 class="text-lg font-semibold mb-2" x-text="sotto_titolo"></h4>
+                            <h4 class="text-lg font-semibold mb-2 ellipsize" x-text="sotto_titolo"></h4>
                         </div>
                     
                         <div class="embed-video">
@@ -462,7 +465,7 @@
                                                                         <div class="card-body p-4">
                                                                             <a href="${'<?=base_url('corsi')?>/'+element.url}">
 
-                                                                                <div class="font-semibold line-clamp-2"> ${element.sotto_titolo.trunc(20)}</div>
+                                                                                <div class="font-semibold line-clamp-2 ellipsize"> ${element.sotto_titolo.trunc(20)}</div>
                                                                             </a>
                                                                                 
                                                                             <div class="flex space-x-2 items-center text-sm pt-3">
@@ -505,7 +508,6 @@
             },
             init(){
                 let type_cours = <?= json_encode($type_cours) ?>;
-                
                 <?= json_encode($courses) ?>.forEach(element => {
                 let default_image= '<?= base_url('front/assets/images/courses/img-4.jpg') ?>';
                 switch(element.tipologia_corsi){
@@ -525,7 +527,7 @@
                                                         <div class="card-body p-4">
                                                             <a href="${'<?=base_url('corsi')?>/'+element.url}">
 
-                                                                <div class="font-semibold line-clamp-2"> ${element.sotto_titolo.trunc(20)}</div>
+                                                                <div class="font-semibold line-clamp-2 ellipsize"> ${element.sotto_titolo}</div>
                                                             </a>
                                                             <div class="flex space-x-2 items-center text-sm pt-3">
                                                                 <div><a href="<?= base_url('corsi') ?>?tipo=${element.tipologia_corsi}">${type_cours[element.tipologia_corsi] ? type_cours[element.tipologia_corsi] : element.tipologia_corsi} </a> </div>

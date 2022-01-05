@@ -34,6 +34,16 @@
     /* .header_menu ul ul li a:after{
         content: "" !important;
     } */
+    .ellipsize{
+        /* height: 18px; */
+        width: 100%;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        display: inline-block !important;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 </style>
 <head> 
 

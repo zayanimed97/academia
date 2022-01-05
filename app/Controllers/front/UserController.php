@@ -465,6 +465,7 @@ class UserController extends BaseController
 										->where('participation.id_user',$common_data['user_data']['id'])
 										->groupBy('participation.id')
 										->select('participation.*, mp.title as payment_method')
+										->orderBy('participation.date', 'desc')
 										->find();
 		 foreach($list as $kk=>$vv){
 			 $inf_modulo=$this->CorsiModuloModel->find($vv['id_modulo']);
@@ -484,6 +485,7 @@ class UserController extends BaseController
 	}
 	
 	public function participation_detail($id_participation){
+		// die(print(strtotime('2022-01-05 17:30:00')-3600 . ' ' . strtotime(date('Y-m-d H:i:s'))));
 		$common_data=$this->common_data();
 		$data=$common_data;		
 		$inf_participation=$this->ParticipationModel->where('banned','no')->where('id',$id_participation)->where('id_ente',$common_data['selected_ente']['id'])->where('id_user',$common_data['user_data']['id'])->first();
@@ -508,8 +510,12 @@ class UserController extends BaseController
                                                             ')
                                                     ->groupBy('corsi_modulo.id')
                                                     ->first();
-			 
-			$data['corsi'] = $this->CorsiModel          ->where('corsi.id_ente', $data['selected_ente']['id'])
+				
+				$pdf_ids = explode(',',$data['module']['ids_pdf']);
+					
+				$data['pdfs'] = $this->CorsiPDFLibModel->whereIn('id', $pdf_ids ?: ['impossible value'])->where('enable', 'yes')->where('id_ente', $common_data['selected_ente']['id'])->where('banned', 'no')->find();
+
+			$data['corsi'] = $this->CorsiModel      ->where('corsi.id_ente', $data['selected_ente']['id'])
                                                     ->where('corsi.id', $data['module']['id_corsi'])
                                                     ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
                                                     ->join('corsi_pdf_lib pdf', 'find_in_set(pdf.id, corsi.ids_pdf) > 0 AND pdf.accesso = "public"', 'left')
@@ -582,7 +588,11 @@ class UserController extends BaseController
 			}
 		
 			$data['inf_date']=$inf_date ?? array();
-			 $data['doctors'] = $this->UserModel->where("find_in_set(id, '{$module['instructor']}') > 0")->find();
+			$data['doctors'] = $this->UserModel->join('user_cv cv', 'cv.user_id = users.id', 'left')->join('user_profile profile', 'profile.user_id = users.id', 'left')->where("find_in_set(users.id, '{$data['module']['instructor']}') > 0")->select('users.*,profile.logo ,cv.cv as cv')->find();
+			//  echo '<pre>';
+			// print_r(strtotime(date('Y-m-d h:i')) > strtotime($inf_date['date']. ' '. $inf_date['end_time']));
+			// echo '</pre>';
+			// exit;
 			return view($common_data['view_folder'].'/'.$view_page,$data);
 		}
 	}

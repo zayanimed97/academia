@@ -96,6 +96,7 @@ a[disabled] {
     border: 1px solid rgb(229, 231, 235);
 }
 
+<?php $tipo = explode(',',strtolower(htmlspecialchars($_REQUEST['tipo'] ?? ''))); foreach($tipo as &$t){$t = $type_cours[$t];}; $tipo = implode(',', $tipo); ?>
 </style>
         <div class="container"  x-data="getFilters($watch)">
 
@@ -103,7 +104,7 @@ a[disabled] {
             <div class="my-8 lg:flex lg:space-x-10">
                 <div class="lg:w-3/12"></div>
                 <div class="w-full">
-                    <div class="text-xl font-semibold"><?php echo lang('front.title_cours')?> in: <?= ucwords(strtolower(htmlspecialchars($_REQUEST['tipo'] ?? '')), '\',. ') ?> </div>
+                    <div class="text-xl font-semibold"><?php echo lang('front.title_cours')?> in: <?= ucwords(strtolower(htmlspecialchars($tipo ?? '')), '\',. ') ?> </div>
                     <div class="text-sm mt-2 font-medium text-gray-500 leading-6">  <?php echo str_replace('{filter}',ucwords(strtolower(htmlspecialchars(implode(', ',array_filter([$_REQUEST['categories'] ?? '', $_REQUEST['argomenti'] ?? ''])))), '\',. ')  ,lang('front.subtitle_search_cours'))?></div>
                 </div>
                 
@@ -266,19 +267,19 @@ a[disabled] {
                                             <div class="card-body p-4">
                                                 <a href="<?= $c['corsi_id'] == '' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>">
 
-                                                    <div class="font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 50) ?>
+                                                    <div class="font-semibold line-clamp-2 ellipsize"> <?= $c['sotto_titolo'] ?>
                                                     </div>
+                                                </a>
 												
                                                     <div class="flex space-x-2 items-center text-sm pt-3">
-                                                        <div><b class="txt-color"> <?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi'] ?> </b></div>
-														<div> . </div>
-                                                        <div class="text-moduli"> <?= $c['corsi_id'] == '' ? $c['modulo_count'].' modulo' : '<a href="'.base_url('corsi/'.$c['modulo_count']).'">' .$c['corsiSottoTitoloForModulo'].' </a>' ?> </div>
+                                                        <?php if(strlen($c['corsi_id']) == 0) {?><div><b class="txt-color"> <?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi'] ?> </b></div>
+														<div> . </div><?php }?>
+                                                        <div class="text-moduli"> <?= $c['corsi_id'] == '' ? $c['modulo_count'].' modulo' : '<a href="'.base_url('corsi/'.$c['modulo_count']).'" class="ellipsize">' .$c['corsiSottoTitoloForModulo'].' </a>' ?> </div>
                                                     </div>
                                                     <div class="pt-1 flex items-center justify-between">
                                                         <div class="text-docenti"> <?= $c['doctor_names'] ?>  </div>
                                                         <div class="text-prezzo"> <?= $c['prezzo'] ?> </div>
                                                     </div>
-                                                </a>
 												
                                                 <div class="flex justify-between items-center mt-2">
                                                     <template x-if="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')">
@@ -318,7 +319,7 @@ a[disabled] {
                                                 <?php } ?>
                                             </div>
                                             <div class="flex-1 md:space-y-2 space-y-1">
-                                                <a href="<?= $c['corsi_id'] == '' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>" class="md:text-xl font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 50) ?> </a>
+                                                <a href="<?= $c['corsi_id'] == '' ? base_url('corsi/'.$c['url']) : base_url('modulo/'.$c['url']) ?>" class="md:text-xl font-semibold line-clamp-2 ellipsize"> <?= $c['sotto_titolo'] ?> </a>
                                                 <p class="leading-6 pr-4 line-clamp-2 md:block hidden"> <?= ellipsize($c['obiettivi'], 120) ?> </p>
                                                 <a href="#" class="md:font-semibold block text-sm"> <?= $c['doctor_names'] ?> </a>
                                                 <div class="flex items-center justify-between">
@@ -440,7 +441,7 @@ a[disabled] {
             visiblesottoargomenti: [],
             sottoargomenti: "<?= $_REQUEST['sottoargomenti'] ?? '' ?>".split(',').filter((a) => a),
             perPage: <?= $_REQUEST['perPage'] ?? '12' ?>,
-            tipo: "<?= $_REQUEST['tipo'] ?? '' ?>".split(',').filter((a) => a),
+            tipo: "<?= $tipo ?? '' ?>".split(',').filter((a) => a),
             init() {
                 if (this.argomenti.length > 0) {
                     this.allsottoargomenti.forEach(element => {

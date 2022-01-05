@@ -128,3 +128,4 @@ nb-configuration.xml
 
 app/Config/App.php
 app/Views/default/register2.php
+public/uploads/
