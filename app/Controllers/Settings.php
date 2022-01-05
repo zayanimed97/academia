@@ -374,7 +374,8 @@ class Settings extends BaseController
 					else{
 						$tab=array("title"=>$this->request->getVar('title'),
 						"seo_title"=>$this->request->getVar('seo_title'),
-						"seo_description"=>$this->request->getVar('seo_description'));
+						"seo_description"=>$this->request->getVar('seo_description'),
+						"menu_position"=>$this->request->getVar('menu_position'));
 						
 						
 						if($inf_page['type']=='dynamic'){
@@ -386,6 +387,7 @@ class Settings extends BaseController
 							"menu_title"=>$this->request->getVar('menu_title'),
 							"content"=>$this->request->getVar('html'),
 							"ord"=>$this->request->getVar('ord'),
+							"menu_position"=>$this->request->getVar('menu_position'),
 							"enable"=>$enable
 						);
 							}
@@ -403,6 +405,16 @@ class Settings extends BaseController
 							$tab['image']=$logo_name;
 							$avatar_logo->move(ROOTPATH.'public/uploads/pages/',$logo_name);
 						}	
+						if($this->request->getVar('is_externel')!==null){
+							$url=$this->request->getVar('url');
+							$is_externel="yes";
+						}
+						else{
+							$url=strtolower(url_title($this->request->getVar('title')));
+							$is_externel="no";
+						}
+						$tab['url']=$url;
+						$tab['is_externel']=$is_externel;
 						$this->PagesModel->update($id,$tab);
 						$data['success']=lang('app.success_update');
 					}
