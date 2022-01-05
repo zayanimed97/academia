@@ -57,9 +57,9 @@ class Home extends BaseController
 		}
 		if($this->request->getVar('submit')!==null){
 			$email = \Config\Services::email();
-					$subscribe_email=$common_data['selected_ente']['email'];
+					$subscribe_email=$common_data['selected_ente']['email'] ?? '';
 					$inf_profile=$this->UserProfileModel->where('user_id',$common_data['selected_ente']['id'])->first();
-					if($inf_profile['email']!="") $subscribe_email=$inf_profile['email'];
+					if($inf_profile['email']!="" && $subscribe_email=="") $subscribe_email=$inf_profile['email'];
 					$sender_name=$this->request->getVar('nome').' '.$this->request->getVar('cognome');
 					$sender_email=$this->request->getVar('email');
 					

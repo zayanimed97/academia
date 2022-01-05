@@ -41,14 +41,19 @@
                                                             <div class="col-12 col-md-6 repeater-email">
                                                                 <div data-repeater-list="mail">
                                                                 <?php  if($contact_email!=""){
-																	foreach(explode(',,,',$contact_email ) as $email) { ?>
+																	foreach(json_decode($contact_email,true ) as $email) { ?>
                                                                     <div class="form-group row mb-3" data-repeater-item>
+																	  <div class="col-md-5">
                                                                         <label class="col-12 col-form-label" for="email_contact"> <?php echo lang('app.field_email')?></label>
-                                                                        <div class="col-md-9">
-                                                                        
-                                                                            <input type="text" name="email_contact" class="form-control" value="<?= $email ?>">
+
+                                                                         <input type="text" name="email_contact" class="form-control" value="<?= $email['email_contact'] ?>">
+                                                                       
+																	</div>
+																		 <div class="col-md-5">
+                                                                         <label class="col-12 col-form-label" for="email_label"> <?php echo lang('app.field_label')?></label>
+                                                                            <input type="text" name="email_label" class="form-control" value="<?= $email['email_label'] ?>">
                                                                         </div>
-                                                                        <div class="col-md-2 col-sm-12 form-group d-flex align-items-center">
+                                                                        <div class="col-md-2 col-sm-12 form-group d-flex align-items-center mt-4">
                                                                             <button class="btn btn-danger" data-repeater-delete type="button">
                                                                                 <?php echo lang('app.btn_delete')?>
                                                                             </button>
@@ -57,12 +62,16 @@
                                                                 <?php } }
 																else{?>
                                                                      <div class="form-group row mb-3" data-repeater-item>
+																	   <div class="col-md-5">
                                                                         <label class="col-12 col-form-label" for="email_contact"> <?php echo lang('app.field_email')?></label>
-                                                                        <div class="col-md-9">
-                                                                        
+                                                                      
                                                                             <input type="text" name="email_contact" class="form-control">
-                                                                        </div>
-                                                                        <div class="col-md-2 col-sm-12 form-group d-flex align-items-center">
+																		</div>
+                                                                     <div class="col-md-5">
+                                                                         <label class="col-12 col-form-label" for="email_label"> <?php echo lang('app.field_label')?></label>
+                                                                         <input type="text" name="email_label" class="form-control">
+																	</div>
+																	 <div class="col-md-2 col-sm-12 form-group d-flex align-items-center mt-4">
                                                                             <button class="btn btn-danger" data-repeater-delete type="button">
                                                                                 <?php echo lang('app.btn_delete')?>
                                                                             </button>
@@ -83,15 +92,20 @@
                                                                 <?php 
 																if($contact_telephone!=""){
 																	//var_dump($contact_telephone);
-																foreach(explode(',,,',$contact_telephone ) as $phone) { ?>
+																foreach(json_decode($contact_telephone,true ) as $phone) { ?>
 
                                                                     <div class="form-group row mb-3" data-repeater-item>
+																	 <div class="col-md-5">
                                                                         <label class="col-12 col-form-label" for="phone_contact"> <?php echo lang('app.field_phone')?> </label>
-                                                                        <div class="col-md-9">
+                                                                       
                                                                         
-                                                                            <input type="text"  name="phone_contact" class="form-control" value="<?= $phone ?>">
+                                                                            <input type="text"  name="phone_contact" class="form-control" value="<?= $phone['phone_contact'] ?>">
                                                                         </div>
-                                                                        <div class="col-md-2 col-sm-12 form-group d-flex align-items-center">
+																		 <div class="col-md-5">
+																		  <label class="col-12 col-form-label" for="email_label"> <?php echo lang('app.field_label')?></label>
+                                                                         <input type="text" name="phone_label" class="form-control" value="<?= $phone['phone_label'] ?>">
+																		 </div>
+                                                                        <div class="col-md-2 col-sm-12 form-group d-flex align-items-center mt-4">
                                                                             <button class="btn btn-danger" data-repeater-delete type="button">
                                                                                   <?php echo lang('app.btn_delete')?>
                                                                             </button>
@@ -100,12 +114,16 @@
                                                                 <?php } }
 																else{?>
                                                                           <div class="form-group row mb-3" data-repeater-item>
+																		  <div class="col-md-5">
                                                                         <label class="col-12 col-form-label" for="phone_contact"> <?php echo lang('app.field_phone')?> </label>
-                                                                        <div class="col-md-9">
-                                                                        
+                                                                     
                                                                             <input type="text"  name="phone_contact" class="form-control" >
                                                                         </div>
-                                                                        <div class="col-md-2 col-sm-12 form-group d-flex align-items-center">
+																		 <div class="col-md-5">
+																		  <label class="col-12 col-form-label" for="email_label"> <?php echo lang('app.field_label')?></label>
+                                                                         <input type="text" name="phone_label" class="form-control">
+																		 </div>
+                                                                        <div class="col-md-2 col-sm-12 form-group d-flex align-items-center mt-4">
                                                                             <button class="btn btn-danger" data-repeater-delete type="button">
                                                                                   <?php echo lang('app.btn_delete')?>
                                                                             </button>
@@ -298,7 +316,7 @@ function save_ente(){
 				  data:fields
 				  
 			}).done(function(data){
-				console.log(data);
+			//	console.log(data);
 				
 				var obj=JSON.parse(data);
 				if(obj.error==true){

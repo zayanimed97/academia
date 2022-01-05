@@ -93,26 +93,60 @@ class ProfileController extends BaseController
 				$p='profile_contact.php';
 				$settings_emails=array();
 				$settings_phones=array();
+				//var_dump($_POST);
 				if($this->request->getVar('mail')!==null){
+					$tab=array();
+					foreach($this->request->getVar('mail') as $kk=>$vv){
+						
+							$tab[]=$vv;
+						
+					}
+					
+					//var_dump($tab);
 					$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'contact_email')->first();
+					if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'contact_email','meta_value'=>json_encode($tab,true)));
+					else{
+						$settings_emails = [
+								"meta_value" => json_encode($tab,true)
+							];
+						$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'contact_email')->set($settings_emails)->update();
+					}
+				/*	$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'contact_email')->first();
 					if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'contact_email','meta_value'=>implode(',,,',array_map( function ($el){return $el['email_contact'];}, $this->request->getVar('mail')))));
 					else{
 						$settings_emails = [
 								"meta_value" => implode(',,,',array_map( function ($el){return $el['email_contact'];}, $this->request->getVar('mail')))
 							];
 						$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'contact_email')->set($settings_emails)->update();
-					}
+					}*/
 				}
+
 				else $this->SettingModel->updateByMetaKey('contact_email','',$this->session->get('user_data')['id']);
 				if($this->request->getVar('phone')!==null){
+					
+					$tab=array();
+					foreach($this->request->getVar('phone') as $kk=>$vv){
+						
+							$tab[]=$vv;
+						
+					}
+					
+					
 						$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'contact_telephone')->first();
-					if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'contact_telephone','meta_value'=>implode(',,,',array_map( function ($el){return $el['phone_contact'];}, $this->request->getVar('phone')))));
+				if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'contact_telephone','meta_value'=>json_encode($tab,true)));
+					else{
+						$settings_emails = [
+								"meta_value" => json_encode($tab,true)
+							];
+						$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'contact_telephone')->set($settings_emails)->update();
+					}
+				/*	if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'contact_telephone','meta_value'=>implode(',,,',array_map( function ($el){return $el['phone_contact'];}, $this->request->getVar('phone')))));
 					else{
 					$settings_phones = [
 								"meta_value" => implode(',,,',array_map( function ($el){return $el['phone_contact'];}, $this->request->getVar('phone'))) 
 							];
 						$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'contact_telephone')->set($settings_phones)->update();
-					}
+					}*/
 				}
 				else $this->SettingModel->updateByMetaKey('contact_telephone','',$this->session->get('user_data')['id']);
 				
@@ -307,6 +341,16 @@ class ProfileController extends BaseController
 							
 							$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'SMTP')->update($id['id'],array('meta_value'=>$meta_value));
 						}
+						
+						
+						$email=$this->request->getVar('email');
+			$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'email')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'email','meta_value'=>$email));
+							else{
+								
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'email')->update($id['id'],array('meta_value'=>$email));
+							}
+						
 				$res=array("error"=>false);
 				}
 			break;
