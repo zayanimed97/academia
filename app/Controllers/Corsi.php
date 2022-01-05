@@ -300,10 +300,13 @@ class Corsi extends BaseController
 		$str_doctors="";
 	$inf_corsi=$this->CorsiModel->find($id_corsi);
 		$tt=explode(",",$inf_corsi['ids_doctors']);
-		foreach($tt as $one){
+		if(!empty($tt)){
+			foreach($tt as $one){
 				$inf_doctor=$this->UserProfileModel->where('user_id',$one)->first();
-				$str_doctors.=$inf_doctor['nome'].' '.$inf_doctor['cognome'].", ";
+				if(!empty($inf_doctor)) $str_doctors.=$inf_doctor['nome'].' '.$inf_doctor['cognome'].", ";
+				else $str_doctors="";
 			}
+		}else $str_doctors="";
 			$inf_corsi['list_doctors']=$str_doctors;
 			$data['inf_corsi']=$inf_corsi;
 			
@@ -325,7 +328,8 @@ class Corsi extends BaseController
 		$ll=$this->CorsiModuloModel->where('id_corsi',$id_corsi)->where('banned','no')->find();
 		foreach($ll as $kk=>$vv){
 			$inf_doctor=$this->UserProfileModel->where('user_id',$vv['instructor'])->first();
-			$vv['instructor']=$inf_doctor['nome'].' '.$inf_doctor['cognome'];
+				if(!empty($inf_doctor)) $vv['instructor']=$inf_doctor['nome'].' '.$inf_doctor['cognome'];
+			else $vv['instructor']='';
 			if($vv['free']=='yes') $vv['price']=lang('app.field_free_modulo');
 			elseif($vv['have_def_price']=='no'){
 				$vv['price']=lang('app.have_def_price');
@@ -1021,6 +1025,7 @@ class Corsi extends BaseController
 			//var_dump($_FILES["corsigallery"]);
 			
 		$this->CorsiModuloPrezzoProfModel->where('id_modulo',$id_modulo)->delete();
+		
 			if(null !==$this->request->getVar('prezzo_prof') && $free=='no'){
 						foreach($this->request->getVar('prezzo_prof') as $kk=>$vv){
 							if($vv['prezzo_prof']!=""){ 

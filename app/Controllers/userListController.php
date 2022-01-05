@@ -209,7 +209,7 @@ class userListController extends BaseController
 		if($this->request->getVar('delete_foto')=='yes'){
 					$data['logo']="";
 				}
-		$validated = $this->validate([
+			$validated = $this->validate([
 							'logo' => [
 								'uploaded[logo]',
 								'mime_in[logo,image/jpg,image/jpeg,image/gif,image/png]',
@@ -225,11 +225,13 @@ class userListController extends BaseController
 						$data['logo']=$logo_name;
 						
 						}
-						
+				$validation=$this->validator;
+							$data['warning']=$validation->listErrors();
+							 $validation->reset();	
 		if($this->request->getVar('delete_prima')=='yes'){
 					$data['prima']="";
 				}			
-		$validated = $this->validate([
+		$validated2 = $this->validate([
 							'prima' => [
 								'uploaded[prima]',
 								'mime_in[prima,image/jpg,image/jpeg,image/gif,image/png]',
@@ -237,14 +239,18 @@ class userListController extends BaseController
 							],
 						]);
 				
-						if ($validated) { 
+						if ($validated2) { 
 							$avatar_logo = $this->request->getFile('prima');
 							 $prima_name = $avatar_logo->getRandomName();
 							
 							$avatar_logo->move(ROOTPATH.'public/uploads/users/',$prima_name);
-						$data['prima']=$prima_name;
+						 $data['prima']=$prima_name;
 						
 						}
+						else{
+							$validation=$this->validator;
+				 $error_msg=$validation->listErrors();
+							}
 						
 		
 			$this->UserProfileModel->where('user_id', $this->request->getVar('id'))->set($data)->update();

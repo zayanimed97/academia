@@ -533,7 +533,7 @@
 														</div>
 													</div>
 														</div>	
-												<div id="div_not_free">						
+												<div id="div_not_free" <?php if($inf_modulo['free']=='yes'){?>style="display:none"<?php }?>>						
 											 <div class="row">
 										 <div class="col-md-4">
 										  <div class="form-check form-check-inline m-t-20">
@@ -1034,7 +1034,7 @@
 													  <div class="input-group-prepend">
 														<span class="input-group-text" id="basic-addon3">https://www.youtube.com/embed/</span>
 													  </div>
-																<?php $val=""; 
+																<?php $val=$inf_modulo['video_promo'];; 
 														$input = [
 																'type'  => 'text',
 																'name'  => 'video_promo',
@@ -1232,8 +1232,9 @@
                                                 <ul class="list-inline wizard mb-0" style="margin-top:10px">
                                                     <li class="previous list-inline-item"><a href="javascript: void(0);" class="btn btn-secondary"><?php echo lang('app.btn_prev');?></a>
                                                     </li>
+													 <li class="next list-inline-item float-right ml-1"><a href="javascript: void(0);" onclick="save_corsi();" class="btn btn-success btn-finish"><?php echo lang('app.btn_finish');?></a></li>
                                                     <li class="next list-inline-item float-right"><a href="javascript: void(0);" class="btn btn-secondary btn-next"><?php echo lang('app.btn_next');?></a></li>
-													 <li class="next list-inline-item float-right"><a href="javascript: void(0);" onclick="save_corsi();" class="btn btn-success btn-finish"><?php echo lang('app.btn_finish');?></a></li>
+													
                                                 </ul>
 
                                             </div> <!-- tab-content -->
@@ -1515,13 +1516,13 @@
 					var wizard = navigation.closest('#rootwizard');
 
 					// If it's the last tab then hide the last button and show the finish instead
-					if($current >= $total) {
+					/*if($current >= $total) {
 						$(wizard).find('.btn-next').hide();
 						$(wizard).find('.btn-finish').show();
 					} else {
 						$(wizard).find('.btn-next').show();
 						$(wizard).find('.btn-finish').hide();
-					}
+					}*/
 				},
 				/*onNext:function(t,r,a){
 					var o=$($(t).data("targetForm"));
@@ -1965,6 +1966,7 @@ function save_corsi(){
 			}).done(function(msg){
 
 				var obj=JSON.parse(msg);
+				
 			if(obj.error==true){
 					$("#error_alert").html(obj.validation);
 					$("#error_alert").show('slow');

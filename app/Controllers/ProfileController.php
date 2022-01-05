@@ -171,7 +171,13 @@ class ProfileController extends BaseController
 				
 				$res=array("error"=>false);
 		}
-		
+		$default_iva=$this->request->getVar('default_iva');
+			$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'default_iva')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'default_iva','meta_value'=>$default_iva));
+							else{
+								
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'default_iva')->update($id['id'],array('meta_value'=>$default_iva));
+							}
 	
 			break;
 			case 'data':
