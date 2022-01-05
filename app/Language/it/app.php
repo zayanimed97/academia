@@ -395,6 +395,8 @@ $lang['status_pending']="In sospeso pagamento";
 $lang['field_item']="Articolo";
 $lang['field_item_type']="Articolo tipo";
 $lang['field_default_iva']="Predefinito IVA %";
+$lang['field_label']="Label";
+$lang['field_receiver_email']="e-mail del destinatario";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";

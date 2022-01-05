@@ -50,9 +50,9 @@
 									<p><?= $_SESSION['error'] ?? '' ?></p>
 								</div>
 								<?php unset($_SESSION['error']); } ?>
-								 <?php if( isset($success_register)) { ?>
+								 <?php if( isset($success)) { ?>
 								<div class="uk-alert-success" uk-alert>             
-									<p><?= $success_register ?? '' ?></p>
+									<p><?= $success ?? '' ?></p>
 								</div>
 								<?php } ?>
               
@@ -111,13 +111,13 @@
                             </div>
                             <ul>
 						<?php	if(isset($settings['contact_email']) && $settings['contact_email']!=""){
-							$tt=explode(",,,",$settings['contact_email']);
+							$tt=json_decode($settings['contact_email'],true);
 							foreach($tt as $kk=>$vv){?>				
                                 <li>
-                                    <a href="mail-to:<?php echo $vv?>" class="hover:bg-gray-50 rounded-md p-2 -mx-2 block">
+                                    <a href="mail-to:<?php echo $vv['email_contact']?>" class="hover:bg-gray-50 rounded-md p-2 -mx-2 block">
                                        
                                         <div class="flex items-center my-auto text-xs space-x-1.5 mt-1.5">
-                                          <div><?php echo $vv?></div> 
+                                            <div><b><?php echo $vv['email_label']?>:</b>&nbsp;<?php echo $vv['email_contact']?></div>
                                          
                                        </div> 
                                     </a>
@@ -135,14 +135,14 @@
                                 <a href="#" class="text-blue-600"> <ion-icon name="refresh" class="-mt-0.5 -mr-2 hover:bg-gray-100 p-1.5 rounded-full text-lg md hydrated" role="img" aria-label="refresh"></ion-icon> </a>
                             </div>
                             <ul>
-						<?php	if(isset($settings['contact_phone']) && $settings['contact_phone']!=""){
-							$tt=explode(",,,",$settings['contact_phone']);
+						<?php	if(isset($settings['contact_telephone']) && $settings['contact_telephone']!=""){
+							$tt=json_decode($settings['contact_telephone'],true);
 							foreach($tt as $kk=>$vv){?>				
                                 <li>
                                     <a href="#" class="hover:bg-gray-50 rounded-md p-2 -mx-2 block">
                                        
                                         <div class="flex items-center my-auto text-xs space-x-1.5 mt-1.5">
-                                          <div><?php echo $vv?></div> 
+                                          <div><b><?php echo $vv['phone_label']?>:</b>&nbsp;<?php echo $vv['phone_contact']?></div> 
                                          
                                        </div> 
                                     </a>

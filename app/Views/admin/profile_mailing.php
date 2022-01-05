@@ -87,9 +87,16 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                   
-                                                
-                                                  
+                                                   <hr/>
+                                                	<h4>pagina dei contatti</h4>
+                                                   <div class="col-12 col-md-6">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-6 col-form-label" for="cognome"> <?php echo lang('app.field_receiver_email')?></label>
+                                                                    <div class="col-md-6">
+                                                                        <input placeholder="es.: mail@nomedominio.it" type="text" id="email" name="email" class="form-control" value="<?= $settings['email'] ?? '' ?>">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                             <button type="button" name="submit" class="btn btn-secondary" onclick="save_ente();"><?php echo lang('app.btn_save')?></button>
                                                       
 
