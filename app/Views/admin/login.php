@@ -174,12 +174,12 @@
             <!-- Auth fluid right content -->
             <div class="auth-fluid-right text-center">
                 <div class="auth-user-testimonial">
-                    <!--h2 class="mb-3 text-white">I love the color!</h2>
-                    <p class="lead"><i class="mdi mdi-format-quote-open"></i> I've been using your theme from the previous developer for our web app, once I knew new version is out, I immediately bought with no hesitation. Great themes, good documentation with lots of customization available and sample app that really fit our need. <i class="mdi mdi-format-quote-close"></i>
+                    <h2 class="mb-3 text-white"><img src="https://auledigitali.it/images/auledigitali-logo-header.png"></h2>
+                    <p class="lead"><i class="mdi mdi-format-quote-open"></i> Trasforma le tue conoscenze in un'opportunità.  Diventa un insegnante e cambia le vite di tutti, compresa la tua! <i class="mdi mdi-format-quote-close"></i>
                     </p>
                     <h5 class="text-white">
-                        - Fadlisaad (Ubold Admin User)
-                    </h5-->
+                        Admin User
+                    </h5>
                 </div> <!-- end auth-user-testimonial-->
             </div>
             <!-- end Auth fluid right content -->

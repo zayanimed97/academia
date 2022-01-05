@@ -702,9 +702,12 @@
 											  <label class="form-check-label" for="inlineCheckbox1"><?php echo lang("app.field_have_def_price")?></label>
 											</div>
 										 </div>
+												 </div>
+																		
+											 <div class="row">
 										 <div class="col-md-6" id="div_prezzo"  <?php if($inf_corsi['have_def_price']=='no'){?> style="display:none"<?php }?>>
                                              <div class="form-group row mb-3">
-                                                <label class="col-md-3 col-form-label" for="email"><?php echo lang('app.field_price')?></label>
+                                                <label class="col-md-3 col-form-label" for="email"><?php echo lang('app.field_price')?> del corso completo</label>
 												<div class="col-md-9">
 												<?php $val=$inf_corsi['prezzo']; 
 										$input = [
@@ -754,6 +757,7 @@
 											
 												  
 													<h4 class="panel-title"><?php echo lang('app.title_section_modulo_prezzo_prof')?></h4>
+										<p></p>
 												
 													<div class="repeater-prezzo-prof m-t-30 col-md-12">
 														<div data-repeater-list="prezzo_prof">

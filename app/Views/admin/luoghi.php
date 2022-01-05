@@ -52,7 +52,7 @@
                                                     <tr>
                                                         <th data-sorting="disabled">ID</th>
 													 
-													<th><?php echo lang('app.field_title')?></th>
+													<th>Provincia/Comune</th>
 													
 													
 													<th><?php echo lang('app.field_active_status')?></th>
@@ -110,8 +110,8 @@
                             <form class="px-3" method="post" action="<?= base_url() ?>/admin/luoghi" data-parsley-validate="">
 								<input type="hidden" name="action" value="add">
                                 <div class="form-group">
-                                    <label for="nome"><?= lang('app.field_title') ?></label>
-                                    <input class="form-control" type="text" id="nome" name="nome" required placeholder="<?= lang('app.field_argomenti_name') ?>">
+                                    <label for="nome">Provincia o Comune</label>
+                                    <input class="form-control" type="text" id="nome" name="nome" required placeholder="Provincia o Comune">
                                 </div>
 								<div class="form-group">
 								  <div class="checkbox form-check-inline">
@@ -144,8 +144,8 @@
 							<input type="hidden" name="action" value="edit">
                                 <input type="hidden" value="" id="updateId" name="id">
                                 <div class="form-group">
-                                    <label for="username"><?= lang('app.field_argomenti_name') ?></label>
-                                    <input class="form-control" type="text" id="updatename" name="nome" required placeholder="<?= lang('app.field_argomenti_name') ?>">
+                                    <label for="username">Provincia o Comune</label>
+                                    <input class="form-control" type="text" id="updatename" name="nome" required placeholder="Provincia o Comune">
                                 </div>
 <div class="form-group">
 								  <div class="checkbox form-check-inline">

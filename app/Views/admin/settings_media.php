@@ -60,7 +60,7 @@
 											<input type="hidden" name="action" value="logo">
 													<div class="col-md-12">
 													  <div class="form-group">
-														<label class="col-form-label " for="logo"><?php echo lang("app.field_logo")?> </label>
+														<label class="col-form-label " for="logo"><?php echo lang("app.field_logo")?> (370x80 jpg o png) </label>
 														<div class="row">
 															<div class="col-8">
 															<input class="form-control" type="file" id="logo" name="logo"  />
@@ -73,13 +73,13 @@
 													 </div>
 													 <div class="col-md-12">
 													  <div class="form-group">
-														<label class="col-form-label " for="faveicon"><?php echo lang("app.field_faveicon")?> </label>
+														<label class="col-form-label " for="faveicon"><?php echo lang("app.field_faveicon")?> (32x32 jpg o png) </label>
 														<div class="row">
 															<div class="col-8">
 															<input class="form-control" type="file" id="faveicon" name="faveicon"  />
 															</div>
 															<div class="col-4">
-																<?php if($faveicon!=""){?> <img src="<?php echo base_url('uploads/'.$faveicon)?>" style="width:100%"> <?php } ?>
+																<?php if($faveicon!=""){?> <img src="<?php echo base_url('uploads/'.$faveicon)?>" style="width:20%"> <?php } ?>
 															</div>
 														</div>
 														</div>
@@ -101,7 +101,8 @@
                                 <div class="card">
 								 
                                     <div class="card-body">
-                                        <h4 class="header-title"><?php echo lang('app.title_section_media_corso')?></h4>
+                                        <h4 class="header-title"><?php echo lang('app.title_section_media_corso')?> (400x227 jpg)</h4>
+										<p>Sostituirà la foto del corso nel caso o non è stato ancora aggiunta </p>
                                        
 										<?php $attributes = ['class' => 'form-input-flat', 'id' => 'add_corsi_form','method'=>'post'];
 											echo form_open_multipart('', $attributes);?>

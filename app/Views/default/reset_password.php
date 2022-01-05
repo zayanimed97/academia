@@ -39,11 +39,11 @@
   <form method="POST" action="<?=  base_url().'/ResetPassword/'.$email."/".$token?>" class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md">
                 <div>
                     <label class="mb-0" for="username"> <?php echo lang('front.field_password')?> </label>
-                    <input type="text" name="password" id="password" placeholder="password" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    <input type="text" name="password" id="password" placeholder="password" class="with-border bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
                 <div>
                     <label class="mb-0" for="username"> <?php echo lang('front.field_confirm_password')?> </label>
-                    <input type="text" name="confirm_password" id="confirm_password" placeholder="<?php echo lang('front.field_confirm_password')?>" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    <input type="text" name="confirm_password" id="confirm_password" placeholder="<?php echo lang('front.field_confirm_password')?>" class="with-border bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
 
                 <div>

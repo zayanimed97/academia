@@ -16,7 +16,6 @@ $lang['btn_webinar']="Accedi Zoom";
 $lang['btn_pay']="Vai al pagamento";
 $lang['btn_pay2']="Pagamento";
 $lang['btn_play_video']="Play";
-$lang['btn_close']="chiudere";
 
 $lang['field_email']="Email";
 $lang['field_password']="Password";
@@ -88,11 +87,11 @@ $lang['field_insert_code']="Inserisci codice coupon";
 $lang['field_section']="sezione";
 
 $lang['apply_coupon']="Applica il codice coupon";
-$lang['coupon_applied']="Coupon applicato al {0}";
+$lang['coupon_applied']="Coupon applicato correttamente";
 $lang['coupon_no_items']="Nessun articolo da scontare";
 $lang['empty_cart']="Il carrello è vuoto";
 $lang['no_coupon']="Coupon inesistente o scaduto";
-$lang['msg_success_send_contact_form']="il tuo messaggio è stato inviato";
+$lang['msg_success_send_contact_form']="Il tuo messaggio è stato inviato";
 $lang['success_recuperate_password']="E’ stata inviata una e-mail per reimpostare la password. Verifica il tuo indirizzo di posta elettronica (posta in arrivo o posta indesiderata)";
 $lang['success_reset_password']="la password è stata modificata con successo";
 $lang['success_register']="Registrazione avvenuta con successo, controlla la tua email per confermare il tuo indirizzo ";
@@ -116,8 +115,8 @@ $lang['help_forgot_password']="Hai dimenticato la password?";
 $lang['help_havnot_account']="Non hai un account?";
 $lang['title_register']="Creare un profilo";
 $lang['help_have_account']="Hai già un account";
-$lang['title_cours']="corsi";
-$lang['subtitle_search_cours']="scegli tra +10000 {filter} corsi";
+$lang['title_cours']="Corsi";
+$lang['subtitle_search_cours']="{filter}";
 $lang['title_filter_category']="Categorie";
 $lang['title_filter_argomenti']="Argomenti popolari";
 $lang['title_filter_sottoargomenti']="Sotto argomenti";
@@ -132,7 +131,7 @@ $lang['list_view']="Visualizzazione elenco";
 $lang['grid_view']="Vista a griglia";
 $lang['title_page_user_profile']="Mio Profilo";
 $lang['title_page_user_settings']="Impostazioni";
-$lang['title_page_user_participation']="Mio corsi";
+$lang['title_page_user_participation']="I miei apprendimenti";
 $lang['title_modal_video_promo']="Video Promo";
 $lang['title_page_checkout']="Informazioni sul pagamento";
 $lang['title_section_profile_fatturazione']="Dati di fatturazione";
@@ -141,8 +140,8 @@ $lang['title_section_order_summary']="Riepilogo ordine";
 $lang['help_text_page_forgot']="Inserisci il tuo indirizzo email per reimpostare la password. Potresti dover consultare la cartella dello spam o sbloccare l'indirizzo no-reply.";
 $lang['title_page_contact']="Contattaci";
 $lang['help_text_page_contact']="Richiedi assistenza tematica.";
-$lang['title_modal_block_video']="sali in video";
-$lang['msg_modal_block_video']="Non puoi saltare il resto di questo video e passare al prossimo!";
+
+
 $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";
 $lang['status_pending']="In sospeso pagamento";
@@ -152,11 +151,5 @@ $lang['menu_participation']="Mie partecipazioni";
 $lang['menu_account_settings']="Impostazione conto";
 $lang['menu_contact']="Contatti";
 $lang['menu_back']="indietro";
-
-$lang['post_shared']="post già condiviso";
-$lang['success_share']="post condiviso con successo";
-
-$lang['text_last_activity']="Ultima attività il";
-
 return $lang;
 ?>
