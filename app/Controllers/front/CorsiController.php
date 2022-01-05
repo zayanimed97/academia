@@ -23,8 +23,9 @@ class CorsiController extends BaseController
                                         ->where('corsi.id_ente', $data['selected_ente']['id'])
                                         // ->where('corsi.buy_type', 'cours')
                                         ->where('corsi.banned', 'no')
+                                        ->where('corsi.status', 'si')
                                         ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
-                                        ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id')
+                                        ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id AND cm.banned = "no" AND cm.status = "si"')
                                         ->groupBy('corsi.id')
                                         ->select($for == 'corsi' ? 
                                                 "   corsi.video_promo, 
@@ -92,6 +93,7 @@ class CorsiController extends BaseController
                                                 ->join('users u', 'u.id = corsi_modulo.instructor', 'left')
                                                 ->join('corsi_modulo_prezzo_prof prezz', 'corsi_modulo.id = prezz.id_modulo', 'left')
                                                 ->where('corsi_modulo.banned', 'no')
+                                                ->where('corsi_modulo.status', 'si')
                                                 ->groupBy('corsi_modulo.id')
                                                 ->getCompiledSelect();
 
@@ -191,7 +193,7 @@ class CorsiController extends BaseController
         $data['corsi'] = $this->CorsiModel  ->select('corsi.*')
                                             ->where('corsi.id_ente', $data['selected_ente']['id'])
                                             ->where('corsi.url', $url)
-                                            ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
+                                            ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id AND cm.banned = "no"  AND cm.status = "si"', 'left')
                                             ->join('corsi_pdf_lib pdf', 'find_in_set(pdf.id, corsi.ids_pdf) > 0 AND pdf.accesso = "public"', 'left')
                                             ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0', 'left')
                                             ->join('categorie cat', 'find_in_set(cat.id, corsi.id_categorie) > 0', 'left')
@@ -200,6 +202,10 @@ class CorsiController extends BaseController
                                             ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, SUM(cm.crediti) as ECM , pdf.filename as pdf, GROUP_CONCAT(DISTINCT u.display_name) doctor_names, GROUP_CONCAT(DISTINCT cat.titolo) categories, arg.nomeargomento")
                                             ->groupBy('corsi.id')
                                             ->first();
+        // echo '<pre>';
+        // print_r($data['corsi']);
+        // echo '</pre>';
+        // exit;
         $data['doctors'] = $this->UserModel->join('user_cv cv', 'cv.user_id = users.id', 'left')->join('user_profile profile', 'profile.user_id = users.id', 'left')->where("find_in_set(users.id, '{$data['corsi']['ids_doctors']}') > 0")->select('users.*,profile.logo ,cv.cv as cv')->find();
         
         
@@ -209,6 +215,7 @@ class CorsiController extends BaseController
                                                     ->join('corsi_modulo_prezzo_prof prezz', '(corsi_modulo.id = prezz.id_modulo)'. $joinLoggedIn, 'left')
                                                     ->join('categorie cat', 'find_in_set(cat.id, corsi.id_categorie) > 0', 'left')
                                                     ->where('corsi_modulo.banned','no')
+                                                    ->where('corsi_modulo.status','si')
                                                     ->select('  corsi_modulo.*, 
                                                                 u.display_name,
                                                                 MAX(prezz.prezzo) as max_price, 
@@ -304,6 +311,8 @@ class CorsiController extends BaseController
                                                                 MIN(prezz.prezzo) as min_price, 
                                                                 GROUP_CONCAT(DISTINCT cat.titolo) categories
                                                             ')
+                                                    ->where('corsi_modulo.banned', 'no')
+                                                    ->where('corsi_modulo.status', 'si')
                                                     ->groupBy('corsi_modulo.id')
                                                     ->first();
 
@@ -313,7 +322,7 @@ class CorsiController extends BaseController
         // exit;
         $data['corsi'] = $this->CorsiModel          ->where('corsi.id_ente', $data['selected_ente']['id'])
                                                     ->where('corsi.id', $data['module']['id_corsi'])
-                                                    ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
+                                                    ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id AND cm.banned = "no" AND cm.status = "si"', 'left')
                                                     ->join('corsi_pdf_lib pdf', 'find_in_set(pdf.id, corsi.ids_pdf) > 0 AND pdf.accesso = "public"', 'left')
                                                     ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0', 'left')
                                                     ->join('categorie cat', 'find_in_set(cat.id, corsi.id_categorie) > 0', 'left')

@@ -1,6 +1,6 @@
 <?= view($view_folder.'/common/header');
 $type_cours=json_decode($settings['type_cours'] ?? '',true);
-
+use CodeIgniter\I18n\Time;
  ?>
 <style>
     button[disabled]{
@@ -618,13 +618,13 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true);
                                 </div> 
                                 
                             </div>
-                            <?php } if($corsi['buy_type'] == 'date') { foreach($dates as $date) { ?>
+                            <?php } if($corsi['buy_type'] == 'date') { foreach($dates as $date) { if(strtotime(date('Y-m-d H:i:s')) < strtotime($date['date']. ' '. $date['end_time'] . ':00')){ ?>
 
 
                             <div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2 pb-2">
                                 
                                 <div class="flex-1 px-4">
-                                    <div class="font-semibold line-clamp-2 md:text-lg md:leading-relaxed"> <span class="text-green-500"><?= strftime('%e %B %Y', strtotime($date['date'])) ?></span> - ORARIO: <?= $date['start_time'] ?> -  <?= $date['end_time'] ?></div>
+                                    <div class="font-semibold line-clamp-2 md:text-lg md:leading-relaxed"> <span class="text-green-500"><?= Time::parse($date['date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y') ?></span> - ORARIO: <?= $date['start_time'] ?> -  <?= $date['end_time'] ?></div>
                                     <!-- <div class="line-clamp-2 mt-2 md:block hidden">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</div> -->
                                     <div class="font-semibold mt-1"> <?= $mod['sotto_titolo'] ?> </div>
                                     <div class="mt-1"> A cura di: <?= $mod['display_name'] ?></div>
@@ -638,14 +638,14 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true);
                                         </template>
 
                                         <template x-if="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')">
-                                            <a href="<?= base_url('/order/checkout') ?>" :disabled="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>', '<?= $date['id'] ?>') != 'in cart'" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')"> </a>
+                                            <button @click="location.href='<?= base_url('/order/checkout') ?>'" :disabled="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>', '<?= $date['id'] ?>') == 'disabled'" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>', '<?= $date['id'] ?>') == 'disabled' ? '<?php echo lang('front.btn_add_cart')?>' : inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')"> </button>
                                         </template>
                                 </div> 
                                 
                             </div>
 
 
-                            <?php }}}} ?>
+                            <?php }}}}} ?>
                         </div>
 
 
@@ -688,7 +688,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true);
                                 <h4 hidden> <?php echo lang('front.field_cour_include')?></h4>
         
                                 <div class="-m-5 divide-y divide-gray-200 text-sm">
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?> : <?= $corsi['tipologia_corsi'] ?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?> : <?= $type_cours[$corsi['tipologia_corsi']] ?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['ECM'] ?? '0' ?> <?php echo lang('front.field_crediti')?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['duration'] ?? '0min' ?> <?php echo lang('front.field_total')?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['nb_person_aula'] ?? '0' ?> <?php echo lang('front.field_participant')?> </div>

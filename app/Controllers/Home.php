@@ -116,10 +116,11 @@ class Home extends BaseController
         $courses = $this->CorsiModel->where("find_in_set( '".($this->request->getVar('category') ?? '')."', id_categorie) > 0")
                                     ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
                                     ->where('corsi.banned', 'no')
+                                    ->where('corsi.status', 'si')
                                     ->groupBy('corsi.id')
                                     ->join('corsi_prezzo_prof prezz', 'prezz.id_corsi = corsi.id', 'left')
                                     ->where('corsi.id_ente', $data['selected_ente']['id'])
-                                    ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id', 'left')
+                                    ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id AND cm.banned = "no" AND cm.status = "si"', 'left')
                                     ->groupBy('corsi.id')->having('count(cm.id) > 0')
                                     ->select("  corsi.video_promo, 
                                                 corsi.foto, 

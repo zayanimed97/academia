@@ -1,5 +1,7 @@
 <?= view($view_folder.'/common/header');
-$type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
+$type_cours=json_decode($settings['type_cours'] ?? '',true);
+use CodeIgniter\I18n\Time;
+?>
 
         <div class="bg-gradient-to-bl from-purple-600 to-purple-400 text-black lg:-mt-20 lg:pt-20">
             <div class="container p-0">
@@ -50,7 +52,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                             </li> -->
                         </ul>
                         <ul class="lg:flex items-center text-black-200">
-                            <li> <?= $module['tipologia_corsi'] ?> </li>
+                            <li> <?= $type_cours[$module['tipologia_corsi']] ?> </li>
                             <li> <span class="lg:block hidden mx-3 text-2xl">·</span> </li>
                             <li> <?= $module['categories'] ?> </li>
                         </ul>
@@ -655,7 +657,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                                 <h4 hidden><?php echo lang('front.field_cour_include')?></h4>
         
                                 <div class="-m-5 divide-y divide-gray-200 text-sm">
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?>: <?= $module['tipologia_corsi'] ?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?>: <?= $type_cours[$module['tipologia_corsi']] ?> </div>
                                     <!-- <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $module['ECM'] ?? '0' ?> Credits </div> -->
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $module['duration'] ?? '0min' ?> <?php echo lang('front.field_total')?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $module['nb_person_aula'] ?? '0' ?> <?php echo lang('front.field_participant')?> </div>
@@ -670,7 +672,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                                         <select name="date" @change="selectedDate($event, 'date')" class="selectpicker" x-ref="date">
                                             <option value="sgdq">Select Date</option>
                                             <?php foreach($dates as $d){ ?>
-                                                <option value="<?= $d['id'] ?>"><?= strftime('%e %B %Y', strtotime($d['date'])) ?></option>
+                                                <option value="<?= $d['id'] ?>"><?= Time::parse($d['date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y') ?></option>
                                             <?php } ?>
                                         </select>
                                     <?php } ?>

@@ -435,6 +435,9 @@ let player_current =new Object ;//player;
                 <ul uk-switcher="connect: #course-tabs; animation: uk-animation-fade">
                     <li><a href="#" class="lg:px-2">   <?php echo lang('front.field_description')?> </a></li>
                     <li><a href="#" class="lg:px-2"> <?php echo lang('front.field_cv')?>  </a></li>
+                    <?php if(count($pdfs) > 0) { ?>
+                        <li><a href="#Materiel"><?php echo lang('front.materiel')?> </a></li>
+                    <?php } ?>
                     
                 </ul>
             </nav>
@@ -509,7 +512,7 @@ let player_current =new Object ;//player;
                             <?php foreach($doctors as $doc){ ?>
 
                             <div class="flex items-center gap-x-4 mb-5" id="doctor<?= $doc['id'] ?>">
-                                <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-4.jpg" alt="" class="rounded-full shadow w-12 h-12">
+                                <img src="<?= $doc['logo']?base_url('uploads/users/'.$doc['logo']):base_url('front/assets/images/avatars/avatar-4.jpg') ?>" alt="" class="rounded-full shadow w-12 h-12">
                                 <div>
                                     <h4 class="-mb-1 text-base"> <?= $doc['display_name'] ?></h4>
                                     <span class="text-sm"> <?php echo lang('front.field_instructor')?> </span>
@@ -523,7 +526,30 @@ let player_current =new Object ;//player;
                     
                     </div>
 
-               
+                    <?php if(count($pdfs) > 0) { ?>
+                        <div id="Materiel" class="tube-card p-5 lg:p-8">
+                            <h3 class="text-xl font-semibold lg:mb-5"> <?php echo lang('front.materiel_cours')?>  </h3>
+                            
+                            <div id="curriculum">
+        
+                                    <div class="uk-accordion-content mt-3 text-base">
+            
+                                        <ul class="course-curriculum-list font-medium">
+                                            <?php foreach($pdfs as $pdf){ ?>
+                                            <li class=" hover:bg-gray-100 p-2 flex rounded-md items-center mb-4 border-b">
+                                                <span class="icon-material-outline-picture-as-pdf text-xl mr-4"></span> 
+                                                <span><?= $pdf['pdfname'] ?></span> 
+                                                <span class="text-sm ml-auto">
+                                                    <a href="<?= base_url('uploads/corsiPDF/'.$pdf['filename']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> <?php echo lang('front.btn_download_attachment')?> </a>
+                                                </span>
+                                            </li>
+                                            <?php } ?>
+                                        </ul>
+            
+                                    </div>
+                            </div> 
+                        </div>
+                    <?php } ?>
 
 
 

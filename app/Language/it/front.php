@@ -151,5 +151,7 @@ $lang['menu_participation']="Mie partecipazioni";
 $lang['menu_account_settings']="Impostazione conto";
 $lang['menu_contact']="Contatti";
 $lang['menu_back']="indietro";
+$lang['materiel_cours']="materiali del corso";
+$lang['materiel']="materiali";
 return $lang;
 ?>

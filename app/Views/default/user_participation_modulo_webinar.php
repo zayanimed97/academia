@@ -31,7 +31,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                             <?php foreach($doctors as $doc){ ?>
                             <li class="flex items-center">
                                 <div class="flex items-center gap-x-4 mb-5">
-                                    <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-4.jpg" alt="" class="rounded-full shadow w-12 h-12">
+                                    <img src="<?= $doc['logo']?base_url('uploads/users/'.$doc['logo']):base_url('front/assets/images/avatars/avatar-4.jpg') ?>" alt="" class="rounded-full shadow w-12 h-12">
                                     <a href="#doctor<?= $doc['id'] ?>" uk-scroll>
                                         <h4 class="-mb-1 text-base"> <?= $doc['display_name'] ?></h4>
                                         <!-- <span class="text-sm"> Bio </span> -->
@@ -50,7 +50,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                             </li> -->
                         </ul>
                         <ul class="lg:flex items-center text-black-200">
-                            <li> <?= $module['tipologia_corsi'] ?> </li>
+                            <li> <?= $type_cours[$module['tipologia_corsi']] ?> </li>
                             <li> <span class="lg:block hidden mx-3 text-2xl">·</span> </li>
                             <li> <?= $module['categories'] ?> </li>
                         </ul>
@@ -73,7 +73,9 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                                     
 									 <li><a href="#Calendar" uk-scroll><?php echo lang('front.field_calendar')?></a></li>
                                     <li><a href="#Curriculum"><?php echo lang('front.field_cv')?> </a></li>
-                                  
+                                    <?php if(count($pdfs) > 0) { ?>
+                                        <li><a href="#Materiel"><?php echo lang('front.materiel')?> </a></li>
+                                    <?php } ?>
                                 </ul>
                             </nav>
                         </div>
@@ -148,7 +150,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                             <div>
 							    <b><?php echo date('d/m/Y',strtotime($inf_date['date'])).'</b> '.lang('front.field_de').' <b>'.date('H:i',strtotime($inf_date['start_time'])).'</b> '.lang('front.field_a').' <b>'.date('H:i',strtotime($inf_date['end_time']))?></b>
                             </div>
-                              <?php if(strtotime($inf_date['date'])>strtotime(date('Y-m-d'))){?>
+                              <?php if(strtotime(date('Y-m-d H:i:s')) < (strtotime($inf_date['date']. ' '. $inf_date['start_time'] . ':00')-3600) || strtotime(date('Y-m-d H:i:s')) > strtotime($inf_date['date']. ' '. $inf_date['end_time'] . ':00')){?>
                             <div>
 							  <button class="uk-button uk-button-default disabled" disabled><?php echo lang('front.btn_webinar')?></button>
                             </div>
@@ -186,7 +188,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                             <?php foreach($doctors as $doc){ ?>
 
                             <div class="flex items-center gap-x-4 mb-5" id="doctor<?= $doc['id'] ?>">
-                                <img src="<?= base_url('front') ?>/assets/images/avatars/avatar-4.jpg" alt="" class="rounded-full shadow w-12 h-12">
+                                <img src="<?= $doc['logo']?base_url('uploads/users/'.$doc['logo']):base_url('front/assets/images/avatars/avatar-4.jpg') ?>" alt="" class="rounded-full shadow w-12 h-12">
                                 <div>
                                     <h4 class="-mb-1 text-base"> <?= $doc['display_name'] ?></h4>
                                     <span class="text-sm"> <?php echo lang('front.field_instructor')?> </span>
@@ -200,6 +202,31 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
         
                         </div>
 
+                        <?php if(count($pdfs) > 0) { ?>
+                        <div id="Materiel" class="tube-card p-5 lg:p-8">
+                            <h3 class="text-xl font-semibold lg:mb-5"> <?php echo lang('front.materiel_cours')?>  </h3>
+                            
+                            <div id="curriculum">
+        
+                                    <div class="uk-accordion-content mt-3 text-base">
+            
+                                        <ul class="course-curriculum-list font-medium">
+                                            <?php foreach($pdfs as $pdf){ ?>
+                                            <li class=" hover:bg-gray-100 p-2 flex rounded-md items-center mb-4 border-b">
+                                                <span class="icon-material-outline-picture-as-pdf text-xl mr-4"></span> 
+                                                <span><?= $pdf['pdfname'] ?></span> 
+                                                <span class="text-sm ml-auto">
+                                                    <a href="<?= base_url('uploads/corsiPDF/'.$pdf['filename']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> <?php echo lang('front.btn_download_attachment')?> </a>
+                                                </span>
+                                            </li>
+                                            <?php } ?>
+                                        </ul>
+            
+                                    </div>
+                            </div> 
+                        </div>
+                        <?php } ?>
+
                     </div>
                     <div class="lg:w-4/12 space-y-4">
                         
@@ -211,7 +238,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                                 <h4 hidden><?php echo lang('front.field_cour_include')?></h4>
         
                                 <div class="-m-5 divide-y divide-gray-200 text-sm">
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?>: <?= $module['tipologia_corsi'] ?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?>: <?= $type_cours[$module['tipologia_corsi']] ?> </div>
                                     <!-- <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $module['ECM'] ?? '0' ?> Credits </div> -->
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $module['duration'] ?? '0min' ?> <?php echo lang('front.field_total')?> </div>
                                     <?php if($module['inscrizione_aula']=='si'){?><div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $module['nb_person_aula'] ?? '0' ?> <?php echo lang('front.field_participant')?> </div><?php } ?>

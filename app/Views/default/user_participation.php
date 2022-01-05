@@ -1,4 +1,4 @@
-<?php require_once 'common/header.php' ?>
+<?php require_once 'common/header.php'; use CodeIgniter\I18n\Time; ?>
 <style>
     table th{
         padding-bottom: 1em;
@@ -68,9 +68,9 @@
                                             </a>
                                         </td>
 
-										<td class="py-6 border-b"><?php echo strftime('%e %B %Y',strtotime($v['date']))?></td>
+										<td class="py-6 border-b"><?php echo Time::parse($v['date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
 										<td class="py-6 border-b"><?php echo $type_cours[$v['tipologia_corsi']] ?? $v['tipologia_corsi']?></td>
-										<td class="py-6 border-b"><?php if($v['session_date']!="") echo strftime('%e %B %Y',strtotime($v['session_date']))?></td>
+										<td class="py-6 border-b"><?php if($v['session_date']!="") echo Time::parse($v['session_date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
 										<td class="py-6 border-b"><?php echo $v['payment_method']?></td>
 									</tr>
 									<?php }
