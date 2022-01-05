@@ -348,6 +348,7 @@ class CartController extends BaseController
                         }
                         $this->cart->destroy();
                         session()->setFlashdata('success', 'Order Placed Please Pay To Confirm');
+						 $xxx = $this->OrderMail($cartId);
                         $data['cartItems'] = $cartItems;
                         $data['payment_method'] = 'Bonifico bancario';
                         return view($data['view_folder'].'/invoice', $data);

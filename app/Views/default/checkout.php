@@ -314,7 +314,7 @@
                                                 </div>
                                             </div>
                                             <div class="flex justify-between mt-1">
-                                                <p @click="shareFacebook(item.rowid, item.url)" class="text-green-400 cursor-pointer hover:underline">Risparmia <?= $amount->format($settings['facebook_discount']) ?></p>
+                                                <p @click="shareFacebook(item.rowid, item.url)" class="text-green-400 cursor-pointer hover:underline">Risparmia <?= $amount->format($settings['facebook_discount'] ?? 0) ?></p>
                                             </div>
                                         </div>
                                     </div>

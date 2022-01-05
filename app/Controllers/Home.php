@@ -22,6 +22,7 @@ class Home extends BaseController
 		$data['seo_image']=$seo_image;
 		
 		
+		
         return view($data['view_folder'].'/home', $data);
     }
 
