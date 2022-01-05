@@ -703,7 +703,7 @@ class Users extends BaseController
 					case 'participant':
 					$inf_ente=$this->UserModel->find($user_data['id']);
 					
-					$redirect_url='https://'.$inf_ente['domain_ente'].'user'; 
+					$redirect_url='https://'.$inf_ente['domain_ente'].'/user'; 
 					$url='https://'.$inf_ente['domain_ente'].'/admin/dashboard'; 
 					$this->session->set(array('redirect_admin'=>$url));
 					break;
@@ -729,11 +729,15 @@ public function loginBack(){
 						->where('id', $id_admin)
 						
 						->findAll();
-	
+	if($users[0]['role']=='ente'){
+					$inf_package=$this->EntePackageModel->where('id_ente',$users[0]['id'])->orderBy('expired_date','DESC')->first();
+					$det=json_decode($inf_package['package'] ?? '[]',true);
+					$users[0]['ente_package']=array("expired_date"=>$inf_package['expired_date'],"type_cours"=>$det['type_cours'] ?? '',"extra"=>$det['extra'] ?? '');
+				}
 				$this->session->set(array('user_data'=>$users[0]));
 				$this->session->remove('login_as');
 				$this->session->remove('redirect_admin');
-		if(	$users[0]['role']=='ente') 	return redirect()->to('https://'.$users[0]['domain_ente'].'admin/dashboard');
+		if(	$users[0]['role']=='ente') 	return redirect()->to('https://'.$users[0]['domain_ente'].'/admin/dashboard');
 		else return redirect()->to($redirect_admin );
 	}
 	
