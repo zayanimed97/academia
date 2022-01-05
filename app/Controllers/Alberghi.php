@@ -128,7 +128,7 @@ class Alberghi extends BaseController
 			
 			}
 			
-			$list=$this->AlberghiModel->findAll();//search('D',$display_name,$email,$active,$is_expired,$cf);
+			$list=$this->AlberghiModel->where('id_ente',$array['user_data']['id'])->findAll();//search('D',$display_name,$email,$active,$is_expired,$cf);
 			
 			foreach($list as $kk=>$vv){
 				$inf_luoghi=$this->LuoghiModel->find($vv['idluogo']);
@@ -185,12 +185,12 @@ class Alberghi extends BaseController
 	}
 	
 	public function get_data(){
-		
+		$common_data=$this->common_data();
 		$id=$this->request->getVar('id');
 		$data=$this->AlberghiModel->find($id);
 $inf_profile=$data;	
 $inf_l=$this->LuoghiModel->find($data['idluogo']);
-		$list_luoghi=$this->LuoghiModel->where('banned','no')->orderby('nome','ASC')->findAll();
+		$list_luoghi=$this->LuoghiModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->orderby('nome','ASC')->findAll();
 		?>
 		
 	
