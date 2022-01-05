@@ -63,6 +63,7 @@ class Settings extends BaseController
 		if($this->request->getVar('action')!==null){
 			switch($this->request->getVar('action')){
 				case 'logo':
+				if($_FILES['logo']['name']!=""){
 					 $validated = $this->validate([
 							'logo' => [
 								'uploaded[logo]',
@@ -90,7 +91,8 @@ class Settings extends BaseController
 							 $validation->reset();
 						
 						}
-						
+				}	
+				if($_FILES['logo']['faveicon']!=""){
 						$validated2 = $this->validate([
 							'faveicon' => [
 								'uploaded[faveicon]',
@@ -118,6 +120,7 @@ class Settings extends BaseController
 							else $data['warning']=$validation->listErrors();
 						
 						}
+				}
 				break;
 				case 'corso':
 					 $validated = $this->validate([
@@ -405,13 +408,13 @@ class Settings extends BaseController
 					
 						if($this->request->getVar('enable')!==null ) $enable="yes"; else $enable="no";
 						
-						$tab=array(
+						$tab=array_merge($tab,array(
 							"menu_title"=>$this->request->getVar('menu_title'),
 							"content"=>$this->request->getVar('html'),
 							"ord"=>$this->request->getVar('ord'),
-							"menu_position"=>$this->request->getVar('menu_position'),
+						
 							"enable"=>$enable
-						);
+						));
 							}
 						$validated2 = $this->validate([
 							'image' => [
