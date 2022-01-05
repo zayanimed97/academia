@@ -533,7 +533,7 @@
 														</div>
 													</div>
 														</div>	
-												<div id="div_not_free">						
+												<div id="div_not_free" <?php if($inf_modulo['free']=='yes'){?>style="display:none"<?php }?>>						
 											 <div class="row">
 										 <div class="col-md-4">
 										  <div class="form-check form-check-inline m-t-20">
@@ -1034,7 +1034,7 @@
 													  <div class="input-group-prepend">
 														<span class="input-group-text" id="basic-addon3">https://www.youtube.com/embed/</span>
 													  </div>
-																<?php $val=""; 
+																<?php $val=$inf_modulo['video_promo'];; 
 														$input = [
 																'type'  => 'text',
 																'name'  => 'video_promo',
@@ -1965,6 +1965,7 @@ function save_corsi(){
 			}).done(function(msg){
 
 				var obj=JSON.parse(msg);
+				
 			if(obj.error==true){
 					$("#error_alert").html(obj.validation);
 					$("#error_alert").show('slow');
