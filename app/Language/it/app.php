@@ -614,6 +614,7 @@ $lang['msg_delete_foto']="Sei sicuro di eliminare quest'immagine?";
 $lang['alert_msg_delete_coupon']="Sei sicuro di eliminare questo coupon?";
 $lang['alert_msg_delete_page']="Sei sicuro di volere eliminare questa pagina?";
 $lang['alert_msg_delete_luoghi']="Sei sicuro di eliminare questo luoghi?";
+$lang['alert_msg_delete_alberghi']="Sei sicuro di eliminare questo alberghi?";
 //$lang['alert_msg_delete_response']="sei sicuro di voler cancellare questa risposta?";
 $lang['help_server_name']="i.e: mydomain.it (escluso http://)";
 $lang['help_tabprice_buy_type']="scegli di acquistare il tipo di corso per corso, quindi non puoi impostare i prezzi del modulo";

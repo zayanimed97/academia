@@ -109,7 +109,7 @@ class Alberghi extends BaseController
 							$success=lang('app.success_update');
 					break;
 					case 'delete':
-						$id=$this->request->getVar('user_to_delete');
+						$id=$this->request->getVar('id');
 						if($id!=""){
 							$this->AlberghiModel->update($id,array("banned"=>'yes'));
 						
