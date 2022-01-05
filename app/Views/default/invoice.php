@@ -148,7 +148,7 @@
             <div class="container">
 				<div class="lg:w-12/12">
 					<h1 class="lg:text-2xl text-xl font-semibold mb-1">Grazie per il tuo ordine! </h1>
-					<p class="mb-6 mt-1">Qui sotto troverai un riepilogo dell'ordine appena effettuato.  Ti abbiamo inviato una mail con il dettaglio del pagamento se hai scelto il pagamento tramite bonifico bancario.  Puoi consultare nella sezione "I miei acquisti" del tuo profilo lo stato del tuo ordine.</p>
+					<p class="mb-6 mt-1"></p>
 				</div>
 
                 <div class="lg:flex">
@@ -262,7 +262,7 @@
 
                         
                         <div id="legalcopy">
-                        <!-- <p class="legal"><strong>Thank you for your business!</strong>  Payment is expected within 31 days; please process this invoice within that time. There will be a 5% interest charge per month on late invoices.  -->
+                        <p class="legal"><strong>Qui sotto troverai un riepilogo dell'ordine appena effettuato!</strong>  Ti abbiamo inviato una mail con il dettaglio del pagamento se hai scelto il pagamento tramite bonifico bancario. Puoi consultare nella sezione "<a href="/user/participation">I miei acquisti</a>" del tuo profilo lo stato del tuo ordine.
                         </p>
                         </div>
                         

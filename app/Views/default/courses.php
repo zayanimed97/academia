@@ -95,6 +95,7 @@ a[disabled] {
 .addtocartbtn{
     border: 1px solid rgb(229, 231, 235);
 }
+
 </style>
         <div class="container"  x-data="getFilters($watch)">
 
@@ -102,7 +103,7 @@ a[disabled] {
             <div class="my-8 lg:flex lg:space-x-10">
                 <div class="lg:w-3/12"></div>
                 <div class="w-full">
-                    <div class="text-xl font-semibold"><?= ucwords(strtolower(htmlspecialchars($_REQUEST['tipo'] ?? '')), '\',. ') ?> <?php echo lang('front.title_cours')?> </div>
+                    <div class="text-xl font-semibold"><?php echo lang('front.title_cours')?> in: <?= ucwords(strtolower(htmlspecialchars($_REQUEST['tipo'] ?? '')), '\',. ') ?> </div>
                     <div class="text-sm mt-2 font-medium text-gray-500 leading-6">  <?php echo str_replace('{filter}',ucwords(strtolower(htmlspecialchars(implode(', ',array_filter([$_REQUEST['categories'] ?? '', $_REQUEST['argomenti'] ?? ''])))), '\',. ')  ,lang('front.subtitle_search_cours'))?></div>
                 </div>
                 
@@ -267,17 +268,18 @@ a[disabled] {
 
                                                     <div class="font-semibold line-clamp-2"> <?= ellipsize($c['sotto_titolo'], 50) ?>
                                                     </div>
+												
                                                     <div class="flex space-x-2 items-center text-sm pt-3">
-                                                        <div> <?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi'] ?> </div>
-                                                        <div>·</div>
-                                                        <div> <?= $c['corsi_id'] == '' ? $c['modulo_count'].' modulo' : '<a href="'.base_url('corsi/'.$c['modulo_count']).'">' .$c['corsiSottoTitoloForModulo'].' </a>' ?> </div>
+                                                        <div><b class="txt-color"> <?= $type_cours[$c['tipologia_corsi']] ?? $c['tipologia_corsi'] ?> </b></div>
+														<div> . </div>
+                                                        <div class="text-moduli"> <?= $c['corsi_id'] == '' ? $c['modulo_count'].' modulo' : '<a href="'.base_url('corsi/'.$c['modulo_count']).'">' .$c['corsiSottoTitoloForModulo'].' </a>' ?> </div>
                                                     </div>
                                                     <div class="pt-1 flex items-center justify-between">
-                                                        <div class="text-sm font-semibold"> <?= $c['doctor_names'] ?>  </div>
-                                                        <div class="text-lg font-semibold"> <?= $c['prezzo'] ?> </div>
+                                                        <div class="text-docenti"> <?= $c['doctor_names'] ?>  </div>
+                                                        <div class="text-prezzo"> <?= $c['prezzo'] ?> </div>
                                                     </div>
                                                 </a>
-
+												
                                                 <div class="flex justify-between items-center mt-2">
                                                     <template x-if="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')">
                                                         <button href="<?= base_url('/order/checkout') ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')"> </button>

@@ -4,6 +4,21 @@
         padding-bottom: 1em;
     }
 </style>
+        <div class="from-blue-500 bg-grey breadcrumb-area py-6 text-black">
+            <div class="container mx-auto lg:pt-5">
+                <div class="breadcrumb text-black">
+                    <ul class="m-0">
+                        <li>
+                            <a href="<?= base_url() ?>"> <i class="icon-feather-home"></i> </a>
+                        </li>
+                        <li class="active">
+                            <a href="#"><?php echo lang('front.title_page_user_participation')?> </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="md:text-2xl text-base font-semibold mt-6 md:mb-6"> <?php echo lang('front.title_page_user_participation')?> </div>
+            </div>
+        </div>
   <div class="container">
 
 
@@ -29,9 +44,7 @@
                
                 <div class="bg-white rounded-md col-span-2">
 
-                    <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
-                    <h3 class="text-2xl font-medium mb-5"> <?php echo lang('front.title_page_user_participation')?> </h3>
-					
+                    <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">					
                        
                            <table id="basic-datatable" class="table col-span-2">
                                 <thead class="border-b">

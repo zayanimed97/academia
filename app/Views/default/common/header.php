@@ -50,7 +50,7 @@
 <meta property="og:url" content="<?php echo current_url()?>"> 
 <meta property="og:title" content="<?php echo $seo_title ?? 'AuleDigitale'?>">
 <meta property="og:description" content="<?php echo $seo_description ?? 'AuleDigitale Corso plateform'?>">
-<?php if($seo_image!=""){?>
+<?php if(($seo_image ?? '')!=""){?>
 <meta property="og:image" content="<?php echo $seo_image?>"> 
 <meta property="og:image:type" content="<?php echo $seo_image_info['mime_type'] ?? 'image/jpeg'?>"> 
 <meta property="og:image:width" content="<?php echo $seo_image_info['width'] ?? ''?>"> 
