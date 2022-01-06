@@ -474,6 +474,9 @@ $lang['new_luoghi']="Nuovo luogo";
 $lang['update_luoghi']="Modifica Luogo";
 $lang['new_alberghi']="Nuovo albergo";
 $lang['update_alberghi']="Modifica albergo";
+$lang['edit_corsi']="modifica corso";
+$lang['menu_pdflib']="Materialli";
+$lang['new_pdf']="Nuovo file";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -562,6 +565,7 @@ $lang['dashboard_section_total_participant']="Participanti";
 $lang['dashboard_section_total_participant_buyed']="partecipante ha acquistato almeno un modulo";
 
 $lang['title_modal_update_order_status']="Modifica stato ordine";
+$lang['dashboard_pdflib']="Lista Materialli";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
@@ -618,6 +622,7 @@ $lang['alert_msg_delete_coupon']="Sei sicuro di eliminare questo coupon?";
 $lang['alert_msg_delete_page']="Sei sicuro di volere eliminare questa pagina?";
 $lang['alert_msg_delete_luoghi']="Sei sicuro di eliminare questo luoghi?";
 $lang['alert_msg_delete_alberghi']="Sei sicuro di eliminare questo alberghi?";
+$lang['modal_title_delete_pdf']="Sei sicuro di eliminare questo file?";
 //$lang['alert_msg_delete_response']="sei sicuro di voler cancellare questa risposta?";
 $lang['help_server_name']="i.e: mydomain.it (escluso http://)";
 $lang['help_tabprice_buy_type']="scegli di acquistare il tipo di corso per corso, quindi non puoi impostare i prezzi del modulo";

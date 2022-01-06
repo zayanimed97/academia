@@ -37,6 +37,11 @@ $routes->addRedirect('login', 'user/login');
 $routes->addRedirect('user', 'user/login');
 
 $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes) {
+	// pdf lib 
+	$routes->get('pdflib', 'PdfLibController::show');
+	 $routes->add('newpdflib', 'PdfLibController::new');
+    $routes->add('updatepdflib', 'PdfLibController::update');
+    $routes->add('deletepdflib/(:any)', 'PdfLibController::delete/$1');
     //CATEGORIES
     $routes->get('categories', 'CategoriesController::show');
     $routes->add('newCategory', 'CategoriesController::new');
