@@ -472,6 +472,7 @@ class Settings extends BaseController
 		}
 			$list=$this->PagesModel->where('id_ente',$user_data['id'])->where('banned','no')->find();
 			$data['list']=$list;
+			$data['settings']=$settings=$this->SettingModel->getByMetaKey($user_data['id']);
 			return view('admin/settings_cms.php',$data);
 		
 		
