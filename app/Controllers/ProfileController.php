@@ -21,8 +21,8 @@ class ProfileController extends BaseController
 				$p='profile_account.php';
 			break;
 			case 'contact':	
-				$data['contact_email']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'contact_email')['contact_email'];
-				$data['contact_telephone']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'contact_telephone')['contact_telephone'];
+				$data['contact_email']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'contact_email')['contact_email'] ?? '';
+				$data['contact_telephone']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'contact_telephone')['contact_telephone'] ?? '';
 				$p='profile_contact.php';
 			break;
 			case 'fattura':	
