@@ -89,17 +89,16 @@
     .sottotitolo{
         text-overflow: ellipsis;
     }
-    
+	.lg\:pt-20{padding-top:5rem !important}
   </style>
         <?php $settings['banner_home'] = (array)json_decode($settings['banner_home'] ?? "" );
         if(!empty($settings['banner_home'])){?>
         <!-- Slideshow -->
-        <div class="uk-position-relative contents overflow-hidden lg:-mt-20" tabindex="-1"
-        style="min-height: 200; max-height: 500;">       
+        <div class="uk-position-relative contents overflow-hidden lg:-mt-20" tabindex="-1">       
         <!-- <ul class="uk-slideshow-items rounded"> -->
             <!-- <li> -->
-                <div class="uk-cover-container uk-inline w-full mb-8">
-                    <?php if($settings['banner_home']["image"]!=""){?><img src="<?= base_url('uploads/banner/'.$settings['banner_home']["image"]) ?>" style="max-width: 100vw" class="object-cover" alt="" uk-cover><?php } ?>
+                <div class="lg:pt-20 container relative">
+                    <?php if($settings['banner_home']["image"]!=""){?><img src="<?= base_url('uploads/banner/'.$settings['banner_home']["image"]) ?>" class="object-cover" style="max-width: 100%;" alt="" uk-cover><?php } ?>
                     <div class="container relative p-20 lg:mt-12 h-full uk-overlay"> 
                         <div  class="flex flex-col justify-center h-full w-full space-y-3">
                             <h1  class="lg:text-4xl text-2xl text-black font-semibold"> <?= $settings['banner_home']["title"] ?? ''?> </h1>
@@ -156,7 +155,7 @@
                                         <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="" @click="showModalPromo('https://www.youtube.com/embed/<?= $c['video_promo'] ?>', '<?= $c['sotto_titolo'] ?>')">
                                     <?php } ?>
                                 </div>
-                                <div class="md:w-7/12 flex-1 md:p-6 p-4">
+                                <div class="flex-1 md:p-6 p-4">
                                     <a href="<?= base_url('corsi/'.$c['url']) ?>" class="font-semibold line-clamp-2 md:text-xl md:leading-relaxed ellipsize"><?= $c['sotto_titolo'] ?> </a>
                                     <div class="line-clamp-2 mt-2 md:block hidden"><?= ellipsize($c['obiettivi'], 120) ?></div>
                                     <div class="font-semibold mt-3 text-sm"> <?= $c['doctor_names'] ?> </div>
@@ -176,7 +175,7 @@
                                     </div>
                                     <div class="flex justify-between items-center mt-2">
                                             <template x-if="inCart('<?= $c['id'] ?>', '')">
-                                                <a href="<?= base_url('/order/checkout') ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['id'] ?>', '')"> </a>
+                                                <a href="<?= base_url('/order/checkout') ?>" class="bg-transparent flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['id'] ?>', '')"> </a>
                                             </template>
 
                                             <template x-if="!inCart('<?= $c['id'] ?>', '')">
@@ -357,7 +356,7 @@
                                 <!-- <li>
 
                                     <a href="course-intro.html" class="uk-link-reset">
-                                        <div class="card uk-transition-toggle flex-1">
+                                        <div class="card uk-transition-toggle">
                                             <div class="card-media h-40">
                                                 <div class="card-media-overly"></div>
                                                 <img src="<?= base_url('front') ?>/assets/images/courses/img-1.jpg" alt="" class="">
@@ -455,7 +454,7 @@
                                 }
                                     this.courses += `   <li>
 
-                                                                <div class="card uk-transition-toggle flex-1 flex flex-col justify-between">
+                                                                <div class="card uk-transition-toggle flex flex-col justify-between">
                                                                     <div class="card-media h-auto flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo}', '${element.sotto_titolo}')">
                                                                         <div class="card-media-overly"></div>
                                                                         <img src="${element.foto ? '<?=base_url('uploads/corsi/')?>/'+element.foto : default_image}" alt="" class="">
@@ -482,7 +481,7 @@
 
                                                                             <div class="flex justify-between items-center mt-2">
                                                                                 <template x-if="inCart(${element.id}, ${element.id})">
-                                                                                    <a href="<?= base_url('/order/checkout') ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('${element.id}, ${element.id})"> </a>
+                                                                                    <a href="<?= base_url('/order/checkout') ?>" class="bg-transparent flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('${element.id}, ${element.id})"> </a>
                                                                                 </template>
 
                                                                                 <template x-if="!inCart(${element.id}, ${element.id})">
@@ -508,6 +507,7 @@
             },
             init(){
                 let type_cours = <?= json_encode($type_cours) ?>;
+                
                 <?= json_encode($courses) ?>.forEach(element => {
                 let default_image= '<?= base_url('front/assets/images/courses/img-4.jpg') ?>';
                 switch(element.tipologia_corsi){
@@ -517,7 +517,7 @@
                 }
                     this.courses += `   <li>
 
-                                                <div class="card uk-transition-toggle flex-1 flex flex-col justify-between">
+                                                <div class="card uk-transition-toggle flex flex-col justify-between">
                                                     <div class="card-media h-auto flex items-center" @click="showModalPromo('https://www.youtube.com/embed/${element.video_promo}', '${element.sotto_titolo}')">
                                                         <div class="card-media-overly"></div>
                                                         <img src="${element.foto ? '<?=base_url('uploads/corsi/')?>/'+element.foto : default_image}" alt="" class="">
@@ -544,7 +544,7 @@
 
                                                             <div class="flex justify-between items-center mt-2">
                                                                 <template x-if="inCart(${element.id}, ${element.id})">
-                                                                    <a href="<?= base_url('/order/checkout') ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart(${element.id}, ${element.id})"> </a>
+                                                                    <a href="<?= base_url('/order/checkout') ?>" class="bg-transparent flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart(${element.id}, ${element.id})"> </a>
                                                                 </template>
 
                                                                 <template x-if="!inCart(${element.id}, ${element.id})">

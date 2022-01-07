@@ -110,7 +110,8 @@ class CartController extends BaseController
                             'total' =>$this->cart->totalItems(), 
                             'totalPrice' => $this->cart->total(), 
                             'tax' => $tax,
-                            'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents()))
+                            'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
+                            'share' => array_values(array_map(function($el){return $el['share'];},$this->cart->contents())),
                         ]));
     }
 
@@ -129,7 +130,8 @@ class CartController extends BaseController
                             'total' =>$this->cart->totalItems(), 
                             'totalPrice' => $this->cart->total(), 
                             'tax' => $tax,
-                            'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents()))
+                            'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
+                            'share' => array_values(array_map(function($el){return $el['share'];},$this->cart->contents())),
                         ]));
     }
 
@@ -540,6 +542,7 @@ class CartController extends BaseController
                                             'cartItems' => $this->cart->contents(), 
                                             'total' => $this->cart->total(),
                                             'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
+                                            'share' => array_values(array_map(function($el){return $el['share'];},$this->cart->contents())),
                                             'tax' => $tax
                                         ]);
                 } else {
@@ -554,6 +557,7 @@ class CartController extends BaseController
                                             'cartItems' => $this->cart->contents(), 
                                             'total' => $this->cart->total(),
                                             'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
+                                            'share' => array_values(array_map(function($el){return $el['share'];},$this->cart->contents())),
                                             'tax' => $tax
                                         ]);
                 }
@@ -586,6 +590,7 @@ class CartController extends BaseController
                                             'cartItems' => $this->cart->contents(), 
                                             'total' => $this->cart->total(),
                                             'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
+                                            'share' => array_values(array_map(function($el){return $el['share'];},$this->cart->contents())),
                                             'tax' => $tax
                                         ]);
             } else {
@@ -600,6 +605,7 @@ class CartController extends BaseController
                                             'cartItems' => $this->cart->contents(), 
                                             'total' => $this->cart->total(),
                                             'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
+                                            'share' => array_values(array_map(function($el){return $el['share'];},$this->cart->contents())),
                                             'tax' => $tax
                                         ]);
             }
@@ -619,6 +625,7 @@ class CartController extends BaseController
                                             'cartItems' => $this->cart->contents(), 
                                             'total' => $this->cart->total(),
                                             'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
+                                            'share' => array_values(array_map(function($el){return $el['share'];},$this->cart->contents())),
                                             'tax' => $tax
                                         ]);
         
@@ -631,16 +638,20 @@ class CartController extends BaseController
     {
         $data = $this->common_data();
         
-        
+        // echo '<pre>';
+        // print_r($this->cart->contents());
+        // echo '</pre>';
+        // exit;
 
         $id = $this->request->getVar('rowid');
         $platform = $this->request->getVar('platform');
+        $discount = $this->request->getVar('discount');
         $row = $this->cart->getItem($id);
         $item = $row['type'] == 'corsi' ? $this->CorsiModel : $this->CorsiModuloModel;
         $item = $item->where('id', str_replace($row['type'], '', $row['id']))->where('banned', 'no')->first();
 
         if ($item && !empty($row)) {
-            if (in_array($platform,array_map(function($el){return $el['platform'] ?? '';},$row['share']))) {
+            if (in_array($platform,array_map(function($el){return $el['platform'] ?? '';},array_keys($row['share'])))) {
                 $tax = 0;
                 foreach ($this->cart->contents() as $item) {
                     if ($item['price'] != 'ND') {
@@ -652,12 +663,13 @@ class CartController extends BaseController
                                             'cartItems' => $this->cart->contents(), 
                                             'total' => $this->cart->total(),
                                             'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
+                                            'share' => array_values(array_map(function($el){return $el['share'];},$this->cart->contents())),
                                             'tax' => $tax
                                         ]);
             } else {
                 // if (shareable) {
-                        array_push($row['share'], ['platform'=>$platform, 'amount'=>5]);
-                        $this->cart->update(['rowid' => $id, 'price'=> $row['price'] - 5 > 0 ? $row['price'] - 5 : 0, 'share' => $row['share']]);
+                        $row['share'][$platform] = $discount;
+                        $this->cart->update(['rowid' => $id, 'price'=> $row['price'] - $discount > 0 ? $row['price'] - $discount : 0, 'share' => $row['share']]);
                         $tax = 0;
                         foreach ($this->cart->contents() as $item) {
                             if ($item['price'] != 'ND') {
@@ -669,6 +681,7 @@ class CartController extends BaseController
                                                     'cartItems' => $this->cart->contents(), 
                                                     'total' => $this->cart->total(),
                                                     'coupons' => array_values(array_map(function($el){return $el['coupon'];},$this->cart->contents())),
+                                                    'share' => array_values(array_map(function($el){return $el['share'];},$this->cart->contents())),
                                                     'tax' => $tax
                                                 ]);
                 // }

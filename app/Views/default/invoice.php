@@ -206,7 +206,7 @@
                             <tr class="tabletitle">
                             <td class="item"><h2>Descrizione</h2></td>
                             <td class="Hours"><h2>Importo netto</h2></td>
-                            <td class="Rate"><h2>Coupons</h2></td>
+                            <td class="Rate"><h2>Discounts</h2></td>
                             <td class="subtotal"><h2>Importo totale</h2></td>
                             </tr>
                             <?php $tax = 0;$total=0;foreach($cartItems as $item){ $tax += floatVal($item['price_ht'])*(floatVal($item['vat']/100)); $total += $item['price_ht'];?>
@@ -214,9 +214,18 @@
                                 <tr class="service">
                                     <td class="tableitem"><p class="itemtext"><?= json_decode($item['details'])->name ?></p></td>
                                     <td class="tableitem"><p class="itemtext"><?= $amount->format(json_decode($item['details'])->originalPrice) ?></p></td>
-                                    <td class="tableitem"><p class="itemtext">  <?php $coupon = 0; foreach(json_decode($item['details'])->coupon as $name=>$value){ $coupon += $value;?>
+                                    <td class="tableitem">  <p class="itemtext">  
+                                        
+                                                                                <?php $coupon = 0; foreach(json_decode($item['details'])->coupon as $name=>$value){ $coupon += $value;?>
                                                                                     <div class="itemtext"><?= $name ?>: <?= $amount->format($value) ?></div>
-                                                                                <?php } ?></p></td>
+                                                                                <?php } ?>
+                                                                            
+                                                                                <?php $share = 0; foreach(json_decode($item['details'])->share as $name=>$value){ $share += $value;?>
+                                                                                    <div class="itemtext"><?= $name ?>: <?= $amount->format($value) ?></div>
+                                                                                <?php } ?>
+                                                                            
+                                                            </p>
+                                    </td>
                                     <td class="tableitem"><p class="itemtext"><?= $amount->format($item['price_ht']) ?></p></td>
                                 </tr>
                             <?php } ?>
@@ -227,7 +236,7 @@
                             <tr class="tabletitle">
                                 <td></td>
                                 <td class="Hours"><h2>Totale</h2></td>
-                                <td class="Rate"><p><?= $amount->format($coupon) ?></p></td>
+                                <td class="Rate"><p><?= $amount->format($coupon + $share) ?></p></td>
                                 <td class="payment"><h2><?= $amount->format($total) ?></h2></td>
                             </tr>
 

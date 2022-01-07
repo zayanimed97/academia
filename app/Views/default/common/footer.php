@@ -41,7 +41,9 @@
                 items: <?= $cart->totalItems() ?>,
                 tax: <?= $tax ?>,
                 coupons: <?= json_encode(array_values(array_map(function($el){return $el['coupon'];},$cart->contents()))) ?>,
+                share: <?= json_encode(array_values(array_map(function($el){return $el['share'];},$cart->contents()))) ?>,
                 couponSum: {},
+                shareSum: {},
                 flashMessage: {status: '', message:''},
                 init(){
                     if (this.coupons.length > 0) {
@@ -61,6 +63,22 @@
                         console.log(this.couponSum);
                     })
 
+                    if (this.share.length > 0) {
+                        this.share.forEach(el => {Object.keys(el).forEach(key=> this.shareSum[key] = null)});
+                        Object.keys(this.shareSum).forEach(key => {
+                            this.shareSum[key] = this.share.map(el=> {return el[key]}).reduce((pv,cv)=>{return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}, 0);
+                        });
+                    }
+                    $watch('share', value => {
+                        this.shareSum = {};
+                        if (this.share.length > 0) {
+                            this.share.forEach(el => {Object.keys(el).forEach(key=> this.shareSum[key] = null)});
+                            Object.keys(this.shareSum).forEach(key => {
+                                this.shareSum[key] = this.share.map(el=> {return el[key]}).reduce((pv,cv)=>{return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}, 0);
+                            });
+                        }
+                        console.log(this.shareSum);
+                    })
                 },
                 addToCart(id, prezzo, type, url, item, date=null) {
                     if (type == 'date') {
@@ -77,7 +95,8 @@
                                         this.total = res.totalPrice; 
                                         this.items = res.total; 
                                         this.tax = res.tax;
-                                        this.coupons = res.coupons; 
+                                        this.coupons = res.coupons;
+                                        this.share = res.share;  
                                     })
                     }
                 },
@@ -92,6 +111,7 @@
                                             this.items = res.total; 
                                             this.tax = res.tax;
                                             this.coupons = res.coupons;
+                                            this.share = res.share;
                                         })
                 },
                 inCart(corsi_id, id, date=null){
@@ -113,20 +133,21 @@
                                         this.cartItems = res.cartItems; 
                                         this.total = res.total; 
                                         this.tax = res.tax, 
-                                        this.coupons = res.coupons; 
+                                        this.coupons = res.coupons;
+                                        this.share = res.share;  
                                         this.flashMessage.status = res.status, 
                                         this.flashMessage.message = res.message
                                     })
 
                         
                 },
-                shareFacebook(rowid, url){
+                shareFacebook(rowid, url, discount){
                     FB.ui({
                         method: 'share',
                         href: url,
                     }, response => {
                         if(typeof(response) == 'object' && Object.keys(response).length == 0){
-                            let fields = {rowid: rowid, url: url, platform: 'facebook'};
+                            let fields = {rowid: rowid, url: url, platform: 'facebook', discount: discount};
                             $.ajax({
                                     url:"<?php echo base_url('/user/postShared')?>",
                                     method:"POST",
@@ -136,7 +157,8 @@
                                                     this.cartItems = res.cartItems; 
                                                     this.total = res.total; 
                                                     this.tax = res.tax, 
-                                                    this.coupons = res.coupons; 
+                                                    this.coupons = res.coupons;
+                                                    this.share = res.share;  
                                                     this.flashMessage.status = res.status, 
                                                     this.flashMessage.message = res.message
                                                 })

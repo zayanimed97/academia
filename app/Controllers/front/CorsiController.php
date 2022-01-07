@@ -162,8 +162,8 @@ class CorsiController extends BaseController
             $idsCorsi = array_map(function ($el){if($el['corsi_id'] == '') return $el['id'];}, $data['corsi']);
             $idsModulo = array_map(function ($el){if($el['corsi_id'] != '') return $el['id'];}, $data['corsi']);
 
-            $discountsCorsi = $this->CorsiPrezzoProfModel->whereIn('id_corsi', $idsCorsi)->where('id_professione', session('user_data')['profile']['professione'] ?? '')->find();
-            $discountsModulo = $this->CorsiModuloPrezzoProfModel->whereIn('id_modulo', $idsModulo)->where('id_professione', session('user_data')['profile']['professione'] ?? '')->find();
+            $discountsCorsi = $this->CorsiPrezzoProfModel->whereIn('id_corsi', $idsCorsi ?: ['impossible value'])->where('id_professione', session('user_data')['profile']['professione'] ?? '')->find();
+            $discountsModulo = $this->CorsiModuloPrezzoProfModel->whereIn('id_modulo', $idsModulo ?: ['impossible value'])->where('id_professione', session('user_data')['profile']['professione'] ?? '')->find();
 
             $discounts = array_merge($discountsCorsi, $discountsModulo);
         }
@@ -312,6 +312,7 @@ class CorsiController extends BaseController
                                                                 GROUP_CONCAT(DISTINCT cat.titolo) categories
                                                             ')
                                                     ->where('corsi_modulo.banned', 'no')
+                                                    ->where('corsi.id_ente', $data['selected_ente']['id'])
                                                     ->where('corsi_modulo.status', 'si')
                                                     ->groupBy('corsi_modulo.id')
                                                     ->first();

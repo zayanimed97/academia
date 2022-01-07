@@ -283,7 +283,7 @@ a[disabled] {
 												
                                                 <div class="flex justify-between items-center mt-2">
                                                     <template x-if="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')">
-                                                        <button href="<?= base_url('/order/checkout') ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')"> </button>
+                                                        <a href="<?= base_url('/order/checkout') ?>" class="bg-blue-600 flex justify-center items-center w-9/12 rounded-md text-black text-center text-base h-8 border" x-text="inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')"> </a>
                                                     </template>
 
                                                     <template x-if="!inCart('<?= $c['corsi_id'] ?>', '<?= $c['id'] ?>')">
@@ -441,7 +441,7 @@ a[disabled] {
             visiblesottoargomenti: [],
             sottoargomenti: "<?= $_REQUEST['sottoargomenti'] ?? '' ?>".split(',').filter((a) => a),
             perPage: <?= $_REQUEST['perPage'] ?? '12' ?>,
-            tipo: "<?= $tipo ?? '' ?>".split(',').filter((a) => a),
+            tipo: "<?= $_REQUEST['tipo'] ?? '' ?>".split(',').filter((a) => a),
             init() {
                 if (this.argomenti.length > 0) {
                     this.allsottoargomenti.forEach(element => {
