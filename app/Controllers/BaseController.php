@@ -320,7 +320,7 @@ class BaseController extends Controller
 
 	}
 	
-	public function OrderMail($id_cart){
+ function OrderMail($id_cart){
 		$common_data=$this->common_data();
 		$inf_cart=$this->CartModel->where('banned','no')->where('id',$id_cart)->first();
 		if(!empty($inf_cart)){
@@ -373,6 +373,7 @@ class BaseController extends Controller
 		 ob_start();
 		 
 		 ?>
+		 
 		 <table style="color:#888;">
 		 <tr>	
 			<th><?php echo lang('front.field_method_payment')?></th>
@@ -405,7 +406,17 @@ class BaseController extends Controller
 		 <?php
 		 $payment_details=ob_get_clean();
 		 $settings=$common_data['settings'];
-		 ob_start();
+		 ob_start();?>
+		 <table style="width:100% !important; border:1px solid #a1a1a1;">
+    <tbody>
+        <tr style="border-bottom:1px solid #a1a1a1;">
+            <th>Codice</th>
+            <th>Descrizione</th>
+            <th>Docente</th>
+        </tr>
+       
+   
+		 <?php
 		  if(!empty($list_items)){
 				foreach($list_items as $k=>$one){
 					switch($one['item_type']){
@@ -476,7 +487,12 @@ class BaseController extends Controller
 						break;
 					}						
 										 ?>
-						<tr style="background-color: #fff;">
+										  <tr>
+            <td style="border-right:1px solid #a1a1a1;"><?php echo $inf_item['codice'] ?></td>
+            <td style="border-right:1px solid #a1a1a1;"><b><?php echo $inf_item['sotto_titolo']?></b><br><?php echo $str_date;?></td>
+            <td>Dott. <?php echo $str_docente?></td>
+        </tr>
+						<?php /*<tr style="background-color: #fff;">
 							<td width="50%" data-color="text" data-size="size text" data-min="10" data-max="26" data-link-color="link text color" data-link-style="font-weight:bold; text-decoration:underline; color:#40aceb;" style="font:normal 13px/15px Arial, Helvetica, sans-serif; color:#888; padding:0 0 23px;">
 								 <img src="<?php echo $foto?>" alt="product" style="width:100%">
 							</td>
@@ -494,11 +510,14 @@ class BaseController extends Controller
 										
 										echo lang('front.field_de')." ".$firstdate." ".lang('front.field_a')." ".$lastdate;
 									}*/?>
-									
+							<?php /*		
 								</p>
 							</td>
-						</tr>
-		 <?php } }
+						</tr> */?>
+		 <?php } } ?>
+		  </tbody>
+</table>
+<?php
 			$cart_items=ob_get_clean();
 			$html=str_replace(array("{var_name}","{var_email}","{var_date}","{var_total_ht}","{var_discount_row}","{var_total_tax}","{var_total}","{var_payment_status}","{var_coupon}","{var_invoice_data}","{var_cart_details}","{var_payment_details}"),
 			array($inf_participant['display_name'],$inf_participant['email'],date('d/m/Y',strtotime($inf_cart['date'])),number_format($inf_cart['total_ht'],2,',','.'),$discount_row,number_format($inf_cart['total_vat'],2,',','.'),number_format($inf_cart['total_vat']+$inf_cart['total_ht'],2,',','.'),$payment_status,$coupon,$invoice_data,$cart_items,$payment_details ),
