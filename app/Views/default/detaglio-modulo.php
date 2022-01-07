@@ -73,7 +73,7 @@ use CodeIgniter\I18n\Time;
                                 <ul class="space-x-3" uk-scrollspy-nav="closest: li; scroll: true">
                                     <li><a href="#Descrizione" uk-scroll><?php echo lang('front.field_description')?></a></li>
                                     <!-- <li><a href="#Contenuto" uk-scroll>Contenuto del corso</a></li>  -->
-                                    <li><a href="#Moduli" uk-scroll><?php echo lang('front.field_cour')?></a></li>
+                                    <li><a href="#Moduli" uk-scroll><?php echo lang('front.field_tab_modulo')?></a></li>
                                     <li><a href="#Curriculum"><?php echo lang('front.field_cv')?> </a></li>
                                     <!-- <li><a href="#reviews">Reviews</a></li> -->
                                 </ul>

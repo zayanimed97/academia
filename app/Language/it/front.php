@@ -85,6 +85,7 @@ $lang['field_tax']="IVA";
 $lang['field_total_to_pay']="";
 $lang['field_insert_code']="Inserisci codice coupon";
 $lang['field_section']="sezione";
+$lang['field_tab_modulo']="Data";
 
 $lang['apply_coupon']="Applica il codice coupon";
 $lang['coupon_applied']="Coupon applicato correttamente";
