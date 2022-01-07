@@ -87,6 +87,8 @@ $lang['field_insert_code']="Inserisci codice coupon";
 $lang['field_section']="sezione";
 $lang['field_tab_modulo']="Data";
 
+$lang['success_share']="Condivizione social avvenuto con successo";
+$lang['share']="Social";
 $lang['apply_coupon']="Applica il codice coupon";
 $lang['coupon_applied']="Coupon applicato correttamente";
 $lang['coupon_no_items']="Nessun articolo da scontare";

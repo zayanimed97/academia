@@ -18,7 +18,6 @@
                                         </ol>
                                     </div>
                                     <h4 class="page-title"><?php echo lang('app.title_page_profile_mailing')?></h4>
-									<p>Configurazione manuale della posta in uscità (SMTP).<br>Per default, tutte le email verrano inviate tramite il server di posta in uscita di Auledigitali: no-reply@auledigitali.it</p>
                                 </div>
                             </div>
                         </div>
@@ -32,7 +31,9 @@
 										<?php $smtp=json_decode($SMTP,true);?>
                                         <form method="post" action="<?= base_url('admin/profile/'. $profile_menu) ?>"  id='add_ente_form'>
 										<input type="hidden" name="profile_menu" value="<?php echo $profile_menu?>">
-														<h4>Configurazione manuale</h4>
+														<h4>Server di posta elettronica</h4>
+											<p>In questa sezione puoi configurare la posta elettronica in uscita dalla piattaforma direttamente con il tuo indirizzo mail, così che risulti il mittente del messaggio.</p>
+									<div class="alert alert-info m-b-20" role="alert">Se non imposti nessun account di posta elettronica (oppure se i dati non saranno più validi) le e-mail verranno inviate dal nostro server con indirizzo no-reply@auledigitali.it e riporteranno la tua e-mail nel campo reply-to.</div>
                                                         <div class="row" >
                                                           <div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
@@ -88,7 +89,8 @@
                                                             </div>
                                                         </div>
                                                    <hr/>
-                                                	<h4>pagina dei contatti</h4>
+                                                	<h4>Pagina contatti</h4>
+											<p>In questa sezione puoi impostare una mail di destinazione quando quelcuno ti scrive dalla tua pagina contatti.</p>
                                                    <div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-6 col-form-label" for="cognome"> <?php echo lang('app.field_receiver_email')?></label>
