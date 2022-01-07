@@ -160,4 +160,6 @@
         </div>
                             </div>
 <?= view($view_folder.'/common/footer') ?>
+  
+<?= view($view_folder.'/common/close') ?>
 
