@@ -341,7 +341,7 @@
                     </a>
                     <div uk-drop="mode: click" class="dropdown_cart">
                         <div class="cart-headline"> <?php echo lang('front.title_my_cart')?> 
-                            <a href="<?= base_url('/order/checkout') ?>" class="checkout"><?php echo lang('front.title_checkout')?> </a>
+                            <a href="<?= base_url('/order/checkout') ?>" class="bg-blue-600 text-white flex font-medium items-center justify-center py-1 rounded-md hover:text-white w-1/3" class="checkout"><?php echo lang('front.title_checkout')?></a>
                         </div>
                         <ul class="dropdown_cart_scrollbar" data-simplebar>
                             <template x-for="item in cartItems" :key="item.id">
@@ -366,7 +366,7 @@
     
                         <div class="cart_footer">
                             <!-- <p> Subtotal : $ 320 </p> -->
-                            <h1> <?php echo lang('front.title_total')?> :  <strong x-text="formatter.format(total)">  </strong> </h1>
+                            <h1> <?php echo lang('front.title_total')?> provvisorio :  <strong x-text="formatter.format(total)">  </strong> </h1>
                         </div>
                     </div>
     

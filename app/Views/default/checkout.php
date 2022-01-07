@@ -228,7 +228,7 @@
                                         <br>
                                         <?php } ?>
 
-                                        <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '3';})) || true){ ?>
+                                        <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '3';}))){ ?>
                                             <div class="radio w-full md:w-1/2 h-24">
                                                 <input id="stripe" name="paymethod" type="radio" x-model="paymethod" value="stripe">
                                                 <label for="stripe" class="h-full w-full">
@@ -314,7 +314,7 @@
                                                 </div>
                                             </div>
                                             <div class="flex justify-between mt-1">
-                                                <p @click="shareFacebook(item.rowid, item.url)" class="text-green-400 cursor-pointer hover:underline">Risparmia <?= $amount->format($settings['facebook_discount'] ?? 0) ?></p>
+                                                <p @click="shareFacebook(item.rowid, item.url, '<?= $settings['facebook_discount'] ?>')" class="text-green-400 cursor-pointer hover:underline">Risparmia <?= $amount->format($settings['facebook_discount'] ?? 0) ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -322,13 +322,21 @@
                             </div>
         
                             <ul class="border-b border-t my-3 py-3 text-sm space-y-4">
-                                <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_subtotal')?>:</span><span x-text="formatter.format(total+(Object.keys(couponSum).length > 0 ? Object.values(couponSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0))"></span></li>
+                                <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_subtotal')?>:</span><span x-text="formatter.format(total+(Object.keys(couponSum).length > 0 ? Object.values(couponSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0)+(Object.keys(shareSum).length > 0 ? Object.values(shareSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0))"></span></li>
                                 <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_discount')?>:</span>
                                     <span>
                                         <template x-for="(discount,idx) in couponSum">
                                             <span class="block text-xs text-right"><span x-text="idx + ': '"></span> <span class="ml-4" x-text="formatter.format(discount)"></span></span>
                                         </template>
                                             <span class="block text-right" x-text="formatter.format(Object.keys(couponSum).length > 0 ? Object.values(couponSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0)"></span>
+                                    </span>
+                                </li>
+                                <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.share')?>:</span>
+                                    <span>
+                                        <template x-for="(discount,idx) in shareSum">
+                                            <span class="block text-xs text-right"><span x-text="idx + ': '"></span> <span class="ml-4" x-text="formatter.format(discount)"></span></span>
+                                        </template>
+                                            <span class="block text-right" x-text="formatter.format(Object.keys(shareSum).length > 0 ? Object.values(shareSum).reduce((pv,cv) => {return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}) : 0)"></span>
                                     </span>
                                 </li>
                                 <li class="flex justify-between align-center"><span class="mr-2"><?php echo lang('front.field_subtotal_after_discount')?>:</span><span x-text="formatter.format(total)"></span></li>
