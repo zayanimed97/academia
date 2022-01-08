@@ -5,6 +5,7 @@ namespace App\Controllers\Front;
 use App\Controllers\BaseController;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Core\ProductionEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 
@@ -294,7 +295,8 @@ class CartController extends BaseController
                     $clientId = json_decode($payment['details'])->clientID;
                     $clientSecret = json_decode($payment['details'])->clientSecret;
 
-                    $environment = new SandboxEnvironment($clientId, $clientSecret);
+                    if(PAYPAL_SANDBOX==true) $environment = new SandboxEnvironment($clientId, $clientSecret);
+					else $environment = new ProductionEnvironment($clientId, $clientSecret);
                     $client = new PayPalHttpClient($environment);
 
                     $request = new OrdersCreateRequest();
@@ -375,7 +377,8 @@ class CartController extends BaseController
         $clientId = json_decode($payment['details'])->clientID;
         $clientSecret = json_decode($payment['details'])->clientSecret;
 
-		$environment = new SandboxEnvironment($clientId, $clientSecret);
+		if(PAYPAL_SANDBOX==true) $environment = new SandboxEnvironment($clientId, $clientSecret);
+		else $environment = new ProductionEnvironment($clientId, $clientSecret);
 		$client = new PayPalHttpClient($environment);
 
 		$request = new OrdersCaptureRequest($token);
