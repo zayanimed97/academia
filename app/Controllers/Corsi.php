@@ -1052,7 +1052,7 @@ class Corsi extends BaseController
 								/*$dt=explode("/",$vv['date']);
 								$date=$dt[2]."-".$dt[1]."-".$dt[0];*/
 								$date=$vv['date'];
-								if($vv['ids_update']!=""){
+								if(isset($vv['ids_update']) && $vv['ids_update']!=""){
 									$this->CorsiModuloDateModel->update($vv['ids_update'],array(
 										'id_modulo'=>$id_modulo,
 										'date'=>$date,

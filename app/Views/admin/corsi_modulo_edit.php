@@ -1099,7 +1099,7 @@
 																					
 																				
 																					$data = [
-																					'name'    => "ids_pdf_list[]",
+																					'name'    => "ids_pdf[]",
 																					'id'      => 'ids_pdf_list_'.$v['id'],
 																					'value'   => $v['id'],
 																					'checked' => true,
