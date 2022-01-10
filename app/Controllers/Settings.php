@@ -357,6 +357,7 @@ class Settings extends BaseController
 							$is_externel="yes";
 						}
 						else{
+							
 							$url=strtolower(url_title($this->request->getVar('title')));
 							$is_externel="no";
 						}
@@ -409,7 +410,9 @@ class Settings extends BaseController
 						"seo_title"=>$this->request->getVar('seo_title'),
 						"seo_description"=>$this->request->getVar('seo_description'),
 						"menu_position"=>$this->request->getVar('menu_position'));
-						
+						if($inf_page['type']=='static'){
+							$tab['menu_position']=$inf_page['menu_position'];
+						}
 						
 						if($inf_page['type']=='dynamic'){
 							
@@ -443,7 +446,10 @@ class Settings extends BaseController
 							$is_externel="yes";
 						}
 						else{
-							$url=strtolower(url_title($this->request->getVar('title')));
+							if($inf_page['type']=='dynamic'){
+								$url=strtolower(url_title($this->request->getVar('title')));
+							}
+							else $url=$inf_page['url'];
 							$is_externel="no";
 						}
 						$tab['url']=$url;
