@@ -185,6 +185,14 @@ $routes->group("superadmin", ["filter" => "auth:admin"], function ($routes) {
 	
 	$routes->add('loginAs/(:num)', 'Users::loginAs/$1');
 	
+	// template emails
+	$routes->add('emails/edit/(:any)', 'Settings::emails_edit/$1');
+	$routes->add('emails', 'Settings::emails');
+	
+	//CMS settings
+	$routes->add('settings/cms/edit/(:any)', 'Settings::cms_edit/$1');
+	$routes->add('settings/cms', 'Settings::cms');
+	
 });
 
 

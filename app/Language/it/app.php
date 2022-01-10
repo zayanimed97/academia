@@ -397,6 +397,7 @@ $lang['field_item_type']="Articolo tipo";
 $lang['field_default_iva']="Predefinito IVA %";
 $lang['field_label']="Label";
 $lang['field_receiver_email']="e-mail del destinatario";
+$lang['field_message']="Messagio";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -633,5 +634,6 @@ $lang['help_min_modulo']="minima modulo  per superare con successo il corsi";
 $lang['help_tabprice_is_free_cours']="scegli tu che il corso sia gratuito, quindi non puoi impostare i prezzi del modulo";
 $lang['help_tabprice_buy_type_date']="selezioni il tipo di acquisto per data, quindi imposta gli stessi dati sul prezzo per ogni data";
 $lang['help_forgot_password']="Hai dimenticato la password?";
+$lang['modal_title_help_form']="Invia un messaggio all'amministratore";
 return $lang;
 ?>

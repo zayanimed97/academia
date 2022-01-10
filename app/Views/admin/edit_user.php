@@ -175,9 +175,9 @@ else{
                                                                 </div>
                                                                     <div class="col-12 col-md-6">
                                                                     <div class="form-group row mb-3">
-                                                                        <label class="col-md-3 col-form-label" for="posizione"> <?php echo lang('app.field_ruolo')?> </label>
+                                                                        <label class="col-md-3 col-form-label" for="ruolo"> <?php echo lang('app.field_ruolo')?> </label>
                                                                         <div class="col-md-9">
-                                                                            <input type="text" id="posizione" name="posizione" class="form-control" value="<?= $user['posizione'] ?>">
+                                                                            <input type="text" id="ruolo" name="ruolo" class="form-control" value="<?= $user['ruolo'] ?>">
                                                                         </div>
                                                                     </div>
                                                                 </div> 
@@ -252,14 +252,104 @@ else{
                                                                 </div>
                                                             </div>
 															
+															<?php if($role=='participant'){?>
 															 <div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="prof_albo"> <?php echo lang('app.field_prof_albo')?></label>
                                                                     <div class="col-md-9">
-                                                                        <input type="text" id="prof_albo" name="prof_albo" class="form-control" value="<?= $user['prof_albo'] ?>">
+                                                                        <input type="text" id="prof_albo" name="prof_albo" class="form-control"  value="<?= $user['prof_albo'] ?>">
                                                                     </div>
                                                                 </div>
                                                             </div>
+															
+															 <div class="col-12 col-md-6">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="prof_albo"> <?php echo lang('app.field_professione_city')?></label>
+                                                                    <div class="col-md-9">
+                                                                      <?php  $val=$user['professione_citta'] ?? '';
+																			$input = [
+																					'type'  => 'text',
+																					'name'  => 'professione_citta',
+																					'id'    => 'professione_citta',
+																					
+																					'value' => $val,
+																					'placeholder' =>lang('app.field_professione_city'),
+																					'class' => 'form-control'
+																					
+																			];
+
+																			echo form_input($input);
+																			?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+															
+															 <div class="col-12 col-md-6">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="prof_albo"> <?php echo lang('app.field_code_abo')?></label>
+                                                                    <div class="col-md-9">
+                                                                       <?php $val=$user['abo'] ?? '';
+												$input = [
+														'type'  => 'text',
+														'name'  => 'abo',
+														'id'    => 'abo',
+														'required' =>true,
+														'value' => $val,
+														'placeholder' =>lang('app.field_code_abo'),
+														'class' => 'form-control'
+														
+												];
+
+												echo form_input($input);
+												?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+															
+															 <div class="col-12 col-md-6">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="prof_albo"> <?php echo lang('app.field_del')?></label>
+                                                                    <div class="col-md-9">
+                                                                        <?php  $val=$user['del'] ?? '';
+												$input = [
+														'type'  => 'text',
+														'name'  => 'del',
+														'id'    => 'del',
+														'required' =>true,
+														'value' => $val,
+														'placeholder' =>lang('app.field_del'),
+														'class' => 'form-control'
+														
+												];
+
+												echo form_input($input);
+												?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+															
+															 <div class="col-12 col-md-6">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="prof_albo"> <?php echo lang('app.field_posizion')?></label>
+                                                                    <div class="col-md-9">
+                                                                       <?php $input = [
+												
+												'name'  => 'posizione',
+												'id'    => 'posizione',
+												'placeholder' =>lang('app.field_posizion'),
+												'class' => 'form-control'
+										];
+										$options=array();
+										$options['']=lang('app.field_select');
+										$options['Libero Professionista']='Libero Professionista';
+										$options['Dipendente']='Dipendente';
+										$options['Convenzionato']='Convenzionato';
+										echo form_dropdown($input, $options,$user['posizione']);
+										?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+															<?php } ?>
                                                         </div> <!-- end row -->
                                                     </div>
 
