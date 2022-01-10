@@ -14,9 +14,16 @@ class Users extends BaseController
 	}
 	
 	public function logout()
-	{
+	{	$redirect=base_url();
+		$user_data=$this->session->get('user_data');
+		switch($user_data['role']){
+			case 'admin': $redirect=base_url('superadmin/login');break;
+			case 'ente': $redirect=base_url('admin/login');break;
+			default:$redirect=base_url();
+		}
+		
 		$this->session->destroy();
-		return redirect()->to( base_url() );
+		return redirect()->to( $redirect );
 	}
 	
 	
