@@ -28,11 +28,16 @@ class Settings extends BaseController
 		$data=$this->common_data();
 	
 		$user_data=$this->session->get('user_data');
-	
+		if($user_data['role']=="ente"){
 			$list=$this->TemplatesModel->where('id_ente',$user_data['id'])->find();
 			$data['list']=$list;
 			return view('admin/settings_emails.php',$data);
-		
+		}
+		elseif($user_data['role']=="admin"){
+			$list=$this->TemplatesModel->where('id_ente IS NULL')->find();
+			$data['list']=$list;
+			return view('superadmin/settings_emails.php',$data);
+		}
 		
 	}
 	
@@ -50,10 +55,10 @@ class Settings extends BaseController
 		
 			$list=$this->TemplatesModel->find($id);
 			$data['list']=$list;
-			
-			return view('admin/settings_emails_edit.php',$data);
-		
-		
+			if($user_data['role']=="ente")
+				return view('admin/settings_emails_edit.php',$data);
+			else 
+				return view('superadmin/settings_emails_edit.php',$data);
 	}
 	
 	public function media(){
@@ -376,7 +381,10 @@ class Settings extends BaseController
 				break;
 				case 'edit':
 				$id=$this->request->getVar('id');
-				$inf_page=$this->PagesModel->where('banned','no')->where('id_ente',$user_data['id'])->where('id',$id)->first();
+				if($user_data['role']=="ente"){
+					$inf_page=$this->PagesModel->where('banned','no')->where('id_ente',$user_data['id'])->where('id',$id)->first();
+				}
+				else $inf_page=$this->PagesModel->where('banned','no')->where('id',$id)->first();
 				if(empty($inf_page)) return redirect()->back();
 					$val = $this->validate([
 				
@@ -470,11 +478,19 @@ class Settings extends BaseController
 				break;
 			}
 		}
+		
+		if($user_data['role']=="ente"){
 			$list=$this->PagesModel->where('id_ente',$user_data['id'])->where('banned','no')->find();
 			$data['list']=$list;
 			$data['settings']=$settings=$this->SettingModel->getByMetaKey($user_data['id']);
 			return view('admin/settings_cms.php',$data);
-		
+		}
+		else{
+			$list=$this->PagesModel->where('id_ente IS NULL')->where('banned','no')->find();
+			$data['list']=$list;
+			
+			return view('superadmin/settings_cms.php',$data);
+		}
 		
 	}
 	
@@ -492,11 +508,16 @@ class Settings extends BaseController
 		$data=$this->common_data();
 	
 		$user_data=$this->session->get('user_data');
-	
-		$data['inf_page']=$this->PagesModel->where('banned','no')->where('id_ente',$user_data['id'])->where('id',$id)->first();
-		if(empty($data['inf_page'])) return redirect()->back();
-		return view('admin/settings_cms_edit.php',$data);
-		
+		if($user_data['role']=="ente"){
+			$data['inf_page']=$this->PagesModel->where('banned','no')->where('id_ente',$user_data['id'])->where('id',$id)->first();
+			if(empty($data['inf_page'])) return redirect()->back();
+			return view('admin/settings_cms_edit.php',$data);
+		}
+		else{
+			$data['inf_page']=$this->PagesModel->where('banned','no')->where('id',$id)->first();
+			if(empty($data['inf_page'])) return redirect()->back();
+			return view('superadmin/settings_cms_edit.php',$data);
+		}
 		
 	}
 	/*
