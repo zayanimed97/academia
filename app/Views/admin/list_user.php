@@ -173,7 +173,7 @@ else{
 								<div class="col-md-6">
                                     <!-- assignee -->
                                     <label class="mt-2 mb-1"> <?php echo lang('app.field_ruolo')?> :</label>
-                                    <p x-text="data.posizione"></p>
+                                    <p x-text="data.ruolo"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
 								
@@ -230,13 +230,42 @@ else{
                                     <p x-text="data.qualifica"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
+								<?php if($role=='participant'){?>
 								 <div class="col-md-6">
                                     <!-- assignee -->
                                     <label class="mt-2 mb-1"> <?php echo lang('app.field_prof_albo')?>:</label>
                                     <p x-text="data.prof_albo"></p>
                                     <!-- end assignee -->
                                 </div> <!-- end col -->
-							  
+								
+								<div class="col-md-6">
+                                    <!-- assignee -->
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_professione_city')?>:</label>
+                                    <p x-text="data.professione_citta"></p>
+                                    <!-- end assignee -->
+                                </div> <!-- end col -->
+								
+								<div class="col-md-6">
+                                    <!-- assignee -->
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_code_abo')?>:</label>
+                                    <p x-text="data.abo"></p>
+                                    <!-- end assignee -->
+                                </div> <!-- end col -->
+								
+								<div class="col-md-6">
+                                    <!-- assignee -->
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_del')?>:</label>
+                                    <p x-text="data.del"></p>
+                                    <!-- end assignee -->
+                                </div> <!-- end col -->
+								
+								<div class="col-md-6">
+                                    <!-- assignee -->
+                                    <label class="mt-2 mb-1"> <?php echo lang('app.field_posizion')?>:</label>
+                                    <p x-text="data.posizione"></p>
+                                    <!-- end assignee -->
+                                </div> <!-- end col -->
+								<?php } ?>
 							  </div>
                           
                         </div>
