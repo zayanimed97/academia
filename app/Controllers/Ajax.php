@@ -10,6 +10,26 @@ class Ajax extends BaseController
         return view('welcome_message');
     }
 	
+	public function send_help_form(){
+		$common_data=$this->common_data();
+		$subject=$this->request->getVar('subject');
+		$message=$this->request->getVar('message');
+		$message.="<hr/>"."<b>Ente: </b>".$common_data['user_data']['display_name'] .' | '.$common_data['user_data']['email'];
+		if($message!=""){
+			$email = \Config\Services::email();
+			$sender_name=$common_data['user_data']['display_name'];
+			$sender_email=$common_data['user_data']['email'];
+			$email->setFrom($sender_email,$sender_name);
+			$inf_admin=$this->UserModel->where('role','admin')->first();
+			$email->setTo($inf_admin['email']);
+			
+			$email->setSubject($subject." - AULEDIGITALE HELP FORM");
+			$email->setMessage(nl2br($message));
+			$email->setAltMessage(strip_tags($message));
+			
+			$xxx=$email->send();
+		}
+	}
 	public function get_provincia_by_nazione(){
 		$id_nazione=$this->request->getVar('id_nazione');
 		$t=$this->request->getVar('t');
