@@ -467,6 +467,7 @@ class UserController extends BaseController
 										->select('participation.*, mp.title as payment_method')
 										->orderBy('participation.date', 'desc')
 										->find();
+		$res=array();
 		 foreach($list as $kk=>$vv){
 			 $inf_modulo=$this->CorsiModuloModel->find($vv['id_modulo']);
 			 $inf_corsi=$this->CorsiModel->find($inf_modulo['id_corsi']);
