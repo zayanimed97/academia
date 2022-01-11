@@ -156,5 +156,9 @@ $lang['menu_contact']="Contatti";
 $lang['menu_back']="indietro";
 $lang['materiel_cours']="materiali del corso";
 $lang['materiel']="materiali";
+
+
+$lang['no_result']="No Results";
+$lang['no_result_text']="Check again later maybe we have something new";
 return $lang;
 ?>
