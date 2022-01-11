@@ -36,9 +36,9 @@
     }
 </style>
         <!--  breadcrumb -->
-        <div class="from-blue-500 via-blue-400 to-blue-500 bg-gradient-to-l breadcrumb-area py-6 text-white">
+        <div class="from-blue-500 bg-grey breadcrumb-area py-6 text-black">
             <div class="container mx-auto lg:pt-5">
-                <div class="breadcrumb text-white">
+                <div class="breadcrumb text-black">
                     <ul class="m-0">
                         <li>
                             <a href="<?= base_url() ?>"> <i class="icon-feather-home"></i> </a>
@@ -314,7 +314,7 @@
                                                 </div>
                                             </div>
                                             <div class="flex justify-between mt-1">
-                                                <p @click="shareFacebook(item.rowid, item.url, '<?= $settings['facebook_discount'] ?? 0 ?>')" class="text-green-400 cursor-pointer hover:underline">Risparmia <?= $amount->format($settings['facebook_discount'] ?? 0) ?></p>
+                                                <p @click="shareFacebook(item.rowid, item.url, '<?= $settings['facebook_discount'] ?? 0?>')" class="text-green-400 cursor-pointer hover:underline">Condividi e risparmia <?= $amount->format($settings['facebook_discount'] ?? 0) ?></p>
                                             </div>
                                         </div>
                                     </div>

@@ -226,8 +226,14 @@ $routes->get('/removeFromCart/(:any)', 'front\CartController::remove/$1');
 $routes->group("order", ["filter" => "auth:participant"], function ($routes) {
     $routes->get('checkout', 'front\CartController::getCheckout');
     $routes->post('checkout', 'front\CartController::pay');
+
+    // paypal 
     $routes->get('confirm', 'front\CartController::confirm');
     $routes->get('cancel', 'front\CartController::cancel');
+
+    // stripe 
+    $routes->get('stripe/confirm', 'front\CartController::stripeConfirm');
+    $routes->get('stripe/cancel', 'front\CartController::stripeCancel');
     $routes->post('coupon', 'front\CartController::coupon');
 });
 

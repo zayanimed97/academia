@@ -8,6 +8,7 @@ use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Core\ProductionEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
+use App\Libraries\Uuid;
 
 class CartController extends BaseController
 {
@@ -148,10 +149,7 @@ class CartController extends BaseController
             }
         }
         $data['methods'] = $this->EnteMethodPaymentModel->where('id_ente', $data['selected_ente']['id'])->where('enable', 'yes')->where('banned', 'no')->find();
-        // echo '<pre>';
-        // print_r($data['user']);
-        // echo '</pre>';
-        // exit;
+        
         return view($data['view_folder'].'/checkout', $data);
     }
     
@@ -187,17 +185,43 @@ class CartController extends BaseController
         $cartItems = [];
         $total_vat = 0;
         $cart = $this->cart->contents();
+        // echo '<pre>';
+        // print_r($cart);
+        // echo '</pre>';
+        // exit;
         foreach ($cart as $item) {
             $total_vat += $item['price'] * ($item['tax']/100);
             if (is_numeric($item['price']) && floatVal($item['price']) > 0) {
-                array_push  ($items, [
-                        "reference_id" => $item['id'],
-                        "amount" => [
-                            "value" => round($item['price'] * (($item['tax']/100)+1), 2),
-                            "currency_code" => "EUR"
-                        ]
-                    ]
-                );
+                switch ($this->request->getVar('paymethod')) {
+                    case 'paypal':
+                        array_push  ($items, [
+                                "reference_id" => $item['id'],
+                                "amount" => [
+                                    "value" => round($item['price'] * (($item['tax']/100)+1), 2),
+                                    "currency_code" => "EUR"
+                                ]
+                            ]
+                        );
+                        break;
+                    case 'stripe':
+                        if ($item['type'] == 'corsi') {
+                            $corsi = $this->CorsiModel->where('id', str_replace($item['type'], '', $item['id']))->select('sotto_titolo')->first();
+                        } elseif ($item['type'] == 'modulo') {
+                            $corsi = $this->CorsiModuloModel->where('id', str_replace($item['type'], '', $item['id']))->select('sotto_titolo')->first();
+                        }
+                        array_push  ($items, [
+                                    "price_data" => [
+                                        "currency" => "eur",
+                                        "product_data" =>[
+                                            "name" => $corsi['sotto_titolo']
+                                        ],
+                                        "unit_amount" => round($item['price'] * (($item['tax']/100)+1), 2)*100,
+                                    ],
+                                    'quantity' => 1
+                                ]
+                        );
+                        break;
+                }
             }
             
             
@@ -339,6 +363,68 @@ class CartController extends BaseController
                         print_r($ex->getMessage());
                     }
                     break;
+
+
+
+
+                    case 'stripe':
+                        $uuid = new Uuid();
+                        $token = $uuid->v4();
+                        // $this->CartPaymentModel->insert([   'id_cart'=>$cartId,
+                        //                                     'id_method' => 2,
+                        //                                     'amount' => $this->cart->total() + $total_vat,
+                        //                                     'date' => date('Y-m-d H:i:s'),
+                        //                                     'status' => 'pending',
+                        //                                     'details' => json_encode($items)
+                                                        // ]);
+                        $payment = $this->EnteMethodPaymentModel->where('id_method', 2)
+                                                                ->where('id_ente', $data['selected_ente']['id'])
+                                                                ->where('banned', 'no')
+                                                                ->where('enable', 'yes')
+                                                                ->first();
+                        $clientId = json_decode($payment['details'])->clientID;
+                        $clientSecret = json_decode($payment['details'])->clientSecret;
+
+                        if(PAYPAL_SANDBOX==true) $environment = new SandboxEnvironment($clientId, $clientSecret);
+                        else $environment = new ProductionEnvironment($clientId, $clientSecret);
+                        $client = new \Stripe\StripeClient("sk_test_51IahouHV1rgmJ6AYyN3U9qsPTdT2ozVd0xr8kjYHJbtFw7X5k59AGW6CNAqtWsCopoNB7tK4EZ2NBIKYUw94CS4E00YUjsZCa2");
+
+                        try {
+                            // Call API with your client and get a response for your call
+                            $response = $client->checkout->sessions->create([
+                                'success_url' => base_url("/order/stripe/confirm?token=$token"),
+                                'cancel_url' => base_url("/order/stripe/cancel?token=$token"),
+                                'line_items' => $items,
+                                'mode' => 'payment',
+                              ]);
+                                // echo '<pre>';
+                                // print_r($response);
+                                // echo '</pre>';
+                                // exit;
+                            $this->CartPaymentModel->insert([   'id_cart'=>$cartId,
+                                                'id_method' => 3,
+                                                'amount' => $this->cart->total() + $total_vat,
+                                                'date' => date('Y-m-d H:i:s'),
+                                                'status' => 'pending',
+                                                'details' => json_encode(["uuid"=>$token, "id" => $response->id])
+                                            ]);
+                            
+                            
+                            // print_r("Location: ". reset($res)->href);
+                            header("Location: ". $response->url);
+                            exit();
+                            // If call returns body in response, you can get the deserialized version from the result attribute of the response
+                            // return $this->response->setJSON($response);
+                        }catch (HttpException $ex) {
+                            echo $ex->statusCode;
+                            print_r($ex->getMessage());
+                        }
+                        break;
+
+
+
+
+
                     case 'iban':
                         $this->CartPaymentModel->insert([   'id_cart'=>$cartId,
                                                             'id_method' => 1,
@@ -433,11 +519,84 @@ class CartController extends BaseController
 		}
 	}
 
+
+
+    public function stripeConfirm()
+	{ 
+        $data = $this->common_data();
+
+		$token=$this->request->getVar('token');
+
+
+		try {
+			// Call API with your client and get a response for your call
+			
+            $payment = $this->CartPaymentModel->where("(CASE WHEN JSON_VALID(details) THEN JSON_CONTAINS(details,json_quote('$token'), '$.uuid') ELSE 0 END) > 0")->first();
+            $this->CartModel->update($payment['id_cart'], ['status' => 'COMPLETED']);
+            $this->CartPaymentModel->update($payment['id'], ['status' => 'COMPLETED']);
+            $items = $this->CartItemsModel->where('id_cart', $payment['id_cart'])->find();
+            $modules = [];
+            foreach ($items as $item) {
+                if ($item['item_type'] == 'modulo') {
+                    array_push($modules, ['id'=>$item['item_id'], 'date'=>json_decode($item['details'])->options->date]);
+                }
+                if ($item['item_type'] == 'corsi') {
+                    $modulo = $this->CorsiModuloModel->where('id_corsi', $item['item_id'])->where('banned', 'no')->select('id')->find();
+                    foreach ($modulo as $mod) {
+                        array_push($modules, $mod['id']);
+                    }
+                }
+            }
+            $participation = [];
+            foreach ($modules as $module) {
+                array_push($participation,  [   'id_ente'=> $data['selected_ente']['id'],
+                                                'id_user' => session('user_data')['id'],
+                                                'id_modulo' => $module['id'] ?? $module ?? null,
+                                                'id_date' => $module['date'] ?? null,
+                                                'id_cart' => $payment['id_cart'],
+                                                'date' => date('Y-m-d H:i:s')
+                                            ]);
+            }
+            $this->ParticipationModel->insertBatch($participation);
+			// If call returns body in response, you can get the deserialized version from the result attribute of the response
+			// return $this->response->setJSON($response);
+            
+            $usedCoupons = $this->usedCoupons();
+            foreach ($usedCoupons as $used) {
+                $this->CouponModel->where('code', $used)->where('id_ente', $data['selected_ente']['id'])->set('used', 'used+1', FALSE)->update();
+            }
+            $this->cart->destroy();
+            session()->setFlashdata('success', 'cart payed successfully');
+			 $xxx = $this->OrderMail($payment['id_cart']);
+             $data['cartItems'] = $items;
+             $data['payment_method'] = 'PayPal';
+             return view($data['view_folder'].'/invoice', $data);
+		}catch (HttpException $ex) {
+			echo $ex->statusCode;
+			print_r($ex->getMessage());
+		}
+	}
+
+
+
+
     public function cancel()
     {
 		$token=$this->request->getVar('token');
 
         $payment = $this->CartPaymentModel->where('details', $token)->first();
+        $this->CartModel->update($payment['id_cart'], ['status' => 'CANCELLED']);
+        $this->CartPaymentModel->update($payment['id'], ['status' => 'CANCELLED']);
+
+        session()->setFlashdata('cancelled', 'Payment Cancelled');
+        return redirect()->to(base_url());
+    }
+
+    public function stripeCancel()
+    {
+		$token=$this->request->getVar('token');
+
+        $payment = $this->CartPaymentModel->where("(CASE WHEN JSON_VALID(details) THEN JSON_CONTAINS(details,json_quote('$token'), '$.uuid') ELSE 0 END) > 0")->first();
         $this->CartModel->update($payment['id_cart'], ['status' => 'CANCELLED']);
         $this->CartPaymentModel->update($payment['id'], ['status' => 'CANCELLED']);
 
