@@ -596,8 +596,10 @@ use CodeIgniter\I18n\Time;
                                             <div> <?= $corsi['categories'] ?> </div>
                                             <div>·</div>
                                             <div> <?= $mod['duration'] ?: 'indefinite' ?> </div>
-                                            <div>·</div>
-                                            <div> <?= $mod['nb_person_aula'] ?: 'not applicable' ?> </div>
+                                            <?php if($mod['nb_person_aula']) {?>
+                                                <div>·</div>
+                                                <div> <?= $mod['nb_person_aula'] ?: 'not applicable' ?> </div>
+                                            <?php } ?>
                                         </div>
                                         
                                     </div>

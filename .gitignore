@@ -127,5 +127,6 @@ nb-configuration.xml
 /.phpunit.*.cache
 
 app/Config/App.php
+app/Config/Email.php
 app/Views/default/register2.php
 public/uploads/
