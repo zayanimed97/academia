@@ -216,7 +216,7 @@
 										<div class="row">
 												<div class="col-md-9">
 														<div class="form-group required-field">
-															<label for="acc-mname"><?php echo lang('app.field_image')?> </label>
+															<label for="acc-mname">Aggiungi un'<?php echo lang('app.field_image')?> (1200x628px) che permette la condivizione della homepage su Facebook</label>
 														 <?php $val=""; 
 													$input = [
 															'type'  => 'file',
