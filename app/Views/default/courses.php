@@ -210,6 +210,7 @@ a[disabled] {
                     
     
                     <div>
+                        <?php if (count($corsi)>0) {?>
 
                         <div class="md:flex justify-end items-center mb-8 pt-4 border-t">
     
@@ -245,7 +246,6 @@ a[disabled] {
         
                             </div>
                         </div>
-
 
                         <template x-if="view == 'grid'">
                             <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-5">
@@ -298,7 +298,6 @@ a[disabled] {
                         </template>
                         <!-- course list -->
                         
-    
                         <template x-if="view == 'list'">
                             <div class="tube-card mt-3 lg:mx-0 -mx-5">
                             
@@ -396,6 +395,12 @@ a[disabled] {
                                 </div>
                             </div>
                         </template>
+                        <?php } else { ?>
+                            <div class="bg-blue-600 border p-4 relative rounded-md uk-alert" uk-alert="">
+                                <h3 class="text-lg font-semibold text-white"><?= lang('front.no_result') ?></h3>
+                                <p class="text-white text-opacity-75"><?= lang('front.no_result_text') ?></p>
+                            </div>
+                        <?php } ?>
                         <!-- Pagination -->
                         <?= view($view_folder.'/common/pagination', $pagination) ?>
                     </div>

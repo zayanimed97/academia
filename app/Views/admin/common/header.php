@@ -75,7 +75,10 @@
                                     <i class=" fas fa-euro-sign"></i>
                                     <span><?php echo lang('app.menu_payment_config')?></span>
                                 </a>
-								
+								<a href="<?= base_url('admin/profile/settings') ?>" class="dropdown-item notify-item">
+                                    <i class=" fas fa-cogs"></i>
+                                    <span><?php echo lang('app.title_page_profile_settings')?></span>
+                                </a>
 								<a href="<?= base_url('admin/profile/mailing') ?>" class="dropdown-item notify-item">
                                     <i class="fas fa-reply-all"></i>
                                     <span><?php echo lang('app.menu_mailing')?></span>

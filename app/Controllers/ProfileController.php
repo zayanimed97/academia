@@ -52,6 +52,11 @@ class ProfileController extends BaseController
 			$data['SMTP']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'SMTP')['SMTP'] ?? "";
 			$p='profile_mailing.php';
 			break;
+			case 'settings':
+			$data['facebook_id']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'facebook_id')['facebook_id'] ?? "";
+			$data['facebook_discount']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'facebook_discount')['facebook_discount'] ?? "";
+			$p='settings_general.php';
+			break;
 			default:$p='profile.php';
 		}
 		$data['profile_menu']=$profile_menu;
@@ -86,6 +91,40 @@ class ProfileController extends BaseController
 						$dataUser['pass']=$this->request->getVar('password');
 					}		
 					$this->UserModel->update( $this->session->get('user_data')['id'], $dataUser);
+					$res=array("error"=>false);
+				}
+			break;
+			case 'settings':
+				$val = $this->validate([
+					'id' => ['label' => 'APP ID', 'rules' => 'trim|required'],	
+					'discount' => ['label' => 'APP ID', 'rules' => 'numeric|greater_than[0]|required'],	
+				]);
+				
+				if (!$val)
+				{
+					
+						$validation=$this->validator;
+						$error_msg=$validation->listErrors();
+						$res=array("error"=>true,"validation"=>$error_msg);
+				}
+				
+				else{
+					$dataUser = [
+						'id' => $this->request->getVar('id'),
+						'discount' => $this->request->getVar('discount'),
+					];	
+					$discount = $this->SettingModel->where('id_ente',$this->session->get('user_data')['id'])->where('meta_key', 'facebook_discount')->find();
+					$id = $this->SettingModel->where('id_ente',$this->session->get('user_data')['id'])->where('meta_key', 'facebook_id')->find();
+					if ($discount) {
+						$this->SettingModel->where('id_ente',$this->session->get('user_data')['id'])->where('meta_key', 'facebook_discount')->set('meta_value', $this->request->getVar('discount'))->update();
+					} else {
+						$this->SettingModel->insert(['meta_key'=>'facebook_discount', 'meta_value'=>$this->request->getVar('discount'), 'id_ente'=>$this->session->get('user_data')['id']]);
+					}
+					if ($id) {
+						$this->SettingModel->where('id_ente',$this->session->get('user_data')['id'])->where('meta_key', 'facebook_id')->set('meta_value', $this->request->getVar('id'))->update();
+					} else {
+						$this->SettingModel->insert(['meta_key'=>'facebook_id', 'meta_value'=>$this->request->getVar('id'), 'id_ente'=>$this->session->get('user_data')['id']]);
+					}
 					$res=array("error"=>false);
 				}
 			break;
@@ -300,6 +339,24 @@ class ProfileController extends BaseController
 								}
 								else{
 									$details=json_encode(array("clientSecret"=>$this->request->getVar('clientSecret'),"clientID"=>$this->request->getVar('clientID')),true);
+									$this->EnteMethodPaymentModel->insert(array('id_ente'=>$user_data['id'],'id_method'=>$vv,'details'=>$details,'enable'=>'yes'));
+								}
+							break;
+							case 3:
+								$val = $this->validate([
+				
+										'stripeSecret' => ['label' =>  lang('app.field_paypal_clientSecret') ,'rules' => 'trim|required'],	
+										
+								]);
+								if (!$val)
+								{
+										
+										$validation=$this->validator;
+										$error_msg.=$validation->listErrors();
+										//$res=array("error"=>true,"validation"=>$error_msg);
+								}
+								else{
+									$details=json_encode(array("stripeSecret"=>$this->request->getVar('stripeSecret')),true);
 									$this->EnteMethodPaymentModel->insert(array('id_ente'=>$user_data['id'],'id_method'=>$vv,'details'=>$details,'enable'=>'yes'));
 								}
 							break;

@@ -377,17 +377,14 @@ class CartController extends BaseController
                         //                                     'status' => 'pending',
                         //                                     'details' => json_encode($items)
                                                         // ]);
-                        $payment = $this->EnteMethodPaymentModel->where('id_method', 2)
+                        $payment = $this->EnteMethodPaymentModel->where('id_method', 3)
                                                                 ->where('id_ente', $data['selected_ente']['id'])
                                                                 ->where('banned', 'no')
                                                                 ->where('enable', 'yes')
                                                                 ->first();
-                        $clientId = json_decode($payment['details'])->clientID;
-                        $clientSecret = json_decode($payment['details'])->clientSecret;
+                        $clientSecret = json_decode($payment['details'])->stripeSecret;
 
-                        if(PAYPAL_SANDBOX==true) $environment = new SandboxEnvironment($clientId, $clientSecret);
-                        else $environment = new ProductionEnvironment($clientId, $clientSecret);
-                        $client = new \Stripe\StripeClient("sk_test_51IahouHV1rgmJ6AYyN3U9qsPTdT2ozVd0xr8kjYHJbtFw7X5k59AGW6CNAqtWsCopoNB7tK4EZ2NBIKYUw94CS4E00YUjsZCa2");
+                        $client = new \Stripe\StripeClient($clientSecret);
 
                         try {
                             // Call API with your client and get a response for your call

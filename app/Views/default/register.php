@@ -99,13 +99,15 @@
                                         <label for="indirizzo" class="text-sm font-medium"> <?php echo lang('front.field_address')?> </label>
                                         <input type="text" class="with-border"id="indirizzo" name="indirizzo" value="<?php echo old('indirizzo') ?? ''?>">
                                     </div-->
-                                    <div class="cols-span-2 checkbox my-2">
-                                        <input type="checkbox" id="use_privacy">
-                                        <label for="use_privacy" class="text-sm"><span class="checkbox-icon"></span> Accetto le <a target="_blank" href="#" class="font-semibold">Condizioni</a>. Scopri come utilizziamo e proteggiamo i tuoi dati nelle nostre <a target="_blank" href="#" class="font-semibold">Norme sulla privacy</a>.</label>
-                                    </div>
-									<div class="cols-span-2 checkbox my-2">
-                                        <input type="checkbox" id="use_newsletter">
-                                        <label for="use_newsletter" class="text-sm"><span class="checkbox-icon"></span> Vorrei ricevere gli aggiornamenti via email relativi al marketing diretto.</label>
+                                    <div class="col-span-2 checkbox my-2">
+                                        <div>
+                                            <input type="checkbox" id="use_privacy" name="privacy" value="1" data-parsley-checkmin="1" required>
+                                            <label for="use_privacy" class="text-sm"><span class="checkbox-icon"></span> Accetto le <a target="_blank" href="#" class="font-semibold">Condizioni</a>. Scopri come utilizziamo e proteggiamo i tuoi dati nelle nostre <a target="_blank" href="#" class="font-semibold">Norme sulla privacy</a>.</label>
+                                        </div>
+                                        <div>
+                                            <input type="checkbox" id="use_newsletter" name="newsletter" value="1">
+                                            <label for="use_newsletter" class="text-sm"><span class="checkbox-icon"></span> Vorrei ricevere gli aggiornamenti via email relativi al marketing diretto.</label>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
