@@ -524,6 +524,7 @@ $lang['title_modal_user_profile']="Profilo";
 $lang['title_page_edit_doctor']="Modifica docente";
 $lang['title_page_edit_participant']="Modifica Participante";
 $lang['title_page_profile_account']="Mio Account";
+$lang['title_page_profile_settings']="impostazioni generali";
 $lang['title_page_profile_contact']="Contatti dati";
 $lang['title_page_profile_fattura']="Dati fatturazione";
 $lang['title_page_profile']="Profilo";

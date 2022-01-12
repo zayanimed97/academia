@@ -28,12 +28,14 @@ class UserController extends BaseController
 
     public function create_user()
     {
+	//	var_dump($verif); exit;
         $request = $this->request->getVar();
 		$verif=$this->UserModel->where('id_ente',$this->common_data()['selected_ente']['id'])->where('email',$request['email'])->find();
 		$verif2=$this->UserModel->where('role','ente')->where('email',$request['email'])->find();
-	//	var_dump($verif); exit;
 		if(!empty($verif) || !empty($verif2)){
 			return redirect()->back()->withInput()->with('error',lang('front.error_mail_exist'));
+		} elseif(strlen($this->request->getVar('privacy')) == 0){
+			return redirect()->back()->withInput()->with('error',lang('app.error_required_privacy'));
 		}
 		else{
          $token=random_string('alnum',32);

@@ -94,6 +94,19 @@
 																		<hr>
 																	</div>
 																<?php break;
+																case 3:?>
+																	<div class="col-12"  <?php if($chk==false){?>style="display:none"<?php } ?> id="div_payment_<?php echo $v['id']?>">
+																		<p><b>Controlla le informazione richieste direttamente dal tuo account business di PAYPAL</b><br>Vai su paypal.com e accedi al tuo account.  Clicca su Sviluppatore -> Dashboard (sotto nome del profilo) oppure vai <a href="https://developer.paypal.com/developer/accountStatus/" target="_blank">QUI</a><br>Dovresti trovarti qui: <a href="https://developer.paypal.com/developer/applications" target="_blank">My apps & credentials</a>.  Vai su LIVE.<br>Se non hai un APP NAME puoi creane una cliccando su "Create APP".<br>Se sei in possesso di un App Name, clicca sul nome e copia/incolla il codice <b>Client ID</b> e <b>Secret</b>.</p>
+																		
+																		<div class="form-group row mb-3">
+																			<label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_paypal_clientID')?></label>
+																			<div class="col-md-9">
+																				<input type="text" id="clientID" name="stripeSecret" class="form-control" value="<?php echo $details['stripeSecret'] ?? ''?>">
+																			</div>
+																		</div>
+																		<hr>
+																	</div>
+																<?php break;
 															} ?>
 														<?php } ?>
                                                         </div> <!-- end row -->
