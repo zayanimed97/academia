@@ -191,7 +191,33 @@ class ProfileController extends BaseController
 				
 				$res=array("error"=>false,"data"=>$this->request->getVar('phone'),"data2"=>$this->request->getVar('mail'));
 			break;
-			case 'fattura':	
+			case 'fattura':
+if($this->request->getVar('fatturacloud_menu')!==null){
+		$val = $this->validate([
+				
+				'fattura_id' => ['label' =>  lang('app.field_fattura_id') ,'rules' => 'trim|required'],	
+				'fattura_key' => ['label' =>  lang('app.field_fattura_key') ,'rules' => 'trim|required'],	
+				
+		]);
+		if (!$val)
+		{
+				
+				$validation=$this->validator;
+				$error_msg=$validation->listErrors();
+				$res=array("error"=>true,"validation"=>$error_msg);
+		}
+		else{
+			$meta_value=json_encode(array("id"=>$this->request->getVar('fattura_id'),"key"=>$this->request->getVar('fattura_key'),"num_prefix"=>$this->request->getVar('num_prefix')),true);
+			$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'fattura_incloud')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'fattura_incloud','meta_value'=>$meta_value));
+							else{
+								
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'fattura_incloud')->update($id['id'],array('meta_value'=>$meta_value));
+							}
+							$res=array("error"=>false);
+		}
+}
+else{	
 			$val = $this->validate([
 				
 				'fattura_nome' => ['label' =>  lang('app.field_first_name') ,'rules' => 'trim|required'],	
@@ -251,6 +277,7 @@ class ProfileController extends BaseController
 								
 								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'default_iva')->update($id['id'],array('meta_value'=>$default_iva));
 							}
+}
 	
 			break;
 			case 'data':
