@@ -1,5 +1,5 @@
 <?php namespace App\Controllers;
-
+use App\Libraries\Fattureincloud;
 class ProfileController extends BaseController
 {
 	
@@ -210,12 +210,20 @@ if($this->request->getVar('fatturacloud_menu')!==null){
 		else{
 			$meta_value=json_encode(array("id"=>$this->request->getVar('fattura_id'),"key"=>$this->request->getVar('fattura_key'),"num_prefix"=>$this->request->getVar('num_prefix')),true);
 			$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'fattura_incloud')->first();
-							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'fattura_incloud','meta_value'=>$meta_value));
-							else{
-								
-								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'fattura_incloud')->update($id['id'],array('meta_value'=>$meta_value));
-							}
-							$res=array("error"=>false);
+			if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'fattura_incloud','meta_value'=>$meta_value));
+			else{
+				
+				$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'fattura_incloud')->update($id['id'],array('meta_value'=>$meta_value));
+			}
+			
+			
+			$Fattureincloud=new Fattureincloud($this->request->getVar('fattura_id'),$this->request->getVar('fattura_key'));
+			$verify_params=json_decode($Fattureincloud->verify($this->request->getVar('fattura_id'),$this->request->getVar('fattura_key')),true);
+			if(isset($verify_params['error_code'])){
+				$res=array("error"=>true,'validation'=>$verify_params['error']);
+			}
+			else
+				$res=array("error"=>false);
 		}
 }
 else{	

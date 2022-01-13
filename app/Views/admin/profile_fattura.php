@@ -404,7 +404,7 @@
                                 <div class="card">
                                     <div class="card-body">
 
-                                     	<div class="alert alert-danger" role="alert" id="error_alert" style="display:none"></div>   
+                                     	<div class="alert alert-danger" role="alert" id="error_alert2" style="display:none"></div>   
 										
                                         <form method="post" action="<?= base_url('admin/profile/'. $profile_menu) ?>"  id='fattura_cloud_form'>
 											<input type="hidden" name="profile_menu" value="<?php echo $profile_menu?>">
@@ -638,7 +638,7 @@
 				*/
 function save_ente(){
 	var fields = $( "#add_ente_form" ).serializeArray();
-	console.log(fields);
+	
 	$.ajax({
 				  url:"<?php echo base_url('ProfileController/update')?>",
 				  method:"POST",
@@ -664,7 +664,7 @@ function save_ente(){
 function save_fattura(){
 		
 		var fields = $( "#fattura_cloud_form" ).serializeArray();
-	console.log(fields);
+	
 	$.ajax({
 				  url:"<?php echo base_url('ProfileController/update')?>",
 				  method:"POST",
@@ -674,13 +674,14 @@ function save_fattura(){
 				
 				
 				var obj=JSON.parse(data);
+				
 				if(obj.error==true){
-					$("#error_alert").html(obj.validation);
-					$("#error_alert").show('slow');
+					$("#error_alert2").html(obj.validation);
+					$("#error_alert2").show('slow');
 				
 				}
 				else{
-					$("#error_alert").hide('slow');
+					$("#error_alert2").hide('slow');
 					$( "#success-alert-modal" ).modal('show');
 				//	return true;
 				}

@@ -13,7 +13,20 @@ class Fattureincloud
             $this->uid = $id;
             $this->key = $key;
         }
-
+		public function verify($ID,$clef){
+			
+			$url = "https://api.fattureincloud.it/v1/richiesta/info";
+            $request = array ("api_uid" => $ID, "api_key" => $clef);
+            $options = array (
+                "http" => array (
+                    "header" => "Content-type: text / json \ r \ n",
+                    "method" => "POST",
+                    "content" => json_encode ($request,true)
+                ),
+            );
+            $context = stream_context_create ($options);
+            return file_get_contents ($url, false, $context); 
+		}
         public function newClient(array $info)
         {
             return $this->callAPI("/clienti/nuovo", $info);
