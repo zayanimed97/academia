@@ -18,9 +18,7 @@ use App\Models\UserCvModel;
 use App\Models\UserModel;
 use App\Models\UserProfileModel;
 use App\Models\UsersLogModel;
-
 use App\Models\ObiettiviFormazioneModel;
-
 use App\Models\CorsiModel;
 use App\Models\CorsiModuloModel;
 use App\Models\CorsiGalleriaModel;
@@ -34,7 +32,6 @@ use App\Models\CorsiModuloTestQuestionsModel;
 use App\Models\CorsiModuloTestResponsesModel;
 use App\Models\testModuloModel;
 use App\Models\EnteMethodPaymentModel;
-
 use App\Models\CouponModel;
 use App\Models\CartModel;
 use App\Models\CartItemsModel;
@@ -43,9 +40,10 @@ use App\Models\ParticipationModel;
 use App\Models\PagesModel;
 use App\Models\AlberghiModel;
 use App\Models\LuoghiModel;
-
 use App\Models\ParticipationOnlineStatusModel;
 use App\Models\ParticipationOnlineEventModel;
+
+use App\Libraries\Fattureincloud;
 /**
  * Class BaseController
  *
@@ -319,7 +317,157 @@ class BaseController extends Controller
         // exit;
 
 	}
-	
+	public function createFattureCloud($id_cart){
+		echo "<pre>";
+		$common_data=$this->common_data();
+		$inf_cart=$this->CartModel->find($id_cart);
+		$inf_ente=$this->UserModel->find($common_data['selected_ente']['id']);
+		if(isset($common_data['settings']['fattura_incloud']) && $common_data['settings']['fattura_incloud']!=""){
+				$fattura_incloud=json_decode($common_data['settings']['fattura_incloud'],true);
+				$Fattureincloud=new Fattureincloud($fattura_incloud['id'] ?? '',$fattura_incloud['key'] ?? '');
+				$verify_params=json_decode($Fattureincloud->verify($fattura_incloud['id'] ?? '',$fattura_incloud['key'] ?? ''),true);
+				if(isset($verify_params['error_code'])){
+					$email = \Config\Services::email();
+					$sender_name=$common_data['settings']['sender_name'];
+					$sender_email=$common_data['settings']['sender_email'];
+					$email->setFrom($sender_email,$sender_name);
+						
+					$email->setTo($inf_ente['email']);
+					$email->setSubject("Error Fatture InCloud via Auledigitale");
+					$html=json_encode($verify_params,true)."<hr/> Cart ID:".$id_cart;
+					$email->setMessage($html);
+					$email->setAltMessage(strip_tags($html));
+					$xxx=$email->send();
+					return false;
+				}
+				else{
+					
+					$inf_profile=$this->UserProfileModel->where('user_id',$inf_cart['id_user'])->first();
+					
+					 $filter=array();
+					 if($inf_profile['type']=='company'){
+						 $filter['piva']=$inf_profile['fattura_piva'];
+						 $nome=$inf_profile['ragione_sociale'];
+					 }
+					 else {
+						 $filter['cf']=$inf_profile['fattura_cf'];
+						 $nome=$inf_profile['fattura_nome'].' '.$inf_profile['fattura_cognome'];
+					 }
+					 
+					 $exist_cloud_client=json_decode($Fattureincloud->clientInfo($filter),true);
+					 $fattura_comune="";$fattura_provincia="";
+					$inf_pays=$this->NazioniModel->find($inf_profile['fattura_stato']);
+						if($inf_profile['fattura_stato']==106){
+							$inf_provincia=$this->ProvinceModel->find($inf_profile['fattura_provincia']);
+							$fattura_provincia=$inf_provincia['prov'];
+							$inf_provincia=$this->ComuniModel->find($inf_profile['fattura_comune']);
+							$fattura_comune=$inf_provincia['comune'];
+						}
+						else{
+							$fattura_provincia=strtoupper(substr($inf_profile['fattura_provincia'],0,2)); 
+							$fattura_comune=$inf_profile['fattura_comune'];
+						}
+					$post_client=array("nome"=>$nome,"indirizzo_via"=>$inf_profile['fattura_indirizzo'],"indirizzo_cap"=>$inf_profile['fattura_cap'],"indirizzo_citta"=>$fattura_comune,"indirizzo_provincia"=>$fattura_provincia,"paese"=>$inf_pays['nazione'],"paese_iso"=>$inf_pays['tid'],"tel"=>$inf_profile['fattura_phone']);
+					
+					switch($inf_profile['type']){
+						case 'private': 
+							$post_client['cf']=$inf_profile['fattura_cf'];
+							$post_client['mail']=$inf_profile['email'];
+							$PA=false;
+						break;
+						case 'professional': 
+							$post_client['cf']=$inf_profile['fattura_cf'];
+							$post_client['piva']=$inf_profile['fattura_piva'];
+							$PA=true;
+						break;
+						case 'company': 
+							$post_client['piva']=$inf_profile['fattura_piva'];
+							$PA=true;
+						break;
+					}
+					
+					//var_dump($post_client);
+					#### step 1: create new client or get client data #######
+					if(empty($exist_cloud_client['lista_clienti'])){
+						$newclient=json_decode($Fattureincloud->newClient($post_client),true);
+						if($newclient['success']==true){
+							$post_invoice=$post_client;
+							$post_invoice['id_cliente']=$newclient['id'];
+						}else{
+							$post_invoice=$post_client;
+						}
+					}
+					else{
+						$post_invoice=$post_client;
+						$post_invoice['id_cliente']=$exist_cloud_client['lista_clienti'][0]['id'];
+					}
+					
+					#### step 2: default invoice data #######
+					$post_invoice['autocompila_anagrafica']=false;
+					$post_invoice['salva_anagrafica']=true;
+				
+					$post_invoice['data']=date('d/m/Y');
+					$post_invoice['prezzi_ivati']=false;
+					
+					$post_invoice['PA']=$PA;
+					if($PA==true){
+						$post_invoice['PA_tipo_cliente']='B2B';
+						$post_invoice['PA_codice']=$inf_profile['fattura_sdi'];
+						$post_invoice['PA_pec']=$inf_profile['fattura_pec'];
+					}
+					if($fattura_incloud['num_prefix']!==null) $post_invoice['numero']=$fattura_incloud['num_prefix'];
+					
+					#### step 3: get invoice items & payments #######
+					$list_items=$this->CartItemsModel->where('id_cart',$id_cart)->where('banned','no')->find();
+					foreach($list_items as $k=>$one_item){
+						$details=json_decode($one_item['details'],true);
+						$art_name=$details['name'] ?? 'Corso '.$one_item['item_type'].'#'.$one_item['item_id'].'_'.$one_item['id'];
+						$qty=1;
+						$prix_net=$one_item['price_ht'];//$v['price']-(floatval($details['totals']['discount'])/$qty);
+						$prix_ttc=$prix_net*(1+($one_item['vat']/100));
+						
+						$post_invoice['lista_articoli'][$k]=[
+							"prezzo_netto" =>$prix_net,
+							"prezzo_lordo" => $prix_ttc,
+							"nome" => $art_name, 
+							"cod_iva" => 0,
+							"quantita"=>$qty
+						];                                  
+					}
+					$list_payment=$this->CartPaymentModel->where('id_cart',$id_cart)->where('banned','no')->where('status','COMPLETED')->find();
+					foreach($list_payment as $kk=>$vv){
+						$post_invoice['lista_pagamenti'][]=[ 		
+							"importo" => $vv['amount'], 
+							"data_scadenza" => date('d/m/Y',strtotime($vv['date'])), 
+							"metodo" => "not"
+						];
+					}
+					
+					$data=json_decode($Fattureincloud->newInvoice($post_invoice),true);
+					
+					if(isset($data['error_code'])){
+						$email = \Config\Services::email();
+						$sender_name=$common_data['settings']['sender_name'];
+						$sender_email=$common_data['settings']['sender_email'];
+						$email->setFrom($sender_email,$sender_name);
+							
+						$email->setTo($inf_ente['email']);
+						$email->setSubject("Error Fatture InCloud via Auledigitale");
+						$html=json_encode($verify_params,true)."<hr/> Cart ID:".$id_cart;
+						$email->setMessage($html);
+						$email->setAltMessage(strip_tags($html));
+						//var_dump($email);
+						$xxx=$email->send();
+						return false;
+					}
+					else{
+						$this->CartModel->update($id_cart,array("fattureincloud"=>json_encode($data,true)));
+						return true;
+					}
+				} // end verify params
+		
+		} // end exist params
+	}
  function OrderMail($id_cart){
 		$common_data=$this->common_data();
 		$inf_cart=$this->CartModel->where('banned','no')->where('id',$id_cart)->first();
