@@ -280,7 +280,8 @@ class userListController extends BaseController
 	
 	public function delete($id)
 	{
-		$this->ArgomentiModel->where('id_ente', $this->session->get('user_data')['id'])->where('idargomenti', $id)->delete();
+		$this->UserProfileModel->where('user_id', $id)->join('users u', 'u.id = user_profile.user_id')->delete();
+		$this->UserModel->where('id_ente', $this->session->get('user_data')['id'])->where('id', $id)->delete();
 		return redirect()->to($_SERVER['HTTP_REFERER']);
 	}
 }

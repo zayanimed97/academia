@@ -30,9 +30,9 @@
                                      	<div class="alert alert-danger" role="alert" id="error_alert" style="display:none"></div>   
                                         <form method="post" action="<?= base_url('admin/profile/'. $profile_menu) ?>"  id='add_ente_form'>
 										<input type="hidden" name="profile_menu" value="<?php echo $profile_menu?>">
-														<h4>General Settings</h4>
-											<p>Instructions to get app ID</p>
-									<div class="alert alert-info m-b-20" role="alert">Se non imposti nessun account di posta elettronica (oppure se i dati non saranno più validi) le e-mail verranno inviate dal nostro server con indirizzo no-reply@auledigitali.it e riporteranno la tua e-mail nel campo reply-to.</div>
+														<h4>Configurazione della condivizione su Facebook</h4>
+														<p>Introduzione verso APP ID di FACEBOOK<br>La condivisione del proprio carrello sul social Facebook avviene tramite API, questo ci permette di controllare la corretta avvenuta condivisione del corso prima di applicare lo sconto.  Per procedere all'attivazione del servizio, devi per prima cosa avere un <b>APP ID</b>.<br>Vai su <a href="https://developers.facebook.com/apps/create/">https://developers.facebook.com/apps/create/</a> e scegli tra azienda o consumatore e vai AVANTI.  Nella schermata successiva "<b>Aggiungi dettagli</b>":<br><i>Nome visualizzato, Indirizzo e-mail di contatto dell'app e Scopo dell'app (Clienti)</i>, poi clicca su <b>Crea APP</b>.<br> E' molto probabile che ti richiede di accedere di nuovo al tuo account di Facebook, procedi pure!<br>Vai su Impostazioni/di base e aggiungi Nome visualizzato, un URL della tua privacy e in fondo pagina troverai Sito web: dovresti aggiungere il nome del tuo dominio: academy.tuodominio.it.<br>Ti rimane solo di copia IDAPP qui sotto.</p>
+									<div class="alert alert-info m-b-20" role="alert">Senza APP ID, non sarà possibile impostare la condivisione dei corsi (carrello) su Facebook </div>
                                                         <div class="row">
 															  <div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
@@ -45,7 +45,7 @@
 															
 															<div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="cognome"> <?= lang('app.field_amount')?></label>
+                                                                    <label class="col-md-3 col-form-label" for="cognome"> Valore in € dello sconto</label>
                                                                     <div class="col-md-9">
                                                                         <input placeholder="10" type="text" id="sender_name" name="discount" class="form-control" value="<?= $facebook_discount ?? '10' ?>">
                                                                     </div>

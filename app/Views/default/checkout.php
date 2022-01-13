@@ -233,7 +233,7 @@
                                                 <input id="stripe" name="paymethod" type="radio" x-model="paymethod" value="stripe">
                                                 <label for="stripe" class="h-full w-full">
                                                     <div class="h-full w-full flex justify-center items-center rounded-lg">
-                                                        <img class="h-full" src="http://assets.stickpng.com/images/5842a8e9a6515b1e0ad75b01.png" alt="">
+                                                        <img class="h-full" src="<?= base_url('/front/assets/images/stripe.png') ?>" alt="">
                                                     </div>
                                                 </label>
                                             </div>
@@ -313,9 +313,11 @@
                                                     <span class="font-bold mt-0.5" x-text="formatter.format(item.price)"></span>
                                                 </div>
                                             </div>
+                                            <?php if(isset($settings['facebook_id'])&&isset($settings['facebook_discount'])){ ?>
                                             <div class="flex justify-between mt-1">
                                                 <p @click="shareFacebook(item.rowid, item.url, '<?= $settings['facebook_discount'] ?? 0?>')" class="text-green-400 cursor-pointer hover:underline">Condividi e risparmia <?= $amount->format($settings['facebook_discount'] ?? 0) ?></p>
                                             </div>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 </template>
@@ -360,6 +362,7 @@
             </div>
         </div>
 <?= view($view_folder.'/common/footer') ?>
+<?php if(isset($settings['facebook_id'])){ ?>
 <script>
   window.fbAsyncInit = function() {
     FB.init({
@@ -370,6 +373,7 @@
     });
   };
 </script>
+<?php } ?>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 
 <script>
