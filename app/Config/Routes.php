@@ -89,6 +89,7 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
     //user list
     $routes->get('user_list', 'userListController::show');
     $routes->get('edit_user/(:any)', 'userListController::edit/$1');
+    $routes->get('deleteUser/(:any)', 'userListController::delete/$1');
     $routes->post('updateUser', 'userListController::update');
     $routes->get('new_user', 'userListController::new');
     $routes->post('createUser', 'userListController::create');

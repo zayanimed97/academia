@@ -596,10 +596,8 @@ use CodeIgniter\I18n\Time;
                                             <div> <?= $corsi['categories'] ?> </div>
                                             <div>·</div>
                                             <div> <?= $mod['duration'] ?: 'indefinite' ?> </div>
-                                            <?php if($mod['nb_person_aula']) {?>
-                                                <div>·</div>
-                                                <div> <?= $mod['nb_person_aula'] ?: 'not applicable' ?> </div>
-                                            <?php } ?>
+                                            <div>·</div>
+                                            <div> <?= $mod['nb_person_aula'] ?: 'not applicable' ?> </div>
                                         </div>
                                         
                                     </div>
@@ -691,7 +689,7 @@ use CodeIgniter\I18n\Time;
         
                                 <div class="-m-5 divide-y divide-gray-200 text-sm">
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?> : <?= $type_cours[$corsi['tipologia_corsi']] ?> </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['ECM'] ?? '0' ?> <?php echo lang('front.field_crediti')?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['ECM'] ?? '0' ?> <?php //echo lang('front.field_crediti')?> ODCEC</div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['duration'] ?? '0min' ?> <?php echo lang('front.field_total')?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['nb_person_aula'] ?? '0' ?> <?php echo lang('front.field_participant')?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> <?php echo lang('front.field_modules')?> </div>

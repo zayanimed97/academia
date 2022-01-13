@@ -96,7 +96,7 @@
 																<?php break;
 																case 3:?>
 																	<div class="col-12"  <?php if($chk==false){?>style="display:none"<?php } ?> id="div_payment_<?php echo $v['id']?>">
-																		<p><b>Controlla le informazione richieste direttamente dal tuo account business di STRIPE</b><br>Vai su paypal.com e accedi al tuo account.  Clicca su Sviluppatore -> Dashboard (sotto nome del profilo) oppure vai <a href="https://developer.paypal.com/developer/accountStatus/" target="_blank">QUI</a><br>Dovresti trovarti qui: <a href="https://developer.paypal.com/developer/applications" target="_blank">My apps & credentials</a>.  Vai su LIVE.<br>Se non hai un APP NAME puoi creane una cliccando su "Create APP".<br>Se sei in possesso di un App Name, clicca sul nome e copia/incolla il codice <b>Client ID</b> e <b>Secret</b>.</p>
+																		<p><b>Controlla le informazioni richieste direttamente dal tuo account business di STRIPE</b><br>Vai su <a href="https://stripe.com/it">STRIPE.COM</a> e accedi al tuo account.<br>Clicca su <b>Dashboard</b> -> <b>Sviluppatore</b> -> <b>Api keys</b> e copia e incolla il tuo codice <b>SECRET KEYS</b> qui sotto.</p>
 																		
 																		<div class="form-group row mb-3">
 																			<label class="col-md-3 col-form-label" for="name"> Secret key </label>
