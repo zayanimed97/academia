@@ -396,7 +396,8 @@
 
                         </div> 
                         <!-- end row -->
-<?php if(in_array('fatturecloud',$ente_package['extra'])){?> 
+<?php if(in_array('fatturecloud',$ente_package['extra'])){
+	if(!empty($fattura_incloud) && $fattura_incloud!="") $info_fatture=json_decode($fattura_incloud,true);?> 
  <h4 class="page-title"><?php echo lang('app.title_page_setting_fatturacloud')?></h4>
   <div class="row">
                             <div class="col-12">
@@ -404,16 +405,16 @@
                                     <div class="card-body">
 
                                      	<div class="alert alert-danger" role="alert" id="error_alert" style="display:none"></div>   
-										<?php $inf_profile=$user?>
+										
                                         <form method="post" action="<?= base_url('admin/profile/'. $profile_menu) ?>"  id='fattura_cloud_form'>
 											<input type="hidden" name="profile_menu" value="<?php echo $profile_menu?>">
 											<input type="hidden" name="fatturacloud_menu" value="fatturacloud_menu">
                                              <div class="row">
 															 <div class="col-4">
 														 <div class="form-group row mb-3">
-									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_fattura_id')?></label>
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_fattura_id')?> <span class="text-danger">*</span></label>
 									<div class="col-md-9">
-										<?php $val=""; 
+										<?php $val=$info_fatture['id'] ?? ''; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'fattura_id',
@@ -430,11 +431,11 @@
 									</div>
 								</div>
 								</div>         
-<div class="col-4">
+<div class="col-5">
 														 <div class="form-group row mb-3">
-									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_fattura_key')?></label>
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_fattura_key')?> <span class="text-danger">*</span></label>
 									<div class="col-md-9">
-										<?php $val="";//$inf_profile['ragione_sociale']; 
+										<?php $val=$info_fatture['key'] ?? ''; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'fattura_key',
@@ -451,11 +452,11 @@
 									</div>
 								</div>
 								</div>         
-								<div class="col-4">
+								<div class="col-3">
 														 <div class="form-group row mb-3">
-									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_num_prefix')?></label>
-									<div class="col-md-9">
-										<?php $val="";//$inf_profile['ragione_sociale']; 
+									<label class="col-md-5 col-form-label" for="acc-name"><?php echo lang('app.field_num_prefix')?></label>
+									<div class="col-md-7">
+										<?php $val=$info_fatture['num_prefix'] ?? ''; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'num_prefix',

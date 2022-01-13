@@ -8,7 +8,7 @@ class Fattureincloud
     private $uid;
         private $key;
 
-        public function __construct($id = "691507", $key = "fc3b741e2470ea061d69f5485d9f64eb")
+        public function __construct($id = "", $key = "")
         {
             $this->uid = $id;
             $this->key = $key;

@@ -31,6 +31,7 @@ class ProfileController extends BaseController
 					$data['list_provincia']=$this->ProvinceModel->findAll();
 					if($user['residenza_provincia']>0) $data['list_comuni']=$this->ComuniModel->where('id_prov',$user['residenza_provincia'])->findAll();
 				}
+				$data['fattura_incloud']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'fattura_incloud')['fattura_incloud'] ?? "";
 				$p='profile_fattura.php';
 			break;
 			case 'payments':	
