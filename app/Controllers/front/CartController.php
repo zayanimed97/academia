@@ -299,6 +299,7 @@ class CartController extends BaseController
             $this->cart->destroy();
             session()->setFlashdata('success', 'Free cart added to your account');
             $xxx = $this->OrderMail($cartId);
+			
             return redirect()->to(base_url());
         }
         else {
@@ -507,6 +508,10 @@ class CartController extends BaseController
             $this->cart->destroy();
             session()->setFlashdata('success', 'cart payed successfully');
 			 $xxx = $this->OrderMail($payment['id_cart']);
+			 if(in_array('fatturecloud',$common_data['ente_package']['extra'])){
+				$this->createFattureCloud($payment['id_cart']);
+				ob_clean();
+			 }
              $data['cartItems'] = $items;
              $data['payment_method'] = 'PayPal';
              return view($data['view_folder'].'/invoice', $data);
@@ -565,8 +570,12 @@ class CartController extends BaseController
             $this->cart->destroy();
             session()->setFlashdata('success', 'cart payed successfully');
 			 $xxx = $this->OrderMail($payment['id_cart']);
+			  if(in_array('fatturecloud',$common_data['ente_package']['extra'])){
+				$this->createFattureCloud($payment['id_cart']);
+				ob_clean();
+			 }
              $data['cartItems'] = $items;
-             $data['payment_method'] = 'PayPal';
+             $data['payment_method'] = 'Stripe';
              return view($data['view_folder'].'/invoice', $data);
 		}catch (HttpException $ex) {
 			echo $ex->statusCode;

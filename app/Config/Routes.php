@@ -244,7 +244,7 @@ $routes->group("user", ["filter" => "auth:participant"], function ($routes) {
 	$routes->add('settings', 'front\UserController::settings');
 	$routes->add('participation/(:any)', 'front\UserController::participation_detail/$1');
 	$routes->add('participation', 'front\UserController::participation');
-
+	$routes->add('cart', 'front\UserController::cart');
     $routes->post('setting_submit', 'front\UserController::setting_submit');
     $routes->post('valid_user', 'front\UserController::valid_user');
     $routes->post('postShared', 'front\CartController::postShared');
@@ -254,6 +254,8 @@ $routes->add('/contact', 'Home::contact_page');
 $routes->add('/page/(:any)', 'Home::page/$1'); 
 
 $routes->get('invoice', 'front\CartController::invoice');
+
+$routes->add('getInvoiceFattureCloud/(:any)','Home::getInvoiceFattureCloud/$1');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

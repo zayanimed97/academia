@@ -16,6 +16,7 @@ $lang['btn_webinar']="Accedi Zoom";
 $lang['btn_pay']="Vai al pagamento";
 $lang['btn_pay2']="Pagamento";
 $lang['btn_play_video']="Play";
+$lang['btn_invoice']="Fattura";
 
 $lang['field_email']="Email";
 $lang['field_password']="Password";
@@ -143,7 +144,7 @@ $lang['title_section_order_summary']="Riepilogo ordine";
 $lang['help_text_page_forgot']="Inserisci il tuo indirizzo email per reimpostare la password. Potresti dover consultare la cartella dello spam o sbloccare l'indirizzo no-reply.";
 $lang['title_page_contact']="Contattaci";
 $lang['help_text_page_contact']="Richiedi assistenza tematica.";
-
+$lang['title_page_user_cart']="I miei Carri";
 
 $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";
@@ -156,7 +157,7 @@ $lang['menu_contact']="Contatti";
 $lang['menu_back']="indietro";
 $lang['materiel_cours']="materiali del corso";
 $lang['materiel']="materiali";
-
+$lang['menu_cart']="I miei Carri";
 
 $lang['no_result']="No Results";
 $lang['no_result_text']="Check again later maybe we have something new";

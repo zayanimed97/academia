@@ -78,7 +78,14 @@
                                                                 <i class="fe-edit-1"></i>
                                                             </a>
 															<?php } ?>
-                                                           
+                                                           <?php if($arg['fattureincloud']!=''){
+															   $det=json_decode($arg['fattureincloud'],true);
+															  
+															   if(isset($det['new_id']) && $det['new_id']!=""){?>
+														   <a target="_blank" href="<?php echo base_url('getInvoiceFattureCloud/'.$det['new_id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
+                                                                <i class="fas fa-file-invoice-dollar"></i>
+                                                            </a>
+														   <?php } }?>
                                                         </td>
                                                     </tr>
                                                     <?php } ?>

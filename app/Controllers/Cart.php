@@ -40,6 +40,12 @@ class Cart extends BaseController
 									break;
 								}
 							}
+							
+							if(in_array('fatturecloud',$common_data['ente_package']['extra'])){
+								 $xx=$this->createFattureCloud($id);
+								 ob_clean();
+							 }
+							
 						break;
 						case 'CANCELED':
 							$this->CartModel->update($id,array('status'=>'CANCELED'));
@@ -55,6 +61,7 @@ class Cart extends BaseController
 				break;
 			}
 		}
+		
 		$ll=$this->CartModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->find();
 		$res=array();
 		foreach($ll as $k=>$v){
@@ -82,6 +89,7 @@ class Cart extends BaseController
 					case 'canceled': $st=lang('app.status_canceled'); break;
 				}
 				$v['status_label']=$st;
+				
 				$res[]=$v;
 			}
 		$data['list']=$res;

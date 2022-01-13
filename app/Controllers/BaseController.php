@@ -467,6 +467,7 @@ class BaseController extends Controller
 				} // end verify params
 		
 		} // end exist params
+		else return false;
 	}
  function OrderMail($id_cart){
 		$common_data=$this->common_data();
