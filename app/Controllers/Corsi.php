@@ -370,6 +370,13 @@ class Corsi extends BaseController
 		foreach($ll as $kk=>$vv){
 			$inf_corsi=$this->CorsiModel->find($vv['id_corsi']);
 			$vv['cour']=$inf_corsi['sotto_titolo'];
+			$vv['tipologia_corsi']=$inf_corsi['tipologia_corsi'];
+			$luoghi_label="";
+			if($inf_corsi['tipologia_corsi']=="aula" && $inf_corsi['id_luoghi']!==null){
+				$inf_luoghi=$this->LuoghiModel->find($inf_corsi['id_luoghi']);
+				$luoghi_label=$inf_luoghi['nome'];
+			}
+			$vv['luoghi_label']=$luoghi_label;
 			$inf_doctor=$this->UserProfileModel->where('user_id',$vv['instructor'])->first();
 			if(!empty($inf_doctor)) $vv['instructor']=$inf_doctor['nome'].' '.$inf_doctor['cognome'];
 			else $vv['instructor']="";

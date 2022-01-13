@@ -600,4 +600,26 @@ class UserController extends BaseController
 		}
 	}
 	
+	public function cart(){
+		$common_data=$this->common_data();
+		$data=$common_data;
+		$data['seo_title']=lang('front.title_page_user_cart');
+		$ll=$this->CartModel->where('banned','no')->where('id_ente',$common_data['selected_ente']['id'])->where('id_user',$common_data['user_data']['id'])->find();
+		$res=array();
+		foreach($ll as $k=>$v){
+				$quota="";
+				$total_paid=$v['total_ht']+$v['total_vat'];			
+				$v['total_paid']=$total_paid;
+				switch(strtolower($v['status'])){
+					case 'pending': $st=lang('app.status_pending'); break;
+					case 'completed': $st=lang('app.status_completed'); break;
+					case 'canceled': $st=lang('app.status_canceled'); break;
+				}
+				$v['status_label']=$st;
+				
+				$res[]=$v;
+			}
+		$data['list']=$res;
+		return view($common_data['view_folder'].'/user_cart',$data);
+	}
 }

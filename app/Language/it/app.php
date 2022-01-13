@@ -398,6 +398,9 @@ $lang['field_default_iva']="Predefinito IVA %";
 $lang['field_label']="Label";
 $lang['field_receiver_email']="e-mail del destinatario";
 $lang['field_message']="Messagio";
+$lang['field_num_prefix']="Suffisso";
+$lang['field_fattura_key']="Chiave";
+$lang['field_fattura_id']="ID";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -568,6 +571,7 @@ $lang['dashboard_section_total_participant_buyed']="partecipante ha acquistato a
 
 $lang['title_modal_update_order_status']="Modifica stato ordine";
 $lang['dashboard_pdflib']="Lista Materialli";
+$lang['title_page_setting_fatturacloud']="Impostazioni FatturaInCloud";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";

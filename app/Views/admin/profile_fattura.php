@@ -396,7 +396,95 @@
 
                         </div> 
                         <!-- end row -->
+<?php if(in_array('fatturecloud',$ente_package['extra'])){
+	if(!empty($fattura_incloud) && $fattura_incloud!="") $info_fatture=json_decode($fattura_incloud,true);?> 
+ <h4 class="page-title"><?php echo lang('app.title_page_setting_fatturacloud')?></h4>
+  <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
 
+                                     	<div class="alert alert-danger" role="alert" id="error_alert2" style="display:none"></div>   
+										
+                                        <form method="post" action="<?= base_url('admin/profile/'. $profile_menu) ?>"  id='fattura_cloud_form'>
+											<input type="hidden" name="profile_menu" value="<?php echo $profile_menu?>">
+											<input type="hidden" name="fatturacloud_menu" value="fatturacloud_menu">
+                                             <div class="row">
+															 <div class="col-4">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_fattura_id')?> <span class="text-danger">*</span></label>
+									<div class="col-md-9">
+										<?php $val=$info_fatture['id'] ?? ''; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_id',
+												'id'    => 'fattura_id',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_fattura_id'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>         
+<div class="col-5">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_fattura_key')?> <span class="text-danger">*</span></label>
+									<div class="col-md-9">
+										<?php $val=$info_fatture['key'] ?? ''; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_key',
+												'id'    => 'fattura_key',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_fattura_key'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>         
+								<div class="col-3">
+														 <div class="form-group row mb-3">
+									<label class="col-md-5 col-form-label" for="acc-name"><?php echo lang('app.field_num_prefix')?></label>
+									<div class="col-md-7">
+										<?php $val=$info_fatture['num_prefix'] ?? ''; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'num_prefix',
+												'id'    => 'num_prefix',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_num_prefix'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>         
+										</div>
+										<button type="button" name="submit" class="btn btn-secondary" onclick="save_fattura();"><?php echo lang('app.btn_save')?></button>
+
+                                        </form>
+
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card-->
+                            </div> <!-- end col -->
+
+                        </div> 
+                        <!-- end row -->
+<?php } ?>
                         
                     </div> <!-- container -->
 
@@ -550,7 +638,7 @@
 				*/
 function save_ente(){
 	var fields = $( "#add_ente_form" ).serializeArray();
-	console.log(fields);
+	
 	$.ajax({
 				  url:"<?php echo base_url('ProfileController/update')?>",
 				  method:"POST",
@@ -572,6 +660,35 @@ function save_ente(){
 				}
 			});
 }
+
+function save_fattura(){
+		
+		var fields = $( "#fattura_cloud_form" ).serializeArray();
+	
+	$.ajax({
+				  url:"<?php echo base_url('ProfileController/update')?>",
+				  method:"POST",
+				  data:fields
+				  
+			}).done(function(data){
+				
+				
+				var obj=JSON.parse(data);
+				
+				if(obj.error==true){
+					$("#error_alert2").html(obj.validation);
+					$("#error_alert2").show('slow');
+				
+				}
+				else{
+					$("#error_alert2").hide('slow');
+					$( "#success-alert-modal" ).modal('show');
+				//	return true;
+				}
+			});
+}
+
+
 function get_type(v){
 	$("#div_company").hide(0);
 	$("#div_cf").hide(0);

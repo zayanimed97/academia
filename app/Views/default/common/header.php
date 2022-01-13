@@ -406,7 +406,12 @@
                                      <?php echo lang('front.menu_participation')?>
                                 </a>
                             </li>
-                            
+                             <li> 
+                                <a href="<?php echo base_url('user/cart')?>">
+                                    <ion-icon name="cart-outline" class="is-icon"></ion-icon>
+                                     <?php echo lang('front.menu_cart')?>
+                                </a>
+                            </li>
                             <li>
                                 <a href="<?php echo base_url('user/settings')?>">
                                     <ion-icon name="settings-outline" class="is-icon"></ion-icon>

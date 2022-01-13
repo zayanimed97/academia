@@ -1,7 +1,6 @@
 <?php
-
 namespace App\Controllers;
-
+use App\Libraries\Fattureincloud;
 class Home extends BaseController
 {
     public function index()
@@ -216,4 +215,13 @@ class Home extends BaseController
 
         return view($data['view_folder'].'/blog', $data);
     }
+	
+	
+	public function getInvoiceFattureCloud($id){
+		$common_data=$this->common_data();
+		$fattura_incloud=json_decode($common_data['settings']['fattura_incloud'],true);
+		$Fattureincloud=new Fattureincloud($fattura_incloud['id'] ?? '',$fattura_incloud['key'] ?? '');
+		$pdf=$Fattureincloud->getPdf($id);
+		return redirect()->to($pdf);
+	}
 }
