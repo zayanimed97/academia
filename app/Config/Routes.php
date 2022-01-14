@@ -126,6 +126,7 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 	$routes->add('settings/cms', 'Settings::cms');
 	
 	// Participation 
+	$routes->add('send_credential/(:any)/(:any)', 'Participation::send_credential/$1/$2');
 	$routes->add('participation/(:any)', 'Participation::index/$1');
 	
 	// Cart 

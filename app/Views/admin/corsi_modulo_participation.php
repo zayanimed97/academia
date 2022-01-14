@@ -35,7 +35,7 @@
                         </div>     
                         <!-- end page title --> 
 						<div class="row">
-							<div class="alert alert-primary col-12" role="alert">
+							<div class="alert alert-primary col-6" role="alert">
   <h4 class="alert-heading"><?php echo $inf_modulo['titolo']?></h4>
   <p> 
 	<ul>
@@ -51,7 +51,40 @@
   </p>
   
 </div>
+<div class="col-6" >
+<div class="row">
+										
+										 <div class="col-lg-4 m-b-15 m-t-15">
+										
+											<form id="frm-send-credentiel" name="frm-send-credentiel" method="post">
+												<input type="hidden" name="action" value="send_credential_multiple">
+												<input type="submit" class="btn btn-info " name="generate" value="<?php echo lang('app.btn_send_credentials')?>">
+											</form>
+										
+										</div>
+											<div class="col-lg-4 m-b-15 m-t-15">
+									
+											<form id="frm-send-promo" name="frm-send-promo" method="post">
+												<input type="hidden" name="action" value="send_promo_multiple">
+												<input type="submit" class="btn btn-warning" name="generate" value="<?php echo lang('app.btn_send_promo')?>">
+											</form>
+										
+										</div>
+									</div>
+								</div>
 						</div>
+						 <?php 
+										 if(isset($error)){?>
+										 <div class="alert alert-danger" role="alert">
+											 <?php echo $error?>
+											</div>
+										 <?php }?>
+										  <?php 
+										 if(isset($success)){?>
+										 <div class="alert alert-success" role="alert">
+											 <?php echo $success?>
+											</div>
+										 <?php }?>
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
@@ -64,6 +97,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
+														<th data-sorting="disabled"><input type="checkbox" class="toggle-all"></th>
 														<th><?php echo lang('app.field_last_name')?></th>	
 														<th><?php echo lang('app.field_first_name')?></th>	  
 														 <th><?php echo lang('app.field_credentiel')?></th>
@@ -79,9 +113,10 @@
                                                     <?php foreach($list as $k=>$arg) { ?>
                                                     <tr>
 														  <td><?= ($k+1) ?></td>
+														  	<td><input type="checkbox" class="ids_generate" name="ids_generate[]" value="<?php echo $arg['id']?>"></td>
                                                         <td><?= $arg['participante'] ?></td>
                                                         <td><?= $arg['participant_cognome'] ?></td>
-                                                        <td><?= $arg['credentiel'] ?></td>
+                                                        <td><?= $arg['credentiel'] ?><br/><a href="<?php echo base_url('/admin/send_credential/'.$arg['id_user'].'/yes')?>"><?php echo lang('app.btn_send_credentials')?></a></td>
 														<td><?= $arg['quota'] ?></td>
 														<td><?php echo date('d/m/Y',strtotime($arg['date'])) ?></td>
 														 <?php if($inf_corsi['buy_type']=='date'){?>
@@ -157,8 +192,62 @@
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/pdfmake/build/pdfmake.min.js"></script>
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/pdfmake/build/vfs_fonts.js"></script>
 
-<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/datatables.init.js"></script>
-
+<!--script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/datatables.init.js"></script-->
+<script>
+ var table =$('#basic-datatable').DataTable({
+            responsive: false,
+			language: {
+				url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json'
+			},
+			scrollY:600,
+			scrollX:!0,
+			scrollCollapse:!0,
+			paging:!1,
+		/*	fixedColumns:!0,
+			responsive:!0  */
+          
+        });
+	$(".toggle-all").on("click", function () {
+		
+        $("input:checkbox[class='ids_generate']").prop('checked', $(this).prop('checked'));
+    });
+	
+	$('#frm-send-credentiel').on('submit', function(e){ 
+      var form = this;
+		var xx= $('[class="ids_generate"]:checked').length; 
+		if(xx==0){ alert("<?php echo lang('app.msg_select_participation')?>"); return false;}
+		else{
+			var str='';
+			$("input:checkbox[class='ids_generate']:checked").each(function(){
+				$(form).append(
+					 $('<input>')
+						.attr('type', 'hidden')
+						.attr('name', 'id[]')
+						.val($(this).val())
+				 );
+			});
+		}	
+   });
+   
+   
+     $('#frm-send-promo').on('submit', function(e){
+      var form = this;
+		var xx= $('[class="ids_generate"]:checked').length; 
+		if(xx==0){ alert("<?php echo lang('app.msg_select_participation')?>"); return false;}
+		else{
+			var str='';
+			$("input:checkbox[class='ids_generate']:checked").each(function(){
+				$(form).append(
+					 $('<input>')
+						.attr('type', 'hidden')
+						.attr('name', 'id[]')
+						.val($(this).val())
+				 );
+			});
+		}
+   });
+   
+</script>
 <script>
      function get_del(id){
       

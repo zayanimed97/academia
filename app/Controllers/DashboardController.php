@@ -34,6 +34,44 @@ class DashboardController extends BaseController
 		 $tot=$this->ParticipationModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->select('distinct(id_user)')->find();
 		
 		$data['tot_participant_buyed']=round(100*($data['tot_participant'] > 0) ? count($tot)/$data['tot_participant'] : 0,2);
+		
+		//$ll=$this->CorsiModuloModel->search($common_data['user_data']['id'],$id_corsi,$instructor,$tipologia_corsi,$buy_type,$free_modulo);
+		//where('banned','no')->whereIN("FIND_IN_SET(id_corsi,)>0")
+		$ll=$this->CorsiModuloDateModel->where('banned','no')->where("id_modulo IN(select id from corsi_modulo where banned='no' and id_corsi IN(select id from corsi where banned='no' and id_ente='".$common_data['user_data']['id']."') )")
+		->where("date >='".date('Y-m-d')."' and date <='".date('Y-m-d',strtotime('+7 days'))."'")->find();
+		// 
+		$res=array();
+		foreach($ll as $kk=>$vv){
+			$inf_modulo=$this->CorsiModuloModel->find($vv['id_modulo']);
+			$inf_corsi=$this->CorsiModel->find($inf_modulo['id_corsi']);
+			
+			$inf_modulo['cour']=$inf_corsi['sotto_titolo'];
+			$inf_modulo['tipologia_corsi']=$inf_corsi['tipologia_corsi'];
+			$luoghi_label="";
+			if($inf_corsi['tipologia_corsi']=="aula" && $inf_corsi['id_luoghi']!==null){
+				$inf_luoghi=$this->LuoghiModel->find($inf_corsi['id_luoghi']);
+				$luoghi_label=$inf_luoghi['nome'];
+			}
+			$inf_modulo['luoghi_label']=$luoghi_label;
+			$inf_doctor=$this->UserProfileModel->where('user_id',$inf_modulo['instructor'])->first();
+			if(!empty($inf_doctor)) $inf_modulo['instructor']=$inf_doctor['nome'].' '.$inf_doctor['cognome'];
+			else $inf_modulo['instructor']="";
+			if($inf_modulo['free']=='yes') $inf_modulo['price']=lang('app.field_free_modulo');
+			elseif($inf_modulo['have_def_price']=='no'){
+				$inf_modulo['price']=lang('app.have_def_price');
+			}
+			else $inf_modulo['price']=$inf_modulo['prezzo'];
+			
+			$achat=$this->ParticipationModel->where('banned','no')->where('id_modulo',$inf_modulo['id'])->countAllResults();
+			$inf_modulo['achat']=$achat;
+			$tab=$inf_modulo;
+			$tab['date']=$vv['date'];
+			$res[]=$tab;
+			
+		}
+		
+		$data['list']=$res;
+		
 		return view('admin/dashboard.php',$data);
 	}
 
