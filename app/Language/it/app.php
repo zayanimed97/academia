@@ -61,6 +61,8 @@ $lang['btn_finish']="Salva";
 $lang['btn_clear']="Pulisci";
 $lang['btn_continue_to_modulo']="Completa i moduli";
 $lang['new_professione']="Aggiungi professione";
+$lang['btn_send_credentials']="Invia credenziali";
+$lang['btn_send_promo']="Invia Promemoria email";
 ########## Fields ################
 $lang['field_password']= "Password";
 $lang['field_confirm_password']="Conferma password";
@@ -615,6 +617,8 @@ $lang['success_accept_order']="l'ordine è stato accettato";
 $lang['success_checkout']="Registrazione avvenuta con successo! Ti abbiamo inviato una mail con la conferma di acquisto e i dettagli del/i corso/i acquistato/i.";
 $lang['success_genrerate_certificat']="i certificati vengono generati";
 $lang['scc_mail_subscribed_newsletter']="la tua email è iscritta nel sistema di newsletter";
+$lang['success_send_credential']="Credenziali inviati correttamente";
+$lang['success_send_promo']="Promemoria Email inviati correttamente";
 #############alert msg ####################
 $lang['alert_msg_delete_user']="Sei sicuro di volere eliminare questo utente?";
 $lang['alert_msg_delete_price_prof']="sei sicuro di voler cancellare questo prezzo per profesisone?";
@@ -640,5 +644,6 @@ $lang['help_tabprice_is_free_cours']="scegli tu che il corso sia gratuito, quind
 $lang['help_tabprice_buy_type_date']="selezioni il tipo di acquisto per data, quindi imposta gli stessi dati sul prezzo per ogni data";
 $lang['help_forgot_password']="Hai dimenticato la password?";
 $lang['modal_title_help_form']="Invia un messaggio all'amministratore";
+$lang['msg_select_participation']="devi scegliere almeno una partecipazione!";
 return $lang;
 ?>
