@@ -574,6 +574,7 @@ $lang['dashboard_section_total_participant_buyed']="partecipante ha acquistato a
 $lang['title_modal_update_order_status']="Modifica stato ordine";
 $lang['dashboard_pdflib']="Lista Materialli";
 $lang['title_page_setting_fatturacloud']="Impostazioni FatturaInCloud";
+$lang['title_section_modulo_week']="lezione della prossima settimana" ;
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";

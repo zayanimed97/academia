@@ -125,7 +125,66 @@
                             </div> <!-- end col -->
                         </div>
                         <!-- end row -->
+						
+							 <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+									<h3><?php echo lang('app.title_section_modulo_week')?></h3>
+										  <div class="table-responsive">
+                                            <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+														 <th><?php echo lang('app.field_date')?></th>
+                                                        <th><?php echo lang('app.field_title')?></th>
+                                                       <th><?php echo lang('app.field_cuors_title')?></th>
+													    <th><?php echo lang('app.field_type_cours')?></th>
+													   <th><?php echo lang('app.field_price')?></th>
+														<th><?php echo lang('app.field_instructor')?></th>
+														<th><?php echo lang('app.field_active_status')?></th>
+														<th><?php echo lang('app.field_achat')?></th>
+                                                        <th>&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                            
+                                                <tbody>
+                                                    <?php if(!empty($list)){
+														foreach($list as $arg) { ?>
+                                                    <tr>
+                                                        <td><?= $arg['id'] ?></td>
+														<td><?= date('d/m/Y',strtotime($arg['date'])) ?></td>
+                                                        <td><?= $arg['sotto_titolo'] ?></td>
+                                                       <td><?= $arg['cour'] ?></td>
+													      <td><?= $type_cours[$arg['tipologia_corsi']] ?? $arg['tipologia_corsi'];?>
+														<?php if($arg['tipologia_corsi']=='aula'){
+															if($arg['luoghi_label']!=""){?>
+															<br/><b>(<?php echo $arg['luoghi_label']?>)</b>
+															
+														<?php } }?></td>
+                                                       <td><?= $arg['price'] ?></td>
+														 <td><?= $arg['instructor'] ?></td>
+														 <td><?php if($arg['status']=='si') echo lang('app.yes'); else echo lang('app.no'); ?></td>
+														  <td><a href="<?php echo base_url('admin/participation/'.$arg['id'])?>"><?= $arg['achat'] ?></a></td>
+                                                        <td class="row pt-1">
+                                                          <a href="<?php echo base_url('admin/corsi/'.$arg['id_corsi'].'/modulo/edit/'.$arg['id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
+                                                                <i class="fe-edit"></i>
+                                                            </a>
 
+                                                            <!--a data-toggle="modal" data-target="#delete-modal" onclick="get_del('<?php echo $arg['id']?>')" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
+                                                                <i class="fe-x-circle"></i>
+                                                            </a-->
+                                                           
+                                                        </td>
+                                                    </tr>
+                                                    <?php } }?>
+                                                </tbody>
+                                            </table>
+                                        </div> <!-- end .table-responsive-->
+									</div>
+								</div>
+							</div>
+						</div>
                      
 
 
