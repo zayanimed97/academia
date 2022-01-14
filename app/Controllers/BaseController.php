@@ -322,6 +322,7 @@ class BaseController extends Controller
 		$common_data=$this->common_data();
 		$inf_cart=$this->CartModel->find($id_cart);
 		$inf_ente=$this->UserModel->find($common_data['selected_ente']['id']);
+		
 		if(isset($common_data['settings']['fattura_incloud']) && $common_data['settings']['fattura_incloud']!=""){
 				$fattura_incloud=json_decode($common_data['settings']['fattura_incloud'],true);
 				$Fattureincloud=new Fattureincloud($fattura_incloud['id'] ?? '',$fattura_incloud['key'] ?? '');
@@ -439,10 +440,11 @@ class BaseController extends Controller
 						$post_invoice['lista_pagamenti'][]=[ 		
 							"importo" => $vv['amount'], 
 							"data_scadenza" => date('d/m/Y',strtotime($vv['date'])), 
-							"metodo" => "not"
+							"metodo" => "not",
+							'data_saldo'=>date('d/m/Y',strtotime( 'today')) 
 						];
 					}
-					
+				
 					$data=json_decode($Fattureincloud->newInvoice($post_invoice),true);
 					
 					if(isset($data['error_code'])){
@@ -462,6 +464,42 @@ class BaseController extends Controller
 					}
 					else{
 						$this->CartModel->update($id_cart,array("fattureincloud"=>json_encode($data,true)));
+						$pdf=$Fattureincloud->getPdf($data['new_id']);
+						$temp=$this->TemplatesModel->where('module','invoice')->where('id_ente',$inf_cart['id_ente'])->find();
+						if(empty($temp)) $temp=$this->TemplatesModel->where('module','invoice')->where('id_ente IS NULL')->find();
+						$email = \Config\Services::email();
+						$sender_name=$settings['sender_name'];
+						$sender_email=$settings['sender_email'];
+						$email->setFrom($sender_email,$sender_name);
+						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
+						
+					
+						$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+							if($SMTP!="") $vals=json_decode($SMTP,true);
+						
+							if(!empty($vals)){
+								if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
+								if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+								
+								$email->SMTPHost=$vals['host'];
+								$email->SMTPUser=$vals['username'];
+								$email->SMTPPass=$vals['password'];
+								$email->SMTPPort=$vals['port'];
+							}
+							
+						}
+						$email->setTo($inf_profile['email']);
+						$email->setCc($inf_ente['email']);
+						$email->setSubject($temp[0]['subject']);
+						
+						$html=str_replace(array("{var_user_name}","{pdf_link}"),
+					array($inf_profile['display_name'],$pdf),
+					$temp[0]['html']);
+						
+						$email->setMessage($html);
+						$email->setAltMessage(strip_tags($html));
+						
+						$xxx=$email->send();
 						return true;
 					}
 				} // end verify params

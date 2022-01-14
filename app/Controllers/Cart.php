@@ -43,7 +43,8 @@ class Cart extends BaseController
 							
 							if(in_array('fatturecloud',$common_data['ente_package']['extra'])){
 								 $xx=$this->createFattureCloud($id);
-								 ob_clean();
+								 
+							//	 ob_clean();
 							 }
 							
 						break;
