@@ -60,6 +60,7 @@ use App\Models\ParticipationOnlineEventModel;
  */
 
 use CodeIgniter\Controller;
+use Faker\Provider\Base;
 
 class BaseController extends Controller
 {
@@ -71,7 +72,7 @@ class BaseController extends Controller
 	 *
 	 * @var array
 	 */
-	protected $helpers = ['form','url','text','language','session'];
+	protected $helpers = ['form','url','text','language','session','cookie','config'];
 
 	/**
 	 * Constructor.

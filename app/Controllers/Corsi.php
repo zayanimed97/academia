@@ -214,6 +214,7 @@ class Corsi extends BaseController
 				'free'=>$this->request->getVar('free'),
 				'codice'=>$this->request->getVar('codice'),
 				'duration'=>$this->request->getVar('duration'),
+				'difficulte'=>$this->request->getVar('difficulte'),
 				'banned'=>'no',
 				'id_luoghi' =>$this->request->getVar('id_luoghi'),
 				'id_alberghi' =>$this->request->getVar('id_alberghi'),
@@ -524,6 +525,7 @@ class Corsi extends BaseController
 				'inscrizione_aula' => $this->request->getVar('inscrizione_aula') ?? 'no',
 				'nb_person_aula' =>$this->request->getVar('nb_person_aula') ?? '0',
 				'duration' =>$this->request->getVar('duration'),
+				'difficulte' =>$this->request->getVar('difficulte'),
 				'free'=>$free,
 				'cuepoint_block'=>$cuepoint_block
 			
@@ -772,6 +774,7 @@ class Corsi extends BaseController
 				'free'=>$this->request->getVar('free'),
 				'codice'=>$this->request->getVar('codice'),
 				'duration'=>$this->request->getVar('duration'),
+				'difficulte'=>$this->request->getVar('difficulte'),
 				//'banned'=>'no',
 				'id_luoghi' =>$this->request->getVar('id_luoghi'),
 				'id_alberghi' =>$this->request->getVar('id_alberghi'),
@@ -1005,6 +1008,7 @@ class Corsi extends BaseController
 				'inscrizione_aula' => $this->request->getVar('inscrizione_aula') ?? 'no',
 				'nb_person_aula' =>$this->request->getVar('nb_person_aula') ?? '0',
 				'duration' =>$this->request->getVar('duration'),
+				'difficulte' =>$this->request->getVar('difficulte'),
 				'free'=>$free,
 				'cuepoint_block'=>$cuepoint_block
 			

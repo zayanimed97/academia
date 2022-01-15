@@ -28,7 +28,7 @@ class UserController extends BaseController
 
     public function create_user()
     {
-	//	var_dump($verif); exit;
+		// var_dump(strlen($this->request->getVar('privacy'))); exit;
         $request = $this->request->getVar();
 		$verif=$this->UserModel->where('id_ente',$this->common_data()['selected_ente']['id'])->where('email',$request['email'])->find();
 		$verif2=$this->UserModel->where('role','ente')->where('email',$request['email'])->find();
@@ -127,6 +127,13 @@ class UserController extends BaseController
     public function getLogin()
     {
         $data = $this->common_data();
+		$email = get_cookie('email');
+        $password = get_cookie('password');
+        $user_data=$this->session->get('user_data');
+        if (is_null($user_data) && !is_null($email) && !is_null($password)) {
+            $this->request->setGlobal('request', ['email'=> $email, 'password'=>$password]);
+			$this->login();
+        }
          if($this->session->get('success_register')!==null){
 			$data['success_register']=$this->session->get('success_register');
 			$this->session->remove('success_register');
@@ -140,7 +147,11 @@ class UserController extends BaseController
         
         // $settings=$this->SettingModel->getByMetaKey();
 		$email=$this->request->getVar('email');
-		$password=$this->request->getVar('password');
+		if (preg_match('/^[a-f0-9]{32}$/', $this->request->getVar('password'))) {
+			$password=$this->request->getVar('password');
+		} else {
+			$password = md5($this->request->getVar('password'));
+		}
 		$url='/'.$data['view_folder'].'/login';
 		// die($url);
 		
@@ -160,7 +171,7 @@ class UserController extends BaseController
 						->where('email', $email)
                         ->where('id_ente', $data['selected_ente']['id'])
                         ->where('role', 'participant')
-						->where('password', md5($password))
+						->where('password', $password)
 						->findAll();
 			if(empty($users)){
 				$data['error']=lang('front.error_not_exist_account');
@@ -173,6 +184,8 @@ class UserController extends BaseController
 			else{
                 $users[0]['profile'] = $this->UserProfileModel->where('user_id', $users[0]['id'])->first();
 				$this->session->set(array('user_data'=>$users[0]));
+				set_cookie('email', $email, 2147483647, base_url(), '/');
+				set_cookie('password', $password, 2147483647, base_url(), '/');
 				if(!empty($this->cart->contents())) $this->updateCart();
 				if (isset($_SESSION['intended']) && strlen($_SESSION['intended']) > 0) {
 					$intended = $_SESSION['intended'];

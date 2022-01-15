@@ -114,8 +114,8 @@
         <div class="container p-4">
             
             <!--  course feature -->
-            <div class="sm:my-4 my-3 flex items-end justify-between pt-3 pb-6">
-                <h2 class="text-2xl font-semibold"> Creazioneimpresa Academy<br>Benvenuti nella Accademia delle Startup e PMI innovative  </h2>
+            <div class="sm:my-4 my-3 flex items-start justify-between pt-3 pb-6 text-2xl font-semibold flex-col">
+                <?= json_decode($text ?? '')->textTitle ?? '' ?>
             </div> 
             <?php if(isset($_SESSION['success'])){ ?>
                 <div class="bg-green-500 border p-4 relative rounded-md uk-alert" uk-alert="">

@@ -204,7 +204,7 @@
                                     </div>
                                     <div>
                                         <label for="pec" class="text-sm font-medium"> <?php echo lang('front.field_pec')?> </label>
-                                        <input type="text" class="with-border" id="pec" name="pec" value="<?= $user['fattura_pec'] ?>" required>
+                                        <input type="text" class="with-border" id="pec" name="pec" value="<?= $user['fattura_pec'] ?>" :required="type != 'private'">
                                     </div>
                                     <template x-if="type != 'private'">
                                         <div>

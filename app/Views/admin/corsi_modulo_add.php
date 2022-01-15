@@ -339,6 +339,27 @@
 																  
 																</div>
 															</div>
+															<div class="col-md-4">
+																	<div class="form-group required-field">
+																		<label for="acc-lastname">dificoltà <span class="text-danger">*</span></label>
+																		<?php $input = [
+																		
+																		'name'  => 'difficulte',
+																		'id'    => 'difficulte',
+																		'placeholder' =>lang('app.field_type_formation'),
+																		'class' => 'form-control'
+																];
+																$options=array();
+																$options['']=lang('app.field_select');
+																$options['Base']='Base';
+																$options['Intermedio']='Intermedio';
+																$options['Difficile']='Difficile';
+															
+																echo form_dropdown($input, $options, '');
+																?>
+
+																	</div>
+															</div>
 										 <div class="col-12">
                                                                 <div class="form-group row mb-3">
                                                                    

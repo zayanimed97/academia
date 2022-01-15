@@ -22,29 +22,15 @@
                                             SUM(case when c.tipologia_corsi = "webinar" then 1 else 0 end) as sum_webinar, 
                                             SUM(case when c.tipologia_corsi = "online" then 1 else 0 end) as sum_online')
                                 ->find();
-    // echo '<pre>';
-    //     print_r($argomenti);
-    //     echo '</pre>';
-    //     exit;
+    //      echo '<pre>';
+    //      print_r($argomenti);
+    //      echo '</pre>';
+    //      exit;
     $filter = function($tipologia, $type, $argomenti = null){return array_filter($type, function($el) use ($tipologia){ return $el['sum_'.$tipologia] > 0 ;});};
 ?>
 <!DOCTYPE html>
 <html lang="it">
-<style>
-    /* .header_menu ul ul li a:after{
-        content: "" !important;
-    } */
-    .ellipsize{
-        /* height: 18px; */
-        width: 100%;
-        padding: 0;
-        overflow: hidden;
-        position: relative;
-        display: inline-block !important;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-</style>
+
 <head> 
 
     <!-- Basic Page Needs
@@ -104,7 +90,33 @@
             left: 0;
             transform: skewY(-11deg);
         } 
-    </style>
+    /* .header_menu ul ul li a:after{
+        content: "" !important;
+    } */
+    .ellipsize{
+        /* height: 18px; */
+        width: 100%;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        display: inline-block !important;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    header{
+        background-color: <?= json_decode($settings['css'] ?? '', true)['headerBackground'] ?? '#000000' ?> !important
+    }
+
+    .header_menu > ul > li > a{
+        color: <?= json_decode($settings['css'] ?? '', true)['headerText'] ?? '#9C9C9C' ?> !important
+    }
+
+    .bg-blue-600{
+        background-color: <?= json_decode($settings['css'] ?? '', true)['buttonBackground'] ?? '#FF7700' ?> !important;
+        color: <?= json_decode($settings['css'] ?? '', true)['buttonText'] ?? '#FFFFFF' ?> !important
+    }
+</style>
 </head>
 
 <body class="bg-white"  x-data="headerData($watch)">
