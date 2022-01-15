@@ -21,7 +21,7 @@
 	</div>
      <div class="container pt-28 pb-20">
 
-            <div class="max-w-3xl mt-lg-11 mx-auto lg:p-10 p-5 tube-card">
+            <div class="max-w-6xl mt-lg-11 mx-auto lg:p-10 p-5 tube-card">
 				<!--div class="text-center mt-4 mb-6 lg:mt-10">
                     <h1 class="font-semibold md:text-3xl text-xl text-center uk-heading-line"><span><?php echo $inf_page['title']?></span></h1>
                 </div-->

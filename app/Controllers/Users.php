@@ -21,8 +21,11 @@ class Users extends BaseController
 			case 'ente': $redirect=base_url('admin/login');break;
 			default:$redirect=base_url();
 		}
-		
+		setcookie("email", "", time() - 3600);
+		setcookie("password", "", time() - 3600);
+        // dd(get_cookie('email'));
 		$this->session->destroy();
+		
 		return redirect()->to( $redirect );
 	}
 	

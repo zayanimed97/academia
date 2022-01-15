@@ -1,5 +1,6 @@
 <?= view('admin/common/header',array('page_title'=>lang('app.title_page_settings_cms'))) ?>
-  <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
             <div class="content-page">
                 <div class="content">
 
@@ -142,6 +143,88 @@
 										 </form>
 									</div>
 								</div>
+
+								<div class="card">
+                                    <div class="card-body">
+										<h3><?php echo lang('app.title_section_cours_type')?></h3>
+										 <form method="post" action="<?= base_url('admin/settings/cms/') ?>"  id='add_ente_form'>
+											<input type="hidden" name="action" value="css">
+											<div class="row">
+												
+												<div class="col-md-12">
+														<div class="form-group required-field">
+															<label for="acc-mname">Header background</label>
+														 <?php 
+															$det=json_decode($settings['css'] ?? "",true);
+															$val=$det['headerBackground'] ?? '#000000'; 
+													?>
+															<div class="input-group colorpicker-element component-colorpicker" title="Using format option" data-colorpicker-id="3">
+																<input type="text" name="headerBackground" class="form-control input-lg" value="<?= $val ?>">
+																<span class="input-group-append">
+																	<span class="input-group-text colorpicker-input-addon" data-original-title="" title="" tabindex="0"><i style="background: rgb(48, 90, 162);"></i></span>
+																</span>
+															</div>
+														</div>
+													</div>
+													
+													<div class="col-md-12">
+														<div class="form-group required-field">
+															<label for="acc-mname">Header text </label>
+														 <?php 
+														 $det=json_decode($settings['css'] ?? "",true);
+														 $val=$det['headerText'] ?? '#9c9c9c';  
+														 
+													?>
+															<div class="input-group colorpicker-element component-colorpicker" title="Using format option" data-colorpicker-id="3">
+																<input type="text" name="headerText" class="form-control input-lg" value="<?= $val ?>">
+																<span class="input-group-append">
+																	<span class="input-group-text colorpicker-input-addon" data-original-title="" title="" tabindex="0"><i style="background: rgb(48, 90, 162);"></i></span>
+																</span>
+															</div>
+
+														</div>
+													</div>
+													
+													<div class="col-md-12">
+													<div class="form-group required-field">
+															<label for="acc-mname">button background </label>
+														 <?php 
+														 $det=json_decode($settings['css'] ?? "",true);
+														 $val=$det['buttonBackground'] ?? '#FF7700';  
+														 
+													?>
+															<div class="input-group colorpicker-element component-colorpicker" title="Using format option" data-colorpicker-id="3">
+																<input type="text" name="buttonBackground" class="form-control input-lg" value="<?= $val ?>">
+																<span class="input-group-append">
+																	<span class="input-group-text colorpicker-input-addon" data-original-title="" title="" tabindex="0"><i style="background: rgb(48, 90, 162);"></i></span>
+																</span>
+															</div>
+
+														</div>
+													</div>
+
+													<div class="col-md-12">
+													<div class="form-group required-field">
+															<label for="acc-mname">button text </label>
+														 <?php 
+														 $det=json_decode($settings['css'] ?? "",true);
+														 $val=$det['buttonText'] ?? '#ffffff';  
+														 
+													?>
+															<div class="input-group colorpicker-element component-colorpicker" title="Using format option" data-colorpicker-id="3">
+																<input type="text" name="buttonText" class="form-control input-lg" value="<?= $val ?>">
+																<span class="input-group-append">
+																	<span class="input-group-text colorpicker-input-addon" data-original-title="" title="" tabindex="0"><i style="background: rgb(48, 90, 162);"></i></span>
+																</span>
+															</div>
+
+														</div>
+													</div>
+											</div>
+											    <button type="submit" name="submit" class="btn btn-secondary" ><?php echo lang('app.btn_save')?></button>
+										 </form>
+									</div>
+								</div>
 							</div>
 							
 							<div class="col-6">
@@ -165,7 +248,7 @@
 															'required'=>true,
 															'value' => $val,
 															
-															'class' => 'form-control'
+															'class' => 'form-control hexa-colorpicker'
 															
 													];
 
@@ -222,6 +305,69 @@
 										 </form>
 									</div>
 								</div>
+
+								<!-- text under banner -->
+								<div class="card">
+                                    <div class="card-body">
+										<h3>Home featured label</h3>
+										 <form method="post" action="<?= base_url('admin/settings/cms/') ?>"  id='add_ente_form'>
+											<input type="hidden" name="action" value="textTitle">
+											<div class="row">
+												
+												<div class="col-md-12">
+														<div class="form-group required-field">
+															<label for="acc-mname">Home featured label <span class="text-danger">*</span></label>
+														 <?php $val=array_filter($list ?? [], function($el){return $el['url'] == 'home';}); 
+													$input = [
+															'type'  => 'text',
+															'name'  => 'textTitle',
+															'id'    => 'textTitle',
+															'value' => json_decode(reset($val)['text'] ?? '')->textTitle ?? '',
+															'placeholder' =>lang('app.field_label'),
+															'class' => 'form-control'
+															
+													];
+
+													echo form_textarea($input);
+													?>
+														</div>
+													</div>
+											</div>
+											    <button type="submit" name="submit" class="btn btn-secondary" ><?php echo lang('app.btn_save')?></button>
+										 </form>
+									</div>
+								</div>
+
+								<div class="card">
+                                    <div class="card-body">
+										<h3>Credit Name</h3>
+										 <form method="post" action="<?= base_url('admin/settings/cms/') ?>"  id='add_ente_form'>
+											<input type="hidden" name="action" value="credit">
+											<div class="row">
+												
+												<div class="col-md-12">
+														<div class="form-group required-field">
+															<label for="acc-mname">Credit Name <span class="text-danger">*</span></label>
+														 <?php $val=$settings['credits'] ?? '';
+													$input = 
+													[
+															'type'  => 'text',
+															'name'  => 'credit',
+															'id'    => 'credit',
+															'required'=>true,
+															'value' => $val,
+															'class' => 'form-control'
+													];
+
+													echo form_input($input);
+													?>
+														</div>
+													</div>
+											</div>
+											    <button type="submit" name="submit" class="btn btn-secondary" ><?php echo lang('app.btn_save')?></button>
+										 </form>
+									</div>
+								</div>
 							</div>
 						</div>
                     </div> <!-- container -->
@@ -243,7 +389,7 @@
 		<input type="hidden" name="id_to_delete" id="id_to_delete">
 		
 		<div class="modal fade"id="delete-modal-dialog" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" >
+			<div class="modal-dialog modal-dialog-centered" >
                 <div class="modal-content">
                     <div class="modal-header bg-light">
                         <h4 class="modal-title" id="myCenterModalLabel"><?php echo lang('app.modal_title_delete_page')?></h4>
@@ -287,6 +433,9 @@
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/pdfmake/build/vfs_fonts.js"></script>
 		
 		  <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/flatpickr.min.js"></script>
+		  <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+		  <!-- <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/form-pickers.init.js"></script> -->
+
 		  <script src="https://npmcdn.com/flatpickr/dist/l10n/it.js"></script>
 		 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 		  <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.js"></script>
@@ -298,10 +447,21 @@
 		 <!--script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/form-pickers.init.js"></script-->
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/app.min.js"></script>
 		 <script>
+			 $(".hexa-colorpicker").colorpicker({ format: "auto" }),
+			 $(".component-colorpicker").colorpicker({ format: "auto" }),
 	 !function(n){
 		 "use strict";function e(){this.$body=n("body")}
 		 e.prototype.init=function(){
 			 n("#copyright").summernote({lang: 'it-IT',placeholder:"Write something...",height:230,callbacks:{onInit:function(e){n(e.editor).find(".custom-control-description").addClass("custom-control-label").parent().removeAttr("for")}}})
+			  }
+			 ,n.Summernote=new e,n.Summernote.Constructor=e}
+			 (window.jQuery),function(){"use strict";window.jQuery.Summernote.init()}();
+	 </script>
+	 <script>
+	 !function(n){
+		 "use strict";function e(){this.$body=n("body")}
+		 e.prototype.init=function(){
+			 n("#textTitle").summernote({lang: 'it-IT',placeholder:"Write something...",height:230,callbacks:{onInit:function(e){n(e.editor).find(".custom-control-description").addClass("custom-control-label").parent().removeAttr("for")}}})
 			  }
 			 ,n.Summernote=new e,n.Summernote.Constructor=e}
 			 (window.jQuery),function(){"use strict";window.jQuery.Summernote.init()}();

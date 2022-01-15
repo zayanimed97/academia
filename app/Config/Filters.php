@@ -20,6 +20,7 @@ class Filters extends BaseConfig
         'toolbar'  => DebugToolbar::class,
         'honeypot' => Honeypot::class,
         'auth' => \App\Filters\auth::class,
+        'remember_me' => \App\Filters\remember_me::class,
         'auth_expiration' => [\App\Filters\auth::class, \App\Filters\expiration::class]
     ];
 
@@ -33,6 +34,7 @@ class Filters extends BaseConfig
         'before' => [
             // 'honeypot',
             // 'csrf',
+            'remember_me'
         ],
         'after' => [
             'toolbar',

@@ -68,7 +68,7 @@
         defaultDate: "01:45",
       });
     //   i("#basic-colorpicker").colorpicker(),
-    //   i("#hexa-colorpicker").colorpicker({ format: "auto" }),
+      i("#hexa-colorpicker").colorpicker({ format: "auto" }),
     //   i("#component-colorpicker").colorpicker({ format: null }),
     //   i("#horizontal-colorpicker").colorpicker({ horizontal: !0 }),
     //   i("#inline-colorpicker").colorpicker({

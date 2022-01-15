@@ -1,5 +1,7 @@
 <?php namespace App\Controllers;
 
+use stdClass;
+
 class Settings extends BaseController
 {
 
@@ -466,6 +468,45 @@ class Settings extends BaseController
 								
 								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'copyright')->update($id['id'],array('meta_value'=>$copyright));
 							}
+					$data=$this->common_data();
+					$data['success']=lang('app.success_update');
+				break;
+				case 'textTitle':
+					$textTitle=$this->request->getVar('textTitle');
+					// $textTitle = str_replace(['<p>', '</p>'], ['<h2>', '</h2>'], $textTitle);
+					$home=$this->PagesModel->where('id_ente', $this->session->get('user_data')['id'])->where('url', 'home')->first();
+					$text = json_decode($home['text']) ?? new stdClass();
+					$text->textTitle = $textTitle;
+					// die(var_dump($home));
+					$text = json_encode($text);			
+								$this->PagesModel->where('id_ente', $this->session->get('user_data')['id'])->where('url', 'home')->update($home['id'],array('text'=>$text));
+
+					$data=$this->common_data();
+					$data['success']=lang('app.success_update');
+				break;
+				case 'css':
+					$styles=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'css')->first();
+					$css = json_decode($styles['meta_value'] ?? "", true) ?? [];
+					
+					if(strlen($this->request->getVar("headerBackground"))> 0) $css['headerBackground'] = $this->request->getVar("headerBackground");
+					if(strlen($this->request->getVar("headerText"))> 0) $css['headerText'] = $this->request->getVar("headerText");
+					if(strlen($this->request->getVar("buttonBackground"))> 0) $css['buttonBackground'] = $this->request->getVar("buttonBackground");
+					if(strlen($this->request->getVar("buttonText"))> 0) $css['buttonText'] = $this->request->getVar("buttonText");
+					// die(var_dump($home));1
+					$css = json_encode($css);
+					$array = ['meta_value'=>$css, 'meta_key'=> 'css', 'id_ente'=> $this->session->get('user_data')['id']];
+					if(!empty($styles)) $array['id'] = $styles['id'];			
+					$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->save($array);
+
+					$data=$this->common_data();
+					$data['success']=lang('app.success_update');
+				break;
+				case 'credit':
+					$credit=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'credits')->first();
+					$array = ['meta_value'=>$this->request->getVar('credit'), 'meta_key'=> 'credits', 'id_ente'=> $this->session->get('user_data')['id']];
+					if(!empty($credit)) $array['id'] = $credit['id'];			
+					$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->save($array);
+
 					$data=$this->common_data();
 					$data['success']=lang('app.success_update');
 				break;

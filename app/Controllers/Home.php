@@ -10,6 +10,7 @@ class Home extends BaseController
 		$inf_page=$this->PagesModel->where('url','home')->where('id_ente',$data['selected_ente']['id'])->first();
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
+		$data['text']=$inf_page['text'];
 		if($inf_page['image']!=""){ $seo_image=base_url('uploads/pages/'.$inf_page['image']);
 		$info = \Config\Services::image()
 										->withFile(ROOTPATH.'public/uploads/pages/'.$inf_page['image'])
