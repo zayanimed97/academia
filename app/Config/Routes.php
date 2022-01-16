@@ -137,6 +137,14 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 	$routes->add('luoghi', 'Luoghi::index'); 
 	$routes->add('alberghi/get_data', 'Alberghi::get_data'); 
 	$routes->add('alberghi', 'Alberghi::index'); 
+	
+	// remember emails
+	$routes->add('remember_emails/edit/(:any)', 'Settings::remember_emails_edit/$1');
+	$routes->add('remember_emails/add', 'Settings::remember_emails_add');
+	$routes->get('remember_emails/add', 'Settings::remember_emails_add');
+	$routes->add('remember_emails/remember_emails_send_test', 'Settings::remember_emails_send_test');
+	$routes->add('remember_emails', 'Settings::remember_emails');
+
 });
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
