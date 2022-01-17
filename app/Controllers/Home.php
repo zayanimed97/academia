@@ -225,4 +225,18 @@ class Home extends BaseController
 		$pdf=$Fattureincloud->getPdf($id);
 		return redirect()->to($pdf);
 	}
+	
+	public function confirm_participation_by_mail($id_p,$id_user){
+		$common_data=$this->common_data();
+		$data=$common_data;
+		$data['seo_title']=lang('front.title_page_thanks');
+		$data['seo_description']="";
+		$data['text']=lang('front.title_page_thanks');
+		$inf_p=$this->ParticipationModel->where('id',$id_p)->where('id_user',$id_user)->first();
+		if(!empty($inf_p)){
+			$this->ParticipationModel->update($id_p,array('confirm_mail'=>date('Y-m-d H:i:s')));
+		}
+		
+		return view($data['view_folder'].'/thankyou_confirm_participation.php',$data);
+	}
 }

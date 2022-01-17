@@ -145,7 +145,7 @@ $lang['help_text_page_forgot']="Inserisci il tuo indirizzo email per reimpostare
 $lang['title_page_contact']="Contattaci";
 $lang['help_text_page_contact']="Richiedi assistenza tematica.";
 $lang['title_page_user_cart']="I miei Carri";
-
+$lang['title_page_thanks']="conferma partecipazione";
 $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";
 $lang['status_pending']="In sospeso pagamento";

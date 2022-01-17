@@ -63,6 +63,7 @@ $lang['btn_continue_to_modulo']="Completa i moduli";
 $lang['new_professione']="Aggiungi professione";
 $lang['btn_send_credentials']="Invia credenziali";
 $lang['btn_send_promo']="Invia Promemoria email";
+$lang['btn_send_test']="Invia test";
 ########## Fields ################
 $lang['field_password']= "Password";
 $lang['field_confirm_password']="Conferma password";
@@ -403,6 +404,9 @@ $lang['field_message']="Messagio";
 $lang['field_num_prefix']="Suffisso";
 $lang['field_fattura_key']="Chiave";
 $lang['field_fattura_id']="ID";
+$lang['field_days']="giorni";
+
+$lang['field_date_confirmation']="Data confermazione";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -483,6 +487,9 @@ $lang['update_alberghi']="Modifica albergo";
 $lang['edit_corsi']="modifica corso";
 $lang['menu_pdflib']="Materialli";
 $lang['new_pdf']="Nuovo file";
+$lang['menu_setting_remember_emails']="Ricorda Emails";
+$lang['menu_setting_remember_email_add']="Nuova Ricorda Emails";
+$lang['menu_setting_remember_email_edit']="Modifica Ricorda Emails";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -575,6 +582,10 @@ $lang['title_modal_update_order_status']="Modifica stato ordine";
 $lang['dashboard_pdflib']="Lista Materialli";
 $lang['title_page_setting_fatturacloud']="Impostazioni FatturaInCloud";
 $lang['title_section_modulo_week']="lezione della prossima settimana" ;
+$lang['title_page_settings_remember_emails']="Ricorda Email";
+$lang['title_page_settings_remember_emails_add']="Nuova Ricorda Email";
+$lang['title_page_settings_remember_emails_edit']="Modifica Ricorda Email";
+$lang['title_modal_delete_remember_email']="Elemina Ricorda Email";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
@@ -634,6 +645,7 @@ $lang['alert_msg_delete_page']="Sei sicuro di volere eliminare questa pagina?";
 $lang['alert_msg_delete_luoghi']="Sei sicuro di eliminare questo luoghi?";
 $lang['alert_msg_delete_alberghi']="Sei sicuro di eliminare questo alberghi?";
 $lang['modal_title_delete_pdf']="Sei sicuro di eliminare questo file?";
+$lang['msg_delete_remember_email']="Sei sicuro di volere eliminare questo ricorda email?";
 //$lang['alert_msg_delete_response']="sei sicuro di voler cancellare questa risposta?";
 $lang['help_server_name']="i.e: mydomain.it (escluso http://)";
 $lang['help_tabprice_buy_type']="scegli di acquistare il tipo di corso per corso, quindi non puoi impostare i prezzi del modulo";
@@ -646,5 +658,6 @@ $lang['help_tabprice_buy_type_date']="selezioni il tipo di acquisto per data, qu
 $lang['help_forgot_password']="Hai dimenticato la password?";
 $lang['modal_title_help_form']="Invia un messaggio all'amministratore";
 $lang['msg_select_participation']="devi scegliere almeno una partecipazione!";
+$lang['msg_send_mail_test']="viene inviata un'email di prova";
 return $lang;
 ?>
