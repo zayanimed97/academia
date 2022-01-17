@@ -320,7 +320,7 @@ class BaseController extends Controller
 
 	}
 	public function createFattureCloud($id_cart){
-		echo "<pre>";
+		
 		$common_data=$this->common_data();
 		$inf_cart=$this->CartModel->find($id_cart);
 		$inf_ente=$this->UserModel->find($common_data['selected_ente']['id']);
