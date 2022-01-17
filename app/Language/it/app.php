@@ -405,6 +405,8 @@ $lang['field_num_prefix']="Suffisso";
 $lang['field_fattura_key']="Chiave";
 $lang['field_fattura_id']="ID";
 $lang['field_days']="giorni";
+
+$lang['field_date_confirmation']="Data confermazione";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";

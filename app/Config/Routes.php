@@ -231,7 +231,7 @@ $routes->get('/ResetPassword/(:any)/(:any)', 'front\UserController::resetPasswor
 $routes->post('/addToCart', 'front\CartController::addToCart');
 $routes->get('/removeFromCart/(:any)', 'front\CartController::remove/$1');
 
-
+$routes->get('/confirm_participation_by_mail/(:num)/(:num)', 'Home::confirm_participation_by_mail/$1/$2');
 
 $routes->group("order", ["filter" => "auth:participant"], function ($routes) {
     $routes->get('checkout', 'front\CartController::getCheckout');
