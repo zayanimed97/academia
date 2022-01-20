@@ -49,7 +49,8 @@
                    
                 
                     <p class="text-white text-opacity-75"><?php echo lang('front.field_expired_date')." : 31/12/".date('Y')?><br/>
-					<button class="flex items-center justify-center h-10 mt-8 px-6 rounded-md bg-blue-600 text-white" uk-toggle="target: #wallet_modal"><?php echo lang('front.btn_transform_wallet_to_coupon')?></button></p>
+					<?php if(session('user_data')['wallet']>0){?><button class="flex items-center justify-center h-10 mt-8 px-6 rounded-md bg-blue-600 text-white" uk-toggle="target: #wallet_modal"><?php echo lang('front.btn_transform_wallet_to_coupon')?></button><?php } ?>
+					</p>
                 </div>
 			 </div>
  <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">					
