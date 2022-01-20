@@ -34,7 +34,7 @@ class Filters extends BaseConfig
         'before' => [
             // 'honeypot',
             // 'csrf',
-            'remember_me'
+            'remember_me' => ['except' => ['/admin/*', '/superadmin/*']]
         ],
         'after' => [
             'toolbar',

@@ -49,7 +49,7 @@
                     if (this.coupons.length > 0) {
                         this.coupons.forEach(el => {Object.keys(el).forEach(key=> this.couponSum[key] = null)});
                         Object.keys(this.couponSum).forEach(key => {
-                            this.couponSum[key] = this.coupons.map(el=> {return el[key]}).reduce((pv,cv)=>{return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}, 0);
+                            this.couponSum[key] = this.coupons.map(el=> {return el[key]}).reduce((pv,cv)=>{return parseFloat(pv ? (isNaN(pv) ? 0 : pv) : 0)+parseFloat(cv ? (isNaN(cv) ? 0 : cv) : 0)}, 0);
                         });
                     }
                     $watch('coupons', value => {
@@ -57,7 +57,7 @@
                         if (this.coupons.length > 0) {
                             this.coupons.forEach(el => {Object.keys(el).forEach(key=> this.couponSum[key] = null)});
                             Object.keys(this.couponSum).forEach(key => {
-                                this.couponSum[key] = this.coupons.map(el=> {return el[key]}).reduce((pv,cv)=>{return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}, 0);
+                                this.couponSum[key] = this.coupons.map(el=> {return el[key]}).reduce((pv,cv)=>{return parseFloat(pv ? (isNaN(pv) ? 0 : pv) : 0)+parseFloat(cv ? (isNaN(cv) ? 0 : cv) : 0)}, 0);
                             });
                         }
                         console.log(this.couponSum);
@@ -66,7 +66,7 @@
                     if (this.share.length > 0) {
                         this.share.forEach(el => {Object.keys(el).forEach(key=> this.shareSum[key] = null)});
                         Object.keys(this.shareSum).forEach(key => {
-                            this.shareSum[key] = this.share.map(el=> {return el[key]}).reduce((pv,cv)=>{return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}, 0);
+                            this.shareSum[key] = this.share.map(el=> {return el[key]}).reduce((pv,cv)=>{return parseFloat(pv ? (isNaN(pv) ? 0 : pv) : 0)+parseFloat(cv ? (isNaN(cv) ? 0 : cv) : 0)}, 0);
                         });
                     }
                     $watch('share', value => {
@@ -74,11 +74,12 @@
                         if (this.share.length > 0) {
                             this.share.forEach(el => {Object.keys(el).forEach(key=> this.shareSum[key] = null)});
                             Object.keys(this.shareSum).forEach(key => {
-                                this.shareSum[key] = this.share.map(el=> {return el[key]}).reduce((pv,cv)=>{return parseFloat(pv ? pv : 0)+parseFloat(cv ? cv : 0)}, 0);
+                                this.shareSum[key] = this.share.map(el=> {return el[key]}).reduce((pv,cv)=>{return parseFloat(pv ? (isNaN(pv) ? 0 : pv) : 0)+parseFloat(cv ? (isNaN(cv) ? 0 : cv) : 0)}, 0);
                             });
                         }
                         console.log(this.shareSum);
                     })
+                    console.log(this.share , this.couponSum);
                 },
                 addToCart(id, prezzo, type, url, item, date=null) {
                     if (type == 'date') {
@@ -142,10 +143,17 @@
                         
                 },
                 shareFacebook(rowid, url, discount){
+                    let fields = {rowid: rowid, url: url, platform: 'facebook'};
+                            $.ajax({
+                                    url:"<?php echo base_url('/user/preshare')?>",
+                                    method:"POST",
+                                    data:fields
+                                })
                     FB.ui({
                         method: 'share',
                         href: url,
                     }, response => {
+                        
                         if(typeof(response) == 'object' && Object.keys(response).length == 0){
                             let fields = {rowid: rowid, url: url, platform: 'facebook', discount: discount};
                             $.ajax({

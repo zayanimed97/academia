@@ -146,7 +146,7 @@
 
 								<div class="card">
                                     <div class="card-body">
-										<h3><?php echo lang('app.title_section_cours_type')?></h3>
+										<h3>Impostazione colore CMS</h3>
 										 <form method="post" action="<?= base_url('admin/settings/cms/') ?>"  id='add_ente_form'>
 											<input type="hidden" name="action" value="css">
 											<div class="row">
@@ -309,14 +309,14 @@
 								<!-- text under banner -->
 								<div class="card">
                                     <div class="card-body">
-										<h3>Home featured label</h3>
+										<h3>Homepage - H2</h3>
 										 <form method="post" action="<?= base_url('admin/settings/cms/') ?>"  id='add_ente_form'>
 											<input type="hidden" name="action" value="textTitle">
 											<div class="row">
 												
 												<div class="col-md-12">
 														<div class="form-group required-field">
-															<label for="acc-mname">Home featured label <span class="text-danger">*</span></label>
+															<label for="acc-mname">Aggiungi un titolo sopra la prima slide <span class="text-danger">*</span></label>
 														 <?php $val=array_filter($list ?? [], function($el){return $el['url'] == 'home';}); 
 													$input = [
 															'type'  => 'text',
@@ -340,14 +340,14 @@
 
 								<div class="card">
                                     <div class="card-body">
-										<h3>Credit Name</h3>
+										<h3>Crediti formativi</h3>
 										 <form method="post" action="<?= base_url('admin/settings/cms/') ?>"  id='add_ente_form'>
 											<input type="hidden" name="action" value="credit">
 											<div class="row">
 												
 												<div class="col-md-12">
 														<div class="form-group required-field">
-															<label for="acc-mname">Credit Name <span class="text-danger">*</span></label>
+															<label for="acc-mname">Inserisci qui la dicitura esatta per il rilascio dei crediti formativi<br>(Es. ECM, ODCEC oppure CREDITI FORMATIVI ODCEC) <span class="text-danger">*</span></label>
 														 <?php $val=$settings['credits'] ?? '';
 													$input = 
 													[

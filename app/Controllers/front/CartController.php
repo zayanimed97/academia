@@ -107,7 +107,36 @@ class CartController extends BaseController
                 $tax += round($item['price']*0.22, 2);
             }
         }
+        if ((session('user_data')['role'] ?? '') == 'participant') {
+            $lastCart = $this->RememberCartModel->where('id_user', session('user_data')['id'])->where('id_ente', $data['selected_ente']['id'] ?? '')->first();
+            $discounts = [];
+            $shares = [];
+            foreach ($this->cart->contents() as $item) {
+                if (!empty($item['coupon'])) {
+                    array_push($discounts, $item['coupon']);
+                }
 
+                if (!empty($item['share'])) {
+                    array_push($shares, $item['share']);
+                }
+            }
+            $cartContents = $this->cart->contents();
+            $cartContents['cart_total'] = $this->cart->total();
+            $cartContents['total_items'] = $this->cart->totalItems();
+            $newDBItem = [
+                'cart' => json_encode($cartContents),
+                'shares' => json_encode($shares),
+                'discounts' => json_encode($discounts),
+                'id_user' => session('user_data')['id'],
+                'id_ente' => $data['selected_ente']['id'] ?? '',
+            ];
+            if (isset($lastCart['id'])) {
+                $newDBItem['id'] = $lastCart['id'];
+            }
+            $this->RememberCartModel->save($newDBItem);
+            // $lastCart = $this->RememberCartModel->where('id_user', session('user_data')['id'])->where('id_ente', $data['selected_ente']['id'] ?? '')->first();
+            // die(var_dump($lastCart['id']));
+        }
         echo(json_encode([  'cart' => $this->cart->contents(), 
                             'total' =>$this->cart->totalItems(), 
                             'totalPrice' => $this->cart->total(), 
@@ -119,6 +148,7 @@ class CartController extends BaseController
 
     public function remove($row)
     {
+        $data = $this->common_data();
         $this->cart->remove($row);
 
         $tax = 0;
@@ -127,7 +157,7 @@ class CartController extends BaseController
                 $tax += round($item['price']*0.22, 2);
             }
         }
-        
+        $this->saveCartToDb($data);
         echo(json_encode([  'cart' => $this->cart->contents(), 
                             'total' =>$this->cart->totalItems(), 
                             'totalPrice' => $this->cart->total(), 
@@ -296,6 +326,7 @@ class CartController extends BaseController
             foreach ($usedCoupons as $used) {
                 $this->CouponModel->where('code', $used)->where('id_ente', $data['selected_ente']['id'])->set('used', 'used+1', FALSE)->update();
             }
+            $this->RememberCartModel->where('id_user', session('user_data'['id']))->where('id_ente', $data['selected_ente']['id'])->delete();
             $this->cart->destroy();
             session()->setFlashdata('success', 'Free cart added to your account');
             $xxx = $this->OrderMail($cartId);
@@ -434,6 +465,7 @@ class CartController extends BaseController
                         foreach ($usedCoupons as $used) {
                             $this->CouponModel->where('code', $used)->where('id_ente', $data['selected_ente']['id'])->set('used', 'used+1', FALSE)->update();
                         }
+                        $this->RememberCartModel->where('id_user', session('user_data'['id']))->where('id_ente', $data['selected_ente']['id'])->delete();
                         $this->cart->destroy();
                         session()->setFlashdata('success', 'Order Placed Please Pay To Confirm');
 						 $xxx = $this->OrderMail($cartId);
@@ -505,10 +537,11 @@ class CartController extends BaseController
             foreach ($usedCoupons as $used) {
                 $this->CouponModel->where('code', $used)->where('id_ente', $data['selected_ente']['id'])->set('used', 'used+1', FALSE)->update();
             }
+            $this->RememberCartModel->where('id_user', session('user_data')['id'])->where('id_ente', $data['selected_ente']['id'])->delete();
             $this->cart->destroy();
             session()->setFlashdata('success', 'cart payed successfully');
 			 $xxx = $this->OrderMail($payment['id_cart']);
-			 if(in_array('fatturecloud',$common_data['ente_package']['extra'])){
+			 if(in_array('fatturecloud',$data['ente_package']['extra'])){
 				$this->createFattureCloud($payment['id_cart']);
 				ob_clean();
 			 }
@@ -567,6 +600,7 @@ class CartController extends BaseController
             foreach ($usedCoupons as $used) {
                 $this->CouponModel->where('code', $used)->where('id_ente', $data['selected_ente']['id'])->set('used', 'used+1', FALSE)->update();
             }
+            $this->RememberCartModel->where('id_user', session('user_data'['id']))->where('id_ente', $data['selected_ente']['id'])->delete();
             $this->cart->destroy();
             session()->setFlashdata('success', 'cart payed successfully');
 			 $xxx = $this->OrderMail($payment['id_cart']);
@@ -624,6 +658,7 @@ class CartController extends BaseController
                                     ->where('curdate() BETWEEN start_date AND end_date')
                                     ->where('(used < nb_use) OR (nb_use = 0)')
                                     ->first();
+        $coupon = ((strlen($coupon['id_user']) == 0) || ($coupon['id_user'] == (session('user_data')['id'] ?? ''))) ? $coupon : [];
         $usedCoupon = null;
         if (!empty($coupon)) {
             $corsi_in_cart = array_map(function($el){if($el['type'] == 'corsi') return ['type' => 'corsi', 'corsi' => str_replace($el['type'], '', $el['id'])];},$this->cart->contents());
@@ -640,7 +675,7 @@ class CartController extends BaseController
             
             $corsi = $this->CorsiModel->whereIn('id', array_map(function($el){return $el['corsi'];},$corsi_in_cart) ?: ['impossible value'])->where('id_ente', $data['selected_ente']['id'])->find();
             
-            if ($coupon['coupon_type'] != 'cart') {
+            if (!in_array($coupon['coupon_type'],['cart', 'wallet'])) {
                 
 
                 $usedCoupon = array_filter($corsi, function($el) use ($coupon){
@@ -705,6 +740,8 @@ class CartController extends BaseController
                             $tax += round($item['price']*0.22, 2);
                         }
                     }
+                    $this->saveCartToDb($data);
+
                     return json_encode  ([  "status" => 'success', 
                                             "message" => lang('front.coupon_applied', [$coupon['coupon_type']]), 
                                             'cartItems' => $this->cart->contents(), 
@@ -720,6 +757,7 @@ class CartController extends BaseController
                             $tax += round($item['price']*0.22, 2);
                         }
                     }
+                    $this->saveCartToDb($data);
                     return json_encode  ([  "status" => 'error', 
                                             "message" => lang('front.coupon_no_items'), 
                                             'cartItems' => $this->cart->contents(), 
@@ -753,6 +791,7 @@ class CartController extends BaseController
                             $tax += round($item['price']*0.22, 2);
                         }
                     }
+                    $this->saveCartToDb($data);
                     return json_encode  ([  "status" => 'success', 
                                             "message" => lang('front.coupon_applied', ['cart']), 
                                             'cartItems' => $this->cart->contents(), 
@@ -768,6 +807,7 @@ class CartController extends BaseController
                             $tax += round($item['price']*0.22, 2);
                         }
                     }
+                    $this->saveCartToDb($data);
                     return json_encode  ([  "status" => 'error', 
                                             "message" => lang('front.empty_cart'), 
                                             'cartItems' => $this->cart->contents(), 
@@ -788,6 +828,7 @@ class CartController extends BaseController
                             $tax += round($item['price']*0.22, 2);
                         }
                     }
+                    $this->saveCartToDb($data);
                     return json_encode  ([  "status" => 'error', 
                                             "message" => lang('front.no_coupon'), 
                                             'cartItems' => $this->cart->contents(), 
@@ -800,6 +841,20 @@ class CartController extends BaseController
 
         
         
+    }
+
+    public function preshare()
+    {
+        // $payment = $this->RememberCartModel->select('JSON_SEARCH(shares, \'all\', "cancelled") cancelled')->first();
+        // $payment = json_decode(preg_replace(['/\$\./','/\[\d\].facebook/'], ["", ""], $payment['cancelled']), true);
+        // die(var_dump($payment));
+        $data = $this->common_data();
+        $id = $this->request->getVar('rowid');
+        $platform = $this->request->getVar('platform');
+        $row = $this->cart->getItem($id);
+        $row['share'][$platform] = $row['share'][$platform] ?? 'cancelled';
+        $this->cart->update(['rowid' => $id, 'share' => $row['share']]);
+        $this->saveCartToDb($data);
     }
 
     public function postShared()
@@ -844,6 +899,8 @@ class CartController extends BaseController
                                 $tax += round($item['price']*0.22, 2);
                             }
                         }
+                        $this->saveCartToDb($data);
+
                         return json_encode  ([      "status" => 'success', 
                                                     "message" => lang('front.success_share'), 
                                                     'cartItems' => $this->cart->contents(), 
@@ -873,5 +930,38 @@ class CartController extends BaseController
         $data['payment_method'] = 'PayPal';
         $data['cartItems'] = $items;
         return view($data['view_folder'].'/invoice', $data);
+    }
+
+    public function saveCartToDb($data)
+    {
+        $lastCart = $this->RememberCartModel->where('id_user', session('user_data')['id'])->where('id_ente', $data['selected_ente']['id'] ?? '')->first();
+
+        if ((($lastCart['id']) ?? false) && (session('user_data')['role'] ?? '') == 'participant') {
+            $discounts = [];
+            $shares = [];
+            foreach ($this->cart->contents() as $item) {
+                if (!empty($item['coupon'])) {
+                    $discounts[$item['id']] = $discounts[$item['id']] ?? [];
+                    array_push($discounts[$item['id']], $item['coupon']);
+                }
+
+                if (!empty($item['share'])) {
+                    $shares[$item['id']] = $shares[$item['id']] ?? [];
+                    array_push($shares[$item['id']], $item['share']);
+                }
+            }
+            $cartContents = $this->cart->contents();
+            $cartContents['cart_total'] = $this->cart->total();
+            $cartContents['total_items'] = $this->cart->totalItems();
+            $this->RememberCartModel->update($lastCart['id'],
+                                                [
+                                                    'cart' => json_encode($cartContents),
+                                                    'shares' => json_encode($shares),
+                                                    'discounts' => json_encode($discounts),
+                                                    'id_user' => session('user_data')['id'],
+                                                    'id_ente' => $data['selected_ente']['id'] ?? '',
+                                                ]
+                                            );
+        }
     }
 }

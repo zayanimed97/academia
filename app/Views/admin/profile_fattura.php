@@ -399,6 +399,7 @@
 <?php if(in_array('fatturecloud',$ente_package['extra'])){
 	if(!empty($fattura_incloud) && $fattura_incloud!="") $info_fatture=json_decode($fattura_incloud,true);?> 
  <h4 class="page-title"><?php echo lang('app.title_page_setting_fatturacloud')?></h4>
+						<p>Puoi interfacciarti a <b>Fatture In Cloud</b> in lettura e scrittura tramite le <b>API</b>. Ecco come fare:<br>1. Accedi a Fatture in cloud<br>2. Vai alla pagina API (menu di sinistra in basso)<br>3. Clicca sul bottone verde "<b>Mostra API UID e API KEY</b>"<br>4. Copia e incolla le informazioni qui sotto.</p>
   <div class="row">
                             <div class="col-12">
                                 <div class="card">

@@ -20,7 +20,7 @@
         
                         <div class="tube-card bg-white">
                                             
-                            <h3 class="border-b flex font-semibold items-center justify-between px-7 py-5 text-base"> Registrati e inizia a imparare!<?php //echo lang('front.title_register')?> <a href="<?php echo base_url('user/login')?>" class="font-medium inline-block txtlinkcolor-primary hover:underline">Hai già un account? Accedi<?php //echo lang('front.help_have_account')?></a> </h3>
+                            <h3 class="border-b flex font-semibold items-center justify-between px-7 py-5 text-base"><?php echo lang('front.title_register')?> <a href="<?php echo base_url('user/login')?>" class="font-medium inline-block txtlinkcolor-primary hover:underline"><?php echo lang('front.help_have_account')?> Accedi</a> </h3>
 							
                         
                             <div class="lg:p-8 p-5">
@@ -102,7 +102,7 @@
                                     <div class="col-span-2 checkbox my-2">
                                         <div>
                                             <input type="checkbox" id="use_privacy" name="privacy" value="1" data-parsley-checkmin="1" required>
-                                            <label for="use_privacy" class="text-sm"><span class="checkbox-icon"></span> Accetto le <a target="_blank" href="#" class="font-semibold">Condizioni</a>. Scopri come utilizziamo e proteggiamo i tuoi dati nelle nostre <a target="_blank" href="#" class="font-semibold">Norme sulla privacy</a>.</label>
+                                            <label for="use_privacy" class="text-sm"><span class="checkbox-icon"></span> Accetto le <a target="_blank" href="https://academy.creazioneimpresa.it/page/condizioni" class="font-semibold">Condizioni</a>. Scopri come utilizziamo e proteggiamo i tuoi dati nelle nostre <a target="_blank" href="https://www.iubenda.com/privacy-policy/63306874" class="font-semibold">Norme sulla privacy</a>.</label>
                                         </div>
                                         <div>
                                             <input type="checkbox" id="use_newsletter" name="newsletter" value="1">

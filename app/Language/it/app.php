@@ -400,9 +400,9 @@ $lang['field_default_iva']="Predefinito IVA %";
 $lang['field_label']="Label";
 $lang['field_receiver_email']="e-mail del destinatario";
 $lang['field_message']="Messagio";
-$lang['field_num_prefix']="Suffisso";
-$lang['field_fattura_key']="Chiave";
-$lang['field_fattura_id']="ID";
+$lang['field_num_prefix']="Sezionale (Es. /web)";
+$lang['field_fattura_key']="API Key";
+$lang['field_fattura_id']="API UID";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -573,7 +573,7 @@ $lang['dashboard_section_total_participant_buyed']="partecipante ha acquistato a
 
 $lang['title_modal_update_order_status']="Modifica stato ordine";
 $lang['dashboard_pdflib']="Lista Materialli";
-$lang['title_page_setting_fatturacloud']="Impostazioni FatturaInCloud";
+$lang['title_page_setting_fatturacloud']="Impostazioni Fatture In Cloud";
 $lang['title_section_modulo_week']="lezione della prossima settimana" ;
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";

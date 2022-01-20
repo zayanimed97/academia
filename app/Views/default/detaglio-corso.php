@@ -695,7 +695,7 @@ use CodeIgniter\I18n\Time;
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> <?php echo lang('front.field_modules')?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?php echo lang('front.field_attestation')?>: <?= $corsi['attestato'] ?> </div>
                                     <?php if(strlen($corsi['difficulte']) > 0){ ?>
-                                        <div class="flex items-center px-5 py-3">  <ion-icon name="speedometer-outline" class="text-2xl mr-2"></ion-icon> dificoltà : <?= $corsi['difficulte'] ?> </div>
+                                        <div class="flex items-center px-5 py-3">  <ion-icon name="speedometer-outline" class="text-2xl mr-2"></ion-icon> difficoltà : <?= $corsi['difficulte'] ?> </div>
                                     <?php } ?>
                                 </div>
                                 
