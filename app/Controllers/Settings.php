@@ -510,6 +510,15 @@ class Settings extends BaseController
 					$data=$this->common_data();
 					$data['success']=lang('app.success_update');
 				break;
+				case 'GDPR':
+					$credit=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'GDPR')->first();
+					$array = ['meta_value'=>$this->request->getVar('GDPR'), 'meta_key'=> 'GDPR', 'id_ente'=> $this->session->get('user_data')['id']];
+					if(!empty($credit)) $array['id'] = $credit['id'];			
+					$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->save($array);
+
+					$data=$this->common_data();
+					$data['success']=lang('app.success_update');
+				break;
 				case 'cours_type':
 					$type_cours=json_encode(array('aula'=>$this->request->getVar('aula'),
 					'webinar'=>$this->request->getVar('webinar'),
