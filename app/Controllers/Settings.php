@@ -510,6 +510,15 @@ class Settings extends BaseController
 					$data=$this->common_data();
 					$data['success']=lang('app.success_update');
 				break;
+				case 'GDPR':
+					$credit=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'GDPR')->first();
+					$array = ['meta_value'=>$this->request->getVar('GDPR'), 'meta_key'=> 'GDPR', 'id_ente'=> $this->session->get('user_data')['id']];
+					if(!empty($credit)) $array['id'] = $credit['id'];			
+					$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->save($array);
+
+					$data=$this->common_data();
+					$data['success']=lang('app.success_update');
+				break;
 				case 'cours_type':
 					$type_cours=json_encode(array('aula'=>$this->request->getVar('aula'),
 					'webinar'=>$this->request->getVar('webinar'),
@@ -565,6 +574,82 @@ class Settings extends BaseController
 			if(empty($data['inf_page'])) return redirect()->back();
 			return view('superadmin/settings_cms_edit.php',$data);
 		}
+		
+	}
+	
+	
+	public function remember_emails(){
+		$data=$this->common_data();
+		if($this->request->getVar('action')!==null){
+			$this->RememberEmailsModel->update($this->request->getVar('id'),array('banned'=>'yes'));
+		}
+		$list=$this->RememberEmailsModel->where('banned','no')->where('id_ente',$data['user_data']['id'])->findAll();
+		$data['list']=$list;
+		return view('admin/settings_remember_emails.php',$data);
+	
+	}
+	
+	public function remember_emails_add(){
+			$data=$this->common_data();
+			
+			if(!is_null($this->request->getVar('submit'))){
+				if(!is_null($this->request->getVar('enable'))) $enable='yes'; else $enable='no';
+				$res=array(
+				'id_ente'=>$data['user_data']['id'],
+				'nb_days'=>$this->request->getVar('nb_days'),
+				'tipologia_corsi'=>$this->request->getVar('tipologia_corsi'),
+				'subject'=>$this->request->getVar('subject'),
+				'text'=>$this->request->getVar('html'),
+				'enable'=>$enable,
+				);
+			
+				$this->RememberEmailsModel->insert($res);
+				
+			}
+
+			
+			return view('admin/settings_remember_emails_add.php',$data);
+		
+		
+	}
+	public function remember_emails_edit($id){
+			$data=$this->common_data();
+			
+			if(!is_null($this->request->getVar('submit'))){
+				if(!is_null($this->request->getVar('enable'))) $enable='yes'; else $enable='no';
+				$res=array(
+				'id_ente'=>$data['user_data']['id'],
+				'nb_days'=>$this->request->getVar('nb_days'),
+				'tipologia_corsi'=>$this->request->getVar('tipologia_corsi'),
+				'subject'=>$this->request->getVar('subject'),
+				'text'=>$this->request->getVar('html'),
+				'enable'=>$enable,
+				);
+			
+				$this->RememberEmailsModel->update($this->request->getVar('id'),$res);
+				
+			}
+			$data['inf']=$this->RememberEmailsModel->find($id);
+			
+			return view('admin/settings_remember_emails_edit.php',$data);
+		
+		
+	}
+	
+	public function remember_emails_send_test(){
+		$data=$this->common_data();
+		$settings=$data['settings'];
+	
+		$subject=$this->request->getVar('subject');
+		$html=$this->request->getVar('html');
+		$email = \Config\Services::email();					
+		$email->setFrom($settings['sender_email'],$settings['sender_name']);
+		 $to=$data['user_data']['email'];
+		$email->setTo($to);
+		$email->setSubject('(TEST) '.$subject);
+		$email->setMessage($html);
+		$email->setAltMessage(strip_tags($html));
+		$xxx=$email->send();
 		
 	}
 	/*

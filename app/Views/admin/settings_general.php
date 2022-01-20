@@ -63,7 +63,46 @@
 
                         </div> 
                         <!-- end row -->
+<div class="row" >
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
 
+                                     	<div class="alert alert-danger" role="alert" id="error_alert" style="display:none"></div>   
+                                        <form method="post" action="<?= base_url('admin/profile/'. $profile_menu) ?>"  id='add_seo_form'>
+										<input type="hidden" name="profile_menu" value="<?php echo $profile_menu?>">
+										<input type="hidden" name="profile_menu2" value="seo">
+														<h4>Configurazione della SEO</h4>
+														
+                                                        <div class="row">
+															  <div class="col-12 col-md-6">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="cognome"> Facebook Pixel ID</label>
+                                                                    <div class="col-md-9">
+                                                                        <input placeholder="123123123123" type="text" id="facebook_pixel" name="facebook_pixel" class="form-control" value="<?= $facebook_pixel ?? '' ?>">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+															
+															<div class="col-12 col-md-6">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="cognome"> Google Analytic ID</label>
+                                                                    <div class="col-md-9">
+                                                                        <input placeholder="UA-xxxxxxxxx" type="text" id="google_analytic" name="google_analytic" class="form-control" value="<?= $google_analytic ?? '10' ?>">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                            <button type="button" name="submit" class="btn btn-secondary" onclick="save_seo();"><?php echo lang('app.btn_save')?></button>
+                                                      
+
+                                        </form>
+
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card-->
+                            </div> <!-- end col -->
+
+                        </div> 
                         
                     </div> <!-- container -->
 
@@ -138,7 +177,30 @@ function save_ente(){
 				}
 			});
 }
-
+function save_seo(){
+		var fields = $( "#add_seo_form" ).serializeArray();
+	
+	$.ajax({
+				  url:"<?php echo base_url('ProfileController/update')?>",
+				  method:"POST",
+				  data:fields
+				  
+			}).done(function(data){
+				console.log(data);
+				
+				var obj=JSON.parse(data);
+				if(obj.error==true){
+					$("#error_alert").html(obj.validation);
+					$("#error_alert").show('slow');
+				
+				}
+				else{
+					$("#error_alert").hide('slow');
+					$( "#success-alert-modal" ).modal('show');
+				//	return true;
+				}
+			});
+}
         </script>
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/form-wizard.init.js"></script>
 

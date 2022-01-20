@@ -167,12 +167,9 @@
                                                                     <div class="col-md-9">
                                                                         <div class="checkbox form-check-inline">
 																			<input type="checkbox" name="extra[]" id="test" value="test">
-																			<label for="test"> <?php echo lang('app.field_test')?> </label>
+																			<label for="test"> <?php echo lang('app.field_test').' & '.lang('app.field_test_quality')?> </label>
 																		</div>
-																		 <div class="checkbox form-check-inline">
-																			<input type="checkbox" name="extra[]" id="test_quality" value="test_quality">
-																			<label for="test_quality"> <?php echo lang('app.field_test_quality')?> </label>
-																		</div>
+																		
 																		 <div class="checkbox form-check-inline">
 																			<input type="checkbox" name="extra[]" id="certificat" value="certificat">
 																			<label for="certificat"> <?php echo lang('app.field_attesto')?> </label>
@@ -180,6 +177,14 @@
 																		 <div class="checkbox form-check-inline">
 																			<input type="checkbox" name="extra[]" id="coupon" value="coupon">
 																			<label for="coupon"> <?php echo lang('app.field_coupon')?> </label>
+																		</div>
+																		 <div class="checkbox form-check-inline">
+																			<input type="checkbox" name="extra[]" id="share" value="share">
+																			<label for="share"> <?php echo lang('app.field_share')?> </label>
+																		</div>
+																		 <div class="checkbox form-check-inline">
+																			<input type="checkbox" name="extra[]" id="wallet" value="wallet">
+																			<label for="wallet"> <?php echo lang('app.field_wallet')?> </label>
 																		</div>
 																		<div class="checkbox form-check-inline">
 																			<input type="checkbox" name="extra[]" id="fatturecloud" value="fatturecloud">

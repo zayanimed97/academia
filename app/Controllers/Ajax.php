@@ -717,4 +717,114 @@ if($this->request->getVar('Password')!=""){
 				//else $this->ParticipationOnlineStatusModel->update($verif['id'],array("id_participation"=>$id_participation,'vimeo_id'=>$v['vimeo'],"status"=>$status,'cursor_position'=>$cursor_position,'created_at'=>date('Y-m-d H:i:s')));
 		}
 	}
+	
+	public function get_details_cart(){
+		$common_data=$this->common_data();
+		$id_cart=$this->request->getVar('id_cart');
+		$inf=$this->CartModel->where('id',$id_cart)->where('id_user',$common_data['user_data']['id'])->where('banned','no')->first();
+		if(empty($inf)) echo "<div uk-alert>".lang('front.empty_cart')."</div>";
+		else{?>
+			<table class="table col-span-2">
+			  <thead class="border-b">
+				<tr>
+					<th>#</th>
+					<th><?php echo lang('app.field_title')?></th>
+					<th><?php echo lang('app.field_total')?></th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody class="mt-8">
+			<?php $list_items=$this->CartItemsModel->where('id_cart',$id_cart)->where('banned','no')->find();
+				if(!empty( $list_items)){
+					foreach( $list_items as $kk=>$vv){
+						$det=json_decode($vv['details'],true);
+					
+						switch($vv['item_type']){
+							case 'modulo':
+								$inf_module=$this->CorsiModuloModel->find($vv['item_id']);
+								$item_name=$inf_module['sotto_titolo'];
+								$url=base_url('modulos/'.$inf_module['url']);
+							break;
+							case 'corsi':
+								$inf_corsi=$this->CorsiModel->find($vv['item_id']);
+								$item_name=$inf_corsi['sotto_titolo'];
+								$url=base_url('corsi/'.$inf_corsi['url']);
+							break;
+						}?>
+					<tr>
+					<td><?php echo ($kk+1)?></td>
+					<td><?php echo $item_name?></td>
+					<td><?php echo number_format($vv['price_ht']*(1+($vv['vat']/100)),2,',','.')?></td>
+					<td>
+					 <?php 
+					  if(in_array('wallet',$common_data['ente_package']['extra'])){ 
+					 if(isset($common_data['settings']['facebook_id'])&& isset($common_data['settings']['facebook_discount']) && (empty($det['share']) || $det['share']['facebook']=='cancelled')){ ?>
+						<div class="flex justify-between mt-1">
+							<p @click="shareFacebook_wallet('<?= $vv['id']?>', '<?= $url?>')" class="text-green-400 cursor-pointer hover:underline">Condividi e risparmia <?php //echo $amount->format($common_data['settings']['facebook_discount'] ?? 0) ?></p>
+						</div>
+						<?php } 
+					  }?>
+					</td>
+				</tr>
+				<?php } }?>
+				</tbody>
+			</table>
+		<?php }
+	}
+	
+	
+	    public function postShared()
+    {
+        $data = $this->common_data();
+		 if(!in_array('wallet',$common_data['ente_package']['extra'])){ 
+		 return json_encode  ([ "status" => 'error', 
+							"message" => lang('front.post_shared') 		   
+							]);
+		 }
+		 else{
+        $id =$this->request->getVar('rowid');
+        $platform =$this->request->getVar('platform');
+     
+        $row = $this->CartItemsModel->find($id);
+        $item = $row['item_type'] == 'corsi' ? $this->CorsiModel : $this->CorsiModuloModel;
+        $item = $item->where('id',  $row['item_id'])->where('banned', 'no')->first();
+		$verify_wallet=$this->UserWalletModel->where('id_user',$data['user_data']['id'])->where('id_ente',$data['selected_ente']['id'])->where('id_item',$id)->first();
+		$det=json_decode($row['details'],true); 
+	
+		$discount =0;		
+	 if(empty($verify_wallet) && isset($data['settings']['facebook_id'])&& isset($data['settings']['facebook_discount']) && (empty($det['share']) || $det['share'][$platform]=='cancelled')){
+		  switch($platform){
+			  case 'facebook':
+				if(isset($data['settings']['facebook_discount'])) $discount =$data['settings']['facebook_discount'];
+			break;
+		  }
+		
+		  $this->UserWalletModel->insert(array(
+			'id_user'=>$data['user_data']['id'],
+			'id_ente'=>$data['selected_ente']['id'],
+			'id_item'=>$id,
+			'discount'=>$discount,
+			'created_at'=>date('Y-m-d H:i:s'),
+		  ));
+		   $det['share'][$platform] = $discount;
+		    $this->CartItemsModel->update($id,array('details'=>json_encode($det,true)));
+		  $inf_user=$this->UserModel->find($data['user_data']['id']);
+		  $this->UserModel->edit($data['user_data']['id'],array("wallet"=>($discount+$inf_user['wallet'])));
+		   $inf_user=$this->UserModel->find($data['user_data']['id']);
+		  $this->session->set(array('user_data'=>$inf_user));
+		  return json_encode  ([  "status" => 'success', 
+                                  "message" => lang('front.success_share'),
+								"total_wallet"=>number_format($inf_user['wallet'],2)
+                              ]);
+	 }
+	 else{
+		 
+		return json_encode  ([ "status" => 'error', 
+							"message" => lang('front.post_shared') 		   
+							]);
+	 }
+		 }
+    }
+
+	
 }//end class

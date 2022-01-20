@@ -302,6 +302,7 @@
                                     <ul class="nav-second-level">
 									  <!--li><a href="<?php echo base_url().'/admin/settings'?>"><?php echo lang('app.menu_setting_info')?></a></li-->
 										<li><a href="<?php echo base_url('/admin/emails')?>"><?php echo lang('app.menu_setting_email')?></a></li>
+										 <li><a href="<?php echo base_url('/admin/remember_emails')?>"><?php echo lang('app.menu_setting_remember_emails')?></a></li>
                                         <li><a href="<?php echo base_url('/admin/settings/media')?>"><?php echo lang('app.menu_setting_media')?></a></li>
 										 <li><a href="<?php echo base_url('/admin/settings/cms')?>"><?php echo lang('app.menu_setting_cms')?></a></li>
                                     </ul>
@@ -315,7 +316,14 @@
                                         
                             </li>
 							<?php } ?>
-							
+							<?php if(in_array('wallet',$ente_package['extra'])){?>
+							 <li>
+                            
+                                
+                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/couponwallet') ?>"><i data-feather="gift"></i> <span><?php echo lang('app.menu_coupon_wallet')?> </span></a>
+                                        
+                            </li>
+							<?php } ?>
                         </ul>
 
                     </div>

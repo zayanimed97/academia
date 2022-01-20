@@ -225,6 +225,36 @@
 										 </form>
 									</div>
 								</div>
+								<div class="card">
+                                    <div class="card-body">
+										<h3>GDPR</h3>
+										 <form method="post" action="<?= base_url('admin/settings/cms/') ?>"  id='add_ente_form'>
+											<input type="hidden" name="action" value="GDPR">
+											<div class="row">
+												
+												<div class="col-md-12">
+														<div class="form-group required-field">
+														
+														 <?php $val=$settings['GDPR'] ?? '';
+													$input = 
+													[
+															'type'  => 'textarea',
+															'name'  => 'GDPR',
+															'id'    => 'GDPR',
+															'required'=>true,
+															'value' => $val,
+															'class' => 'form-control'
+													];
+
+													echo form_textarea($input);
+													?>
+														</div>
+													</div>
+											</div>
+											    <button type="submit" name="submit" class="btn btn-secondary" ><?php echo lang('app.btn_save')?></button>
+										 </form>
+									</div>
+								</div>
 							</div>
 							
 							<div class="col-6">
@@ -347,7 +377,7 @@
 												
 												<div class="col-md-12">
 														<div class="form-group required-field">
-															<label for="acc-mname">Inserisci qui la dicitura esatta per il rilascio dei crediti formativi<br>(Es. ECM, ODCEC oppure CREDITI FORMATIVI ODCEC) <span class="text-danger">*</span></label>
+															<label for="acc-mname">Inserisci qui la dicitura esatta per il rilascio dei crediti formativi<br>(Es. ECM, ODCEC oppure CREDITI FORMATIVI ODCEC)<span class="text-danger">*</span></label>
 														 <?php $val=$settings['credits'] ?? '';
 													$input = 
 													[
@@ -368,6 +398,8 @@
 										 </form>
 									</div>
 								</div>
+								
+								
 							</div>
 						</div>
                     </div> <!-- container -->

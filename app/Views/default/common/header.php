@@ -55,6 +55,38 @@
 <?php if(isset($settings['fb_app_ID']) && $settings['fb_app_ID']!=""){?>
 <meta property="fb:app_id" content="<?php echo $settings['fb_app_ID'] ?? ''?>">
 <?php } ?>
+<?php if(isset($settings['google_analytic']) && $settings['google_analytic']!=""){?>
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $settings['google_analytic']?>"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '<?php echo $settings["google_analytic"]?>');
+</script>
+<?php } ?>
+<?php if(isset($settings['facebook_pixel']) && $settings['facebook_pixel']!=""){?>
+<!-- Facebook Pixel Code -->
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '<?php echo $settings["facebook_pixel"]?>'); 
+    fbq('track', 'PageView');
+</script>
+
+
+<noscript>
+    <img height="1" width="1" src="https://www.facebook.com/tr?id=<?php echo $settings['facebook_pixel']?>&ev=PageView&noscript=1"/>
+</noscript>
+<!-- End Facebook Pixel Code -->
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<?php } ?>
 <meta name="author" content="auledigitali">
 
 
@@ -399,7 +431,10 @@
                                     <div class="user_name">
                                         <div> <?php echo session('user_data')['display_name']?> </div>
                                         <span> <?php echo session('user_data')['email']?></span>
-                                    </div>
+										<?php if(in_array('wallet',$ente_package['extra'])){?>
+										<span><i class="icon-feather-gift"></i>&nbsp;<b id="user_menu_wallet"><?php echo number_format(session('user_data')['wallet'],2)?></b> €</span>
+										<?php } ?>
+								   </div>
                                 </a>
                             </li>
                             
@@ -424,6 +459,14 @@
                                      <?php echo lang('front.menu_cart')?>
                                 </a>
                             </li>
+							<?php if(in_array('wallet',$ente_package['extra'])){?>
+							 <li> 
+                                <a href="<?php echo base_url('user/wallet')?>">
+                                    <ion-icon name="gift-outline" class="is-icon"></ion-icon>
+                                     <?php echo lang('front.menu_wallet')?>
+                                </a>
+                            </li>
+							<?php } ?>
                             <li>
                                 <a href="<?php echo base_url('user/settings')?>">
                                     <ion-icon name="settings-outline" class="is-icon"></ion-icon>

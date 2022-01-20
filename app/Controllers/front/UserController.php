@@ -667,12 +667,12 @@ class UserController extends BaseController
 					case 'canceled': $st=lang('app.status_canceled'); break;
 				}
 				$v['status_label']=$st;
-				
 				$res[]=$v;
 			}
 		$data['list']=$res;
 		return view($common_data['view_folder'].'/user_cart',$data);
 	}
+
 	public function updateCartOnLogin($data)
 	{
 		$lastCart = $this->RememberCartModel->where('id_user', session('user_data')['id'])->where('id_ente', $data['selected_ente']['id'] ?? '')->first();
@@ -701,5 +701,98 @@ class UserController extends BaseController
 			$newDBItem['id'] = $lastCart['id'];
 		}
 		$this->RememberCartModel->save($newDBItem);
+
+	public function wallet(){
+		$common_data=$this->common_data();
+		$data=$common_data;
+		 if(!in_array('wallet',$common_data['ente_package']['extra'])) return redirect()->to(base_url('user/profile'));
+		$data['seo_title']=lang('front.title_page_user_wallet');
+		if($this->request->getVar('transform')!==null){
+			$x=true;
+			while($x){
+				$code=random_string();
+				$verif=$this->CouponModel->where('code',$code)->first();
+				if(empty($verif)) $x=false;
+			}
+			$coupon_data=array(
+						'id_ente'=>$common_data['selected_ente']['id'],
+						'id_user'=>$common_data['user_data']['id'],
+							'code'=>$code,
+							'coupon_type'=>'wallet',
+							'start_date'=>date('Y-m-d'),
+							'end_date'=>date('Y-m-d',strtotime("+1 month")),
+							'id_corsi'=>null,
+							'id_docenti'=>null,
+							'id_argomenti'=>null,
+							'nb_use'=>1,
+							'used'=>0,
+							'enable'=>'yes',
+							'type'=>'fixed',
+							'amount'=>floatval(session('user_data')['wallet']),
+						);
+			$this->CouponModel->insert($coupon_data);
+			$this->UserModel->edit($data['user_data']['id'],array("wallet"=>0));
+			$inf_user=$this->UserModel->find($data['user_data']['id']);
+			$this->session->set(array('user_data'=>$inf_user));
+			####### send mail #######################
+			$temp=$this->TemplatesModel->where('module','wallet2coupon')->where('id_ente',$inf_cart['id_ente'])->find();
+						if(empty($temp)) $temp=$this->TemplatesModel->where('module','wallet2coupon')->where('id_ente IS NULL')->find();
+						$email = \Config\Services::email();
+						$sender_name=$settings['sender_name'];
+						$sender_email=$settings['sender_email'];
+						$email->setFrom($sender_email,$sender_name);
+						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
+						
+					
+						$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+							if($SMTP!="") $vals=json_decode($SMTP,true);
+						
+							if(!empty($vals)){
+								if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
+								if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+								
+								$email->SMTPHost=$vals['host'];
+								$email->SMTPUser=$vals['username'];
+								$email->SMTPPass=$vals['password'];
+								$email->SMTPPort=$vals['port'];
+							}
+							
+						}
+						$email->setTo($inf_user['email']);
+						$email->setCc($inf_ente['email']);
+						$email->setSubject($temp[0]['subject']);
+						
+						$html=str_replace(array("{var_user_name}","{coupon_code}","{coupon_expired_date}"),
+					array($inf_profile['display_name'],$code,date('d/m/Y',strtotime("+1 month"))),
+					$temp[0]['html']);
+						
+						$email->setMessage($html);
+						$email->setAltMessage(strip_tags($html));
+						
+						$xxx=$email->send();
+						$yy=$this->NotifLogModel->insert(array('id_participant'=>$inf_user['id'],'type'=>'email','user_to'=>$inf_user['email'],'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+		
+		}
+		$ll=$this->UserWalletModel->where('id_ente',$common_data['selected_ente']['id'])->where('id_user',$common_data['user_data']['id'])->orderBy('created_at','DESC')->find();
+		$res=array();
+		foreach($ll as $k=>$v){
+			
+			$inf_item=$this->CartItemsModel->find($v['id_item']);
+				switch($inf_item['item_type']){
+					case 'modulo': $inf_item=$this->CorsiModuloModel->find($inf_item['item_id']);
+					break;
+					case 'corsi': $inf_item=$this->CorsiModel->find($inf_item['item_id']);
+					break;
+				}
+				$v['item']=$inf_item['sotto_titolo'];
+
+				$res[]=$v;
+			}
+		$data['list']=$res;
+		
+		$ll=$this->CouponModel->where('id_ente',$common_data['selected_ente']['id'])->where('id_user',$common_data['user_data']['id'])->where('coupon_type','wallet')->where('banned','no')->orderBy('id','DESC')->find();
+		$data['list_coupon']=$ll;
+		return view($common_data['view_folder'].'/user_wallet',$data);
+
 	}
 }
