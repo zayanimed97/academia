@@ -472,8 +472,8 @@ class BaseController extends Controller
 						$temp=$this->TemplatesModel->where('module','invoice')->where('id_ente',$inf_cart['id_ente'])->find();
 						if(empty($temp)) $temp=$this->TemplatesModel->where('module','invoice')->where('id_ente IS NULL')->find();
 						$email = \Config\Services::email();
-						$sender_name=$settings['sender_name'];
-						$sender_email=$settings['sender_email'];
+						$sender_name=$common_data['settings']['sender_name'];
+						$sender_email=$common_data['settings']['sender_email'];
 						$email->setFrom($sender_email,$sender_name);
 						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
