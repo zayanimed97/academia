@@ -56,6 +56,8 @@ class ProfileController extends BaseController
 			case 'settings':
 			$data['facebook_id']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'facebook_id')['facebook_id'] ?? "";
 			$data['facebook_discount']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'facebook_discount')['facebook_discount'] ?? "";
+			$data['facebook_pixel']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'facebook_pixel')['facebook_pixel'] ?? "";
+			$data['google_analytic']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'google_analytic')['google_analytic'] ?? "";
 			$p='settings_general.php';
 			break;
 			default:$p='profile.php';
@@ -96,6 +98,25 @@ class ProfileController extends BaseController
 				}
 			break;
 			case 'settings':
+			if($this->request->getVar('profile_menu2')!==null){
+				$id = $this->SettingModel->where('id_ente',$this->session->get('user_data')['id'])->where('meta_key', 'facebook_pixel')->find();
+				
+					if ($id) {
+						$this->SettingModel->where('id_ente',$this->session->get('user_data')['id'])->where('meta_key', 'facebook_pixel')->set('meta_value', $this->request->getVar('facebook_pixel'))->update();
+					} else {
+						$this->SettingModel->insert(['meta_key'=>'facebook_pixel', 'meta_value'=>$this->request->getVar('facebook_pixel'), 'id_ente'=>$this->session->get('user_data')['id']]);
+					}
+					
+				
+					$id = $this->SettingModel->where('id_ente',$this->session->get('user_data')['id'])->where('meta_key', 'google_analytic')->find();
+					if ($id) {
+						$this->SettingModel->where('id_ente',$this->session->get('user_data')['id'])->where('meta_key', 'google_analytic')->set('meta_value', $this->request->getVar('google_analytic'))->update();
+					} else {
+						$this->SettingModel->insert(['meta_key'=>'google_analytic', 'meta_value'=>$this->request->getVar('google_analytic'), 'id_ente'=>$this->session->get('user_data')['id']]);
+					}
+						$res=array("error"=>false);
+			}
+			else{
 				$val = $this->validate([
 					'id' => ['label' => 'APP ID', 'rules' => 'trim|required'],	
 					'discount' => ['label' => 'APP ID', 'rules' => 'numeric|greater_than[0]|required'],	
@@ -128,6 +149,7 @@ class ProfileController extends BaseController
 					}
 					$res=array("error"=>false);
 				}
+			}
 			break;
 			case 'contact':	
 				$p='profile_contact.php';

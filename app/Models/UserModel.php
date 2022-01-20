@@ -7,7 +7,7 @@ class UserModel extends Model
 	
     protected $table = 'users';
 	protected $primaryKey = 'id';
-    protected $allowedFields = ['role', 'email','password','display_name','active','token','ordring','pass','id_corsi','id_ente','domain_ente'];
+    protected $allowedFields = ['role', 'email','password','display_name','active','token','ordring','pass','id_corsi','id_ente','domain_ente','wallet'];
 	protected $useSoftDeletes = true;
 	protected $returnType = 'array';
 	protected $useTimestamps = true;

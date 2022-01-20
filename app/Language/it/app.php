@@ -407,6 +407,8 @@ $lang['field_fattura_id']="ID";
 $lang['field_days']="giorni";
 
 $lang['field_date_confirmation']="Data confermazione";
+$lang['field_share']="share carrello";
+$lang['field_wallet']="giftcard/wallet";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -490,6 +492,7 @@ $lang['new_pdf']="Nuovo file";
 $lang['menu_setting_remember_emails']="Ricorda Emails";
 $lang['menu_setting_remember_email_add']="Nuova Ricorda Emails";
 $lang['menu_setting_remember_email_edit']="Modifica Ricorda Emails";
+$lang['menu_coupon_wallet']="Coupon wallet";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -586,6 +589,8 @@ $lang['title_page_settings_remember_emails']="Ricorda Email";
 $lang['title_page_settings_remember_emails_add']="Nuova Ricorda Email";
 $lang['title_page_settings_remember_emails_edit']="Modifica Ricorda Email";
 $lang['title_modal_delete_remember_email']="Elemina Ricorda Email";
+
+$lang['title_page_coupon_wallet']="Coupon Wallet";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="i campi obbligatori sono vuoti!";
