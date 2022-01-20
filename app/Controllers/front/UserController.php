@@ -638,6 +638,7 @@ class UserController extends BaseController
 	public function wallet(){
 		$common_data=$this->common_data();
 		$data=$common_data;
+		 if(!in_array('wallet',$common_data['ente_package']['extra'])) return redirect()->to(base_url('user/profile'));
 		$data['seo_title']=lang('front.title_page_user_wallet');
 		if($this->request->getVar('transform')!==null){
 			$x=true;

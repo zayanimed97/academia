@@ -756,11 +756,14 @@ if($this->request->getVar('Password')!=""){
 					<td><?php echo $item_name?></td>
 					<td><?php echo number_format($vv['price_ht']*(1+($vv['vat']/100)),2,',','.')?></td>
 					<td>
-					 <?php if(isset($common_data['settings']['facebook_id'])&& isset($common_data['settings']['facebook_discount']) && (empty($det['share']) || $det['share']['facebook']=='cancelled')){ ?>
+					 <?php 
+					  if(in_array('wallet',$common_data['ente_package']['extra'])){ 
+					 if(isset($common_data['settings']['facebook_id'])&& isset($common_data['settings']['facebook_discount']) && (empty($det['share']) || $det['share']['facebook']=='cancelled')){ ?>
 						<div class="flex justify-between mt-1">
 							<p @click="shareFacebook_wallet('<?= $vv['id']?>', '<?= $url?>')" class="text-green-400 cursor-pointer hover:underline">Condividi e risparmia <?php //echo $amount->format($common_data['settings']['facebook_discount'] ?? 0) ?></p>
 						</div>
-						<?php } ?>
+						<?php } 
+					  }?>
 					</td>
 				</tr>
 				<?php } }?>
@@ -773,6 +776,12 @@ if($this->request->getVar('Password')!=""){
 	    public function postShared()
     {
         $data = $this->common_data();
+		 if(!in_array('wallet',$common_data['ente_package']['extra'])){ 
+		 return json_encode  ([ "status" => 'error', 
+							"message" => lang('front.post_shared') 		   
+							]);
+		 }
+		 else{
         $id =$this->request->getVar('rowid');
         $platform =$this->request->getVar('platform');
      
@@ -814,7 +823,7 @@ if($this->request->getVar('Password')!=""){
 							"message" => lang('front.post_shared') 		   
 							]);
 	 }
-	   
+		 }
     }
 
 	
