@@ -313,7 +313,7 @@
                                                     <span class="font-bold mt-0.5" x-text="formatter.format(item.price)"></span>
                                                 </div>
                                             </div>
-                                            <?php if(isset($settings['facebook_id'])&&isset($settings['facebook_discount'])){ ?>
+                                            <?php if(isset($settings['facebook_id'])&&isset($settings['facebook_discount'])&&in_array('share', $ente_package['extra'])){ ?>
                                             <div class="flex justify-between mt-1">
                                                 <p @click="shareFacebook(item.rowid, item.url, '<?= $settings['facebook_discount'] ?? 0?>')" class="text-green-400 cursor-pointer hover:underline">Condividi e risparmia <?= $amount->format($settings['facebook_discount'] ?? 0) ?></p>
                                             </div>
@@ -347,13 +347,14 @@
                             </ul>
         
                             <h3 class="font-semibold text-center my-6 text-2xl" x-text="formatter.format(total+tax)"></h3>
+                            <?php if(in_array('coupon', $ente_package['extra'])) {?>
                             <form method="post" @submit.prevent="applyCoupon($refs.coupon.value)" class="space-y-3" action="<?= base_url('/order/coupon') ?>">
                                 <input class="form-control with-border" type="text" name="coupon" x-ref="coupon" placeholder="<?php echo lang('front.field_insert_code')?>">
                                 <div class="col-span-2 border rounded-md border-blue-500">
                                     <button class="w-full py-2.5 font-semibold rounded text-blue-600 text-base block" type="submit"><?php echo lang('front.apply_coupon')?></button>
                                 </div>
-                            </form>
-                             
+                            </form> 
+                            <?php } ?>
                         </div>
                     </div>
         

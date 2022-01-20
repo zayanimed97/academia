@@ -416,7 +416,7 @@
 															</div>
 																<div class="col-md-4">
 																		<div class="form-group required-field">
-																			<label for="acc-lastname"> dificoltà <span class="text-danger">*</span></label>
+																			<label for="acc-lastname"> difficoltà</label>
 																			<?php $input = [
 																			
 																			'name'  => 'difficulte',

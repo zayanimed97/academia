@@ -121,8 +121,8 @@ $lang['title_cours_by_categ']="Corsi per categorie";
 $lang['title_welcome']="Benvenuto";
 $lang['help_forgot_password']="Hai dimenticato la password?";
 $lang['help_havnot_account']="Non hai un account?";
-$lang['title_register']="Creare un profilo";
-$lang['help_have_account']="Hai già un account";
+$lang['title_register']="Registrati e inizia il tuo percorso";
+$lang['help_have_account']="Hai già un account?";
 $lang['title_cours']="Corsi";
 $lang['subtitle_search_cours']="{filter}";
 $lang['title_filter_category']="Categorie";
@@ -169,7 +169,7 @@ $lang['materiel']="materiali";
 $lang['menu_cart']="I miei Carri";
 $lang['menu_wallet']="Portafoglio";
 
-$lang['no_result']="No Results";
-$lang['no_result_text']="Check again later maybe we have something new";
+$lang['no_result']="Siamo spiacenti, nessun risultato trovato";
+$lang['no_result_text']="Ricontrolla più tardi";
 return $lang;
 ?>

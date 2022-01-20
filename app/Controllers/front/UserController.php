@@ -126,10 +126,19 @@ class UserController extends BaseController
 
     public function getLogin()
     {
+		if ((session('user_data')['role'] ?? '' )== 'participant') {
+			if (isset($_SESSION['intended']) && strlen($_SESSION['intended']) > 0) {
+				$intended = $_SESSION['intended'];
+				unset($_SESSION['intended']);
+				return redirect()->to($intended);
+			}
+			return redirect()->to( base_url() );
+		}
         $data = $this->common_data();
 		$email = get_cookie('email');
         $password = get_cookie('password');
         $user_data=$this->session->get('user_data');
+		// die(var_dump($password));
         if (is_null($user_data) && !is_null($email) && !is_null($password)) {
             $this->request->setGlobal('request', ['email'=> $email, 'password'=>$password]);
 			$this->login();
@@ -183,10 +192,39 @@ class UserController extends BaseController
 			}
 			else{
                 $users[0]['profile'] = $this->UserProfileModel->where('user_id', $users[0]['id'])->first();
+				$cart = json_decode(($this->RememberCartModel->where('id_user', $users[0]['id'])->where('id_ente', $data['selected_ente']['id'])->first())['cart'] ?? '', true);
+				 
 				$this->session->set(array('user_data'=>$users[0]));
-				set_cookie('email', $email, 2147483647, base_url(), '/');
-				set_cookie('password', $password, 2147483647, base_url(), '/');
+				setcookie('email', $email, 2147483647 , '/');
+				setcookie('password', $password, 2147483647 , '/');
 				if(!empty($this->cart->contents())) $this->updateCart();
+				foreach ($cart as $key=>$item) {
+					$existing_item = array_filter($this->cart->contents(), function($el) use($item){return ($el['id'] ?? '') == ($item['id'] ?? 'impossible val');});
+					if (!in_array($key, ["cart_total","total_items"]) && empty($existing_item)) {
+						$this->cart->insert([
+							'id' => $item['id'],
+							'url' => $item['url'],
+							'type' => $item['type'],
+							'qty' => 1,
+							'tax' => $item['tax'],
+							'price' => $item['price'],
+							'originalPrice' => $item['originalPrice'],
+							'coupon' => $item['coupon'],
+							'share' => $item['share'],
+							'name' => $item['name'],
+							'options' => $item['options'],
+						]);
+					}
+				}
+
+
+				$cartContents = $this->cart->contents();
+				$cartContents['cart_total'] = $this->cart->total();
+				$cartContents['total_items'] = $this->cart->totalItems();
+				$this->session->set(array('cart_contents'=>$cartContents));
+
+
+				$this->updateCartOnLogin($data);
 				if (isset($_SESSION['intended']) && strlen($_SESSION['intended']) > 0) {
 					$intended = $_SESSION['intended'];
 					unset($_SESSION['intended']);
@@ -567,7 +605,7 @@ class UserController extends BaseController
 					}
 					else $last_opened=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$module['id'])->orderBy('ord','ASC')->first();
 					$vimeo_id=$last_opened['vimeo'] ?? NULL;
-//var_dump($last_opened);
+	//var_dump($last_opened);
 					$data['last_opened']=$last_opened ?? array();
 					$last_status=$this->ParticipationOnlineStatusModel->where('id_participation',$id_participation)->where('vimeo_id',$vimeo_id)->orderBy('created_at','DESC')->first();
 					$total_vimeo_percent=0;
@@ -580,7 +618,7 @@ class UserController extends BaseController
 							$total_vimeo_percent+=$inf_last_status['status'] ?? 0;
 						}
 					}
-					$data['total_vimeo_percent']=round($total_vimeo_percent/count($data['list_vimeo']));
+					$data['total_vimeo_percent']=count($data['list_vimeo']) == 0 ? 0 : round($total_vimeo_percent/count($data['list_vimeo']));
 					if(round($data['total_vimeo_percent']/25)==0) $total_vimeo_width="w-0"; 
 					else $total_vimeo_width='w-'.(round($data['total_vimeo_percent']/25)).'/4';
 					if($data['total_vimeo_percent']>100){
@@ -634,7 +672,36 @@ class UserController extends BaseController
 		$data['list']=$res;
 		return view($common_data['view_folder'].'/user_cart',$data);
 	}
-	
+
+	public function updateCartOnLogin($data)
+	{
+		$lastCart = $this->RememberCartModel->where('id_user', session('user_data')['id'])->where('id_ente', $data['selected_ente']['id'] ?? '')->first();
+		$discounts = [];
+		$shares = [];
+		foreach ($this->cart->contents() as $item) {
+			if (!empty($item['coupon'])) {
+				array_push($discounts, $item['coupon']);
+			}
+
+			if (!empty($item['share'])) {
+				array_push($shares, $item['share']);
+			}
+		}
+		$cartContents = $this->cart->contents();
+		$cartContents['cart_total'] = $this->cart->total();
+		$cartContents['total_items'] = $this->cart->totalItems();
+		$newDBItem = [
+			'cart' => json_encode($cartContents),
+			'shares' => json_encode($shares),
+			'discounts' => json_encode($discounts),
+			'id_user' => session('user_data')['id'],
+			'id_ente' => $data['selected_ente']['id'] ?? '',
+		];
+		if (isset($lastCart['id'])) {
+			$newDBItem['id'] = $lastCart['id'];
+		}
+		$this->RememberCartModel->save($newDBItem);
+
 	public function wallet(){
 		$common_data=$this->common_data();
 		$data=$common_data;
@@ -726,5 +793,6 @@ class UserController extends BaseController
 		$ll=$this->CouponModel->where('id_ente',$common_data['selected_ente']['id'])->where('id_user',$common_data['user_data']['id'])->where('coupon_type','wallet')->where('banned','no')->orderBy('id','DESC')->find();
 		$data['list_coupon']=$ll;
 		return view($common_data['view_folder'].'/user_wallet',$data);
+
 	}
 }

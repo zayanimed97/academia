@@ -34,6 +34,7 @@ use App\Models\testModuloModel;
 use App\Models\EnteMethodPaymentModel;
 use App\Models\CouponModel;
 use App\Models\CartModel;
+use App\Models\RememberCartModel;
 use App\Models\CartItemsModel;
 use App\Models\CartPaymentModel;
 use App\Models\ParticipationModel;
@@ -130,6 +131,7 @@ class BaseController extends Controller
 		
 		$this->CouponModel=new CouponModel();
 		$this->CartModel=new CartModel();
+		$this->RememberCartModel=new RememberCartModel();
 		$this->CartItemsModel=new CartItemsModel();
 		$this->CartPaymentModel=new CartPaymentModel();
 		$this->ParticipationModel=new ParticipationModel();
