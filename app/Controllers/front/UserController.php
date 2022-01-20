@@ -735,11 +735,11 @@ class UserController extends BaseController
 			$inf_user=$this->UserModel->find($data['user_data']['id']);
 			$this->session->set(array('user_data'=>$inf_user));
 			####### send mail #######################
-			$temp=$this->TemplatesModel->where('module','wallet2coupon')->where('id_ente',$inf_cart['id_ente'])->find();
+			$temp=$this->TemplatesModel->where('module','wallet2coupon')->where('id_ente',$common_data['selected_ente']['id'])->find();
 						if(empty($temp)) $temp=$this->TemplatesModel->where('module','wallet2coupon')->where('id_ente IS NULL')->find();
 						$email = \Config\Services::email();
-						$sender_name=$settings['sender_name'];
-						$sender_email=$settings['sender_email'];
+						$sender_name=$common_data['settings']['sender_name'];
+						$sender_email=$common_data['settings']['sender_email'];
 						$email->setFrom($sender_email,$sender_name);
 						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
@@ -759,11 +759,11 @@ class UserController extends BaseController
 							
 						}
 						$email->setTo($inf_user['email']);
-						$email->setCc($inf_ente['email']);
+					$email->setCc($common_data['selected_ente']['email']);
 						$email->setSubject($temp[0]['subject']);
 						
 						$html=str_replace(array("{var_user_name}","{coupon_code}","{coupon_expired_date}"),
-					array($inf_profile['display_name'],$code,date('d/m/Y',strtotime("+1 month"))),
+					array($inf_user['display_name'],$code,date('d/m/Y',strtotime("+1 month"))),
 					$temp[0]['html']);
 						
 						$email->setMessage($html);
