@@ -431,6 +431,7 @@
                                     <div class="user_name">
                                         <div> <?php echo session('user_data')['display_name']?> </div>
                                         <span> <?php echo session('user_data')['email']?></span>
+										<span><i class="icon-feather-gift"></i>&nbsp;<b id="user_menu_wallet"><?php echo number_format(session('user_data')['wallet'],2)?></b> €</span>
                                     </div>
                                 </a>
                             </li>
@@ -454,6 +455,12 @@
                                 <a href="<?php echo base_url('user/cart')?>">
                                     <ion-icon name="cart-outline" class="is-icon"></ion-icon>
                                      <?php echo lang('front.menu_cart')?>
+                                </a>
+                            </li>
+							 <li> 
+                                <a href="<?php echo base_url('user/wallet')?>">
+                                    <ion-icon name="gift-outline" class="is-icon"></ion-icon>
+                                     <?php echo lang('front.menu_wallet')?>
                                 </a>
                             </li>
                             <li>

@@ -258,7 +258,7 @@ $routes->group("user", ["filter" => "auth:participant"], function ($routes) {
     $routes->post('setting_submit', 'front\UserController::setting_submit');
     $routes->post('valid_user', 'front\UserController::valid_user');
     $routes->post('postShared', 'front\CartController::postShared');
-
+	$routes->add('wallet', 'front\UserController::wallet');
 });
 $routes->add('/contact', 'Home::contact_page'); 
 $routes->add('/page/(:any)', 'Home::page/$1'); 

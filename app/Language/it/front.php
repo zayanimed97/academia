@@ -19,7 +19,7 @@ $lang['btn_play_video']="Play";
 $lang['btn_invoice']="Fattura";
 $lang['btn_details']="Dettagli";
 $lang['btn_close']="Chuidi";
-
+$lang['btn_transform_wallet_to_coupon']="trasforma il portafoglio in coupon";
 $lang['field_email']="Email";
 $lang['field_password']="Password";
 $lang['field_first_name']="Nome";
@@ -89,6 +89,8 @@ $lang['field_total_to_pay']="";
 $lang['field_insert_code']="Inserisci codice coupon";
 $lang['field_section']="sezione";
 $lang['field_tab_modulo']="Data";
+$lang['field_expired_date']="Data di scadenza";
+$lang['field_used']="usato";
 
 $lang['success_share']="Condivizione social avvenuto con successo";
 $lang['share']="Social";
@@ -152,7 +154,11 @@ $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";
 $lang['status_pending']="In sospeso pagamento";
 $lang['title_modal_details_cart']="Dettagli carrello";
-
+$lang['title_page_user_wallet']="I miei Portafoglio";
+$lang['title_section_historic_wallet']="Storico portafoglio";
+$lang['title_modal_wallet_to_coupon']="trasforma il portafoglio in coupon";
+$lang['msg_transform_wallet_to_coupon']="vuoi trasformare il tuo portafoglio ({x} €) in coupon?";
+$lang['title_section_user_coupon']="I miei Coupon";
 $lang['menu_profile']="Profilo";
 $lang['menu_participation']="I miei corsi";
 $lang['menu_account_settings']="Cambia password";
@@ -161,6 +167,7 @@ $lang['menu_back']="indietro";
 $lang['materiel_cours']="materiali del corso";
 $lang['materiel']="materiali";
 $lang['menu_cart']="I miei Carri";
+$lang['menu_wallet']="Portafoglio";
 
 $lang['no_result']="No Results";
 $lang['no_result_text']="Check again later maybe we have something new";

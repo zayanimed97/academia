@@ -773,17 +773,10 @@ if($this->request->getVar('Password')!=""){
 	    public function postShared()
     {
         $data = $this->common_data();
-        
-        // echo '<pre>';
-        // print_r($this->cart->contents());
-        // echo '</pre>';
-        // exit;
-
-        $id = 2;//$this->request->getVar('rowid');
-        $platform ="facebook";// $this->request->getVar('platform');
-      //  $discount = $this->request->getVar('discount');
+        $id =$this->request->getVar('rowid');
+        $platform =$this->request->getVar('platform');
+     
         $row = $this->CartItemsModel->find($id);
-		//var_dump($row);
         $item = $row['item_type'] == 'corsi' ? $this->CorsiModel : $this->CorsiModuloModel;
         $item = $item->where('id',  $row['item_id'])->where('banned', 'no')->first();
 		$verify_wallet=$this->UserWalletModel->where('id_user',$data['user_data']['id'])->where('id_ente',$data['selected_ente']['id'])->where('id_item',$id)->first();
@@ -808,8 +801,11 @@ if($this->request->getVar('Password')!=""){
 		    $this->CartItemsModel->update($id,array('details'=>json_encode($det,true)));
 		  $inf_user=$this->UserModel->find($data['user_data']['id']);
 		  $this->UserModel->edit($data['user_data']['id'],array("wallet"=>($discount+$inf_user['wallet'])));
+		   $inf_user=$this->UserModel->find($data['user_data']['id']);
+		  $this->session->set(array('user_data'=>$inf_user));
 		  return json_encode  ([  "status" => 'success', 
-                                  "message" => lang('front.success_share') 
+                                  "message" => lang('front.success_share'),
+								"total_wallet"=>number_format($inf_user['wallet'],2)
                               ]);
 	 }
 	 else{
