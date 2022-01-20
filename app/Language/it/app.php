@@ -407,6 +407,8 @@ $lang['field_fattura_id']="ID";
 $lang['field_days']="giorni";
 
 $lang['field_date_confirmation']="Data confermazione";
+$lang['field_share']="share carrello";
+$lang['field_wallet']="giftcard/wallet";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";

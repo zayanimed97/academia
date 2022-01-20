@@ -174,12 +174,9 @@
                                                                     <div class="col-md-9">
                                                                         <div class="checkbox form-check-inline">
 																			<input type="checkbox" name="extra[]" id="test" value="test"  <?php if(in_array('test',$tab['extra'])) echo 'checked'?>>
-																			<label for="test"> <?php echo lang('app.field_test')?> </label>
+																			<label for="test"> <?php echo lang('app.field_test').' & '.lang('app.field_test_quality')?> </label>
 																		</div>
-																		 <div class="checkbox form-check-inline">
-																			<input type="checkbox" name="extra[]" id="test_quality" value="test_quality" <?php if(in_array('test_quality',$tab['extra'])) echo 'checked'?>>
-																			<label for="test_quality"> <?php echo lang('app.field_test_quality')?> </label>
-																		</div>
+																	
 																		 <div class="checkbox form-check-inline">
 																			<input type="checkbox" name="extra[]" id="certificat" value="certificat" <?php if(in_array('certificat',$tab['extra'])) echo 'checked'?>>
 																			<label for="certificat"> <?php echo lang('app.field_attesto')?> </label>
@@ -187,6 +184,14 @@
 																		 <div class="checkbox form-check-inline">
 																			<input type="checkbox" name="extra[]" id="coupon" value="coupon" <?php if(in_array('coupon',$tab['extra'])) echo 'checked'?>>
 																			<label for="coupon"> <?php echo lang('app.field_coupon')?> </label>
+																		</div>
+																		 <div class="checkbox form-check-inline">
+																			<input type="checkbox" name="extra[]" id="share" value="share" <?php if(in_array('share',$tab['extra'])) echo 'checked'?>>
+																			<label for="share"> <?php echo lang('app.field_share')?> </label>
+																		</div>
+																		 <div class="checkbox form-check-inline">
+																			<input type="checkbox" name="extra[]" id="wallet" value="wallet" <?php if(in_array('wallet',$tab['extra'])) echo 'checked'?>>
+																			<label for="wallet"> <?php echo lang('app.field_wallet')?> </label>
 																		</div>
 																		<div class="checkbox form-check-inline">
 																			<input type="checkbox" name="extra[]" id="fatturecloud" value="fatturecloud" <?php if(in_array('fatturecloud',$tab['extra'])) echo 'checked'?>>
