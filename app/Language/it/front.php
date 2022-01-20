@@ -17,6 +17,8 @@ $lang['btn_pay']="Vai al pagamento";
 $lang['btn_pay2']="Pagamento";
 $lang['btn_play_video']="Play";
 $lang['btn_invoice']="Fattura";
+$lang['btn_details']="Dettagli";
+$lang['btn_close']="Chuidi";
 
 $lang['field_email']="Email";
 $lang['field_password']="Password";
@@ -149,6 +151,7 @@ $lang['title_page_thanks']="conferma partecipazione";
 $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";
 $lang['status_pending']="In sospeso pagamento";
+$lang['title_modal_details_cart']="Dettagli carrello";
 
 $lang['menu_profile']="Profilo";
 $lang['menu_participation']="I miei corsi";

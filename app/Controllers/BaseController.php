@@ -43,6 +43,7 @@ use App\Models\LuoghiModel;
 use App\Models\ParticipationOnlineStatusModel;
 use App\Models\ParticipationOnlineEventModel;
 use App\Models\RememberEmailsModel;
+use App\Models\UserWalletModel;
 use App\Libraries\Fattureincloud;
 /**
  * Class BaseController
@@ -138,6 +139,7 @@ class BaseController extends Controller
 		$this->ParticipationOnlineStatusModel=new ParticipationOnlineStatusModel();
 		$this->ParticipationOnlineEventModel=new ParticipationOnlineEventModel();
 		$this->RememberEmailsModel=new RememberEmailsModel();
+		$this->UserWalletModel=new UserWalletModel();
 	}
 	
 	public function common_data(){
@@ -708,8 +710,9 @@ class BaseController extends Controller
 </table>
 <?php
 			$cart_items=ob_get_clean();
-			$html=str_replace(array("{var_name}","{var_email}","{var_date}","{var_total_ht}","{var_discount_row}","{var_total_tax}","{var_total}","{var_payment_status}","{var_coupon}","{var_invoice_data}","{var_cart_details}","{var_payment_details}"),
-			array($inf_participant['display_name'],$inf_participant['email'],date('d/m/Y',strtotime($inf_cart['date'])),number_format($inf_cart['total_ht'],2,',','.'),$discount_row,number_format($inf_cart['total_vat'],2,',','.'),number_format($inf_cart['total_vat']+$inf_cart['total_ht'],2,',','.'),$payment_status,$coupon,$invoice_data,$cart_items,$payment_details ),
+			$cart_url=base_url('user/cart');
+			$html=str_replace(array("{var_name}","{var_email}","{var_date}","{var_total_ht}","{var_discount_row}","{var_total_tax}","{var_total}","{var_payment_status}","{var_coupon}","{var_invoice_data}","{var_cart_details}","{var_payment_details}","{cart_url}"),
+			array($inf_participant['display_name'],$inf_participant['email'],date('d/m/Y',strtotime($inf_cart['date'])),number_format($inf_cart['total_ht'],2,',','.'),$discount_row,number_format($inf_cart['total_vat'],2,',','.'),number_format($inf_cart['total_vat']+$inf_cart['total_ht'],2,',','.'),$payment_status,$coupon,$invoice_data,$cart_items,$payment_details,$cart_url ),
 			$temp[0]['html']);
 			
 			$email = \Config\Services::email();
