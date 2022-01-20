@@ -3,7 +3,32 @@
 class Coupon extends BaseController
 {
 
-	
+	public function show_coupon_wallet()
+	{ 	
+		$common_data=$this->common_data();
+		$data=$common_data;
+		$user_data=$this->session->get('user_data');
+		// die(var_dump($user_data));
+		$categories = $this->CouponModel->where('id_ente', $user_data['id'])->where("coupon_type",'wallet')->find();
+		$list=array();
+			foreach($categories as $k=>$v){
+				
+				if($v['start_date']!=null) $v['start_date']=date('d/m/Y',strtotime($v['start_date']));
+				if($v['end_date']!=null) $v['end_date']=date('d/m/Y',strtotime($v['end_date']));
+				
+				if($v['type']=='percent') $v['discount']=number_format($v['amount'],2,'.','').'%'; else $v['discount']=number_format($v['amount'],2,'.','').'€';
+				if($v['id_user']!="") $inf_user=$this->UserModel->find($v['id_user']);
+				$v['user']=$inf_user['display_name'] ?? '';
+				$list[]=$v;
+			}
+		$data['categories'] = $list;
+		
+		if(null!==$this->session->get('success')){
+			$data['success']=$this->session->get('success');
+			$this->session->remove('success');
+		}
+		return view('admin/coupon_wallet.php',$data);
+	}
 	
 	public function show()
 	{ 	
@@ -11,7 +36,7 @@ class Coupon extends BaseController
 		$data=$common_data;
 		$user_data=$this->session->get('user_data');
 		// die(var_dump($user_data));
-		$categories = $this->CouponModel->where('id_ente', $user_data['id'])->find();
+		$categories = $this->CouponModel->where('id_ente', $user_data['id'])->where("coupon_type != 'wallet' ")->find();
 		$list=array();
 			foreach($categories as $k=>$v){
 				switch($v['coupon_type']){

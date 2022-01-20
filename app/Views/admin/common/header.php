@@ -316,7 +316,14 @@
                                         
                             </li>
 							<?php } ?>
-							
+							<?php if(in_array('wallet',$ente_package['extra'])){?>
+							 <li>
+                            
+                                
+                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/couponwallet') ?>"><i data-feather="gift"></i> <span><?php echo lang('app.menu_coupon_wallet')?> </span></a>
+                                        
+                            </li>
+							<?php } ?>
                         </ul>
 
                     </div>
