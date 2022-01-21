@@ -465,7 +465,7 @@ class CartController extends BaseController
                         foreach ($usedCoupons as $used) {
                             $this->CouponModel->where('code', $used)->where('id_ente', $data['selected_ente']['id'])->set('used', 'used+1', FALSE)->update();
                         }
-                        $this->RememberCartModel->where('id_user', session('user_data'['id']))->where('id_ente', $data['selected_ente']['id'])->delete();
+                        $this->RememberCartModel->where('id_user', session('user_data')['id'])->where('id_ente', $data['selected_ente']['id'])->delete();
                         $this->cart->destroy();
                         session()->setFlashdata('success', 'Order Placed Please Pay To Confirm');
 						 $xxx = $this->OrderMail($cartId);

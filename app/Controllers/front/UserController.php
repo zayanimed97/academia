@@ -198,7 +198,8 @@ class UserController extends BaseController
 				setcookie('email', $email, 2147483647 , '/');
 				setcookie('password', $password, 2147483647 , '/');
 				if(!empty($this->cart->contents())) $this->updateCart();
-				foreach ($cart as $key=>$item) {
+				if(!empty($cart)){
+					foreach ($cart as $key=>$item) {
 					$existing_item = array_filter($this->cart->contents(), function($el) use($item){return ($el['id'] ?? '') == ($item['id'] ?? 'impossible val');});
 					if (!in_array($key, ["cart_total","total_items"]) && empty($existing_item)) {
 						$this->cart->insert([
@@ -216,7 +217,7 @@ class UserController extends BaseController
 						]);
 					}
 				}
-
+				}
 
 				$cartContents = $this->cart->contents();
 				$cartContents['cart_total'] = $this->cart->total();
@@ -701,7 +702,7 @@ class UserController extends BaseController
 			$newDBItem['id'] = $lastCart['id'];
 		}
 		$this->RememberCartModel->save($newDBItem);
-
+	}
 	public function wallet(){
 		$common_data=$this->common_data();
 		$data=$common_data;

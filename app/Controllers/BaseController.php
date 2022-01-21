@@ -494,12 +494,13 @@ class BaseController extends Controller
 							}
 							
 						}
-						$email->setTo($inf_profile['email']);
+						$inf_user=$this->UserModel->find($inf_cart['id_user']);
+						$email->setTo($inf_user['email']);
 						$email->setCc($inf_ente['email']);
 						$email->setSubject($temp[0]['subject']);
 						
 						$html=str_replace(array("{var_user_name}","{pdf_link}"),
-					array($inf_profile['display_name'],$pdf),
+					array($inf_profile['nome'].' '.$inf_profile['cognome'],$pdf),
 					$temp[0]['html']);
 						
 						$email->setMessage($html);
