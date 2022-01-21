@@ -4,6 +4,7 @@
         padding-bottom: 1em;
     }
 </style>
+
         <div class="from-blue-500 bg-grey breadcrumb-area py-6 text-black">
             <div class="container mx-auto lg:pt-5">
                 <div class="breadcrumb text-black">
@@ -43,42 +44,48 @@
             <div class="grid lg:grid-cols-2 gap-8 md:mt-12" >
                
                 <div class="bg-white rounded-md col-span-2">
+<?php if(!empty($list)){?>
+                    <div class="grid  gap-3 lg:p-6 p-4">					
+                         <div uk-accordion="multiple: false" class="divide-y space-y-3">
+						 <?php foreach($list as $id_corsi=>$ll){?>
+								<div  class="pt-2">
+									<a class="uk-accordion-title text-md mx-2 font-semibold" href="#">  <div class="mb-1 text-sm font-medium"> <?php echo $ll[0]['corso_title'] ?? 'Corso #'.$id_corsi?> <?php echo $k+1?> </div><span > &nbsp;</span> </a>
+									<div class="uk-accordion-content mt-3">
+									  <table id="basic-datatable" class="table col-span-2 w-full">
+											<thead class="border-b">
+												<tr>
+													<th><?php echo lang('front.field_modulo')?></th>
+													<th><?php echo lang('front.field_date_inscrit')?></th>
+													<th><?php echo lang('front.field_type_cours')?></th>
+													<th><?php echo lang('front.field_date_session')?></th>
+													<th><?php echo lang('front.field_type_payment')?></th>
+												</tr>
+											</thead>
+											<tbody class="mt-8">
+													<?php
+												foreach($ll as $k=>$v){?>
+												 <tr>
+													<td class="py-6 border-b flex items-center">
+														<span class="icon-material-outline-shopping-cart text-lg mr-4"></span>
+														<a class="text-purple-600" href="<?php echo base_url('user/participation/'.$v['id'])?>">
+															<?php echo $v['title']?>
+														</a>
+													</td>
 
-                    <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">					
-                       
-                           <table id="basic-datatable" class="table col-span-2">
-                                <thead class="border-b">
-                                    <tr>
-                                        <th><?php echo lang('front.field_modulo')?></th>
-                                        <th><?php echo lang('front.field_date_inscrit')?></th>
-                                        <th><?php echo lang('front.field_type_cours')?></th>
-                                        <th><?php echo lang('front.field_date_session')?></th>
-                                        <th><?php echo lang('front.field_type_payment')?></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="mt-8">
-							   
-								<?php if(!empty($list)){
-									foreach($list as $k=>$v){?>
-									 <tr>
-										<td class="py-6 border-b flex items-center">
-                                            <span class="icon-material-outline-shopping-cart text-lg mr-4"></span>
-                                            <a class="text-purple-600" href="<?php echo base_url('user/participation/'.$v['id'])?>">
-                                                <?php echo $v['title']?>
-                                            </a>
-                                        </td>
-
-										<td class="py-6 border-b"><?php echo Time::parse($v['date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
-										<td class="py-6 border-b"><?php echo $type_cours[$v['tipologia_corsi']] ?? $v['tipologia_corsi']?></td>
-										<td class="py-6 border-b"><?php if($v['session_date']!="") echo Time::parse($v['session_date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
-										<td class="py-6 border-b"><?php echo $v['payment_method']?></td>
-									</tr>
-									<?php }
-								}
-									?>
-                                    </tbody>
-							</table>
-                       
+													<td class="py-6 border-b"><?php echo Time::parse($v['date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
+													<td class="py-6 border-b"><?php echo $type_cours[$v['tipologia_corsi']] ?? $v['tipologia_corsi']?></td>
+													<td class="py-6 border-b"><?php if($v['session_date']!="") echo Time::parse($v['session_date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
+													<td class="py-6 border-b"><?php echo $v['payment_method']?></td>
+												</tr>
+												<?php }?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+						 <?php } ?>
+						 </div>
+<?php } ?>
+                        
                     </div> 
                     
                 </div>
