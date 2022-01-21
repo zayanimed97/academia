@@ -122,6 +122,17 @@
             left: 0;
             transform: skewY(-11deg);
         } 
+        .uk-accordion-title::before {
+            font-size: 20px;
+            width: 1.4em;
+            margin-right: -12px;
+            float: right;
+            font-family: "Feather-Icons";
+            content: "\e92e";
+            color: rgba(0, 0, 0, 0.54);
+            background-image: none;
+        }
+
     /* .header_menu ul ul li a:after{
         content: "" !important;
     } */
