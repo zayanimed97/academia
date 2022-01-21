@@ -74,7 +74,7 @@
                                                                     <div class="col-md-9">
                                                                         <div class="checkbox form-check-inline">
 																			<input type="checkbox" name="extra[]" id="test" value="test" disabled <?php if(in_array('test',$tab['extra'])) echo 'checked'?>>
-																			<label for="test"> <?php echo lang('app.field_test')?> </label>
+																			<label for="test"> <?php echo lang('app.field_test').' & '.lang('app.field_test_quality')?> </label>
 																		</div>
 																		
 																		 <div class="checkbox form-check-inline">
@@ -84,6 +84,14 @@
 																		 <div class="checkbox form-check-inline">
 																			<input type="checkbox" name="extra[]" id="coupon" value="coupon" disabled <?php if(in_array('coupon',$tab['extra'])) echo 'checked'?>>
 																			<label for="coupon"> <?php echo lang('app.field_coupon')?> </label>
+																		</div>
+																		 <div class="checkbox form-check-inline">
+																			<input type="checkbox" name="extra[]" id="share" value="share" disabled <?php if(in_array('share',$tab['extra'])) echo 'checked'?>>
+																			<label for="share"> <?php echo lang('app.field_share')?> </label>
+																		</div>
+																		 <div class="checkbox form-check-inline">
+																			<input type="checkbox" name="extra[]" id="wallet" value="wallet" disabled <?php if(in_array('wallet',$tab['extra'])) echo 'checked'?>>
+																			<label for="wallet"> <?php echo lang('app.field_wallet')?> </label>
 																		</div>
 																		<div class="checkbox form-check-inline">
 																			<input type="checkbox" name="extra[]" id="fatturecloud" value="fatturecloud" disabled <?php if(in_array('fatturecloud',$tab['extra'])) echo 'checked'?>>

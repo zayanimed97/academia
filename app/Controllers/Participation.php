@@ -81,8 +81,18 @@ class Participation extends BaseController
 					
 				}
 				$v['total_paid']=$total_paid;
-				
 				$v['quota']=$quota;
+				if($inf_corsi['tipologia_corsi']=='webinar'){
+					if($v['confirm_zoom']!=""){
+						$det=json_decode($v['confirm_zoom'],true);
+						$v['confirm_zoom']="";
+						foreach($det as $kk=>$vv){
+							$inf_date=$this->CorsiModuloDateModel->find($kk);
+							$v['confirm_zoom'].=date('d/m/Y H:i',strtotime($inf_date['date'].' '.$inf_date['start_time']));
+						}
+						
+					}
+				}
 				$res[]=$v;
 			}
 		$data['list']=$res;
