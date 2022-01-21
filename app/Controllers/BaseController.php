@@ -729,6 +729,7 @@ class BaseController extends Controller
 			$email->setAltMessage(strip_tags($html));
 			
 			$xxx=$email->send();
+			var_dump($email);
 			$yy=$this->NotifLogModel->insert(array('id_participant'=>$inf_participant['id'],'type'=>'email','user_to'=>$inf_participant['email'],'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
 		
 			

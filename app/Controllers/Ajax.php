@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-
+use CodeIgniter\I18n\Time;
 class Ajax extends BaseController
 {
     public function index()
@@ -826,5 +826,63 @@ if($this->request->getVar('Password')!=""){
 		 }
     }
 
+	public function set_zoom_confirm(){
+		$common_data=$this->common_data();
+		$id=$this->request->getVar('id');
+		$id_participation=$this->request->getVar('id_participation');
+		$verif=$this->ParticipationModel->where('id',$id_participation)->where('id_user',$common_data['user_data']['id'])->first();
+		if(!empty($verif)){
+			$det=json_decode($verif['confirm_zoom'],true);
+			if(!isset($det[$id]) || $det[$id]==""){
+				$det[$id]=date('Y-m-d H:i:s');
+				$confirm_zoom=json_encode($det,true);
+				$this->ParticipationModel->update($verif['id'],array("confirm_zoom"=>$confirm_zoom));
+				$inf_zoom=$this->CorsiModuloDateModel->find($id);
+				$inf_modulo=$this->CorsiModuloModel->find($inf_zoom['id_modulo']);
+				############### send mail ################""
+				$temp=$this->TemplatesModel->where('module','confirm_zoom')->where('id_ente',$common_data['selected_ente']['id'])->find();
+						if(empty($temp)) $temp=$this->TemplatesModel->where('module','confirm_zoom')->where('id_ente IS NULL')->find();
+						$email = \Config\Services::email();
+						$sender_name=$common_data['settings']['sender_name'];
+						$sender_email=$common_data['settings']['sender_email'];
+						$email->setFrom($sender_email,$sender_name);
+						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
+						
+					
+						$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+							if($SMTP!="") $vals=json_decode($SMTP,true);
+						
+							if(!empty($vals)){
+								if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
+								if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+								
+								$email->SMTPHost=$vals['host'];
+								$email->SMTPUser=$vals['username'];
+								$email->SMTPPass=$vals['password'];
+								$email->SMTPPort=$vals['port'];
+							}
+							
+						}
+					
+						$email->setTo($common_data['user_data']['email']);
+						$email->setCc($common_data['selected_ente']['email']);
+						$email->setSubject($temp[0]['subject']);
+						$titolo=$inf_modulo['sotto_titolo'];
+						$zoom_date= Time::parse($inf_zoom['date'].' '.$inf_zoom['start_time'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y HH:mm');
+						$html=str_replace(array("{var_user_name}","{modulo_titolo}","{zoom_date}"),
+					array($common_data['user_data']['display_name'] ?? '',$titolo,$zoom_date),
+					$temp[0]['html']);
+						
+						$email->setMessage($html);
+						$email->setAltMessage(strip_tags($html));
+						
+						$xxx=$email->send();
+						$yy=$this->NotifLogModel->insert(array('id_participant'=>$common_data['user_data']['id'],'type'=>'email','user_to'=>$common_data['user_data']['email'],'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+		
+			
+						return true;
+			}
+		}
+	}
 	
 }//end class
