@@ -525,6 +525,7 @@ class UserController extends BaseController
 		 foreach($list as $kk=>$vv){
 			 $inf_modulo=$this->CorsiModuloModel->find($vv['id_modulo']);
 			 $inf_corsi=$this->CorsiModel->find($inf_modulo['id_corsi']);
+			  $vv['corso_title']=$inf_corsi['sotto_titolo'];
 			 $vv['title']=$inf_modulo['sotto_titolo'];
 			 $vv['tipologia_corsi']=$inf_corsi['tipologia_corsi'];
 			 if(!is_null($vv['id_date']) && $vv['id_date']>0){
@@ -533,7 +534,7 @@ class UserController extends BaseController
 				 else $vv['session_date']="";
 			 }
 			 else $vv['session_date']="";
-			$res[]=$vv; 
+			$res[$inf_modulo['id_corsi']][]=$vv; 
 		 }
 		 $data['list']=$res;
 		return view($common_data['view_folder'].'/user_participation.php',$data);
