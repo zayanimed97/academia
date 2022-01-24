@@ -364,6 +364,7 @@
         </div>
 <?= view($view_folder.'/common/footer') ?>
 <?php if(isset($settings['facebook_id'])){ ?>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 <script>
   window.fbAsyncInit = function() {
     FB.init({
@@ -375,7 +376,6 @@
   };
 </script>
 <?php } ?>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 
 <script>
     function getResData(){
