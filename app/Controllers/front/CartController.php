@@ -600,11 +600,11 @@ class CartController extends BaseController
             foreach ($usedCoupons as $used) {
                 $this->CouponModel->where('code', $used)->where('id_ente', $data['selected_ente']['id'])->set('used', 'used+1', FALSE)->update();
             }
-            $this->RememberCartModel->where('id_user', session('user_data'['id']))->where('id_ente', $data['selected_ente']['id'])->delete();
+            $this->RememberCartModel->where('id_user', session('user_data')['id'])->where('id_ente', $data['selected_ente']['id'])->delete();
             $this->cart->destroy();
             session()->setFlashdata('success', 'cart payed successfully');
 			 $xxx = $this->OrderMail($payment['id_cart']);
-			  if(in_array('fatturecloud',$common_data['ente_package']['extra'])){
+			  if(in_array('fatturecloud',$data['ente_package']['extra'])){
 				$this->createFattureCloud($payment['id_cart']);
 				ob_clean();
 			 }
@@ -658,7 +658,8 @@ class CartController extends BaseController
                                     ->where('curdate() BETWEEN start_date AND end_date')
                                     ->where('(used < nb_use) OR (nb_use = 0)')
                                     ->first();
-        $coupon = ((strlen($coupon['id_user']) == 0) || ($coupon['id_user'] == (session('user_data')['id'] ?? ''))) ? $coupon : [];
+                                    
+        $coupon = ((strlen($coupon['id_user']??null) == 0) || (($coupon['id_user'] ?? null) === (session('user_data')['id'] ?? ''))) ? $coupon : [];
         $usedCoupon = null;
         if (!empty($coupon)) {
             $corsi_in_cart = array_map(function($el){if($el['type'] == 'corsi') return ['type' => 'corsi', 'corsi' => str_replace($el['type'], '', $el['id'])];},$this->cart->contents());

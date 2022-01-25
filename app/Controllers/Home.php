@@ -48,6 +48,14 @@ class Home extends BaseController
 		$data['seo_image']=$seo_image;
         return view($data['view_folder'].'/page', $data);
     }
+
+    public function pagece()
+    {
+    
+        $data = $this->common_data();
+
+        return view('default/page-ce-1', $data);
+    }
 	
 	public function contact_page(){
 		$data = $this->common_data();

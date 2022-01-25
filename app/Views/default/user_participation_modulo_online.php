@@ -85,7 +85,12 @@ let player_current =new Object ;//player;
 								
 							
                         <div id="vimeo_<?php echo $one_vimeo['id']?>" class="<?php if(isset($last_opened['id']) && $one_vimeo['id']==$last_opened['id']) echo 'uk-open'; else echo 'pt-2'?>">
-                            <a class="uk-accordion-title text-md mx-2 font-semibold" href="#">  <div class="mb-1 text-sm font-medium"> <?php echo lang('front.field_section')?> <?php echo $k+1?> </div><span id="vimeo_title_<?php echo $one_vimeo['id']?>"> &nbsp;</span> </a>
+
+                            <a class="uk-accordion-title text-md mx-2 font-semibold modulo_vimeo" href="#">  
+                                <!-- <div class="mb-1 text-sm font-medium"> <?php echo lang('front.field_section')?> <?php echo $k+1?> </div> -->
+                                <span id="vimeo_title_<?php echo $one_vimeo['id']?>"> &nbsp;</span> 
+                            </a>
+
                             <div class="uk-accordion-content mt-3">
                              
                                 <ul class="course-curriculum-list" id="list_chapter_module_<?php echo $one_vimeo['id']?>">
@@ -250,7 +255,7 @@ let player_current =new Object ;//player;
     });
 	player.getVideoTitle().then(function(title) {
 		
-		 $('#vimeo_title_<?php echo $one_vimeo["id"]?>').html('title:'+title);
+		 $('#vimeo_title_<?php echo $one_vimeo["id"]?>').html(title);
 		});
 	player.getChapters().then(function(chapters) {
 		if(chapters.length>0){
@@ -298,7 +303,29 @@ let player_current =new Object ;//player;
 			var str=minutes + ":" + seconds;
 			if(hours>0) str=hours + ":"+str;
 			//if(val.startTime<=<?php echo $vimeo_position?>)
-				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\"><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
+
+                let sezione = $($("#list_chapter_module_<?php echo $one_vimeo['id']?>") .parent()
+                                                                        .parent()
+                                                                        .first('.modulo_vimeo')
+                                                                        .find('.mb-1.text-sm.font-medium')[0]).text();
+                let title = $($("#list_chapter_module_<?php echo $one_vimeo['id']?>") .parent()
+                                                                        .parent()
+                                                                        .first('.modulo_vimeo')
+                                                                        .find('span')[0]).text();
+				$($("#list_chapter_module_<?php echo $one_vimeo['id']?>") .parent()
+                                                                                    .parent()[0])
+                                                                                    .html("\
+                                                                                                    <div class=\" flex items-center justify-start \">\
+                                                                                                        <div class=\"one_chap_play_icon\"></div>\
+                                                                                                        <div onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\" class=\"one_chap text-md mx-2 font-semibold cursor-pointer\">\
+                                                                                                            <div class=\" flex justify-between mb-1 text-sm font-medium \"><div>"+str+"</div></div>\
+                                                                                                            <span id=\"vimeo_title_38\">"+ title.replace('title:', '') +"</span>\
+                                                                                                        </div>\
+                                                                                                    </div>\
+                                                                                                ");
+                                   
+                // <li onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\"><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>
+
 			/*else{
 				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li uk-toggle=\"target: #modal-example \" ><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
 			}*/

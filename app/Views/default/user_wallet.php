@@ -30,7 +30,7 @@
                     <p class="text-white text-opacity-75" id="error_text"></p>
                 </div>
              
-                <div class="bg-green-500 border p-4 relative rounded-md uk-alert" uk-alert=""  id="success_alert" style="display:none">
+                <div class="bg-green-500 border p-4 relative rounded-md uk-alert col-span-2" uk-alert=""  id="success_alert" style="display:none">
                     <button class="uk-alert-close absolute bg-gray-100 bg-opacity-20 m-5 p-0.5 pb-0 right-0 rounded text-gray-200 text-xl top-0">
                         <i class="icon-feather-x"></i>
                     </button>
@@ -41,19 +41,19 @@
             <!-- Basic information -->
 			
             <div class="grid lg:grid-cols-2 gap-8 md:mt-12" >
-               
+               <?php if (!empty($list) && !empty($list_coupon)) { ?>
                 <div class="bg-white rounded-md col-span-2">
 
                     <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">	
-<div class="bg-green-500 border p-4 relative rounded-md uk-alert" uk-alert=""  id="warning_alert" >
-                   
-                
-                    <p class="text-white text-opacity-75"><?php echo lang('front.field_expired_date')." : 31/12/".date('Y')?><br/>
-					<?php if(session('user_data')['wallet']>0){?><button class="flex items-center justify-center h-10 mt-8 px-6 rounded-md bg-blue-600 text-white" uk-toggle="target: #wallet_modal"><?php echo lang('front.btn_transform_wallet_to_coupon')?></button><?php } ?>
-					</p>
-                </div>
-			 </div>
- <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">					
+                        <div class="bg-green-500 border p-4 relative rounded-md uk-alert col-span-2" uk-alert=""  id="warning_alert" >
+                        
+                        
+                            <p class="text-white text-opacity-75"><?php echo lang('front.field_expired_date')." : 31/12/".date('Y')?><br/>
+                            <?php if(session('user_data')['wallet']>0){?><button class="flex items-center justify-center h-10 mt-8 px-6 rounded-md bg-blue-600 text-white" uk-toggle="target: #wallet_modal"><?php echo lang('front.btn_transform_wallet_to_coupon')?></button><?php } ?>
+                            </p>
+                        </div>
+			        </div>
+                    <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">					
 							<h1><?php echo lang('front.title_section_historic_wallet')?> </h1>
                            <table id="basic-datatable" class="table col-span-2">
                                 <thead class="border-b">
@@ -72,21 +72,18 @@
 											 <td><?php echo date('d/m/Y',strtotime($arg['created_at'])) ?></td>
 											 <td><?= number_format($arg['discount'],2,',','.') ?>€</td>
 										</tr>
-									<?php }
-								}
-									?>
+									<?php }}?>
                                     </tbody>
 							</table>
-                       
+                            
                     </div> 
                     
                 </div>
 				
-				
 				<div class="bg-white rounded-md col-span-2">
 
                    
- <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">					
+                        <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">					
 							<h1><?php echo lang('front.title_section_user_coupon')?> </h1>
                            <table id="basic-datatable" class="table col-span-2">
                                 <thead class="border-b">
@@ -121,7 +118,15 @@
                     </div> 
                     
                 </div>
-				
+                <?php } ?>
+				<?php if(empty($list) && strlen($settings['facebook_discount'] ?? "") > 0 && empty($list_coupon)) { ?>
+                    <div class="col-span-2 border p-4 relative rounded-md uk-alert" uk-alert="">
+                        <h3 class="text-lg font-semibold">Il tuo portafoglio è vuoto!</h3>
+                        <p>
+                            Ricordati che devi condividere i tuoi acquisti sul tuo profilo di Facebook per accumulare soldi e trasformali in un buon acquisto.  Per farlo, vai sui "Miei acquisto", clicca su "dettaglio acquisto" e se non l'hai ancora fatto, condividi sul tuo profilo.  
+                            Per ogni acquisto avrai <?= $settings['facebook_discount'] ?>€ in più nel tuo profilo.</p>
+                    </div>
+                <?php }?>
             </div>
 		
 

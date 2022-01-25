@@ -96,7 +96,7 @@ a[disabled] {
     border: 1px solid rgb(229, 231, 235);
 }
 
-<?php $tipo = explode(',',strtolower(htmlspecialchars($_REQUEST['tipo'] ?? ''))); foreach($tipo as &$t){$t = $type_cours[$t];}; $tipo = implode(',', $tipo); ?>
+<?php $tipo = explode(',',strtolower(htmlspecialchars($_REQUEST['tipo'] ?? ''))); foreach($tipo as &$t){$t = $type_cours[$t] ?? '';}; $tipo = implode(',', $tipo); ?>
 </style>
         <div class="container"  x-data="getFilters($watch)">
 
@@ -169,32 +169,38 @@ a[disabled] {
                     
                     <div>
                         <h4 class="font-semibold text-base mb-2"> <?php echo lang('front.title_filter_type')?> </h4>
+                        <?php if($tipoCount['aula'] > 0) { ?>
                         <div>
                                 <label class='checkbox blue flex items-center'>
                                     <input type='checkbox' name="tipo[]" @change="changeUrl" x-model="tipo" value="aula">
                                     <span class='indicator'></span>
-                                    <p><?php echo $type_cours['aula'] ?? 'Aula'?></p> 
+                                    <p><?php echo $type_cours['aula'] ?? 'Aula'?> (<?= $tipoCount['aula'] ?>)</p> 
                                 </label>
                             <!-- </select> -->
                         </div>
+                        <?php } ?>
 
+                        <?php if($tipoCount['online'] > 0) { ?>
                         <div>
                                 <label class='checkbox blue flex items-center'>
                                     <input type='checkbox' name="tipo[]" @change="changeUrl" x-model="tipo" value="online">
                                     <span class='indicator'></span>
-                                    <p><?php echo $type_cours['online'] ?? 'Online'?></p> 
+                                    <p><?php echo $type_cours['online'] ?? 'Online'?> (<?= $tipoCount['online'] ?>)</p> 
                                 </label>
                             <!-- </select> -->
                         </div>
+                        <?php } ?>
 
+                        <?php if($tipoCount['webinar'] > 0) { ?>
                         <div>
                                 <label class='checkbox blue flex items-center'>
                                     <input type='checkbox' name="tipo[]" @change="changeUrl" x-model="tipo" value="webinar">
                                     <span class='indicator'></span>
-                                    <p><?php echo $type_cours['webinar'] ?? 'Webinar'?></p> 
+                                    <p><?php echo $type_cours['webinar'] ?? 'Webinar'?> (<?= $tipoCount['webinar'] ?>)</p> 
                                 </label>
                             <!-- </select> -->
                         </div>
+                        <?php } ?>
                         <!-- <br> -->
 
                     </div>

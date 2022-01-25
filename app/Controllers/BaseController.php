@@ -606,6 +606,7 @@ class BaseController extends Controller
         <tr style="border-bottom:1px solid #a1a1a1;">
             <th>Codice</th>
             <th>Descrizione</th>
+            <th>Prezzo</th>
             <th>Docente</th>
         </tr>
        
@@ -684,6 +685,7 @@ class BaseController extends Controller
 										  <tr>
             <td style="border-right:1px solid #a1a1a1;"><?php echo $inf_item['codice'] ?></td>
             <td style="border-right:1px solid #a1a1a1;"><b><?php echo $inf_item['sotto_titolo']?></b><br><?php echo $str_date;?></td>
+            <td style="border-right:1px solid #a1a1a1;"><b><?php echo $one['price_ht']?></b></td>
             <td>Dott. <?php echo $str_docente?></td>
         </tr>
 						<?php /*<tr style="background-color: #fff;">
@@ -729,7 +731,6 @@ class BaseController extends Controller
 			$email->setAltMessage(strip_tags($html));
 			
 			$xxx=$email->send();
-			var_dump($email);
 			$yy=$this->NotifLogModel->insert(array('id_participant'=>$inf_participant['id'],'type'=>'email','user_to'=>$inf_participant['email'],'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
 		
 			
