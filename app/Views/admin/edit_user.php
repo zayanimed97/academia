@@ -364,10 +364,12 @@ else{
 															</div>
 														 </div>
 														 <div class="col-md-6">
+													<?php if($role=='doctor'){?>
                                             <div class="form-group">
                                                <label class="col-form-label " for="prima"><?php echo lang('app.field_signature')?></label>
 													<input class="form-control" type="file" id="prima" name="prima"  />
                                             </div>
+                                            <?php } ?>
                                         </div>
 													</div>
 													<input type="hidden" name="delete_foto" id="delete_foto" value="no">

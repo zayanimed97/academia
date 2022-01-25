@@ -290,32 +290,32 @@
 		
       <?= view('admin/common/footer') ?>
         <!-- Vendor js -->
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/js/vendor.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/vendor.min.js"></script>
 		
-		 <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/pdfmake/build/pdfmake.min.js"></script>
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+		 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/pdfmake/build/vfs_fonts.js"></script>
 		
-		  <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/flatpickr/flatpickr.min.js"></script>
+		  <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/flatpickr.min.js"></script>
 		  <script src="https://npmcdn.com/flatpickr/dist/l10n/it.js"></script>
-		 <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+		 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 		 
 		  <!-- third party js -->
        
 		 
         <!-- App js -->
-		 <!--script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/js/pages/form-pickers.init.js"></script-->
-        <script src="<?php echo base_url('UBold_v4.1.0/Admin/dist')?>/assets/js/app.min.js"></script>
+		 <!--script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/form-pickers.init.js"></script-->
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/app.min.js"></script>
         <script>
 	
 		$(document).ready(function(){

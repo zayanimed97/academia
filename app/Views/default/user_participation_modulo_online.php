@@ -102,7 +102,10 @@ let player_current =new Object ;//player;
 								
 							
                         <div id="vimeo_<?php echo $one_vimeo['id']?>" class="<?php if(isset($last_opened['id']) && $one_vimeo['id']==$last_opened['id']) echo 'uk-open'; else echo 'pt-2'?>">
-                            <a class="uk-accordion-title text-md mx-2 font-semibold modulo_vimeo" href="#">  <div class="mb-1 text-sm font-medium"> <?php echo lang('front.field_section')?> <?php echo $k+1?> </div><span id="vimeo_title_<?php echo $one_vimeo['id']?>"> &nbsp;</span> </a>
+                            <a class="uk-accordion-title text-md mx-2 font-semibold modulo_vimeo" href="#">  
+                                <!-- <div class="mb-1 text-sm font-medium"> <?php echo lang('front.field_section')?> <?php echo $k+1?> </div> -->
+                                <span id="vimeo_title_<?php echo $one_vimeo['id']?>"> &nbsp;</span> 
+                            </a>
                             <div class="uk-accordion-content mt-3">
                              
                                 <ul class="course-curriculum-list" id="list_chapter_module_<?php echo $one_vimeo['id']?>">
@@ -267,7 +270,7 @@ let player_current =new Object ;//player;
     });
 	player.getVideoTitle().then(function(title) {
 		
-		 $('#vimeo_title_<?php echo $one_vimeo["id"]?>').html('title:'+title);
+		 $('#vimeo_title_<?php echo $one_vimeo["id"]?>').html(title);
 		});
 	player.getChapters().then(function(chapters) {
 		if(chapters.length>0){
@@ -326,11 +329,11 @@ let player_current =new Object ;//player;
 				$($("#list_chapter_module_<?php echo $one_vimeo['id']?>") .parent()
                                                                                     .parent()[0])
                                                                                     .html("\
-                                                                                                    <div class=\" flex items-center justify-between \">\
+                                                                                                    <div class=\" flex items-center justify-start \">\
                                                                                                         <div class=\"one_chap_play_icon\"></div>\
                                                                                                         <div onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\" class=\"one_chap text-md mx-2 font-semibold cursor-pointer\">\
-                                                                                                            <div class=\" flex justify-between mb-1 text-sm font-medium \"><div> "+sezione+" </div><div>"+str+"</div></div>\
-                                                                                                            <span id=\"vimeo_title_38\">"+ title +"</span>\
+                                                                                                            <div class=\" flex justify-between mb-1 text-sm font-medium \"><div>"+str+"</div></div>\
+                                                                                                            <span id=\"vimeo_title_38\">"+ title.replace('title:', '') +"</span>\
                                                                                                         </div>\
                                                                                                     </div>\
                                                                                                 ");

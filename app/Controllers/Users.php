@@ -21,11 +21,8 @@ class Users extends BaseController
 			case 'ente': $redirect=base_url('admin/login');break;
 			default:$redirect=base_url();
 		}
-		setcookie("email", "", time() - 3600, '/');
-		setcookie("password", "", time() - 3600, '/');
-        // dd(get_cookie('email'));
-		$this->session->destroy();
 		
+		$this->session->destroy();
 		return redirect()->to( $redirect );
 	}
 	
@@ -706,7 +703,7 @@ class Users extends BaseController
 					$det=json_decode($inf_package['package'] ?? '[]',true);
 					$users[0]['ente_package']=array("expired_date"=>$inf_package['expired_date'],"type_cours"=>$det['type_cours'] ?? '',"extra"=>$det['extra'] ?? '');
 				}
-				
+				$users[0]['profile'] = $this->UserProfileModel->where('user_id', $users[0]['id'])->first();
 				$this->session->set(array('user_data'=>$users[0]));
 				switch($users[0]['role']){
 					case 'ente':$redirect_url='admin/dashboard'; break;

@@ -22,10 +22,18 @@
                                             SUM(case when c.tipologia_corsi = "webinar" then 1 else 0 end) as sum_webinar, 
                                             SUM(case when c.tipologia_corsi = "online" then 1 else 0 end) as sum_online')
                                 ->find();
-    //      echo '<pre>';
-    //      print_r($argomenti);
-    //      echo '</pre>';
-    //      exit;
+    $tipoCount = $CorsiModel    ->where('id_ente', $selected_ente['id'])
+                                ->where('banned','no')
+                                ->where('status', 'si')
+                                ->select('  
+                                            SUM(case when tipologia_corsi = "aula" then 1 else 0 end) as aula, 
+                                            SUM(case when tipologia_corsi = "webinar" then 1 else 0 end) as webinar, 
+                                            SUM(case when tipologia_corsi = "online" then 1 else 0 end) as online')
+                                ->first();
+        //  echo '<pre>';
+        //  print_r($tipoCount);
+        //  echo '</pre>';
+        //  exit;
     $filter = function($tipologia, $type, $argomenti = null){return array_filter($type, function($el) use ($tipologia){ return $el['sum_'.$tipologia] > 0 ;});};
 ?>
 <!DOCTYPE html>
@@ -231,9 +239,9 @@
 							<?php 
 								$type_cours=json_decode($settings['type_cours'] ?? '',true);
 								
-								if(in_array('online',$ente_package['type_cours'])){?>
+								if(in_array('online',$ente_package['type_cours']) && $tipoCount['online'] > 0){?>
                             <li> 
-                                <a href="<?= base_url('corsi') ?>?tipo=online"> <?php echo $type_cours['online'] ?? 'Online'?> </a> 
+                                <a href="<?= base_url('corsi') ?>?tipo=online"> <?php echo $type_cours['online'] ?? 'Online'?> (<?= $tipoCount['online'] ?>)</a> 
                                 <!-- <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
                                         <li> 
@@ -268,9 +276,9 @@
                             </li>
 								<?php } 
 							
-								if(in_array('webinar',$ente_package['type_cours'])){?>
+								if(in_array('webinar',$ente_package['type_cours']) && $tipoCount['webinar'] > 0){?>
                             <li> 
-                                <a href="<?= base_url('corsi') ?>?tipo=webinar"> <?php echo $type_cours['webinar'] ?? 'Webinar'?> </a> 
+                                <a href="<?= base_url('corsi') ?>?tipo=webinar"> <?php echo $type_cours['webinar'] ?? 'Webinar'?> (<?= $tipoCount['webinar'] ?>)</a> 
                                 <!-- <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
                                         <li> 
@@ -306,9 +314,9 @@
                             </li>
 							<?php } 
 							
-								if(in_array('aula',$ente_package['type_cours'])){?>
+								if(in_array('aula',$ente_package['type_cours']) && $tipoCount['aula'] > 0){?>
 								  <li> 
-                                <a href="<?= base_url('corsi') ?>?tipo=aula"> <?php echo $type_cours['aula'] ?? 'Aula'?> </a> 
+                                <a href="<?= base_url('corsi') ?>?tipo=aula"> <?php echo $type_cours['aula'] ?? 'Aula'?> (<?= $tipoCount['aula'] ?>)</a> 
 								</li>
 								<?php } ?>
                            <!-- <li> <a href="categories.html" class="active"> Categories </a></li>

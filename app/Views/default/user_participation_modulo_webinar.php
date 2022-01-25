@@ -69,10 +69,9 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                         <div class="tube-card z-20 mb-4 overflow-hidden uk-sticky" uk-sticky="cls-active:rounded-none ; media: 992 ; offset:70 ">
                             <nav class="cd-secondary-nav extanded ppercase nav-small">
                                 <ul class="space-x-3" uk-scrollspy-nav="closest: li; scroll: true">
-								<li><a href="#Calendar" uk-scroll><?php echo lang('front.field_calendar')?></a></li>
+									 <li><a href="#Calendar" uk-scroll><?php echo lang('front.field_calendar')?></a></li>
                                     <li><a href="#Descrizione" uk-scroll><?php echo lang('front.field_description')?></a></li>
                                     
-									 
                                     <li><a href="#Curriculum"><?php echo lang('front.field_cv')?> </a></li>
                                     <?php if(count($pdfs) > 0) { ?>
                                         <li><a href="#Materiel"><?php echo lang('front.materiel')?> </a></li>
@@ -81,7 +80,10 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                             </nav>
                         </div>
 
-<div class="tube-card p-5 lg:p-8" id="Calendar">
+
+                        <!-- course description -->
+                        
+                        <div class="tube-card p-5 lg:p-8" id="Calendar">
 						  <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_calendar')?> </h3>
 							<?php if(!empty($inf_date)){
 								?>
@@ -89,24 +91,15 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                             <div>
 							    <b><?php echo date('d/m/Y',strtotime($inf_date['date'])).'</b> '.lang('front.field_de').' <b>'.date('H:i',strtotime($inf_date['start_time'])).'</b> '.lang('front.field_a').' <b>'.date('H:i',strtotime($inf_date['end_time']))?></b>
                             </div>
-                              <?php /*if(strtotime(date('Y-m-d H:i:s')) < (strtotime($inf_date['date']. ' '. $inf_date['start_time'] . ':00')-3600) || strtotime(date('Y-m-d H:i:s')) > strtotime($inf_date['date']. ' '. $inf_date['end_time'] . ':00')){?>
+                              <?php if(strtotime(date('Y-m-d H:i:s')) < (strtotime($inf_date['date']. ' '. $inf_date['start_time'] . ':00')-3600) || strtotime(date('Y-m-d H:i:s')) > strtotime($inf_date['date']. ' '. $inf_date['end_time'] . ':00')){?>
                             <div>
-							  <button class="uk-button uk-button-default disabled" disabled><?php echo lang('front.btn_webinar')?></button>
+							  <button class="uk-button bg-gray-600 text-white disabled" disabled><?php echo lang('front.btn_webinar')?></button>
                             </div>
 							  <?php } else{?>
                             <div>
 							  <a href="<?php echo $inf_date['zoom_url']?>" class="uk-button uk-button-primary"><?php echo lang('front.btn_webinar')?></a>
                             </div>
-                            <?php }*/ ?>
-							<?php if(strtotime(date('Y-m-d')) == strtotime($inf_date['date']) ){?>
-							 <div>
-							  <a target="_blank" href="<?php echo $inf_date['zoom_url']?>" onclick="confirm_zoom('<?php echo $v['id']?>')" class="uk-button uk-button-primary"><?php echo lang('front.btn_webinar')?></a>
-                            </div>
-							<?php } else{?> 
-							<div>
-							  <button class="uk-button disabled bg-gray-700 text-white" disabled><?php echo lang('front.btn_webinar')?></button>
-                            </div>
-							<?php } ?>
+                            <?php } ?>
 							</div>
 							<?php } else{ 
 							if(!empty($dates)){
@@ -115,82 +108,80 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                             <div>
 							    <b><?php echo date('d/m/Y',strtotime($v['date'])).'</b> '.lang('front.field_de').' <b>'.date('H:i',strtotime($v['start_time'])).'</b> '.lang('front.field_a').' <b>'.date('H:i',strtotime($v['end_time']))?></b>
                             </div>
-                              <?php if(strtotime($v['date'])!=strtotime(date('Y-m-d'))){?>
+                              <?php if(strtotime($v['date'])>strtotime(date('Y-m-d'))){?>
                             <div>
-                              <button class="uk-button disabled bg-gray-700 text-white" disabled><?php echo lang('front.btn_webinar')?></button>
+                              <button class="uk-button bg-gray-600 text-white disabled" disabled><?php echo lang('front.btn_webinar')?></button>
                             </div>
 							  <?php } else{?>
                             <div>
-							  <a target="_blank" href="<?php echo $v['zoom_url']?>" class="uk-button uk-button-primary" onclick="confirm_zoom('<?php echo $v['id']?>')"><?php echo lang('front.btn_webinar')?></a>
+							  <a href="<?php echo $v['zoom_url']?>" class="uk-button uk-button-primary"><?php echo lang('front.btn_webinar')?></a>
                             </div>
 							  <?php } ?>
 							</div>
 							<?php } } }?>
 						 </div>
 						<hr/>
-                  
-                        <!-- course description -->
                         <div class="tube-card p-5 lg:p-8" id="Descrizione">
         
-                            <div class="space-y-6">
-                                <?php if($module['description']){ ?>
-                                <div>
-                                    <h3 class="text-lg font-semibold mb-3"> <?php echo lang('front.field_description')?> </h3>
-                                    <p>
-                                        <?= $module['description'] ?>
-                                    </p>
-                                </div>
-                                <?php } ?>
-                                <?php if($module['programa']){ ?>
-                                <div>
-                                    <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_programa')?> </h3>
-                                    <!-- <ul class="grid md:grid-cols-2">
-                                        <li> <i class="uil-check text-xl font-bold mr-2"></i>Setting up the environment</li>
-                                        <li> <i class="uil-check text-xl font-bold mr-2"></i>Advanced HTML Practices</li>
-                                        <li> <i class="uil-check text-xl font-bold mr-2"></i>Build a portfolio website</li>
-                                        <li> <i class="uil-check text-xl font-bold mr-2"></i>Responsive Designs</li>
-                                        <li> <i class="uil-check text-xl font-bold mr-2"></i>Understand HTML Programming</li>
-                                        <li> <i class="uil-check text-xl font-bold mr-2"></i>Code HTML</li>
-                                        <li> <i class="uil-check text-xl font-bold mr-2"></i>Start building beautiful websites</li>
-                                    </ul> -->
+        <div class="space-y-6">
+            <?php if($module['description']){ ?>
+            <div>
+                <h3 class="text-lg font-semibold mb-3"> <?php echo lang('front.field_description')?> </h3>
+                <p>
+                    <?= $module['description'] ?>
+                </p>
+            </div>
+            <?php } ?>
+            <?php if($module['programa']){ ?>
+            <div>
+                <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_programa')?> </h3>
+                <!-- <ul class="grid md:grid-cols-2">
+                    <li> <i class="uil-check text-xl font-bold mr-2"></i>Setting up the environment</li>
+                    <li> <i class="uil-check text-xl font-bold mr-2"></i>Advanced HTML Practices</li>
+                    <li> <i class="uil-check text-xl font-bold mr-2"></i>Build a portfolio website</li>
+                    <li> <i class="uil-check text-xl font-bold mr-2"></i>Responsive Designs</li>
+                    <li> <i class="uil-check text-xl font-bold mr-2"></i>Understand HTML Programming</li>
+                    <li> <i class="uil-check text-xl font-bold mr-2"></i>Code HTML</li>
+                    <li> <i class="uil-check text-xl font-bold mr-2"></i>Start building beautiful websites</li>
+                </ul> -->
 
-                                    <p><?= $module['programa'] ?></p>
-                                </div>
-                                <?php } ?>
+                <p><?= $module['programa'] ?></p>
+            </div>
+            <?php } ?>
 
-                                <?php if($module['note']){ ?>
-                                <div>
-                                    <h3 class="text-lg font-semibold mb-1">  <?php echo lang('front.field_note')?></h3>
-                                    <?= $module['note'] ?>
-                                    </ul>
-                                </div>
-                                <?php } ?>
+            <?php if($module['note']){ ?>
+            <div>
+                <h3 class="text-lg font-semibold mb-1">  <?php echo lang('front.field_note')?></h3>
+                <?= $module['note'] ?>
+                </ul>
+            </div>
+            <?php } ?>
 
-                                <?php if($module['indrizzato_a']){ ?>
-                                <div>
-                                    <h3 class="text-lg font-semibold mb-1">  <?php echo lang('front.field_indrizzato_a')?> </h3>
-                                        <p><?= $module['indrizzato_a'] ?></p>
-                                </div>
-                                <?php } ?>
+            <?php if($module['indrizzato_a']){ ?>
+            <div>
+                <h3 class="text-lg font-semibold mb-1">  <?php echo lang('front.field_indrizzato_a')?> </h3>
+                    <p><?= $module['indrizzato_a'] ?></p>
+            </div>
+            <?php } ?>
 
-                                <?php if($module['riferimenti']){ ?>
-                                <div>
-                                    <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_riferimenti')?> </h3>
-                                        <p><?= $module['riferimenti'] ?></p>
-                                </div>
-                                <?php } ?>
+            <?php if($module['riferimenti']){ ?>
+            <div>
+                <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_riferimenti')?> </h3>
+                    <p><?= $module['riferimenti'] ?></p>
+            </div>
+            <?php } ?>
 
-                                <?php if($module['avvisi']){ ?>
-                                <div>
-                                    <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_avvisi')?> </h3>
-                                        <p><?= $module['avvisi'] ?></p>
-                                </div>
-                                <?php } ?>
-                            </div>
-        
-                        </div>
+            <?php if($module['avvisi']){ ?>
+            <div>
+                <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_avvisi')?> </h3>
+                    <p><?= $module['avvisi'] ?></p>
+            </div>
+            <?php } ?>
+        </div>
+
+    </div>
 						<hr/>
-						 
+                  
 
 
                         <div id="Curriculum" class="tube-card p-5 lg:p-8">
@@ -347,18 +338,6 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
     </div>
     
 <?= view($view_folder.'/common/footer') ?>
-<script>
-function confirm_zoom(id){
-	
-	$.ajax({
-			  method: "POST",
-			  url:"<?php echo base_url('Ajax/set_zoom_confirm'); ?>",
-			  data: { id_participation: "<?php echo $inf_participation['id']?>",id:id}
-			})
-			 .done(function( msg ) {
-				
-				console.log('event saved!');
-			});
-}
-</script>
+
+
     <?= view($view_folder.'/common/close') ?>

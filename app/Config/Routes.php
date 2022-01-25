@@ -267,6 +267,7 @@ $routes->group("user", ["filter" => "auth:participant"], function ($routes) {
 });
 $routes->add('/contact', 'Home::contact_page'); 
 $routes->add('/page/(:any)', 'Home::page/$1'); 
+$routes->add('/page-ce', 'Home::pagece'); 
 
 $routes->get('invoice', 'front\CartController::invoice');
 
