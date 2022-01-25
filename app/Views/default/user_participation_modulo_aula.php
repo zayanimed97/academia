@@ -69,10 +69,9 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                         <div class="tube-card z-20 mb-4 overflow-hidden uk-sticky" uk-sticky="cls-active:rounded-none ; media: 992 ; offset:70 ">
                             <nav class="cd-secondary-nav extanded ppercase nav-small">
                                 <ul class="space-x-3" uk-scrollspy-nav="closest: li; scroll: true">
-									 <li><a href="#Calendar" uk-scroll><?php echo lang('front.field_calendar')?></a></li>
                                     <li><a href="#Descrizione" uk-scroll><?php echo lang('front.field_description')?></a></li>
                                     
-								
+									 <li><a href="#Calendar" uk-scroll><?php echo lang('front.field_calendar')?></a></li>
                                     <li><a href="#Curriculum"><?php echo lang('front.field_cv')?> </a></li>
                                    <li><a href="#Position"><?php echo lang('front.field_position')?> </a></li>
                                    <?php if(count($pdfs) > 0) { ?>
@@ -81,18 +80,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                                 </ul>
                             </nav>
                         </div>
- <div class="tube-card p-5 lg:p-8" id="Calendar">
-						  <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_calendar')?> </h3>
-							 
-							<?php if(!empty($dates)){
-							foreach($dates as $k=>$v){?>
-							<div class="uk-container">
-							<b><?php echo date('d/m/Y',strtotime($v['date'])).'</b> '.lang('front.field_de').' <b>'.date('H:i',strtotime($v['start_time'])).'</b> '.lang('front.field_a').' <b>'.date('H:i',strtotime($v['end_time']))?></b>
-							 
-							</div>
-							<?php } } ?>
-						 </div>
-						<hr/>
+
 
                         <!-- course description -->
                         <div class="tube-card p-5 lg:p-8" id="Descrizione">
@@ -155,7 +143,18 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
         
                         </div>
 						<hr/>
-						
+						 <div class="tube-card p-5 lg:p-8" id="Calendar">
+						  <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_calendar')?> </h3>
+							 
+							<?php if(!empty($dates)){
+							foreach($dates as $k=>$v){?>
+							<div class="uk-container">
+							<b><?php echo date('d/m/Y',strtotime($v['date'])).'</b> '.lang('front.field_de').' <b>'.date('H:i',strtotime($v['start_time'])).'</b> '.lang('front.field_a').' <b>'.date('H:i',strtotime($v['end_time']))?></b>
+							 
+							</div>
+							<?php } } ?>
+						 </div>
+						<hr/>
                   
 
 

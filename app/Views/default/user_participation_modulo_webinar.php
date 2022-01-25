@@ -69,9 +69,11 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                         <div class="tube-card z-20 mb-4 overflow-hidden uk-sticky" uk-sticky="cls-active:rounded-none ; media: 992 ; offset:70 ">
                             <nav class="cd-secondary-nav extanded ppercase nav-small">
                                 <ul class="space-x-3" uk-scrollspy-nav="closest: li; scroll: true">
+
 									 <li><a href="#Calendar" uk-scroll><?php echo lang('front.field_calendar')?></a></li>
                                     <li><a href="#Descrizione" uk-scroll><?php echo lang('front.field_description')?></a></li>
                                     
+
                                     <li><a href="#Curriculum"><?php echo lang('front.field_cv')?> </a></li>
                                     <?php if(count($pdfs) > 0) { ?>
                                         <li><a href="#Materiel"><?php echo lang('front.materiel')?> </a></li>
@@ -82,6 +84,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
 
 
                         <!-- course description -->
+
                         
                         <div class="tube-card p-5 lg:p-8" id="Calendar">
 						  <h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_calendar')?> </h3>
@@ -121,6 +124,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
 							<?php } } }?>
 						 </div>
 						<hr/>
+
                         <div class="tube-card p-5 lg:p-8" id="Descrizione">
         
         <div class="space-y-6">
@@ -181,6 +185,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
 
     </div>
 						<hr/>
+
                   
 
 

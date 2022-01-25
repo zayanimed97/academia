@@ -36,23 +36,6 @@ let options_current =new Object ;//options;
 let player_current =new Object ;//player;
 //window.a_href
 </script>
-<style>
-    .one_chap{
-        font-size: 1.1rem;
-        line-height: 1.4;
-        color: #333;
-    }
-    .one_chap_play_icon{
-        text-align: center;
-        width: 23px;
-        height: 23px;
-        line-height: 26px;
-        z-index: 2;
-        background: url(<?= base_url('front') ?>/assets/images/icon-play.svg);
-        background-color: #585757;
-        border-radius: 100%;
-    }
-</style>
 </head>
 
 
@@ -102,10 +85,12 @@ let player_current =new Object ;//player;
 								
 							
                         <div id="vimeo_<?php echo $one_vimeo['id']?>" class="<?php if(isset($last_opened['id']) && $one_vimeo['id']==$last_opened['id']) echo 'uk-open'; else echo 'pt-2'?>">
+
                             <a class="uk-accordion-title text-md mx-2 font-semibold modulo_vimeo" href="#">  
                                 <!-- <div class="mb-1 text-sm font-medium"> <?php echo lang('front.field_section')?> <?php echo $k+1?> </div> -->
                                 <span id="vimeo_title_<?php echo $one_vimeo['id']?>"> &nbsp;</span> 
                             </a>
+
                             <div class="uk-accordion-content mt-3">
                              
                                 <ul class="course-curriculum-list" id="list_chapter_module_<?php echo $one_vimeo['id']?>">
@@ -318,6 +303,7 @@ let player_current =new Object ;//player;
 			var str=minutes + ":" + seconds;
 			if(hours>0) str=hours + ":"+str;
 			//if(val.startTime<=<?php echo $vimeo_position?>)
+
                 let sezione = $($("#list_chapter_module_<?php echo $one_vimeo['id']?>") .parent()
                                                                         .parent()
                                                                         .first('.modulo_vimeo')
@@ -339,6 +325,7 @@ let player_current =new Object ;//player;
                                                                                                 ");
                                    
                 // <li onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\"><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>
+
 			/*else{
 				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li uk-toggle=\"target: #modal-example \" ><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
 			}*/

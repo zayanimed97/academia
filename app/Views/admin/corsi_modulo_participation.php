@@ -106,10 +106,7 @@
                                                        <?php if($inf_corsi['buy_type']=='date'){?>
 													   <th><?php echo lang('app.field_date_session')?></th>	
 													   <?php } ?>
-													   <th><?php echo lang('app.field_date_confirmation')?></th>
-													<?php if($inf_corsi['tipologia_corsi']=='webinar'){?>	
-													 <th><?php echo lang('app.field_date_confirmation_zoom')?></th>
-													 <?php } ?>													
+													   <th><?php echo lang('app.field_date_confirmation')?></th>	
                                                     </tr>
                                                 </thead>
                                             
@@ -127,10 +124,7 @@
                                                         <td><?php if(isset($arg['date_session']) && $arg['date_session']!="") echo date('d/m/Y',strtotime($arg['date_session'])) ?></td>
 														 <?php } ?>
 														 <td><?php if($arg['confirm_mail']!="") echo date('d/m/Y',strtotime($arg['confirm_mail'])) ?></td>
-															<?php if($inf_corsi['tipologia_corsi']=='webinar'){?>	
-													 <td><?php echo $arg['confirm_zoom'] ?? ""?></td>
-													 <?php } ?>		
-												   </tr>
+                                                    </tr>
                                                     <?php } ?>
                                                 </tbody>
                                             </table>

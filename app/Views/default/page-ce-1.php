@@ -1,3 +1,4 @@
+
 <?= view($view_folder.'/common/header') ?>
 	<div class="uk-sticky-placeholder" style="height: 72px; margin: 0px;"></div>
 	<!--  breadcrumb -->

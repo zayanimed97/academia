@@ -72,12 +72,12 @@
                                         <form method="post" action="<?= base_url('admin/profile/'. $profile_menu) ?>"  id='add_seo_form'>
 										<input type="hidden" name="profile_menu" value="<?php echo $profile_menu?>">
 										<input type="hidden" name="profile_menu2" value="seo">
-														<h4>Configurazione della SEO</h4>
+														<h4>Pixel e Codice di monitiraggio</h4>
 														
                                                         <div class="row">
 															  <div class="col-12 col-md-6">
                                                                 <div class="form-group row mb-3">
-                                                                    <label class="col-md-3 col-form-label" for="cognome"> Facebook Pixel ID</label>
+                                                                    <label class="col-md-3 col-form-label" for="cognome">Pixel di Facebook</label>
                                                                     <div class="col-md-9">
                                                                         <input placeholder="123123123123" type="text" id="facebook_pixel" name="facebook_pixel" class="form-control" value="<?= $facebook_pixel ?? '' ?>">
                                                                     </div>
