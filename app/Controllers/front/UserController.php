@@ -86,18 +86,18 @@ class UserController extends BaseController
 					if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
-					/*	 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
 						if($SMTP!="") $vals=json_decode($SMTP,true);
 					
 						if(!empty($vals)){
-							if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
-							if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+							if(isset($vals['sender_name'])) $sender_name=$vals['sender_name']; else  $sender_name=$common_data['settings']['sender_name'];
+							if(isset($vals['sender_email'])) $sender_email=$vals['sender_email']; else  $sender_email=$common_data['settings']['sender_email'];
 							$email->protocol='smtp';
 							$email->SMTPHost=$vals['host'];
 							$email->SMTPUser=$vals['username'];
 							$email->SMTPPass=$vals['password'];
 							$email->SMTPPort=$vals['port'];
-						}*/
+						}
 						$temp=$this->TemplatesModel->where('module','subscribe_confirmation')->where('id_ente',$common_data['selected_ente']['id'])->find();
 					}
 					$email->setFrom($sender_email,$sender_name);
@@ -288,18 +288,18 @@ class UserController extends BaseController
 					if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
-					/*	 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
 						if($SMTP!="") $vals=json_decode($SMTP,true);
 					
 						if(!empty($vals)){
-							if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
-							if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+							if(isset($vals['sender_name'])) $sender_name=$vals['sender_name']; else  $sender_name=$common_data['settings']['sender_name'];
+					if(isset($vals['sender_email'])) $sender_email=$vals['sender_email']; else  $sender_email=$common_data['settings']['sender_email'];
 							$email->protocol='smtp';
 							$email->SMTPHost=$vals['host'];
 							$email->SMTPUser=$vals['username'];
 							$email->SMTPPass=$vals['password'];
 							$email->SMTPPort=$vals['port'];
-						}*/
+						}
 						$temp=$this->TemplatesModel->where('module','forgot_pass')->where('id_ente',$common_data['selected_ente']['id'])->find();
 					}
 					$email->setFrom($sender_email,$sender_name);
@@ -742,7 +742,7 @@ class UserController extends BaseController
 						$email = \Config\Services::email();
 						$sender_name=$common_data['settings']['sender_name'];
 						$sender_email=$common_data['settings']['sender_email'];
-						$email->setFrom($sender_email,$sender_name);
+						
 						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
@@ -750,8 +750,8 @@ class UserController extends BaseController
 							if($SMTP!="") $vals=json_decode($SMTP,true);
 						
 							if(!empty($vals)){
-								if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
-								if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+								if(isset($vals['sender_name'])) $sender_name=$vals['sender_name']; else  $sender_name=$common_data['settings']['sender_name'];
+					if(isset($vals['sender_email'])) $sender_email=$vals['sender_email']; else  $sender_email=$common_data['settings']['sender_email'];
 								
 								$email->SMTPHost=$vals['host'];
 								$email->SMTPUser=$vals['username'];
@@ -760,6 +760,7 @@ class UserController extends BaseController
 							}
 							
 						}
+						$email->setFrom($sender_email,$sender_name);
 						$email->setTo($inf_user['email']);
 					$email->setCc($common_data['selected_ente']['email']);
 						$email->setSubject($temp[0]['subject']);

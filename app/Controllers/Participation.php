@@ -118,22 +118,23 @@ class Participation extends BaseController
 			$name=$inf_profile['nome'].' '.$inf_profile['cognome'];
 			
 			$email = \Config\Services::email();
-			$email->setFrom($common_data['settings']['sender_email'],$common_data['settings']['sender_name']);
+			
 			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
 				if($SMTP!="") $vals=json_decode($SMTP,true);
-			
+			 $sender_name=$common_data['settings']['sender_name'];
+			 $sender_email=$common_data['settings']['sender_email'];
 				if(!empty($vals)){
-					if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
-					if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+					if(isset($vals['sender_name'])  && $vals['sender_name']!="") $sender_name=$vals['sender_name']; else $sender_name=$common_data['settings']['sender_name'];
+					if(isset($vals['sender_email']) && $vals['sender_email']!="") $sender_email=$vals['sender_email']; else $sender_email=$common_data['settings']['sender_email'];
 					
 					$email->SMTPHost=$vals['host'];
 					$email->SMTPUser=$vals['username'];
 					$email->SMTPPass=$vals['password'];
 					$email->SMTPPort=$vals['port'];
 				}
-				
+		
 			
-			
+				$email->setFrom($sender_email,$sender_name);
 			$email->setTo($inf['email']);
 			//$email->setBCC('segreteria@dentalcampus.it');
 			$link=base_url('user/login');
@@ -149,7 +150,8 @@ class Participation extends BaseController
 			$xxx=$email->send();
 			
 			$yy=$this->NotifLogModel->insert(array('id_participant'=>$id_user,'type'=>'email','user_to'=>$inf['email'],'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
-		if($redirect=='yes')
+	//var_dump($email); exit;
+	if($redirect=='yes')
 			return redirect()->back()->with('success', lang('app.success_send_credential'));
 		else return true;
 	}
@@ -173,20 +175,21 @@ class Participation extends BaseController
 			}
 			
 			$email = \Config\Services::email();
-			$email->setFrom($common_data['settings']['sender_email'],$common_data['settings']['sender_name']);
+		$sender_name=$common_data['settings']['sender_name'];
+		$sender_email=$common_data['settings']['sender_email'];
 			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
 				if($SMTP!="") $vals=json_decode($SMTP,true);
 			
 				if(!empty($vals)){
-					if(isset($vals['sender_name'])) $sender_name=$vals['sender_name']; else  $sender_name=common_data['settings']['sender_name'];
-					if(isset($vals['sender_email'])) $sender_email=$vals['sender_email']; else  $sender_email=common_data['settings']['sender_email'];
+					if(isset($vals['sender_name'])) $sender_name=$vals['sender_name']; else  $sender_name=$common_data['settings']['sender_name'];
+					if(isset($vals['sender_email'])) $sender_email=$vals['sender_email']; else  $sender_email=$common_data['settings']['sender_email'];
 					$email->setFrom($sender_email,$sender_name);
 					$email->SMTPHost=$vals['host'];
 					$email->SMTPUser=$vals['username'];
 					$email->SMTPPass=$vals['password'];
 					$email->SMTPPort=$vals['port'];
 				}
-		
+			$email->setFrom($sender_email,$sender_name);
 			$email->setTo($inf['email']);
 
 		
@@ -241,9 +244,25 @@ if(!empty($tab_incontro)){
 
 			$link_confirm="<a href='".base_url('confirm_participation_by_mail/'.$infp['id'].'/'.$inf['id'])."'>Conferma partecipazione</a>";
 			$email = \Config\Services::email();
+			$sender_name=$common_data['settings']['sender_name'];
+		$sender_email=$common_data['settings']['sender_email'];
+			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+				if($SMTP!="") $vals=json_decode($SMTP,true);
+			
+				if(!empty($vals)){
+					if(isset($vals['sender_name'])) $sender_name=$vals['sender_name']; else  $sender_name=$common_data['settings']['sender_name'];
+					if(isset($vals['sender_email'])) $sender_email=$vals['sender_email']; else  $sender_email=$common_data['settings']['sender_email'];
+					$email->setFrom($sender_email,$sender_name);
+					$email->SMTPHost=$vals['host'];
+					$email->SMTPUser=$vals['username'];
+					$email->SMTPPass=$vals['password'];
+					$email->SMTPPort=$vals['port'];
+				}
+			
+			
 			$email->clear(true);	
 			
-			$z=$email->setFrom($settings['sender_email'],$settings['sender_name']);
+			$email->setFrom($sender_email,$sender_name);
 		
 			$email->setTo($inf['email']);
 			
