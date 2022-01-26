@@ -67,7 +67,7 @@ class Cron extends BaseController
 						$email = \Config\Services::email();
 						$sender_name=$settings['sender_name'];
 						$sender_email=$settings['sender_email'];
-						$email->setFrom($sender_email,$sender_name);
+						
 						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
@@ -75,8 +75,8 @@ class Cron extends BaseController
 							if($SMTP!="") $vals=json_decode($SMTP,true);
 						
 							if(!empty($vals)){
-								if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
-								if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+							if(isset($vals['sender_name'])) $sender_name=$vals['sender_name']; else  $sender_name=$common_data['settings']['sender_name'];
+					if(isset($vals['sender_email'])) $sender_email=$vals['sender_email']; else  $sender_email=$common_data['settings']['sender_email'];
 								
 								$email->SMTPHost=$vals['host'];
 								$email->SMTPUser=$vals['username'];
@@ -85,7 +85,7 @@ class Cron extends BaseController
 							}
 							
 						}
-					
+					$email->setFrom($sender_email,$sender_name);
 						 $to=$inf_user['email'];
 						$email->setTo($to);
 					
@@ -151,7 +151,7 @@ class Cron extends BaseController
 						$email = \Config\Services::email();
 						$sender_name=$settings['sender_name'];
 						$sender_email=$settings['sender_email'];
-						$email->setFrom($sender_email,$sender_name);
+						
 						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
@@ -159,8 +159,8 @@ class Cron extends BaseController
 							if($SMTP!="") $vals=json_decode($SMTP,true);
 						
 							if(!empty($vals)){
-								if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
-								if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+								if(isset($vals['sender_name'])) $sender_name=$vals['sender_name']; else  $sender_name=$common_data['settings']['sender_name'];
+					if(isset($vals['sender_email'])) $sender_email=$vals['sender_email']; else  $sender_email=$common_data['settings']['sender_email'];
 								
 								$email->SMTPHost=$vals['host'];
 								$email->SMTPUser=$vals['username'];
@@ -169,7 +169,7 @@ class Cron extends BaseController
 							}
 							
 						}
-					
+					$email->setFrom($sender_email,$sender_name);
 						 $to=$inf_user['email'];
 						$email->setTo($to);
 					

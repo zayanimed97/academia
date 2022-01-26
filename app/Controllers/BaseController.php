@@ -476,7 +476,7 @@ class BaseController extends Controller
 						$email = \Config\Services::email();
 						$sender_name=$common_data['settings']['sender_name'];
 						$sender_email=$common_data['settings']['sender_email'];
-						$email->setFrom($sender_email,$sender_name);
+					
 						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
@@ -484,9 +484,9 @@ class BaseController extends Controller
 							if($SMTP!="") $vals=json_decode($SMTP,true);
 						
 							if(!empty($vals)){
-								if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
-								if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
-								
+									if(isset($vals['sender_name'])  && $vals['sender_name']!="") $sender_name=$vals['sender_name']; else $sender_name=$common_data['settings']['sender_name'];
+									if(isset($vals['sender_email']) && $vals['sender_email']!="") $sender_email=$vals['sender_email']; else $sender_email=$common_data['settings']['sender_email'];
+					
 								$email->SMTPHost=$vals['host'];
 								$email->SMTPUser=$vals['username'];
 								$email->SMTPPass=$vals['password'];
@@ -494,6 +494,7 @@ class BaseController extends Controller
 							}
 							
 						}
+							$email->setFrom($sender_email,$sender_name);
 						$inf_user=$this->UserModel->find($inf_cart['id_user']);
 						$email->setTo($inf_user['email']);
 						$email->setCc($inf_ente['email']);
@@ -723,7 +724,23 @@ class BaseController extends Controller
 			$email = \Config\Services::email();
 			$sender_name=$settings['sender_name'];
 			$sender_email=$settings['sender_email'];
-			$email->setFrom($sender_email,$sender_name);
+			
+			
+			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+				if($SMTP!="") $vals=json_decode($SMTP,true);
+			
+				if(!empty($vals)){
+					if(isset($vals['sender_name'])  && $vals['sender_name']!="") $sender_name=$vals['sender_name']; else $sender_name=$settings['sender_name'];
+					if(isset($vals['sender_email']) && $vals['sender_email']!="") $sender_email=$vals['sender_email']; else $sender_email=$settings['sender_email'];
+					
+					$email->SMTPHost=$vals['host'];
+					$email->SMTPUser=$vals['username'];
+					$email->SMTPPass=$vals['password'];
+					$email->SMTPPort=$vals['port'];
+				}
+		
+			
+				$email->setFrom($sender_email,$sender_name);
 				
 			$email->setTo($inf_participant['email']);
 			$email->setSubject($temp[0]['subject']);

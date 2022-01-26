@@ -165,18 +165,18 @@ class Users extends BaseController
 					if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
-					/*	 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
 						if($SMTP!="") $vals=json_decode($SMTP,true);
 					
 						if(!empty($vals)){
-							if(isset($vals['sender_name'])) $sender_name=$vals['sender_name'];
-							if(isset($vals['sender_email'])) $sender_email=$vals['sender_email'];
+							if(isset($vals['sender_name'])) $sender_name=$vals['sender_name']; else  $sender_name=$common_data['settings']['sender_name'];
+					if(isset($vals['sender_email'])) $sender_email=$vals['sender_email']; else  $sender_email=$common_data['settings']['sender_email'];
 							$email->protocol='smtp';
 							$email->SMTPHost=$vals['host'];
 							$email->SMTPUser=$vals['username'];
 							$email->SMTPPass=$vals['password'];
 							$email->SMTPPort=$vals['port'];
-						}*/
+						}
 						$temp=$this->TemplatesModel->where('module','forgot_pass')->where('id_ente',$common_data['selected_ente']['id'])->find();
 					}
 					$email->setFrom($sender_email,$sender_name);
@@ -574,8 +574,22 @@ class Users extends BaseController
 				));
 				
 				$email = \Config\Services::email();
-
-				$email->setFrom($common_data['settings']['sender_email'], $common_data['settings']['sender_name']);
+				$sender_name=$common_data['settings']['sender_name'];
+				$sender_email=$common_data['settings']['sender_email'];
+				$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+				if($SMTP!="") $vals=json_decode($SMTP,true);
+			
+				if(!empty($vals)){
+					if(isset($vals['sender_name'])) $sender_name=$vals['sender_name']; else  $sender_name=$common_data['settings']['sender_name'];
+					if(isset($vals['sender_email'])) $sender_email=$vals['sender_email']; else  $sender_email=$common_data['settings']['sender_email'];
+					$email->setFrom($sender_email,$sender_name);
+					$email->SMTPHost=$vals['host'];
+					$email->SMTPUser=$vals['username'];
+					$email->SMTPPass=$vals['password'];
+					$email->SMTPPort=$vals['port'];
+				}
+				$email->setFrom($sender_email,$sender_name);
+				
 				$email->setTo($this->request->getVar('email'));
 				$temp=$this->TemplatesModel->where('module','new_pass')->find();
 				$link=base_url('newpassword/'.$this->request->getVar('email').'/'.$token);
