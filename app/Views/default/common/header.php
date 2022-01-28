@@ -8,6 +8,7 @@
                                             c.tipologia_corsi, 
                                             SUM(case when c.tipologia_corsi = "aula" then 1 else 0 end) as sum_aula, 
                                             SUM(case when c.tipologia_corsi = "webinar" then 1 else 0 end) as sum_webinar, 
+                                            SUM(case when c.tipologia_corsi = "eBook" then 1 else 0 end) as sum_eBook, 
                                             SUM(case when c.tipologia_corsi = "online" then 1 else 0 end) as sum_online')
                                 ->find();
 
@@ -20,6 +21,7 @@
                                             argomenti.idargomenti as arg_id, 
                                             SUM(case when c.tipologia_corsi = "aula" then 1 else 0 end) as sum_aula, 
                                             SUM(case when c.tipologia_corsi = "webinar" then 1 else 0 end) as sum_webinar, 
+                                            SUM(case when c.tipologia_corsi = "eBook" then 1 else 0 end) as sum_eBook, 
                                             SUM(case when c.tipologia_corsi = "online" then 1 else 0 end) as sum_online')
                                 ->find();
     $tipoCount = $CorsiModel    ->where('id_ente', $selected_ente['id'])
@@ -28,6 +30,7 @@
                                 ->select('  
                                             SUM(case when tipologia_corsi = "aula" then 1 else 0 end) as aula, 
                                             SUM(case when tipologia_corsi = "webinar" then 1 else 0 end) as webinar, 
+                                            SUM(case when tipologia_corsi = "eBook" then 1 else 0 end) as eBook, 
                                             SUM(case when tipologia_corsi = "online" then 1 else 0 end) as online')
                                 ->first();
         //  echo '<pre>';
@@ -306,6 +309,12 @@
 								if(in_array('aula',$ente_package['type_cours']) && $tipoCount['aula'] > 0){?>
 								  <li> 
                                 <a href="<?= base_url('corsi') ?>?tipo=aula"> <?php echo $type_cours['aula'] ?? 'Aula'?> (<?= $tipoCount['aula'] ?>)</a> 
+								</li>
+								<?php } 
+                                
+                                if(in_array('eBook',$ente_package['type_cours']) && $tipoCount['eBook'] > 0){?>
+								  <li> 
+                                <a href="<?= base_url('corsi') ?>?tipo=eBook"> <?php echo $type_cours['eBook'] ?? 'eBook'?> (<?= $tipoCount['eBook'] ?>)</a> 
 								</li>
 								<?php } ?>
                            <!-- <li> <a href="categories.html" class="active"> Categories </a></li>

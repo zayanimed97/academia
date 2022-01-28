@@ -202,7 +202,16 @@ a[disabled] {
                         </div>
                         <?php } ?>
                         <!-- <br> -->
-
+                        <?php if($tipoCount['eBook'] > 0) { ?>
+                        <div>
+                                <label class='checkbox blue flex items-center'>
+                                    <input type='checkbox' name="tipo[]" @change="changeUrl" x-model="tipo" value="eBook">
+                                    <span class='indicator'></span>
+                                    <p><?php echo $type_cours['eBook'] ?? 'eBook'?> (<?= $tipoCount['eBook'] ?>)</p> 
+                                </label>
+                            <!-- </select> -->
+                        </div>
+                        <?php } ?>
                     </div>
 
 
