@@ -71,7 +71,7 @@
 												 <li class="nav-item" data-target-form="#packageForm">
                                                     <a href="#tab_attachment" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                                         <i class="mdi mdi-link mr-1"></i>
-                                                        <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi_attachment')?></span>
+                                                        <span class="d-none d-sm-inline" id="materiali"><?php echo lang('app.menu_corsi_attachment')?></span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item" data-target-form="#profileForm">
@@ -394,7 +394,7 @@
 											<div class="col-md-4" id="div_alberghi" style="display:none">
 									
 											</div>															 
-										 <div class="col-md-4">
+										 <div class="col-md-4" id="div_duration">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_duration')?> </label>
 																	<?php $val="";
@@ -648,7 +648,7 @@
 																			<label for="buy_type_date"> <?php echo lang('app.field_buy_type_date')?> </label>
 																		
 																		</div>
-                                                                        <div class="radio form-check-inline">
+                                                                        <div class="radio form-check-inline" id="div_buy_type_modulo">
 																			<input type="radio" name="buy_type" id="buy_type_modulo" value="module" checked >
 																			<label for="buy_type_modulo"> <?php echo lang('app.field_buy_type_modulo')?> </label>
 																		
@@ -857,7 +857,7 @@
 																  <div class="col-sm-11">
 																 
 																	<a href="#add-modal-dialog" data-toggle="modal"  name="add" class="btn btn-success float-right" style="margin-left:10px"><?php echo  lang('app.btn_add')?></a>&nbsp;
-																	<a href="#list-modal-dialog" data-toggle="modal"  name="list" class="btn btn-warning float-right"><?php echo  lang('app.btn_list')?></a>
+																	<a href="#list-modal-dialog" data-toggle="modal"  name="list" id="listPdfs" class="btn btn-warning float-right"><?php echo  lang('app.btn_list')?></a>
 																  
 																  <div class="row m-t-20" style="margin-top:20px">
 																	<div class="table-responsive">
@@ -1185,7 +1185,7 @@
 											  <label class="form-check-label" for="inlineCheckbox1"><?php echo $one_customer['pdfname']?></label>
 									</div></td>
 										
-										<td class="text-center"><a target="_blank" href="<?php echo base_url('uploads/corsiPDF/'.$one_customer['filename'])?>" class="btn btn-default btn-xs btn-rounded p-l-10 p-r-10"><i class="fa fa-download"></i> <?php echo lang('app.action_download')?></a></td>
+										<td class="text-center"><a target="_blank" href="<?= base_url('user/getFile/'.$one_customer['id']) ?>" class="btn btn-default btn-xs btn-rounded p-l-10 p-r-10"><i class="fa fa-download"></i> <?php echo lang('app.action_download')?></a></td>
 									</tr>
 								<?php }?>	
 								</tbody>
@@ -1583,6 +1583,10 @@ $("input[name='buy_type']").change(function(){
 		$("#div_buy_type_date").hide(0);
 		$("#div_luoghi").hide(0);
 		$("#div_alberghi").hide(0);
+		$("#div_duration").show(0);
+		$("#buy_type_modulo").show();
+		$("#listPdfs").show();
+		$('#materiali').html("<?php echo lang('app.menu_corsi_attachment')?>");
 		if(v=='aula' || v=='webinar'){
 			$("#div_inscrizione_aula").show(0);
 			$("#div_nb_person_aula").show(0);
@@ -1591,6 +1595,15 @@ $("input[name='buy_type']").change(function(){
 				$("#div_luoghi").show(0);
 				$("#div_alberghi").show(0);
 			}
+		}
+		else if(v=='eBook'){
+			$("#div_inscrizione_aula").hide(0);
+			$("#div_nb_person_aula").hide(0);
+			$("#div_duration").hide(0);
+			$("#buy_type_cours").click();
+			$("#buy_type_modulo").hide();
+			$("#listPdfs").hide();
+			$('#materiali').html("eBook");
 		}
 		else{
 			$("#div_inscrizione_aula").hide(0);

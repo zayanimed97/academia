@@ -537,6 +537,10 @@ class UserController extends BaseController
 			$res[$inf_modulo['id_corsi']][]=$vv; 
 		 }
 		 $data['list']=$res;
+		  	// echo '<pre>';
+			// print_r($res);
+			// echo '</pre>';
+			// exit;
 		return view($common_data['view_folder'].'/user_participation.php',$data);
 	}
 	
@@ -566,7 +570,6 @@ class UserController extends BaseController
                                                             ')
                                                     ->groupBy('corsi_modulo.id')
                                                     ->first();
-				
 				$pdf_ids = explode(',',$data['module']['ids_pdf']);
 					
 				$data['pdfs'] = $this->CorsiPDFLibModel->whereIn('id', $pdf_ids ?: ['impossible value'])->where('enable', 'yes')->where('id_ente', $common_data['selected_ente']['id'])->where('banned', 'no')->find();
@@ -640,6 +643,9 @@ class UserController extends BaseController
 				case 'webinar':
 					$view_page='user_participation_modulo_webinar.php';
 					$data['dates'] = $this->CorsiModuloDateModel->where('id_modulo', $module['id'])->where('banned', 'no')->find();
+				break;
+				case 'eBook':
+					$view_page='user_participation_modulo_ebook.php';
 				break;
 			}
 		

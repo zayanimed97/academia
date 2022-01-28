@@ -2,6 +2,11 @@
 
 namespace App\Controllers;
 use CodeIgniter\I18n\Time;
+use Aws\S3\S3Client;
+use Aws\S3\MultipartUploader;
+use Aws\Exception\MultipartUploadException;
+use Aws\S3\ObjectUploader;
+
 class Ajax extends BaseController
 {
     public function index()
@@ -189,11 +194,53 @@ class Ajax extends BaseController
 				  <label class="form-check-label" for="inlineCheckbox1"><?php echo $inf_pdf['pdfname']?></label>
 		</div></td>
 			
-			<td class="text-center"><a target="_blank" href="<?php echo base_url('uploads/corsiPDF/'.$inf_pdf['filename'])?>" class="btn btn-default btn-xs btn-rounded p-l-10 p-r-10"><i class="fa fa-download"></i> <?php echo lang('app.action_download')?></a></td>
+			<td class="text-center"><a target="_blank" href="<?php echo base_url('user/getFile/'.$inf_pdf['id'])?>" class="btn btn-default btn-xs btn-rounded p-l-10 p-r-10"><i class="fa fa-download"></i> <?php echo lang('app.action_download')?></a></td>
 		</tr>
 		<?php }
 	}
 	
+
+	public function downloads3($id)
+	{
+		$common_data=$this->common_data();
+		$resource = $this->CorsiPDFLibModel->where('id', $id)->where('id_ente', $common_data['selected_ente']['id'])->first();
+		if ($resource) {
+			if (strpos($resource['filename'], 'amazonaws') == false) {
+				header("Location: ".base_url("uploads/corsiPDF/{$resource['filename']}"));
+				exit;
+			}
+			$bucket = "auledigitali";
+			$keyname = str_replace('https://auledigitali.s3.eu-central-1.amazonaws.com/','',$resource['filename']);
+			
+				//Create a S3Client
+			$s3 = new S3Client([
+				'version' => 'latest',
+				'region'  => 'eu-central-1',
+				'credentials' => [
+					'key'    => config('aws_s3')->key,
+					'secret' => config('aws_s3')->secret ,
+				],
+			]);
+			
+			try {
+				// Get the object.
+				$result = $s3->getObject([
+					'Bucket' => $bucket,
+					'Key'    => $keyname,
+				]);
+			
+				// Display the object in the browser.
+				$nameArray = explode('/', $keyname);
+				header("Content-Type: {$result['ContentType']}");
+				header('Content-Disposition: attachment; filename="'.end($nameArray).'"');
+
+				echo $result['Body'];exit;
+			} catch (S3Exception $e) {
+				echo $e->getMessage() . PHP_EOL;
+			}
+		}
+	}
+
 		public function add_pdf(){
 	$common_data=$this->common_data();
 	if(!is_null($this->request->getVar('status'))) $enable="yes"; else $enable="no";
@@ -207,15 +254,52 @@ class Ajax extends BaseController
 			],
 		]);
 		
-		if ($validated) { 
+		if ($validated) {
 			$avatar_logo = $this->request->getFile('filename');
-			 $logo_name = $avatar_logo->getRandomName();
+			$logo_name = $avatar_logo->getRandomName();
+
+
+
+
+
+
+
+
+
+
+			$bucket = 'auledigitali';
+			$keyname = "{$common_data['selected_ente']['domain_ente']}/pdf/$logo_name";
 			
-			$avatar_logo->move(ROOTPATH.'public/uploads/corsiPDF/',$logo_name);
+			// $filepath should be an absolute path to a file on disk.
+			$filepath = $avatar_logo;
+			
+			$s3 = new S3Client([
+				'version' => 'latest',
+				'region'  => 'eu-central-1',
+				'credentials' => [
+					'key'    => config('aws_s3')->key,
+					'secret' => config('aws_s3')->secret ,
+				],
+			]);
+			
+			// Upload a file with server-side encryption.
+			$result = $s3->putObject([
+				'Bucket'               => $bucket,
+				'Key'                  => $keyname,
+				'SourceFile'           => $filepath,
+				'ServerSideEncryption' => 'AES256',
+			]);
+
+
+
+				// https://auledigitali.s3.eu-central-1.amazonaws.com/1643298379_e1414fc474abfa9b2a45.pdf
+
+			
+			// $avatar_logo->move(ROOTPATH.'public/uploads/corsiPDF/',$logo_name);
 		$data=array(
-		'id_ente'=>$common_data['user_data']['id'],
+			'id_ente'=>$common_data['user_data']['id'],
 			'pdfname'=>$this->request->getVar('pdfname'),
-			'filename'=>$logo_name,
+			'filename'=>$result['ObjectURL'],
 			'enable'=>$enable,
 			'featured'=>$featured,
 			'accesso'=>$this->request->getVar('accesso'),

@@ -102,7 +102,7 @@
 												 <li class="nav-item" data-target-form="#packageForm">
                                                     <a href="#tab_attachment" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                                         <i class="mdi mdi-link mr-1"></i>
-                                                        <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi_attachment')?></span>
+														<span class="d-none d-sm-inline"><?php echo $inf_corsi['tipologia_corsi'] == 'eBook' ? 'eBook' : lang('app.menu_corsi_attachment')?></span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item" data-target-form="#profileForm">
@@ -274,7 +274,7 @@
 																  
 																</div>
 															</div>
-															<?php if($inf_corsi['tipologia_corsi']!="online"){?>
+															<?php if($inf_corsi['tipologia_corsi']!="online" && $inf_corsi['tipologia_corsi']!="eBook"){?>
 															<div class="col-md-2" id="div_inscrizione_aula" >
 											 <div class="form-group">
                                                 <label for="acc-mname"><?php echo lang('app.field_inscrizione_aula')?></label>
@@ -320,7 +320,8 @@
 										 </div>
 															<?php } ?>
 										
-										  <div class="col-md-4">
+											<?php if($inf_corsi['tipologia_corsi']!="eBook"){?>
+										  		<div class="col-md-4">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_duration')?> </label>
 																	<?php $val=$inf_modulo['duration'];
@@ -340,6 +341,7 @@
 																  
 																</div>
 															</div>
+															<?php } ?>
 											<div class="col-md-4">
 													<div class="form-group required-field">
 														<label for="acc-lastname">difficoltà </label>
@@ -1105,7 +1107,9 @@
 																  <div class="col-sm-11">
 																 
 																	<a href="#add-modal-dialog" data-toggle="modal"  name="add" class="btn btn-success float-right" style="margin-left:10px"><?php echo  lang('app.btn_add')?></a>&nbsp;
-																	<a href="#list-modal-dialog" data-toggle="modal"  name="list" class="btn btn-warning float-right"><?php echo  lang('app.btn_list')?></a>
+																	<?php if($inf_corsi['tipologia_corsi']!="eBook"){?>
+																		<a href="#list-modal-dialog" data-toggle="modal"  name="list" class="btn btn-warning float-right"><?php echo  lang('app.btn_list')?></a>
+																	<?php } ?>
 																  
 																  <div class="row m-t-20" style="margin-top:20px">
 																	<div class="table-responsive">
@@ -1132,7 +1136,7 @@
 																					  <label class="form-check-label" for="inlineCheckbox1"><?php echo $v['pdfname']?></label>
 																			</div></td>
 																				
-																				<td class="text-center"><a target="_blank" href="<?php echo base_url('uploads/corsiPDF/'.$v['filename'])?>" class="btn btn-default btn-xs btn-rounded p-l-10 p-r-10"><i class="fa fa-download"></i> <?php echo lang('app.action_download')?></a></td>
+																				<td class="text-center"><a target="_blank" href="<?= base_url('user/getFile/'.$v['id']) ?>" class="btn btn-default btn-xs btn-rounded p-l-10 p-r-10"><i class="fa fa-download"></i> <?php echo lang('app.action_download')?></a></td>
 																			</tr>
 																			<?php } }?>
 																			</tbody>
@@ -1427,7 +1431,7 @@
 											  <label class="form-check-label" for="inlineCheckbox1"><?php echo $one_customer['pdfname']?></label>
 									</div></td>
 										
-										<td class="text-center"><a target="_blank" href="<?php echo base_url('uploads/corsiPDF/'.$one_customer['filename'])?>" class="btn btn-default btn-xs btn-rounded p-l-10 p-r-10"><i class="fa fa-download"></i> <?php echo lang('app.action_download')?></a></td>
+										<td class="text-center"><a target="_blank" href="<?= base_url('user/getFile/'.$one_customer['id']) ?>" class="btn btn-default btn-xs btn-rounded p-l-10 p-r-10"><i class="fa fa-download"></i> <?php echo lang('app.action_download')?></a></td>
 									</tr>
 								<?php }?>	
 								</tbody>

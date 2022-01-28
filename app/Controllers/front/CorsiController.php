@@ -199,7 +199,7 @@ class CorsiController extends BaseController
                                             ->join('categorie cat', 'find_in_set(cat.id, corsi.id_categorie) > 0', 'left')
                                             ->join('argomenti arg', 'arg.idargomenti = corsi.id_argomenti', 'left')
                                             ->join('corsi_prezzo_prof prezz', '(prezz.id_corsi = corsi.id)'. $joinLoggedIn, 'left')
-                                            ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, SUM(cm.crediti) as ECM , pdf.filename as pdf, GROUP_CONCAT(DISTINCT u.display_name) doctor_names, GROUP_CONCAT(DISTINCT cat.titolo) categories, arg.nomeargomento")
+                                            ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, SUM(cm.crediti) as ECM , pdf.id as pdf, GROUP_CONCAT(DISTINCT u.display_name) doctor_names, GROUP_CONCAT(DISTINCT cat.titolo) categories, arg.nomeargomento")
                                             ->groupBy('corsi.id')
                                             ->first();
         // echo '<pre>';

@@ -66,7 +66,7 @@
                                                         <td><?php if($cat['enable']=='yes') echo lang('app.yes'); else echo lang('app.no'); ?></td>
 														<td><?php if($cat['featured']=='yes') echo lang('app.yes'); else echo lang('app.no'); ?></td>
                                                         <td class="row pt-1">
-														<a target="_blank" href="<?php echo base_url('uploads/corsiPDF/'.$cat['filename'])?>" class="btn p-1 mr-2" style="font-size: 1rem"><i class="fa fa-download"></i></a>
+														<a target="_blank" href="<?= base_url('user/getFile/'.$cat['id']) ?>" class="btn p-1 mr-2" style="font-size: 1rem"><i class="fa fa-download"></i></a>
                                                             <button type="button" data-toggle="modal" data-target="#update-category-modal" onclick="updateID(<?= $cat['id'] ?>, '<?= $cat['pdfname'] ?>','<?= $cat['enable'] ?>','<?= $cat['accesso'] ?>','<?= $cat['featured'] ?>')" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-edit"></i>
                                                             </button>
