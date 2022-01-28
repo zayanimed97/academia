@@ -9,6 +9,9 @@ use Aws\S3\ObjectUploader;
 
 class Ajax extends BaseController
 {
+	public function __construct(){
+		ini_set('max_execution_time', 0);
+	}
     public function index()
     {
        
@@ -209,13 +212,13 @@ class Ajax extends BaseController
 				header("Location: ".base_url("uploads/corsiPDF/{$resource['filename']}"));
 				exit;
 			}
-			$bucket = "auledigitali";
-			$keyname = str_replace('https://auledigitali.s3.eu-central-1.amazonaws.com/','',$resource['filename']);
+			$bucket = "appauledigitali";
+			$keyname = str_replace('https://appauledigitali.s3.eu-south-1.amazonaws.com/','',$resource['filename']);
 			
 				//Create a S3Client
 			$s3 = new S3Client([
 				'version' => 'latest',
-				'region'  => 'eu-central-1',
+				'region'  => 'eu-south-1',
 				'credentials' => [
 					'key'    => config('aws_s3')->key,
 					'secret' => config('aws_s3')->secret ,
@@ -267,7 +270,7 @@ class Ajax extends BaseController
 
 
 
-			$bucket = 'auledigitali';
+			$bucket = 'appauledigitali';
 			$keyname = "{$common_data['selected_ente']['domain_ente']}/pdf/$logo_name";
 			
 			// $filepath should be an absolute path to a file on disk.
@@ -275,7 +278,7 @@ class Ajax extends BaseController
 			
 			$s3 = new S3Client([
 				'version' => 'latest',
-				'region'  => 'eu-central-1',
+				'region'  => 'eu-south-1',
 				'credentials' => [
 					'key'    => config('aws_s3')->key,
 					'secret' => config('aws_s3')->secret ,
@@ -292,7 +295,7 @@ class Ajax extends BaseController
 
 
 
-				// https://auledigitali.s3.eu-central-1.amazonaws.com/1643298379_e1414fc474abfa9b2a45.pdf
+				// https://appauledigitali.s3.eu-south-1.amazonaws.com/1643298379_e1414fc474abfa9b2a45.pdf
 
 			
 			// $avatar_logo->move(ROOTPATH.'public/uploads/corsiPDF/',$logo_name);

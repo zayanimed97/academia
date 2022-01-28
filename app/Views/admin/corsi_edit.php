@@ -72,7 +72,7 @@
 												 <li class="nav-item" data-target-form="#packageForm">
                                                     <a href="#tab_attachment" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                                         <i class="mdi mdi-link mr-1"></i>
-                                                        <span class="d-none d-sm-inline" id="materiali"><?php  echo $inf_corsi['tipologia_corsi'] == "eBook" ? 'eBook' : lang('app.menu_corsi_attachment')?></span>
+                                                        <span class="d-none d-sm-inline" id="materiali"><?php  echo (($inf_corsi['tipologia_corsi'] == "eBook") ? 'eBook' : lang('app.menu_corsi_attachment'))?></span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item" data-target-form="#profileForm">
@@ -1496,16 +1496,16 @@
 				}
 				else $("#div_not_free").show(0);
 			});
-			if('<?= $inf_corsi['tipologia_corsi'] ?>')
-			$("#div_inscrizione_aula").hide(0);
-			$("#div_nb_person_aula").hide(0);
-			$("#div_duration").hide(0);
-			$("#buy_type_cours").click();
-			$("#div_buy_type_modulo").hide();
-			$("#div_buy_type_date").hide();
-			$("#listPdfs").hide();
-			$('#materiali').html("eBook");
-		});
+			if(<?= $inf_corsi['tipologia_corsi'] == 'eBook' ? 'true' : 'false' ?>){
+				$("#div_inscrizione_aula").hide(0);
+				$("#div_nb_person_aula").hide(0);
+				$("#div_duration").hide(0);
+				$("#buy_type_cours").click();
+				$("#div_buy_type_modulo").hide();
+				$("#div_buy_type_date").hide();
+				$("#listPdfs").hide();
+				$('#materiali').html("eBook");
+			}});
 </script>
 
 <script>
