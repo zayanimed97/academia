@@ -131,3 +131,4 @@ app/Config/Email.php
 app/Views/default/register2.php
 public/uploads/
 app/Config/Email.php
+app/Config/aws_s3.php
