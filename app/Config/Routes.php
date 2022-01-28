@@ -263,8 +263,10 @@ $routes->group("user", ["filter" => "auth:participant"], function ($routes) {
     $routes->post('preshare', 'front\CartController::preshare');
 
 	  $routes->add('wallet', 'front\UserController::wallet');
+	
 
 });
+$routes->get('/user/getFile/(:any)', 'Ajax::downloads3/$1', ['filter' => 'auth:participant,admin,ente']);
 $routes->add('/contact', 'Home::contact_page'); 
 $routes->add('/page/(:any)', 'Home::page/$1'); 
 $routes->add('/page-ce', 'Home::pagece'); 

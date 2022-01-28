@@ -567,7 +567,7 @@ let player_current =new Object ;//player;
                                                 <span class="icon-material-outline-picture-as-pdf text-xl mr-4"></span> 
                                                 <span><?= $pdf['pdfname'] ?></span> 
                                                 <span class="text-sm ml-auto">
-                                                    <a href="<?= base_url('uploads/corsiPDF/'.$pdf['filename']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> <?php echo lang('front.btn_download_attachment')?> </a>
+                                                    <a href="<?= base_url('user/getFile/'.$pdf['id']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> <?php echo lang('front.btn_download_attachment')?> </a>
                                                 </span>
                                             </li>
                                             <?php } ?>

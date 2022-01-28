@@ -716,7 +716,7 @@ use CodeIgniter\I18n\Time;
 
                             <?php if($corsi['pdf']){ ?>
                                 <div class="mt-4">
-                                    <a href="<?= base_url('uploads/corsiPDF/'.$corsi['pdf']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> <?php echo lang('front.btn_download_attachment')?> </a>
+                                    <a href="<?= base_url('user/getFile/'.$corsi['pdf']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> <?php echo lang('front.btn_download_attachment')?> </a>
                                 </div>
                             <?php } ?>
                         </div>

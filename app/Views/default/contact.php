@@ -29,7 +29,7 @@
 				</div>
 				<div class="lg:flex lg:space-x-4 lg:-mx-4">
 					
-                <div class="lg:w-9/12 lg:space-y-6">
+                <div class="lg:w-8/12 lg:space-y-6">
                     
                     <div class="tube-card">
 
@@ -98,16 +98,16 @@
 
                 </div>
                 <!--  Sidebar  -->
-                <div class="lg:w-80 w-full">
+                <div class="lg:w-auto w-full">
 
                     <div class="space-y-5" uk-sticky="offset:22; bottom:true ; top:30 ; animation: uk-animation-slide-top-small">
 
                         <div class="tube-card p-6">
                             <div class="flex items-start justify-between">
                                 <div>
-                                    <h4 class="text-lg -mb-0.5 font-semibold"> <?php echo lang('front.title_section_contact_ente_email')?> </h4>
+                                    <img src="<?= base_url('front') ?>/assets/images/icons/icon_email.png" style="height:50px;" />
+									<!--h4 class="text-lg -mb-0.5 font-semibold"> <?php //echo lang('front.title_section_contact_ente_email')?> </h4-->
                                 </div>
-                                <a href="#" class="text-blue-600"> <ion-icon name="refresh" class="-mt-0.5 -mr-2 hover:bg-gray-100 p-1.5 rounded-full text-lg md hydrated" role="img" aria-label="refresh"></ion-icon> </a>
                             </div>
                             <ul>
 						<?php	if(isset($settings['contact_email']) && $settings['contact_email']!=""){
@@ -116,8 +116,8 @@
                                 <li>
                                     <a href="mail-to:<?php echo $vv['email_contact']?>" class="hover:bg-gray-50 rounded-md p-2 -mx-2 block">
                                        
-                                        <div class="flex items-center my-auto text-xs space-x-1.5 mt-1.5">
-                                            <div><b><?php echo $vv['email_label']?>:</b>&nbsp;<?php echo $vv['email_contact']?></div>
+                                        <div class="flex items-center my-auto text-base space-x-1.5 mt-1.5">
+                                            <div><b><?php echo $vv['email_label']?>: </b>&nbsp;<?php echo $vv['email_contact']?></div>
                                          
                                        </div> 
                                     </a>
@@ -130,9 +130,9 @@
                      <div class="tube-card p-6">
                             <div class="flex items-start justify-between">
                                 <div>
-                                    <h4 class="text-lg -mb-0.5 font-semibold"> <?php echo lang('front.title_section_contact_ente_phone')?> </h4>
+                                    <img src="<?= base_url('front') ?>/assets/images/icons/icon_phone.png" style="height:50px;"/>
+									<!--h4 class="text-lg -mb-0.5 font-semibold"> <?php //echo lang('front.title_section_contact_ente_phone')?> </h4-->
                                 </div>
-                                <a href="#" class="text-blue-600"> <ion-icon name="refresh" class="-mt-0.5 -mr-2 hover:bg-gray-100 p-1.5 rounded-full text-lg md hydrated" role="img" aria-label="refresh"></ion-icon> </a>
                             </div>
                             <ul>
 						<?php	if(isset($settings['contact_telephone']) && $settings['contact_telephone']!=""){
@@ -141,8 +141,8 @@
                                 <li>
                                     <a href="#" class="hover:bg-gray-50 rounded-md p-2 -mx-2 block">
                                        
-                                        <div class="flex items-center my-auto text-xs space-x-1.5 mt-1.5">
-                                          <div><b><?php echo $vv['phone_label']?>:</b>&nbsp;<?php echo $vv['phone_contact']?></div> 
+                                        <div class="flex items-center my-auto text-base space-x-1.5 mt-1.5">
+                                          <div><b><?php echo $vv['phone_label']?>: </b>&nbsp;<?php echo $vv['phone_contact']?></div> 
                                          
                                        </div> 
                                     </a>
