@@ -91,7 +91,7 @@ $lang['field_section']="sezione";
 $lang['field_tab_modulo']="Data";
 $lang['field_expired_date']="Data di scadenza";
 $lang['field_used']="usato";
-
+$lang['field_tab_ebook']="E-Book";
 $lang['success_share']="Condivizione social avvenuto con successo";
 $lang['share']="Social";
 $lang['apply_coupon']="Applica il codice coupon";
