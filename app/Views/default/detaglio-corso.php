@@ -79,7 +79,7 @@ use CodeIgniter\I18n\Time;
                                 <ul class="space-x-3" uk-scrollspy-nav="closest: li; scroll: true">
                                     <li><a href="#Descrizione" uk-scroll><?php echo lang('front.field_description')?></a></li>
                                     <!-- <li><a href="#Contenuto" uk-scroll>Contenuto del corso</a></li>  -->
-                                    <li><a href="#Moduli" uk-scroll><?php echo lang('front.field_tab_modulo')?></a></li>
+                                    <li><a href="#Moduli" uk-scroll><?php  if($corsi['tipologia_corsi']=='eBook') echo lang('front.field_tab_ebook'); else echo lang('front.field_tab_modulo')?></a></li>
                                     <li><a href="#Curriculum"><?php echo lang('front.field_cv')?> </a></li>
                                     <!-- <li><a href="#reviews">Reviews</a></li> -->
                                 </ul>
@@ -692,7 +692,7 @@ use CodeIgniter\I18n\Time;
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['ECM'] ?? '0' ?> <?= $settings['credits'] ?? 'crediti'?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['duration'] ?? '0min' ?> <?php echo lang('front.field_total')?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['nb_person_aula'] ?? '0' ?> <?php echo lang('front.field_participant')?> </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> <?php echo lang('front.field_modules')?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> <?php if($corsi['tipologia_corsi']=='eBook') echo lang('front.field_tab_ebook'); else echo lang('front.field_modules')?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?php echo lang('front.field_attestation')?>: <?= $corsi['attestato'] ?> </div>
                                     <?php if(strlen($corsi['difficulte']) > 0){ ?>
                                         <div class="flex items-center px-5 py-3">  <ion-icon name="speedometer-outline" class="text-2xl mr-2"></ion-icon> difficoltà : <?= $corsi['difficulte'] ?> </div>
