@@ -163,6 +163,11 @@
 																			<input type="checkbox" name="type_cours[]" id="webinar" value="webinar" <?php if(in_array('webinar',$tab['type_cours'])) echo 'checked'?>>
 																			<label for="webinar"> webinar </label>
 																		</div>
+																		
+																		<div class="checkbox form-check-inline">
+																			<input type="checkbox" name="type_cours[]" id="eBook" value="eBook" <?php if(in_array('eBook',$tab['type_cours'])) echo 'checked'?>>
+																			<label for="webinar"> eBook </label>
+																		</div>
                                                                     </div>
                                                                 </div>
                                                                 

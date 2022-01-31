@@ -156,6 +156,11 @@
 																			<input type="checkbox" name="type_cours[]" id="webinar" value="webinar">
 																			<label for="webinar"> webinar </label>
 																		</div>
+																		
+																		<div class="checkbox form-check-inline">
+																			<input type="checkbox" name="type_cours[]" id="eBook" value="eBook">
+																			<label for="webinar"> eBook </label>
+																		</div>
                                                                     </div>
                                                                 </div>
                                                                 
