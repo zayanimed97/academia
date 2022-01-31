@@ -233,7 +233,7 @@
 								
 								if(in_array('online',$ente_package['type_cours']) && $tipoCount['online'] > 0){?>
                             <li> 
-                                <a href="<?= base_url('corsi') ?>?tipo=online"> <?php echo $type_cours['online'] ?? 'Online'?> (<?= $tipoCount['online'] ?>)</a> 
+                                <a href="<?= base_url('corsi') ?>?tipo=online"> <?php echo $type_cours['online'] ?? 'Online'?> </a> 
                                 <!-- <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
                                         <li> 
@@ -270,7 +270,7 @@
 							
 								if(in_array('webinar',$ente_package['type_cours']) && $tipoCount['webinar'] > 0){?>
                             <li> 
-                                <a href="<?= base_url('corsi') ?>?tipo=webinar"> <?php echo $type_cours['webinar'] ?? 'Webinar'?> (<?= $tipoCount['webinar'] ?>)</a> 
+                                <a href="<?= base_url('corsi') ?>?tipo=webinar"> <?php echo $type_cours['webinar'] ?? 'Webinar'; //( $tipoCount['webinar'] )?> </a> 
                                 <!-- <div uk-drop="mode: click" class="menu-dropdown">
                                     <ul>
                                         <li> 
@@ -308,13 +308,13 @@
 							
 								if(in_array('aula',$ente_package['type_cours']) && $tipoCount['aula'] > 0){?>
 								  <li> 
-                                <a href="<?= base_url('corsi') ?>?tipo=aula"> <?php echo $type_cours['aula'] ?? 'Aula'?> (<?= $tipoCount['aula'] ?>)</a> 
+                                <a href="<?= base_url('corsi') ?>?tipo=aula"> <?php echo $type_cours['aula'] ?? 'Aula'?> </a> 
 								</li>
 								<?php } 
                                 
                                 if(in_array('eBook',$ente_package['type_cours']) && $tipoCount['eBook'] > 0){?>
 								  <li> 
-                                <a href="<?= base_url('corsi') ?>?tipo=eBook"> <?php echo $type_cours['eBook'] ?? 'eBook'?> (<?= $tipoCount['eBook'] ?>)</a> 
+                                <a href="<?= base_url('corsi') ?>?tipo=eBook"> <?php echo $type_cours['eBook'] ?? 'eBook'?></a> 
 								</li>
 								<?php } ?>
                            <!-- <li> <a href="categories.html" class="active"> Categories </a></li>
