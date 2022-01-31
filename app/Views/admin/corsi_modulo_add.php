@@ -232,27 +232,28 @@
 																  
 																</div>
 															</div>
-															  
-															<div class="col-md-3">
+															<?php if($inf_corsi['tipologia_corsi'] != 'eBook'){ ?>
+															<div class="col-md-3" id="div_crediti">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_crediti')?></label>
 																	<?php $val=""; 
-															$input = [
-																	'type'  => 'text',
-																	'name'  => 'crediti',
-																	'id'    => 'crediti',
-																	'required' =>true,
-																	'value' => $val,
-																	'placeholder' =>lang('app.field_crediti'),
-																	'class' => 'form-control'
-																	
-															];
+																		$input = [
+																		'type'  => 'text',
+																		'name'  => 'crediti',
+																		'id'    => 'crediti',
+																		'required' =>true,
+																		'value' => $val,
+																		'placeholder' =>lang('app.field_crediti'),
+																		'class' => 'form-control'
+																		
+																		];
 
-															echo form_input($input);
-															?>
+																		echo form_input($input);
+																	?>
 																  
 																</div>
 															</div>
+															<?php } ?>
 															<div class="col-md-3">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_code')?></label>
@@ -1626,6 +1627,7 @@ $(".corsidate_time_input").flatpickr({
 			$("#div_nb_person_aula").show(0);
 			
 		}
+
 		else{
 			$("#div_inscrizione_aula").hide(0);
 			$("#div_nb_person_aula").hide(0);

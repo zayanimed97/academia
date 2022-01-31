@@ -293,7 +293,7 @@ a[disabled] {
                                                     </div>
                                                     <div class="pt-1 flex items-center justify-between">
                                                         <div class="text-docenti"> <?= $c['doctor_names'] ?>  </div>
-                                                        <div class="text-prezzo"> <?= $c['prezzo'] ?> </div>
+                                                        <div class="text-prezzo <?= $c['prezzo'] == 'gratuita' ? 'text-lg txt-color' : '' ?>"> <?= $c['prezzo'] ?> </div>
                                                     </div>
 												
                                                 <div class="flex justify-between items-center mt-2">

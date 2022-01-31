@@ -14,7 +14,9 @@ $lang['btn_send']="Invia";
 $lang['btn_download_attachment']="Carica Materialli";
 $lang['btn_webinar']="Accedi Zoom";
 $lang['btn_pay']="Vai al pagamento";
+$lang['btn_pay_free']="pretendere gratuitamente";
 $lang['btn_pay2']="Pagamento";
+$lang['btn_pay2_free']="ottenere";
 $lang['btn_play_video']="Play";
 $lang['btn_invoice']="Fattura";
 $lang['btn_details']="Dettagli";
@@ -91,6 +93,7 @@ $lang['field_section']="sezione";
 $lang['field_tab_modulo']="Data";
 $lang['field_expired_date']="Data di scadenza";
 $lang['field_used']="usato";
+$lang['field_tab_ebook']="E-Book";
 
 $lang['success_share']="Condivizione social avvenuto con successo";
 $lang['share']="Social";

@@ -69,7 +69,7 @@
                                                         <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi_gallery')?></span>
                                                     </a>
                                                 </li>
-												 <li class="nav-item" data-target-form="#packageForm">
+												 <li class="nav-item" id="li_tab_attachment" data-target-form="#packageForm">
                                                     <a href="#tab_attachment" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                                         <i class="mdi mdi-link mr-1"></i>
                                                         <span class="d-none d-sm-inline" id="materiali"><?php  echo (($inf_corsi['tipologia_corsi'] == "eBook") ? 'eBook' : lang('app.menu_corsi_attachment'))?></span>
@@ -1504,6 +1504,7 @@
 				$("#div_buy_type_modulo").hide();
 				$("#div_buy_type_date").hide();
 				$("#listPdfs").hide();
+				$("#li_tab_attachment").hide();
 				$('#materiali').html("eBook");
 			}});
 </script>
@@ -1761,6 +1762,7 @@ $("input[name='buy_type']").change(function(){
 		$("#div_duration").show(0);
 		$("#div_buy_type_modulo").show();
 		$("#listPdfs").show();
+		$("#li_tab_attachment").show();
 		$('#materiali').html("<?php echo lang('app.menu_corsi_attachment')?>");
 		if(v=='aula' || v=='webinar'){
 			$("#div_inscrizione_aula").show(0);
@@ -1779,6 +1781,7 @@ $("input[name='buy_type']").change(function(){
 			$("#div_buy_type_modulo").hide();
 			$("#div_buy_type_date").hide();
 			$("#listPdfs").hide();
+			$("#li_tab_attachment").hide();
 			$('#materiali').html("eBook");
 		}
 		else{
