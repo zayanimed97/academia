@@ -52,7 +52,7 @@ use CodeIgniter\I18n\Time;
                             </li> -->
                         </ul>
                         <ul class="lg:flex items-center text-black-200">
-                            <li> <?= $type_cours[$module['tipologia_corsi']] ?> </li>
+                            <li> <?= $type_cours[$module['tipologia_corsi']] ?? $module['tipologia_corsi'] ?> </li>
                             <li> <span class="lg:block hidden mx-3 text-2xl">·</span> </li>
                             <li> <?= $module['categories'] ?> </li>
                         </ul>
@@ -657,7 +657,7 @@ use CodeIgniter\I18n\Time;
                                 <h4 hidden><?php echo lang('front.field_cour_include')?></h4>
         
                                 <div class="-m-5 divide-y divide-gray-200 text-sm">
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?>: <?= $type_cours[$module['tipologia_corsi']] ?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?>: <?= $type_cours[$module['tipologia_corsi']] ?? $module['tipologia_corsi'] ?> </div>
                                     <!-- <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $module['ECM'] ?? '0' ?> Credits </div> -->
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $module['duration'] ?? '0min' ?> <?php echo lang('front.field_total')?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $module['nb_person_aula'] ?? '0' ?> <?php echo lang('front.field_participant')?> </div>

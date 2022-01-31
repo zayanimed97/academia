@@ -68,7 +68,7 @@
                                                         <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi_gallery')?></span>
                                                     </a>
                                                 </li>
-												 <li class="nav-item" data-target-form="#packageForm">
+												 <li class="nav-item" id="li_tab_attachment" data-target-form="#packageForm">
                                                     <a href="#tab_attachment" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                                         <i class="mdi mdi-link mr-1"></i>
                                                         <span class="d-none d-sm-inline" id="materiali"><?php echo lang('app.menu_corsi_attachment')?></span>
@@ -1584,6 +1584,7 @@ $("input[name='buy_type']").change(function(){
 		$("#div_luoghi").hide(0);
 		$("#div_alberghi").hide(0);
 		$("#div_duration").show(0);
+		$("#li_tab_attachment").show(0);
 		$("#buy_type_modulo").show();
 		$("#listPdfs").show();
 		$('#materiali').html("<?php echo lang('app.menu_corsi_attachment')?>");
@@ -1604,6 +1605,7 @@ $("input[name='buy_type']").change(function(){
 			$("#buy_type_modulo").hide();
 			$("#listPdfs").hide();
 			$('#materiali').html("eBook");
+			$("#li_tab_attachment").hide(0);
 		}
 		else{
 			$("#div_inscrizione_aula").hide(0);

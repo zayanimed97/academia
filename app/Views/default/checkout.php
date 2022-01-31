@@ -212,64 +212,67 @@
                                             <input type="text" class="with-border" id="sdi" name="sdi" value="<?= $user['fattura_sdi'] ?>" required>
                                         </div>
                                     </template>
+                                    <template x-if="total > 0">
+                                    <div class="col-span-2">
+                                        <h2 class="col-span-2 text-xl font-semibold md:mb-6 mb-3"> <?php echo lang('front.title_section_payment_method')?></h2>
 
-                                    <h2 class="col-span-2 text-xl font-semibold md:mb-6 mb-3"> <?php echo lang('front.title_section_payment_method')?></h2>
-
-                                    <div class="col-span-2 flex justify-around flex-wrap space-y-4">
-                                        <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '2';}))){ ?>
-                                            <div class="radio w-full md:w-1/2 h-24 mt-4">
-                                                <input id="paypal" name="paymethod" type="radio" x-model="paymethod" value="paypal">
-                                                <label for="paypal" class="h-full w-full">
-                                                    <div class="h-full w-full flex justify-center items-center rounded-lg">
-                                                        <img class="h-full" src="<?= base_url('/front/assets/images/paypal.png') ?>" alt="">
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        <br>
-                                        <?php } ?>
-
-                                        <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '3';}))){ ?>
-                                            <div class="radio w-full md:w-1/2 h-24">
-                                                <input id="stripe" name="paymethod" type="radio" x-model="paymethod" value="stripe">
-                                                <label for="stripe" class="h-full w-full">
-                                                    <div class="h-full w-full flex justify-center items-center rounded-lg">
-                                                        <img class="h-full" src="<?= base_url('/front/assets/images/stripe.png') ?>" alt="">
-                                                    </div>
-                                                </label>
-                                            </div>
+                                        <div class="col-span-2 flex justify-around flex-wrap space-y-4">
+                                            <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '2';}))){ ?>
+                                                <div class="radio w-full md:w-1/2 h-24 mt-4">
+                                                    <input id="paypal" name="paymethod" type="radio" x-model="paymethod" value="paypal">
+                                                    <label for="paypal" class="h-full w-full">
+                                                        <div class="h-full w-full flex justify-center items-center rounded-lg">
+                                                            <img class="h-full" src="<?= base_url('/front/assets/images/paypal.png') ?>" alt="">
+                                                        </div>
+                                                    </label>
+                                                </div>
                                             <br>
-                                        <?php } ?>
+                                            <?php } ?>
+
+                                            <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '3';}))){ ?>
+                                                <div class="radio w-full md:w-1/2 h-24">
+                                                    <input id="stripe" name="paymethod" type="radio" x-model="paymethod" value="stripe">
+                                                    <label for="stripe" class="h-full w-full">
+                                                        <div class="h-full w-full flex justify-center items-center rounded-lg">
+                                                            <img class="h-full" src="<?= base_url('/front/assets/images/stripe.png') ?>" alt="">
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <br>
+                                            <?php } ?>
+
+                                            <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '1';}))){ ?>
+                                                <div class="radio w-full md:w-1/2 h-24">
+                                                    <input id="iban" name="paymethod" type="radio" x-model="paymethod" value="iban">
+                                                    <label for="iban" class="h-full w-full">
+                                                    <div class="h-full w-full flex justify-center items-center rounded-lg">
+                                                        <img class="h-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNwEgcoA0L5KK7goHFzHR9VYChO5SI7i8wpA&usqp=CAU" alt="">
+                                                    </div>
+                                                    </label>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
 
                                         <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '1';}))){ ?>
-                                            <div class="radio w-full md:w-1/2 h-24">
-                                                <input id="iban" name="paymethod" type="radio" x-model="paymethod" value="iban">
-                                                <label for="iban" class="h-full w-full">
-                                                <div class="h-full w-full flex justify-center items-center rounded-lg">
-                                                    <img class="h-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNwEgcoA0L5KK7goHFzHR9VYChO5SI7i8wpA&usqp=CAU" alt="">
+                                        <?php $methIban = array_filter($methods, function($el){return $el['id_method'] == '1';})
+                                        ?>
+                                            <template x-if="paymethod == 'iban'">
+                                                <div class="uk-alert-primary uk-alert col-span-2" uk-alert="">
+                                                <?php $methIban=json_decode($methIban[0]['details']); 
+                                            ?>
+                                                    <p><?php echo lang('front.field_iban')?>: <?php echo $methIban->iban ?></p>
+                                                    <p><?php echo lang('front.field_bank_name')?>: <?php echo $methIban->bank_name ?></p>
+                                                    <p><?php echo lang('front.field_bank_property')?>: <?php echo $methIban->property ?></p>
                                                 </div>
-                                                </label>
-                                            </div>
+                                            </template>
                                         <?php } ?>
-                                    </div>
+                                        </div>
+                                    </template>
 
-                                    <?php if(!empty(array_filter($methods, function($el){return $el['id_method'] == '1';}))){ ?>
-                                    <?php $methIban = array_filter($methods, function($el){return $el['id_method'] == '1';})
-									?>
-                                        <template x-if="paymethod == 'iban'">
-                                            <div class="uk-alert-primary uk-alert col-span-2" uk-alert="">
-											<?php $methIban=json_decode($methIban[0]['details']); 
-										?>
-                                                <p><?php echo lang('front.field_iban')?>: <?php echo $methIban->iban ?></p>
-												<p><?php echo lang('front.field_bank_name')?>: <?php echo $methIban->bank_name ?></p>
-												 <p><?php echo lang('front.field_bank_property')?>: <?php echo $methIban->property ?></p>
-                                            </div>
-                                        </template>
-                                    <?php } ?>
-                                    
                                     <div class="flex justify-center col-span-2">
                                         
                                         <button class="bg-blue-600 text-white flex font-medium items-center justify-center py-3 rounded-md hover:text-white w-1/3">
-                                            <span class="md:block hidden"><?php echo lang('front.btn_pay')?></span><span class="md:hidden block"><?php echo lang('front.btn_pay2')?></span>
+                                            <span class="md:block hidden" x-text="total > 0 ? '<?php echo lang('front.btn_pay')?>' : '<?php echo lang('front.btn_pay_free')?>'"></span><span class="md:hidden block" x-text="total > 0 ? '<?php echo lang('front.btn_pay2')?>' : '<?php echo lang('front.btn_pay2_free')?>'"></span>
                                             <i class="icon-feather-chevron-right ml-1"></i>
                                         </button>
                                     </div>

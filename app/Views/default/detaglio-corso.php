@@ -573,7 +573,7 @@ use CodeIgniter\I18n\Time;
                             </div>
                         </div> -->
                         <div class="tube-card p-5 lg:p-8" id="Moduli">
-                            <h3 class="text-xl font-semibold lg:mb-5"> <?php echo lang('front.field_modules')?> </h3>
+                            <h3 class="text-xl font-semibold lg:mb-5"> <?php  if($corsi['tipologia_corsi']=='eBook') echo lang('front.field_tab_ebook'); else echo lang('front.field_tab_modulo')?> </h3>
                             <?php foreach($module as $mod){ if(strlen(trim($mod['id'])) > 0 ){ if($corsi['buy_type'] != 'date'){ ?>
                             <div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2 pb-2">
                                 <div class="md:w-1/5 md:h-24 h-40 overflow-hidden relative flex justify-center" @click="videoPromo('https://www.youtube.com/embed/<?= $mod['video_promo'] ?>', '<?= $mod['sotto_titolo'] ?>')">
