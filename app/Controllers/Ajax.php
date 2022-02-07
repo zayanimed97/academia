@@ -253,7 +253,7 @@ class Ajax extends BaseController
 			'filename' => [
 				'uploaded[filename]',
 				'mime_in[filename,application/pdf,image/jpg,image/jpeg,image/gif,image/png]',
-				'max_size[filename,4096]',
+				// 'max_size[filename,16000]',
 			],
 		]);
 		

@@ -1,76 +1,39 @@
-
 <?= view($view_folder.'/common/header') ?>
 	<div class="uk-sticky-placeholder" style="height: 72px; margin: 0px;"></div>
 	<!--  breadcrumb -->
-	<div class="uk-position-relative contents overflow-hidden lg:-mt-20" tabindex="-1">
-		<div class="lg:pt-20 container relative">
-			<img src="" class="object-cover" style="max-width: 100%;" alt="" uk-cover>                    
-		</div>
-	</div> 
-     <div class="container pt-28 pb-20">
-		
-<div>
+	<div class="uk-position-relative contents overflow-hidden lg:-mt-20" tabindex="-1">       
 
-                <!-- title -->
-                <h1 class="text-2xl font-semibold mb-5"> Episodes </h1>
+		<div class="lg:pt-28 container relative">
+			<img src="https://academy.creazioneimpresa.it/uploads/banner/banner-academy-risorse-free-header.jpg" class="object-cover uk-cover" style="max-width: 100%; height: 382px; width: 1280px;" alt="" uk-cover="">
+			<div class="container relative p-20 lg:mt-12 h-full uk-overlay"> 
+				<div class="flex flex-col justify-center h-full w-full space-y-3">
+					<h1 class="lg:text-4xl text-2xl text-black font-semibold"> Risorse Free </h1>
+					<p class="text-base text-black font-medium pb-4 lg:w-1/2"> </p>
+					<!--a href="" class="bg-opacity-90 bg-blue-600 py-2.5 rounded-md text-base text-black text-center w-32">Lista Corsi </a--> 
+				</div>
+			</div>
+		</div>
+     </div> 
+     <div class="container">
+		 <div class="pt-28 pb-20">
+			 <h1 class="text-2xl font-semibold mb-5">  </h1>
 
                 <div class="grid lg:grid-cols-4 grid-cols-2 gap-3 mb-5">
         
-                    <a href="episodes-watch.html" class="col-span-2 row-span-2"> 
+                    <a href="https://www.youtube.com/watch?v=EWCSFrrrtnQ&list=PL4SnrkTsBHJCziydUoAShDPdfFjH1MHei" class="col-span-2 row-span-2" target="_blank"> 
                         <div class="bg-gray-200 rounded-md overflow-hidden relative w-full lg:h-full h-60 shadow-sm">
-                            <img src="<?= base_url('front') ?>/assets/images/blog/img-5.jpg" class="absolute w-full h-full object-cover" alt="">
-                            <div class="absolute bottom-0 w-full p-5 text-white z-20 text-opacity-90 backdrop-filter backdrop-blur-lg">
-                                <h1 class="font-bold lg:text-2xl text-xl text-white mb-1 line-clamp-2"> Learn Angular Fundamentals From beginning to advance lavel</h1>
-                                <div class="flex space-x-2 items-center text-sm mt-2">
-                                    <p class="font-semibold md:block hidden"> Denise Marie </p>
-                                    <div class="md:block hidden">·</div>
-                                    <div> 27 weeks ago</div> 
-                                    <div class="md:block hidden">·</div> 
-                                    <div> 156.9K views</div>
-                                </div>
-                            </div>
-                            <div class="absolute w-full h-full -bottom-1/2 bg-gradient-to-b from-transparent to-gray-800 z-10"></div>
+                            <img src="<?= base_url('front') ?>/assets/images/pillole-di-costituzione.jpg" class="w-full h-full object-cover" alt="">  
                         </div>
                     </a>
                     
-                    <a href="episodes-watch.html">
-                        <div class="bg-gray-200 rounded-md overflow-hidden relative w-full lg:h-44 h-36 shadow-sm uk-transition-toggle">
-                            <img src="<?= base_url('front') ?>/assets/images/episodes/img-2.jpg" class="absolute w-full h-full object-cover" alt="">
-                            <div class="absolute -bottom-1.5 w-full p-3 text-white z-20 line-clamp-2 text-opacity-95 font-medium text-base">  The PHP Singleton class  </div>
-                            <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-12 h-12 uk-position-center uk-transition-fade -mt-4" alt="">
-                            <div class="absolute w-full h-full -bottom-1/2 bg-gradient-to-b from-transparent to-gray-800 z-10"></div>
+                    
+                    <a href="https://www.youtube.com/watch?v=kU5IXRLmkvw&list=PL4SnrkTsBHJAyrRsk_jIlXhQYPN-f3T6f" class="col-span-2 row-span-2" target="_blank"> 
+                        <div class="bg-gray-200 rounded-md overflow-hidden relative w-full lg:h-full h-60 shadow-sm">
+                            <img src="<?= base_url('front') ?>/assets/images/caffe-del-mercoledi.jpg" class="w-full h-full object-cover" alt="">    
                         </div>
                     </a>
-                    <a href="episodes-watch.html">
-                        <div class="bg-gray-200 rounded-md overflow-hidden relative w-full lg:h-44 h-36 shadow-sm uk-transition-toggle">
-                            <img src="<?= base_url('front') ?>/assets/images/episodes/img-3.jpg" class="absolute w-full h-full object-cover" alt="">
-                            <div class="absolute -bottom-1.5 w-full p-3 text-white z-20 line-clamp-2 text-opacity-95 font-medium text-base">  Creating sticky in HTML  </div>
-                            <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-12 h-12 uk-position-center uk-transition-fade -mt-4" alt="">
-                            <div class="absolute w-full h-full -bottom-1/2 bg-gradient-to-b from-transparent to-gray-800 z-10"></div>
-                        </div>
-                    </a>
-                    <a href="episodes-watch.html">
-                        <div class="bg-gray-200 rounded-md overflow-hidden relative w-full lg:h-44 h-36 shadow-sm uk-transition-toggle">
-                            <img src="<?= base_url('front') ?>/assets/images/episodes/img-4.jpg" class="absolute w-full h-full object-cover" alt="">
-                            <div class="absolute -bottom-1.5 w-full p-3 text-white z-20 line-clamp-2 text-opacity-95 font-medium text-base">  Larafel $ fliepond  </div>
-                            <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-12 h-12 uk-position-center uk-transition-fade -mt-4" alt="">
-                            <div class="absolute w-full h-full -bottom-1/2 bg-gradient-to-b from-transparent to-gray-800 z-10"></div>
-                        </div>
-                    </a>
-                    <a href="episodes-watch.html">
-                        <div class="bg-gray-200 rounded-md overflow-hidden relative w-full lg:h-44 h-36 shadow-sm uk-transition-toggle">
-                            <img src="<?= base_url('front') ?>/assets/images/episodes/img-1.jpg" class="absolute w-full h-full object-cover" alt="">
-                            <div class="absolute -bottom-1.5 w-full p-3 text-white z-20 line-clamp-2 text-opacity-95 font-medium text-base"> Creating Website Pure CSS  </div>
-                            <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-12 h-12 uk-position-center uk-transition-fade -mt-4" alt="">
-                            <div class="absolute w-full h-full -bottom-1/2 bg-gradient-to-b from-transparent to-gray-800 z-10"></div>
-                        </div>
-                    </a>
-            
                 </div>
-
-                
             </div>
- 
       </div>
 <?= view($view_folder.'/common/footer') ?>
   
