@@ -262,7 +262,10 @@ $routes->group("user", ["filter" => "auth:participant"], function ($routes) {
 
     $routes->post('preshare', 'front\CartController::preshare');
 
-	  $routes->add('wallet', 'front\UserController::wallet');
+	$routes->add('wallet', 'front\UserController::wallet');
+
+	$routes->get('quizz/(:any)/(:num)', 'front\QuizzController::index/$1/$2');
+	$routes->post('submitQuizz', 'front\QuizzController::submitQuizz');
 	
 
 });
