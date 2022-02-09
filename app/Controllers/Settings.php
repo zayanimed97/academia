@@ -597,6 +597,7 @@ class Settings extends BaseController
 				$res=array(
 				'id_ente'=>$data['user_data']['id'],
 				'nb_days'=>$this->request->getVar('nb_days'),
+				'type_days'=>$this->request->getVar('type_days'),
 				'tipologia_corsi'=>$this->request->getVar('tipologia_corsi'),
 				'subject'=>$this->request->getVar('subject'),
 				'text'=>$this->request->getVar('html'),
@@ -620,6 +621,7 @@ class Settings extends BaseController
 				$res=array(
 				'id_ente'=>$data['user_data']['id'],
 				'nb_days'=>$this->request->getVar('nb_days'),
+				'type_days'=>$this->request->getVar('type_days'),
 				'tipologia_corsi'=>$this->request->getVar('tipologia_corsi'),
 				'subject'=>$this->request->getVar('subject'),
 				'text'=>$this->request->getVar('html'),

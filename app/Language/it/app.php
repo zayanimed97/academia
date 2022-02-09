@@ -409,6 +409,9 @@ $lang['field_days']="giorni";
 $lang['field_date_confirmation']="Data confermazione";
 $lang['field_share']="share carrello";
 $lang['field_wallet']="giftcard/wallet";
+$lang['field_type_days']="Tipo";
+$lang['field_before']="Before";
+$lang['field_after']="After";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";

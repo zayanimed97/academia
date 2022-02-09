@@ -65,13 +65,32 @@
 												<input type="hidden" name="id" value="<?php echo $inf['id']?>">
 												<div class="row">
 												
-												<div class="col-md-12">
+												<div class="col-md-6">
 														<div class="form-group required-field">
 															<label for="acc-mname"><?php echo lang('app.field_days')?> <span class="text-danger">*</span></label>
 														 <input class="form-control" type="number" min="1" step="1" max="90" id="nb_days" name="nb_days" value="<?php echo $inf['nb_days'] ?? '7'?>" />
 														</div>
 													</div>
+												<div class="col-md-6">
+													<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_type_days')?></label>
+														 <?php $input = [
+												
+																'name'  => 'type_days',
+																'id'    => 'type_days',
+																'placeholder' =>lang('app.field_type_days'),
+																'class' => 'form-control'
+														];
+														$options=array();
+														
+														$options['before']=lang('app.field_before');
+														$options['after']=lang('app.field_after');
+														$js='';
+														echo form_dropdown($input, $options,$inf['type_days'],$js);
+														?>
 													
+														</div>
+													</div>	
 													
 										</div>		
 									<div class="row">

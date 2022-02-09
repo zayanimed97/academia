@@ -2,6 +2,15 @@
 use CodeIgniter\I18n\Time;
 class Cron extends BaseController
 {
+	public function wael(){
+		
+		$last_date=$this->CorsiModuloDateModel->where('banned','no')->where('id_modulo',8)->orderby('date','DESC')->first();
+		
+					$target  = new \DateTime(date('Y-m-d'));
+					$origin = new \DateTime($last_date['date']);
+					$interval = $origin->diff($target);
+					echo $dd= intval($interval->format('%R%a'));
+	}
 	public function remember(){
 		$common_data=$this->common_data();
 		$settings=$common_data['settings'];
@@ -27,12 +36,23 @@ class Cron extends BaseController
 			//var_dump($list_corsi);
 			foreach($list_corsi as $kk=>$one_corsi){
 				$inf_corsi=$this->CorsiModel->find($one_corsi['id_corsi']);
-				$first_date=$this->CorsiModuloDateModel->where('banned','no')->where('id_modulo',$one_corsi['id'])->orderby('date','ASC')->first();
+				
 				//var_dump($first_date);
-				$origin = new \DateTime(date('Y-m-d'));
-				$target = new \DateTime($first_date['date']);
-				$interval = $origin->diff($target);
-				$dd= intval($interval->format('%R%a'));
+				if($one_remember['nb_days']=='before'){
+					$first_date=$this->CorsiModuloDateModel->where('banned','no')->where('id_modulo',$one_corsi['id'])->orderby('date','ASC')->first();
+					$origin = new \DateTime(date('Y-m-d'));
+					$target = new \DateTime($first_date['date']);
+					$interval = $origin->diff($target);
+					$dd= intval($interval->format('%R%a'));
+				}
+				else{ // after
+					
+					$last_date=$this->CorsiModuloDateModel->where('banned','no')->where('id_modulo',$one_corsi['id'])->orderby('date','DESC')->first();
+					$target  = new \DateTime(date('Y-m-d'));
+					$origin = new \DateTime($last_date['date']);
+					$interval = $origin->diff($target);
+					$dd= intval($interval->format('%R%a'));
+				}
 			//	echo $one_corsi['id'].' / '.$dd.'<br/>';
 				if($dd==$nb_days){ //var_dump($one_corsi);
 					$list_p=$this->ParticipationModel->where('banned','no')->where('id_modulo',$one_corsi['id'])->where("(id_date IS NULL  or id_date='0')")->findAll();
