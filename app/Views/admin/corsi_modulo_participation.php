@@ -178,6 +178,27 @@
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
     <?php echo form_close();?>	
+	
+	<div id="payment-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg  modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.title_modal_cart_details') ?></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body" id="list_payment">
+
+                            
+
+                        </div>
+						<div class="modal-footer">
+							<a href="javascript:;" class="btn width-100 btn-danger" data-dismiss="modal"><?php echo lang('app.btn_cancel')?></a>
+							
+						</div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+	
 <?= view('admin/common/footer') ?>
 
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -255,5 +276,18 @@
       
         $('#deleteID').val(id)
     }
+	
+	function get_payments(id){
+		$.ajax({
+				  url:"<?php echo base_url()?>/ajax/get_cart_payment",
+				  method:"POST",
+				  data:{id:id}
+				  
+			}).done(function(data){
+				$("#list_payment").html(data);
+				
+			
+			});
+	}
 </script>
 <?= view('admin/common/endtag') ?>

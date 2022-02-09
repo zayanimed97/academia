@@ -78,9 +78,13 @@ class Cart extends BaseController
 				
 				$quota="";
 				
-				//	$inf_payment=$this->CartPaymentModel->where('id_cart',$v['id_cart'])->where('status','COMPLETED')->where('banned','no')->find();
+					$inf_payment=$this->CartPaymentModel->where('id_cart',$v['id'])->where('banned','no')->find();
 					$total_paid=$v['total_ht']+$v['total_vat'];
-				//	$inf_method=$this->MethodPaymentModel->find($inf_payment[0]['id_method']);
+					if(!empty($inf_payment)){
+						$inf_method=$this->MethodPaymentModel->find($inf_payment[0]['id_method']);
+						$v['payment']=$inf_method['icon'];
+					}
+					else $v['payment']="";
 					//$quota=number_format($total_paid,2,',','.').'€ <br/>'.date('d/m/Y',strtotime($inf_cart['date'])).'<br/>'.$inf_method['title'];
 					
 				

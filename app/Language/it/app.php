@@ -594,6 +594,8 @@ $lang['title_page_settings_remember_emails_edit']="Modifica Cron Email";
 $lang['title_modal_delete_remember_email']="Elemina Cron Email";
 
 $lang['title_page_coupon_wallet']="Coupon Wallet";
+$lang['title_modal_cart_details']="Dettagli carrello";
+$lang['title_modal_cart_profile']="Generale";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="I campi obbligatori sono vuoti!";
