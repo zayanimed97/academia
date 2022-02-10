@@ -64,6 +64,7 @@ $lang['new_professione']="Aggiungi professione";
 $lang['btn_send_credentials']="Invia credenziali";
 $lang['btn_send_promo']="Invia Promemoria email";
 $lang['btn_send_test']="Invia test";
+$lang['btn_send_notification']="Invia Notificazione";
 ########## Fields ################
 $lang['field_password']= "Password";
 $lang['field_confirm_password']="Conferma password";
@@ -601,6 +602,7 @@ $lang['title_modal_cart_details']="Dettagli carrello";
 $lang['title_modal_cart_profile']="Generale";
 $lang['title_page_settings_social']="Configurazione Social";
 $lang['title_modal_video_status']="Dettagli video progress";
+$lang['title_modal_send_notification']="Invia notificazione";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="I campi obbligatori sono vuoti!";
@@ -646,6 +648,7 @@ $lang['success_genrerate_certificat']="i certificati vengono generati";
 $lang['scc_mail_subscribed_newsletter']="la tua email è iscritta nel sistema di newsletter";
 $lang['success_send_credential']="Credenziali inviati correttamente";
 $lang['success_send_promo']="Promemoria Email inviati correttamente";
+$lang['success_send_notification']="Notificazione Email inviati correttamente";
 #############alert msg ####################
 $lang['alert_msg_delete_user']="Sei sicuro di volere eliminare questo utente?";
 $lang['alert_msg_delete_price_prof']="sei sicuro di voler cancellare questo prezzo per profesisone?";

@@ -19,6 +19,24 @@ class Participation extends BaseController
 		
 		if(!is_null($this->request->getVar('action'))){
 				switch($this->request->getVar('action')){
+					case 'send_notification_multiple':
+						$list_p=$this->request->getVar('id');
+						$subject=$this->request->getVar('notification_subject');
+						$msg=$this->request->getVar('notification_message');
+						
+						if(!empty($list_p)){
+							foreach($list_p as $kk=>$vv){
+								if($vv!=""){
+									$inf_p=$this->ParticipationModel->find($vv);
+
+									 $this->send_notification($inf_p['id_user'],$id_modulo,$inf_p,$subject,$msg);
+								}
+							}
+						}
+						
+						$data['success']=lang('app.success_send_notification');
+					break;
+					
 					case 'send_credential_multiple':
 						$list_p=$this->request->getVar('id');
 						if(!empty($list_p)){
@@ -120,7 +138,61 @@ class Participation extends BaseController
 			$data['success']=$this->session->get('success');
 			$this->session->remove('success');
 		}
+		$temp=$this->TemplatesModel->where('module','notification')->where('id_ente',$common_data['user_data']['id'])->first();
+		if(empty($temp)) $temp=$this->TemplatesModel->where('module','notification')->first();
+		$data['temp']=$temp ?? array();
 		return view('admin/corsi_modulo_participation.php',$data);
+	}
+		public function send_notification($id_user,$id_modulo,$inf_p,$subject,$message){
+		
+		$common_data=$this->common_data();
+		
+		$user_data=$this->session->get('user_data');
+	
+			
+			$inf_module=$this->CorsiModuloModel->find($id_modulo);
+		
+			$inf=$this->UserModel->find($id_user);
+			
+			$inf_profile=$this->UserProfileModel->where('user_id',$id_user)->first();
+			$name=$inf_profile['nome'].' '.$inf_profile['cognome'];
+			
+			$email = \Config\Services::email();
+			
+			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+				if($SMTP!="") $vals=json_decode($SMTP,true);
+			 $sender_name=$common_data['settings']['sender_name'];
+			 $sender_email=$common_data['settings']['sender_email'];
+				if(!empty($vals)){
+					if(isset($vals['sender_name'])  && $vals['sender_name']!="") $sender_name=$vals['sender_name']; else $sender_name=$common_data['settings']['sender_name'];
+					if(isset($vals['sender_email']) && $vals['sender_email']!="") $sender_email=$vals['sender_email']; else $sender_email=$common_data['settings']['sender_email'];
+					
+					$email->SMTPHost=$vals['host'];
+					$email->SMTPUser=$vals['username'];
+					$email->SMTPPass=$vals['password'];
+					$email->SMTPPort=$vals['port'];
+				}
+		
+			
+				$email->setFrom($sender_email,$sender_name);
+			$email->setTo($inf['email']);
+			//$email->setBCC('segreteria@dentalcampus.it');
+			$link=base_url('user/login');
+			
+		
+			 $html=str_replace(array("{var_link}","{var_password}","{var_email}","{var_user_name}","{modulo_titolo}","{date}"),
+			array($link,$inf['pass'],$inf['email'],$name,$inf_module['sotto_titolo'],date('d/m/Y',strtotime($inf_p['date']))),
+			$message);
+			$email->setSubject($subject);
+			$email->setMessage($html);
+			$email->setAltMessage(strip_tags($html));
+			$xxx=$email->send();
+			
+			$yy=$this->NotifLogModel->insert(array('id_participant'=>$id_user,'type'=>'email','user_to'=>$inf['email'],'subject'=>$subject,'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+	//var_dump($email); exit;
+	/*if($redirect=='yes')
+			return redirect()->back()->with('success', lang('app.success_send_credential'));
+		else return true;*/
 	}
 	
 		public function send_credential($id_user,$redirect='no'){
