@@ -654,6 +654,33 @@ class Settings extends BaseController
 		$xxx=$email->send();
 		
 	}
+	
+	public function social(){
+		$data=$this->common_data();
+		$user_data=$this->session->get('user_data');
+		if(!is_null($this->request->getVar('save'))){
+			$social=array("site_web"=>$this->request->getVar('site_web'),
+			"twitter"=>$this->request->getVar('twitter'),
+			"facebook"=>$this->request->getVar('facebook'),
+			"linkedin"=>$this->request->getVar('linkedin'),
+			"youtube"=>$this->request->getVar('youtube'),
+			"instagram"=>$this->request->getVar('instagram'),
+			"blog"=>$this->request->getVar('blog'),
+			);
+		
+			$credit=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'social')->first();
+					$array = ['meta_value'=>json_encode($social,true), 'meta_key'=> 'social', 'id_ente'=> $this->session->get('user_data')['id']];
+					if(!empty($credit)) $array['id'] = $credit['id'];			
+					$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->save($array);
+
+					$data=$this->common_data();
+					$data['success']=lang('app.success_update');
+		}
+		$data['social']=json_decode($data['settings']['social'] ?? '',true);
+		return view('admin/settings_social.php',$data);
+	}
+	
+	
 	/*
 	public function notif_log($user_id=null){
 		$NotifLogModel = new NotifLogModel();

@@ -305,6 +305,7 @@
 										 <li><a href="<?php echo base_url('/admin/remember_emails')?>"><?php echo lang('app.menu_setting_remember_emails')?></a></li>
                                         <li><a href="<?php echo base_url('/admin/settings/media')?>"><?php echo lang('app.menu_setting_media')?></a></li>
 										 <li><a href="<?php echo base_url('/admin/settings/cms')?>"><?php echo lang('app.menu_setting_cms')?></a></li>
+										  <li><a href="<?php echo base_url('/admin/settings/social')?>"><?php echo lang('app.menu_setting_social')?></a></li>
                                     </ul>
                                 </div>
                             </li>

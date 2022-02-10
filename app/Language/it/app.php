@@ -496,6 +496,7 @@ $lang['menu_setting_remember_emails']="Ricorda Emails";
 $lang['menu_setting_remember_email_add']="Nuova Ricorda Emails";
 $lang['menu_setting_remember_email_edit']="Modifica Ricorda Emails";
 $lang['menu_coupon_wallet']="Coupon wallet";
+$lang['menu_setting_social']="Social";
 ############" titles ###################
 $lang['title_page_profile']="Profilo";
 $lang['title_section_menu_account']="Account informazioni";
@@ -596,6 +597,7 @@ $lang['title_modal_delete_remember_email']="Elemina Cron Email";
 $lang['title_page_coupon_wallet']="Coupon Wallet";
 $lang['title_modal_cart_details']="Dettagli carrello";
 $lang['title_modal_cart_profile']="Generale";
+$lang['title_page_settings_social']="Configurazione Social";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="I campi obbligatori sono vuoti!";
