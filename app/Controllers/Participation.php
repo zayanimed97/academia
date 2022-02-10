@@ -84,7 +84,9 @@ class Participation extends BaseController
 				}
 				$v['total_paid']=$total_paid;
 				$v['quota']=$quota;
+				
 				if($inf_corsi['tipologia_corsi']=='webinar'){
+					
 					if($v['confirm_zoom']!=""){
 						$det=json_decode($v['confirm_zoom'],true);
 						$v['confirm_zoom']="";
@@ -94,6 +96,22 @@ class Participation extends BaseController
 						}
 						
 					}
+					else $v['confirm_zoom']=lang('app.no');
+				}
+				if($inf_corsi['tipologia_corsi']=='online'){
+					$list_vimeo=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$v['id_modulo'])->orderBy('ord','ASC')->find();
+					//$last_status=$this->ParticipationOnlineStatusModel->where('id_participation',$v['id'])->where('vimeo_id',$vimeo_id)->orderBy('created_at','DESC')->first();
+					$total_vimeo_percent=0;
+					
+					//if(!empty($last_status)){
+						//$data['last_status']=$last_status; //else $data['last_status']=array();
+						foreach($list_vimeo as $kk=>$vv){
+							$inf_last_status=$this->ParticipationOnlineStatusModel->where('id_participation',$v['id'])->where('vimeo_id',$vv['vimeo'])->orderBy('created_at','DESC')->first();
+							//$data['inf_last_status'][$vv['vimeo']]=$inf_last_status;
+							$total_vimeo_percent+=$inf_last_status['status'] ?? 0;
+						}
+					//}
+						$v['total_vimeo_percent']=count($list_vimeo) == 0 ? 0 : round($total_vimeo_percent/count($list_vimeo));
 				}
 				$res[]=$v;
 			}

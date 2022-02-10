@@ -412,6 +412,8 @@ $lang['field_wallet']="giftcard/wallet";
 $lang['field_type_days']="Tipo";
 $lang['field_before']="Before";
 $lang['field_after']="After";
+$lang['field_participa']="participa";
+$lang['field_progress_video']="Progress";
 ########## MENU ######################
 $lang['menu_thanks']="Grazie";
 $lang['menu_home']="Home";
@@ -598,6 +600,7 @@ $lang['title_page_coupon_wallet']="Coupon Wallet";
 $lang['title_modal_cart_details']="Dettagli carrello";
 $lang['title_modal_cart_profile']="Generale";
 $lang['title_page_settings_social']="Configurazione Social";
+$lang['title_modal_video_status']="Dettagli video progress";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="I campi obbligatori sono vuoti!";

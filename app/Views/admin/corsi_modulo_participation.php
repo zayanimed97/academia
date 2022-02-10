@@ -106,7 +106,13 @@
                                                        <?php if($inf_corsi['buy_type']=='date'){?>
 													   <th><?php echo lang('app.field_date_session')?></th>	
 													   <?php } ?>
-													   <th><?php echo lang('app.field_date_confirmation')?></th>	
+													   <th><?php echo lang('app.field_date_confirmation')?></th>
+														<?php if($inf_corsi['tipologia_corsi']=='webinar'){?>
+															<th><?php echo lang('app.field_participa')?></th>
+														<?php } ?>	
+													<?php if($inf_corsi['tipologia_corsi']=='online'){?>
+														<th><?php echo lang('app.field_progress_video')?></th>
+													<?php } ?>														
                                                     </tr>
                                                 </thead>
                                             
@@ -124,7 +130,18 @@
                                                         <td><?php if(isset($arg['date_session']) && $arg['date_session']!="") echo date('d/m/Y',strtotime($arg['date_session'])) ?></td>
 														 <?php } ?>
 														 <td><?php if($arg['confirm_mail']!="") echo date('d/m/Y',strtotime($arg['confirm_mail'])) ?></td>
-                                                    </tr>
+														<?php if($inf_corsi['tipologia_corsi']=='webinar'){?>
+														<td><?= $arg['confirm_zoom'] ?></td>
+														<?php } ?>
+														<?php if($inf_corsi['tipologia_corsi']=='online'){?>
+															<td>
+															<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: <?= round($arg['total_vimeo_percent']) ?>%" aria-valuenow="<?= round($arg['total_vimeo_percent']) ?>" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<a data-toggle="modal" data-target="#video-status-modal" onclick="get_video_details('<?php echo $arg['id']?>')"><?php echo lang('app.field_details')?></a>
+															</td>
+														<?php } ?>		
+													</tr>
                                                     <?php } ?>
                                                 </tbody>
                                             </table>
@@ -198,7 +215,25 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-	
+	<div id="video-status-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg  modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.title_modal_video_status') ?></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body" id="list_video_status">
+
+                            
+
+                        </div>
+						<div class="modal-footer">
+							<a href="javascript:;" class="btn width-100 btn-danger" data-dismiss="modal"><?php echo lang('app.btn_close')?></a>
+							
+						</div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
 <?= view('admin/common/footer') ?>
 
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -285,6 +320,19 @@
 				  
 			}).done(function(data){
 				$("#list_payment").html(data);
+				
+			
+			});
+	}
+	
+	function get_video_details(id){
+		$.ajax({
+				  url:"<?php echo base_url()?>/ajax/get_video_details",
+				  method:"POST",
+				  data:{id:id}
+				  
+			}).done(function(data){
+				$("#list_video_status").html(data);
 				
 			
 			});

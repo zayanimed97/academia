@@ -1155,4 +1155,33 @@ if($this->request->getVar('Password')!=""){
 		}
 	}
 	
+	public function get_video_details(){
+		$common_data=$this->common_data();
+		 $id_participation=$this->request->getVar('id');
+		$inf_p=$this->ParticipationModel->find($id_participation);
+		?>
+		<table class="table">
+		<tr>
+			<th><?php echo lang('app.field_vimeo')?></th>
+			<th><?php echo lang('app.field_date')?></th>
+			<th><?php echo lang('app.field_progress_video')?></th>
+		</tr>
+		<?php
+		$list_vimeo=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$inf_p['id_modulo'])->orderBy('ord','ASC')->find();
+		if(!empty($list_vimeo)){
+		foreach($list_vimeo as $kk=>$vv){
+			$inf_last_status=$this->ParticipationOnlineStatusModel->where('id_participation',$id_participation)->where('vimeo_id',$vv['vimeo'])->orderBy('created_at','DESC')->first();
+			if(!empty($inf_last_status)){
+			$total_vimeo_percent=$inf_last_status['status'] ?? 0;
+			?>
+			<tr>
+				<td><?php echo $vv['vimeo']?></td>
+				<td><?php echo date('d/m/Y H:i',strtotime($inf_last_status['created_at']))?></td>
+				<td><div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: <?= round($total_vimeo_percent) ?>%" aria-valuenow="<?= round($total_vimeo_percent) ?>" aria-valuemin="0" aria-valuemax="100"></div>
+</div></td>
+			</tr>
+		<?php } }
+		}
+	}
 }//end class
