@@ -12,8 +12,13 @@ else{
 	
 }?>
 <?= view('admin/common/header',array('page_title'=>$page_title)) ?>
+<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
  <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
+ 
             <!-- ============================================================== -->
             <!-- Start Page Content here -->
             <!-- ============================================================== -->
@@ -71,7 +76,14 @@ else{
                                                             <span class="d-none d-sm-inline"><?php echo lang('app.menu_media')?></span>
                                                         </a>
                                                     </li>
-                                                   
+                                                   <?php if($role=='participant'){?>
+												    <li class="nav-item">
+                                                        <a href="#basictab4" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                                            <i class="mdi mdi-cart mr-1"></i>
+                                                            <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi')?></span>
+                                                        </a>
+                                                    </li>
+												   <?php } ?>
                                                 </ul>
 
                                                 <div class="tab-content b-0 mb-0 pt-0" x-data="{password : '', confirm: ''}">
@@ -425,7 +437,28 @@ else{
 													</div>
 													<?php } ?>
                                                     </div>
-
+												 <div class="tab-pane" id="basictab4">
+												  
+														
+															<table id="basic-datatable" class="table dt-responsive nowrap w-100">
+																<thead>
+																	<th><?php echo lang('app.field_corsi')?></th>
+																	<th><?php echo lang('app.field_date')?></th>
+																	<th><?php echo lang('app.field_amount')?></th>
+																</thead>
+																<tbody>
+																	<?php if(!empty($list_achat)){
+																		foreach($list_achat as $k=>$v){?>
+																			<tr>
+																				<td><?php echo $v['corsi']?></td>
+																				<td><?php echo $v['date']?></td>
+																				<td><?php echo $v['quota']?></td>
+																			</tr>
+																	<?php } } ?>
+																</tbody>
+																</table>
+														
+												 </div>
                                                    
                                                     <ul class="list-inline wizard mb-0">
                                                         <!-- <li class="previous list-inline-item">
@@ -482,14 +515,37 @@ else{
         <!-- Plugins js-->
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/jquery.repeater/jquery.repeater.min.js"></script>
-
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
+        <!-- Init js-->
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/flatpickr.min.js"></script>
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/form-pickers.init.js"></script>
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.js"></script>
 		<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/lang/summernote-it-IT.min.js"></script>
 
-        <!-- Init js-->
         <script>
+		var table =$('#basic-datatable').DataTable({
+            responsive: false,
+			language: {
+				url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json'
+			},
+			scrollY:600,
+			scrollX:!0,
+			scrollCollapse:!0,
+			paging:!1,
+		
+          
+        });
+		
 		$('#cv').summernote({
 	   disableDragAndDrop: true,
 	    lang: "it-IT",

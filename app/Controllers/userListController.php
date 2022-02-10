@@ -45,6 +45,26 @@ class userListController extends BaseController
 		$data['role']=$this->request->getVar('role');
 		$user_cv=$this->UserCvModel->where('user_id',$id)->where('banned','no')->first();
 		$data['user_cv'] =$user_cv ?? array('titolo'=>'','cv'=>'');
+		$list_achat=array();
+		$ll=$this->ParticipationModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->where('id_user',$id)->find();
+		foreach($ll as $k=>$v){
+			if($v['id_cart']!=""){
+					$inf_cart=$this->CartModel->find($v['id_cart']);
+					$inf_payment=$this->CartPaymentModel->where('id_cart',$v['id_cart'])->where('status','COMPLETED')->where('banned','no')->find();
+					$total_paid=$inf_cart['total_ht']+$inf_cart['total_vat'];
+					if(!empty($inf_payment)) $inf_method=$this->MethodPaymentModel->find($inf_payment[0]['id_method']);
+					else $inf_method['title']="--";
+					$quota=number_format($total_paid,2,',','.').'€ <br/>'.date('d/m/Y',strtotime($inf_cart['date'])).'<br/>'.$inf_method['title'];/*.'<br/>'.' <a  data-toggle="modal" data-target="#payment-modal" onclick="get_payments('.$v['id_cart'].')" class="btn p-1 mr-2" style="font-size: 1rem">
+                                                                <i class="fe-dollar-sign"></i>
+                                                            </a>';*/
+					
+				}
+			$inf_modulo=$this->CorsiModuloModel->find($v['id_modulo']);
+			$list_achat[$k]['corsi']=$inf_modulo['sotto_titolo'];
+			$list_achat[$k]['date']=date('d/m/Y',strtotime($v['date']));
+			$list_achat[$k]['quota']=$quota;
+		}
+		$data['list_achat']=$list_achat;
 		return view('admin/edit_user', $data);
 	}
 
