@@ -53,7 +53,8 @@ else{
                                     <div class="card-body">
         
                                         <!-- <p class="sub-header">Inline edit like a spreadsheet, toolbar column with edit button only and without focus on first input.</p> -->
-                                        <div class="table-responsive">
+									<a target="_blank" class="btn btn-warning" href="<?php echo base_url('admin/report/list_participanti')?>"><?php echo lang('app.btn_export')?></a>
+									  <div class="table-responsive">
                                             <table id="basic-datatable" x-ref="dataTable" class="table dt-responsive nowrap w-100">
                                                 <thead>
                                                     <tr>

@@ -11,7 +11,7 @@ $lang['btn_signup']= "Registrati";
 $lang['btn_save']= "Salva";
 $lang['btn_save_close']="Salva e chiudi";
 $lang['btn_save_new']="salva e inserisci nuovo";
-
+$lang['btn_export']="Esporta";
 $lang['btn_recover']="Recuperare";
 $lang['btn_reset']="Ripristina";
 $lang['btn_search']="Cerca";

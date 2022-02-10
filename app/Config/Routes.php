@@ -145,7 +145,8 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 	$routes->get('remember_emails/add', 'Settings::remember_emails_add');
 	$routes->add('remember_emails/remember_emails_send_test', 'Settings::remember_emails_send_test');
 	$routes->add('remember_emails', 'Settings::remember_emails');
-
+	//report & extraction
+	$routes->add('report/list_participanti', 'Report::list_participanti');
 });
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
