@@ -1184,4 +1184,166 @@ if($this->request->getVar('Password')!=""){
 		<?php } }
 		}
 	}
+	
+	public function send_email_remember_cart(){
+		$common_data=$this->common_data();
+		$settings=$common_data['settings'];
+		 $id=$this->request->getVar('id');
+		 $inf_cart=$this->RememberCartModel->find($id);
+		 	$inf_participant=$this->UserModel->where('id',$inf_cart['id_user'])->first();
+			
+			$inf_profile=$this->UserProfileModel->where('user_id',$inf_cart['id_user'])->first();
+			
+			$temp=$this->TemplatesModel->where('module','remember_cart')->where('id_ente',$inf_cart['id_ente'])->find();
+			if(empty($temp)) $temp=$this->TemplatesModel->where('module','remember_cart')->where('id_ente IS NULL')->find();
+			ob_start();
+		 $inf_stato=$this->NazioniModel->find($inf_profile['fattura_stato']);
+		 if($inf_profile['fattura_stato']==106){
+				$inf_provincia=$this->ProvinceModel->find($inf_profile['fattura_provincia']);
+				$inf_comune=$this->ComuniModel->find($inf_profile['fattura_comune']);
+			}else{
+				$inf_provincia['provincia']=$inf_profile['fattura_provincia'];
+				$inf_comune['comune']=$inf_profile['fattura_comune'];
+			}
+			$list_items=json_decode($inf_cart['cart'],true);
+			 ob_start();?>
+		 <table style="width:100% !important; border:1px solid #a1a1a1;">
+    <tbody>
+        <tr style="border-bottom:1px solid #a1a1a1;">
+            <th>Codice</th>
+            <th>Descrizione</th>
+            <th>Prezzo</th>
+            <th>Docente</th>
+        </tr>
+        <?php $cart_total=0;
+		$cart_vat=0;
+		$discount_row="";
+		$payment_status="";$coupon="";$invoice_data="";$cart_items="";$payment_details="";$cart_url="";
+		  if(!empty($list_items)){
+				foreach($list_items as $k=>$one){
+					if(!in_array($k,array('cart_total','total_items'))){
+					$cart_total+=$one['price'];
+					$cart_vat+=($one['price']*$one['tax']/100);
+					switch($one['type'] ?? ''){
+						case 'corsi':
+						//echo $one['id'];
+						 $item_id=substr($one['id'],5);
+							$inf_item=$this->CorsiModel->find($item_id);
+							//var_dump($inf_item); exit;
+							$url=base_url('corsi/'.$inf_item['url']);
+							$tt=explode(",",$inf_item['ids_doctors']);
+							$str_date="";
+							$str_docente="";
+							foreach($tt as $kk=>$vv){
+								$inf_docente=$this->UserProfileModel->where('user_id',$vv)->first();
+								$str_docente.=$inf_docente['nome'].' '.	$inf_docente['nome'].',';
+							}
+							$str_docente=substr($str_docente,0,-1);
+							if($inf_item['foto']!="") $foto=base_url('uploads/corsi/'.$inf_item['foto']);
+							else{
+								$foto=base_url('front/assets/images/courses/img-4.jpg');
+								switch($inf_item['tipologia_corsi']){
+									case 'online': if($settings['default_img_online']!="") $foto=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if($settings['default_img_aula']!="") $foto=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'webinar': if($settings['default_img_webinar']!="") $foto=base_url('uploads/'.$settings['default_img_webinar']); break;
+								}
+							}
+							if($inf_item['tipologia_corsi']!='online'){
+								$start_date=$this->CorsiModuloDateModel->where("id_modulo IN (select id from corsi_modulo where banned='no' and status='si' and id_corsi='".$item_id."')")->where('banned','no')->orderBy('date','ASC')->first();
+								$end_date=$this->CorsiModuloDateModel->where("id_modulo IN (select id from corsi_modulo where banned='no' and status='si' and id_corsi='".$item_id."')")->where('banned','no')->orderBy('date','DESC')->first();
+								if(!empty($start_date) && !empty($end_date))$str_date=lang('front.field_de')." ".date('d/m/Y H:i',strtotime($start_date['date'].' '.$start_date['start_time']))." ".lang('front.field_a')." ".date('d/m/Y H:i',strtotime($end_date['date'].' '.$end_date['end_time']));
+							}
+						break;
+						case 'modulo':
+						 $item_id=substr($one['id'],6); 
+							$inf_item=$this->CorsiModuloModel->find($item_id);
+							$url=base_url('modulo/'.$inf_item['url']);
+							$inf_corsi=$this->CorsiModel->find($inf_item['id_corsi']);
+							$inf_docente=$this->UserProfileModel->where('user_id',$inf_item['instructor'])->first();
+							$str_docente=($inf_docente['nome'] ?? '').' '.	($inf_docente['nome'] ?? '');
+							if($inf_item['foto']!="") $foto=base_url('uploads/corsi/'.$inf_item['foto']);
+							else{
+								$foto=base_url('front/assets/images/courses/img-4.jpg');
+								switch($inf_corsi['tipologia_corsi']){
+									case 'online': if($settings['default_img_online']!="") $foto=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if($settings['default_img_aula']!="") $foto=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'webinar': if(($settings['default_img_webinar'] ?? '')!="") $foto=base_url('uploads/'.$settings['default_img_webinar']); break;
+								}
+							}
+							$str_date="";
+							$start_date=$this->CorsiModuloDateModel->where('id_modulo',$item_id)->where('banned','no')->orderBy('date','ASC')->first();
+							$end_date=$this->CorsiModuloDateModel->where('id_modulo',$item_id)->where('banned','no')->orderBy('date','DESC')->first();
+							if($inf_corsi['tipologia_corsi']!='online')
+								$str_date=lang('front.field_de')." ".date('d/m/Y H:i',strtotime($start_date['date'].' '.$start_date['start_time']))." ".lang('front.field_a')." ".date('d/m/Y H:i',strtotime($end_date['date'].' '.$end_date['end_time']));
+						break;
+						case 'date':
+						 $item_id=substr($one['id'],6); 
+							$inf_date=$this->CorsiModuloDateModel->find($item_id);
+							$inf_item=$this->CorsiModuloModel->find($inf_date['id_modulo']);
+							$url=base_url('modulo/'.$inf_item['url']);
+							$inf_docente=$this->UserProfileModel->where('user_id',$inf_item['instructor'])->first();
+							$str_docente=$inf_docente['nome'].' '.	$inf_docente['nome'];
+							$inf_corsi=$this->CorsiModel->find($inf_item['id_corsi']);
+							if($inf_item['foto']!="") $foto=base_url('uploads/corsi/'.$inf_item['foto']);
+							else{
+								$foto=base_url('front/assets/images/courses/img-4.jpg');
+								switch($inf_corsi['tipologia_corsi']){
+									case 'online': if($settings['default_img_online']!="") $foto=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if($settings['default_img_aula']!="") $foto=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'webinar': if($settings['default_img_webinar']!="") $foto=base_url('uploads/'.$settings['default_img_webinar']); break;
+								}
+							}
+							$str_date=lang('front.field_de')." ".date('d/m/Y H:i',strtotime($inf_date['date'].' '.$inf_date['start_time']))." ".lang('front.field_a')." ".date('d/m/Y H:i',strtotime($inf_date['date'].' '.$inf_date['end_time']));
+						break;
+					}						
+										 ?>
+										  <tr>
+            <td style="border-right:1px solid #a1a1a1;"><?php echo $inf_item['codice'] ?></td>
+            <td style="border-right:1px solid #a1a1a1;"><b><?php echo $inf_item['sotto_titolo']?></b><br><?php echo $str_date;?></td>
+            <td style="border-right:1px solid #a1a1a1;"><b><?php echo floatval($one['price'])?></b></td>
+            <td>Dott. <?php echo $str_docente?></td>
+        </tr>
+					
+					<?php  } } } ?>
+		  </tbody>
+</table>
+<?php
+			 $cart_items=ob_get_clean();
+   $html=str_replace(array("{var_name}","{var_email}","{var_date}","{var_total_ht}","{var_discount_row}","{var_total_tax}","{var_total}","{var_payment_status}","{var_coupon}","{var_invoice_data}","{var_cart_details}","{var_payment_details}","{cart_url}"),
+			array($inf_participant['display_name'],$inf_participant['email'],date('d/m/Y',strtotime($inf_cart['created_at'])),number_format($cart_total,2,',','.'),$discount_row,number_format($cart_total,2,',','.'),number_format($cart_total+$cart_vat,2,',','.'),$payment_status,$coupon,$invoice_data,$cart_items,$payment_details,$cart_url ),
+			$temp[0]['html']);
+			
+			$email = \Config\Services::email();
+			$sender_name=$settings['sender_name'];
+			$sender_email=$settings['sender_email'];
+			
+			
+			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+				if($SMTP!="") $vals=json_decode($SMTP,true);
+			
+				if(!empty($vals)){
+					if(isset($vals['sender_name'])  && $vals['sender_name']!="") $sender_name=$vals['sender_name']; else $sender_name=$settings['sender_name'];
+					if(isset($vals['sender_email']) && $vals['sender_email']!="") $sender_email=$vals['sender_email']; else $sender_email=$settings['sender_email'];
+					
+					$email->SMTPHost=$vals['host'];
+					$email->SMTPUser=$vals['username'];
+					$email->SMTPPass=$vals['password'];
+					$email->SMTPPort=$vals['port'];
+				}
+		
+			
+				$email->setFrom($sender_email,$sender_name);
+				
+			$email->setTo($inf_participant['email']);
+			$email->setSubject($temp[0]['subject']);
+			$email->setMessage($html);
+			$email->setAltMessage(strip_tags($html));
+			
+			$xxx=$email->send();
+			$yy=$this->NotifLogModel->insert(array('id_participant'=>$inf_participant['id'],'type'=>'email','user_to'=>$inf_participant['email'],'subject'=>$temp[0]['subject'],'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+		
+		
+		 
+		 
+	}
 }//end class
