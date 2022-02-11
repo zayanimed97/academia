@@ -154,6 +154,26 @@ class Participation extends BaseController
 		
 			$inf=$this->UserModel->find($id_user);
 			
+			$inf_corsi=$this->CorsiModel->find($inf_module['id_corsi']);
+			$corsi_url=base_url('modulo/'.$inf_module['url']);
+			$list_docenti=explode(",",$inf_module['instructor']);
+					$docenti="";
+					foreach($list_docenti as $one_d){
+						$inf_doc=$this->UserModel->find($one_d);
+						$docenti.=$inf_doc['display_name'].",";
+					}
+					$docenti=substr($docenti,0,-1);
+					$sede="";$hotel="";
+					if($inf_corsi['tipologia_corsi']=='aula'){
+						if(intval($inf_corsi['id_luoghi'])>0){
+								$inf_l=$this->LuoghiModel->find($inf_corsi['id_luoghi']);
+								$sede=$inf_l['nome'];
+						}
+						if(intval($inf_corsi['id_alberghi'])>0){
+							$inf_l=$this->AlberghiModel->find($inf_corsi['id_alberghi']);
+							$hotel=$inf_l['nome'];
+						}
+					}
 			$inf_profile=$this->UserProfileModel->where('user_id',$id_user)->first();
 			$name=$inf_profile['nome'].' '.$inf_profile['cognome'];
 			
@@ -180,8 +200,8 @@ class Participation extends BaseController
 			$link=base_url('user/login');
 			
 		
-			 $html=str_replace(array("{var_link}","{var_password}","{var_email}","{var_user_name}","{modulo_titolo}","{date}"),
-			array($link,$inf['pass'],$inf['email'],$name,$inf_module['sotto_titolo'],date('d/m/Y',strtotime($inf_p['date']))),
+			 $html=str_replace(array("{var_link}","{var_password}","{var_email}","{var_user_name}","{modulo_titolo}","{date}","{CORSI_URL}","{DOCENTI}", "{SEDE}", "{HOTEL}"),
+			array($link,$inf['pass'],$inf['email'],$name,$inf_module['sotto_titolo'],date('d/m/Y',strtotime($inf_p['date'])),$corsi_url,$docenti,$sede,$hotel),
 			$message);
 			$email->setSubject($subject);
 			$email->setMessage($html);
