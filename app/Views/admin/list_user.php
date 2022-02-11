@@ -17,7 +17,7 @@ else{
             <!-- ============================================================== -->
             <!-- Start Page Content here -->
             <!-- ============================================================== -->
-<div x-data="{data: {}}">
+<div x-data="getInfoData()">
             <div class="content-page">
                 <div id="workaround"></div>
                 <div class="content">
@@ -51,7 +51,17 @@ else{
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-        
+                                        <?php if(session('error') ?? false){?>
+										 <div class="alert alert-danger" role="alert">
+											 <?php echo session('error')?>
+											</div>
+										 <?php }?>
+										  <?php 
+										 if(session('success') ?? false){?>
+										 <div class="alert alert-success" role="alert">
+											 <?php echo session('success')?>
+											</div>
+										 <?php }?>
                                         <!-- <p class="sub-header">Inline edit like a spreadsheet, toolbar column with edit button only and without focus on first input.</p> -->
 									<a target="_blank" class="btn btn-warning" href="<?php echo base_url('admin/report/list_participanti')?>"><?php echo lang('app.btn_export')?></a>
 									  <div class="table-responsive">
@@ -65,6 +75,9 @@ else{
 														
 														 <th><?php echo lang('app.field_cf')?></th>
 														  <th><?php echo lang('app.field_active_status')?></th>
+                                                          <?php if($role == 'participant') { ?>
+														  <th>aquisito</th>
+                                                          <?php } ?>
                                                         <th>&nbsp;</th>
                                                     </tr>
                                                 </thead>
@@ -74,10 +87,19 @@ else{
                                                     <tr>
 														 <td><?= $user['id'] ?></td>
                                                         <td><?= $user['display_name'] ?></td>
-                                                        <td><?= $user['user_email'] ?></td>
+                                                        <td>
+                                                            <div class="d-flex flex-column">
+                                                                <p><?= $user['user_email'] ?></p>
+                                                                <?php if($user['role']=='participant'){?>
+                                                                    <a href="<?php echo base_url('/admin/send_credential/'.$user['idu'].'/yes')?>"><?php echo lang('app.btn_send_credentials')?></a>
+															    <?php }?>
+                                                            </div></td>
                                                         <td><?= $user['telefono']; if($user['mobile']!='') echo ' | '. $user['mobile']?></td>
 														  <td><?= $user['cf'] ?></td>
 														   <td><?php if($user['active']=='yes') echo lang('app.yes'); else echo lang('app.no'); ?></td>
+                                                            <?php if($role == 'participant') { ?>
+                                                                <td><button type="button" onclick="buyList(<?= $user['idu'] ?>)" class="btn btn-primary p-1"><?= $user['countBuys']  ?></button></td>
+                                                            <?php } ?>
                                                         <td class="row pt-1">
                                                             <button type="button" onclick="workAroundClick(<?= htmlspecialchars(json_encode($user)) ?>)" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-user"></i>
@@ -94,6 +116,11 @@ else{
 															<?php if($user['role']=='participant'){?>
 															<a href="<?php echo base_url('admin/loginAs/'.$user['idu'])?>" class="p-1" style="height: fit-content; font-size: 1rem"><?php echo lang('app.btn_login')?></a>
 															<?php }?>
+
+                                                            <button type="button" onclick="emailList(<?=$user['idu']?>)" class="btn p-1 mr-2" style="font-size: 1rem">
+                                                                <i class="fe-mail"></i>
+                                                            </button>
+															
                                                         </td>
                                                     </tr>
                                                     <?php } ?>
@@ -273,6 +300,65 @@ else{
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
+
+            <div id="list-buy-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" >
+                <div class="modal-dialog  modal-dialog-centered justify-content-center">
+                    <div class="modal-content" style="width: fit-content; max-width: 90vw">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="standard-modalLabel"> acquisti </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table id="buy-datatable" x-ref="dataTable" class="table dt-responsive nowrap w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>item name</th>
+                                            <th>price</th>
+                                            <th>date</th>
+                                        </tr>
+                                    </thead>
+                                
+                                    <tbody id="buyBody">
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- end .table-responsive-->
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <div id="list-emails-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" >
+                <div class="modal-dialog  modal-dialog-centered justify-content-center">
+                    <div class="modal-content" style="width: fit-content; max-width: 90vw">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="standard-modalLabel"> acquisti </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body" style="width: fit-content;">
+                            <div class="table-responsive">
+                                <table id="emails-datatable" x-ref="dataTable" class="table dt-responsive nowrap w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>participant</th>
+                                            <th>type</th>
+                                            <th>email</th>
+                                            <th>subject</th>
+                                        </tr>
+                                    </thead>
+                                
+                                    <tbody id="emailsBody">
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- end .table-responsive-->
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
 </div>
 <?= view('admin/common/footer') ?>
 
@@ -291,20 +377,59 @@ else{
 <!-- <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/pdfmake/build/vfs_fonts.js"></script> -->
 
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/datatables.init.js"></script>
-<script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
+<script defer src="https://unpkg.com/alpinejs@3.8.1/dist/cdn.min.js"></script>
 
 <script>
+    $(document).ready(() => {
+        $("#buy-datatable").DataTable({language:{url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json',paginate:{previous:"<i class='mdi mdi-chevron-left'>",next:"<i class='mdi mdi-chevron-right'>"} ,drawCallback: function () {$(".dataTables_paginate > .pagination").addClass("pagination-rounded");}}});
+        $("#emails-datatable").DataTable({language:{url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json',paginate:{previous:"<i class='mdi mdi-chevron-left'>",next:"<i class='mdi mdi-chevron-right'>"} ,drawCallback: function () {$(".dataTables_paginate > .pagination").addClass("pagination-rounded");}}});
 
+    })
+    function buyList(id){
+                let html = '';
+                $('#buyBody').html(html);
+                fetch(`<?php echo base_url()?>/admin/listBuys/${id}`, 
+                        {method: "get",  headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
+                        .then( el => el.text() )
+                        .then(res => {
+                            JSON.parse(res).forEach(el => {
+                                html += `       <tr><td>${el.id}</td>\
+                                                <td>${el.st}</td>\
+                                                <td>${el.price_ht}</td>\
+                                                <td>${el.date}</td>\
+                                                </tr>`
+                            });
+                            $('#buyBody').html(html);
+                            $('#list-buy-modal').modal('show');
+                        })
+            }  
+            
+    function emailList(id){
+                let html = '';
+                $('#emailsBody').html(html);
 
+                fetch(`<?php echo base_url()?>/admin/listEmails/${id}`, 
+                        {method: "get",  headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
+                        .then( el => el.text() )
+                        .then(res => {
+                            JSON.parse(res).forEach(el => {
+                                html += `       <tr><td>${el.id}</td>\
+                                                <td>${el.type}</td>\
+                                                <td>${el.user_to}</td>\
+                                                <td>${el.subject}</td>\
+                                                <td>${el.date}</td>\
+                                                </tr>`
+                            });
+                            $('#emailsBody').html(html);
+                            $('#list-emails-modal').modal('show');
+                        }).catch(err => {this.list = {}})
+            }
     function getInfoData() {
         return{
             
-            data: {}, 
-            changeData(dataUser) {
-                console.log('avsava');
-                $('#user-info-modal').modal('show');
-                this.data = dataUser
-            },
+            list: [], 
+            data:{},
+            
         }
     }
 

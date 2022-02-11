@@ -11,18 +11,33 @@ class userListController extends BaseController
 		$common_data=$this->common_data();
 		$data=$common_data;
 
-		 $users = $this->UserModel->where('id_ente', $user_data['id'])	->join('user_profile up', 'up.user_id = users.id', 'left')
+		 $users = $this->UserModel->where('users.id_ente', $user_data['id'])	->join('user_profile up', 'up.user_id = users.id', 'left')
 																				->join('comuni cr', 'cr.id = up.residenza_comune', 'left')
 																				->join('nazioni sr', 'sr.id = up.residenza_stato', 'left')
 																				->join('nazioni sn', 'sn.id = up.nascita_stato', 'left')
 																				->join('province pr', 'pr.id = up.residenza_provincia', 'left')
 																				->join('province pn', 'pr.id = up.nascita_provincia', 'left')
-																				->select('users.*, up.*, users.email as user_email, users.id as idu, cr.comune as residenza_comune_name, pr.provincia as residenza_provincia_name, sr.nazione as residenza_stato_name, pn.provincia as nascita_provincia_name, sn.nazione as nascita_stato_name');
+																				->join('cart c', 'c.id_user = users.id', 'left')
+																				->groupBy('users.id')
+																				->select('	users.*, 
+																							up.*, 
+																							users.email as user_email, 
+																							users.id as idu, 
+																							cr.comune as residenza_comune_name, 
+																							pr.provincia as residenza_provincia_name, 
+																							sr.nazione as residenza_stato_name, 
+																							pn.provincia as nascita_provincia_name, 
+																							sn.nazione as nascita_stato_name, 
+																							sum(CASE WHEN c.status = "COMPLETED" THEN 1 ELSE 0 END) as countBuys
+																						');
         if ($this->request->getVar('role')) {
             $users->where('role', $this->request->getVar('role'));
         }
         $users = $users->find();
-		
+		// echo '<pre>';
+        // print_r($users);
+        // echo '</pre>';
+        // exit;
 		$data['users'] = $users;
 		$data['role']=$this->request->getVar('role');
 		return view('admin/list_user.php',$data);
@@ -303,6 +318,29 @@ class userListController extends BaseController
 		$this->UserProfileModel->where('user_id', $id)->join('users u', 'u.id = user_profile.user_id')->delete();
 		$this->UserModel->where('id_ente', $this->session->get('user_data')['id'])->where('id', $id)->delete();
 		return redirect()->to($_SERVER['HTTP_REFERER']);
+	}
+
+	public function listBuys($id)
+	{
+		$participation = $this->CartItemsModel	
+												->join('corsi', 'corsi.id = cart_items.item_id','left')
+												->join('corsi_modulo cm', 'cm.id = cart_items.item_id','left')
+												->join('cart', 'cart.id = cart_items.id_cart', 'left')
+												->where('cart.status', 'COMPLETED')
+												->where('cart.id_user', $id)
+												->select('cart_items.*, (CASE WHEN cart_items.item_type = "corsi" THEN corsi.sotto_titolo ELSE cm.sotto_titolo END) AS st, cart.date')
+												->find();
+
+		return json_encode($participation);
+	}
+
+	public function listEmails($id)
+	{
+		$emails = $this->NotifLogModel	
+												->where('id_participant', $id)
+												->find();
+
+		return json_encode($emails);
 	}
 }
 ?>

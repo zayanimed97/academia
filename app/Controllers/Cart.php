@@ -101,6 +101,23 @@ class Cart extends BaseController
 		$data['list']=$res;
 		return view('admin/cart.php',$data);
 	}
+
+	public function abandoned()
+	{
+		$data=$this->common_data();
+		
+		$data['cart'] = $this->RememberCartModel->where('remember_cart.id_ente', $data['selected_ente']['id'] ?? '')
+												->join('users', 'users.id = remember_cart.id_user')
+												->select('remember_cart.*, users.display_name, users.email as user_email')
+												->find();
+
+		// foreach ($data['cart'] as $cart) {
+			
+		// }
+
+		return view('admin/abandoned',$data);
+
+	}
 	
 }
 ?>

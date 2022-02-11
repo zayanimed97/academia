@@ -221,6 +221,15 @@
                                         
                             </li>
 							<?php } ?>
+
+                            <li>
+                            
+                                
+                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/abandoned') ?>"><i data-feather="check-square"></i> <span> abandoned carts </span></a>
+                                        
+                            </li>
+
+
                             <li>
                                 <a href="#sidebarCourses" data-toggle="collapse">
                                     <i data-feather="list"></i>

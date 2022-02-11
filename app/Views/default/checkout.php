@@ -317,9 +317,11 @@
                                                 </div>
                                             </div>
                                             <?php if(isset($settings['facebook_id'])&&isset($settings['facebook_discount'])&&in_array('share', $ente_package['extra'])){ ?>
-                                            <div class="flex justify-between mt-1">
-                                                <p @click="shareFacebook(item.rowid, item.url, '<?= $settings['facebook_discount'] ?? 0?>')" class="text-green-400 cursor-pointer hover:underline">Condividi e risparmia <?= $amount->format($settings['facebook_discount'] ?? 0) ?></p>
-                                            </div>
+                                            <template x-if="item.price > 0">
+                                                <div class="flex justify-between mt-1">
+                                                    <p @click="shareFacebook(item.rowid, item.url, '<?= $settings['facebook_discount'] ?? 0?>')" class="text-green-400 cursor-pointer hover:underline">Condividi e risparmia <?= $amount->format($settings['facebook_discount'] ?? 0) ?></p>
+                                                </div>
+                                            </template>
                                             <?php } ?>
                                         </div>
                                     </div>

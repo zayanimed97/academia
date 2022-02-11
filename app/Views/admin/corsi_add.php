@@ -426,8 +426,8 @@
 																	$options=array();
 																	$options['']=lang('app.field_select');
 																	$options['Base']='Base';
-																	$options['Intermedio']='Intermedio';
-																	$options['Difficile']='Difficile';
+																	$options['Intermedia']='Intermedia';
+																	$options['Avanzata']='Avanzata';
 																
 																	echo form_dropdown($input, $options,'');
 																	?>

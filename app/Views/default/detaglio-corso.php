@@ -576,7 +576,7 @@ use CodeIgniter\I18n\Time;
                             <h3 class="text-xl font-semibold lg:mb-5"> <?php  if($corsi['tipologia_corsi']=='eBook') echo lang('front.field_tab_ebook'); else echo lang('front.field_tab_modulo')?> </h3>
                             <?php foreach($module as $mod){ if(strlen(trim($mod['id'])) > 0 ){ if($corsi['buy_type'] != 'date'){ ?>
                             <div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2 pb-2">
-                                <div class="md:w-1/5 md:h-24 h-40 overflow-hidden relative flex justify-center" @click="videoPromo('https://www.youtube.com/embed/<?= $mod['video_promo'] ?>', '<?= $mod['sotto_titolo'] ?>')">
+                                <div class="md:w-1/5 md:h-24 h-40 overflow-hidden relative flex justify-center" @click="<?= $mod['video_promo']  ? 'videoPromo(\'https://www.youtube.com/embed/'.$mod['video_promo'].'\', \''.$mod['sotto_titolo'].'\')' : ''?>">
                                     <img src="<?= $mod['foto'] ? base_url('uploads/corsi/'.$mod['foto']) : base_url('front/assets/images/courses/img-2.jpg') ?>" alt="" class="h-full">
                                     <?php if($mod['video_promo']) {?>
                                     <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="">
@@ -695,7 +695,7 @@ use CodeIgniter\I18n\Time;
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> <?php if($corsi['tipologia_corsi']=='eBook') echo lang('front.field_tab_ebook'); else echo lang('front.field_modules')?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?php echo lang('front.field_attestation')?>: <?= $corsi['attestato'] ?> </div>
                                     <?php if(strlen($corsi['difficulte']) > 0){ ?>
-                                        <div class="flex items-center px-5 py-3">  <ion-icon name="speedometer-outline" class="text-2xl mr-2"></ion-icon> difficoltà : <?= $corsi['difficulte'] ?> </div>
+                                        <div class="flex items-center px-5 py-3">  <ion-icon name="speedometer-outline" class="text-2xl mr-2"></ion-icon> Difficoltà : <?= $corsi['difficulte'] ?> </div>
                                     <?php } ?>
                                 </div>
                                 

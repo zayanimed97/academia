@@ -569,7 +569,7 @@ use CodeIgniter\I18n\Time;
                         <div class="tube-card p-5 lg:p-8" id="Moduli">
                             <h3 class="text-xl font-semibold lg:mb-5"> <?php echo lang('front.field_cour')?> </h3>
                             <div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2 pb-2">
-                                <div class="md:w-1/5 md:h-24 h-40 overflow-hidden relative flex justify-center" @click="videoPromo('https://www.youtube.com/embed/<?= $corsi['video_promo'] ?>', '<?= $corsi['sotto_titolo'] ?>')">
+                                <div class="md:w-1/5 md:h-24 h-40 overflow-hidden relative flex justify-center" @click="<?= $corsi['video_promo']  ? 'videoPromo(\'https://www.youtube.com/embed/'.$corsi['video_promo'].'\', \''.$corsi['sotto_titolo'].'\')' : ''?>">
                                     <img src="<?= $corsi['foto'] ? base_url('uploads/corsi/'.$corsi['foto']) : base_url('front/assets/images/courses/img-2.jpg') ?>" alt="" class="h-full">
                                     <?php if($corsi['video_promo']) {?>
                                     <img src="<?= base_url('front') ?>/assets/images/icon-play.svg" class="w-16 h-16 uk-position-center uk-transition-fade" alt="">
@@ -664,7 +664,7 @@ use CodeIgniter\I18n\Time;
                                     <!-- <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> Moduli </div> -->
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?php echo lang('front.field_attestation')?> : <?= $module['attestato'] ?> </div>
                                     <?php if(strlen($module['difficulte']) > 0){ ?>
-                                        <div class="flex items-center px-5 py-3">  <ion-icon name="speedometer-outline" class="text-2xl mr-2"></ion-icon> difficoltà : <?= $module['difficulte'] ?> </div>
+                                        <div class="flex items-center px-5 py-3">  <ion-icon name="speedometer-outline" class="text-2xl mr-2"></ion-icon> Difficoltà : <?= $module['difficulte'] ?> </div>
                                     <?php } ?>
                                 </div>
                                 
