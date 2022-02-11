@@ -79,7 +79,7 @@
 														   <td><?= json_decode($c['cart'])->cart_total ?></td>
                                                             
                                                         <td class="row pt-1">
-                                                            <button type="button" onclick="emailList()" class="btn p-1 mr-2" style="font-size: 1rem">
+                                                            <button type="button" onclick="emailList('<?php echo $c['id']?>')" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-mail"></i>
                                                             </button>
 															
@@ -164,6 +164,18 @@
         $("#items-datatable").DataTable({language:{url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json',paginate:{previous:"<i class='mdi mdi-chevron-left'>",next:"<i class='mdi mdi-chevron-right'>"} ,drawCallback: function () {$(".dataTables_paginate > .pagination").addClass("pagination-rounded");}}});
 
     })
+	function emailList(id){
+		$.ajax({
+				  url:"<?php echo base_url()?>/ajax/send_email_remember_cart",
+				  method:"POST",
+				  data:{id:id}
+				  
+			}).done(function(data){
+				//console.log(data);
+				alert("<?php echo lang('app.success_send_contact')?>");
+			
+			});
+	}
     function cartItems(id){
         let cart = <?= json_encode($cart) ?>.find(el => el.id == id);
         cart = JSON.parse(cart.cart)
