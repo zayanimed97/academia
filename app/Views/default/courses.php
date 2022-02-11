@@ -272,7 +272,7 @@ a[disabled] {
 									case 'webinar': if(isset( $settings['default_img_webinar']) && $settings['default_img_webinar']!="") $default_image=base_url('uploads/'.$settings['default_img_webinar']); break;
 								}?>
                                     <div class="card uk-transition-toggle flex flex-col justify-between">
-                                        <div class="card-media h-40 flex items-center" @click="<?= $c['video_promo'] ? 'true' : 'false'?> ? showModalPromo('https://www.youtube.com/embed/<?= $c['video_promo'] ?>') : ''">
+                                        <div class="card-media h-40 flex items-center" @click="showModalPromo('https://www.youtube.com/embed/<?= $c['video_promo'] ?>')">
                                             <div class="card-media-overly"></div>
                                             <img src="<?= $c['foto'] ? base_url('uploads/corsi/'.$c['foto']) : $default_image ?>" alt="" class="">
                                             <?php if($c['video_promo']) {?>

@@ -151,6 +151,9 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {
     $routes->get('dashboard', 'DashboardController::show');
 	$routes->add('loginAs/(:num)', 'Users::loginAs/$1');
+	$routes->add('listBuys/(:num)', 'userListController::listBuys/$1');
+	$routes->add('listEmails/(:num)', 'userListController::listEmails/$1');
+	$routes->get('abandoned', 'Cart::abandoned');
 });
 
 $routes->get('/getProv', 'Home::getProv');
