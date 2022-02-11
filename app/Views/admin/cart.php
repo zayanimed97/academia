@@ -46,11 +46,12 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
+														<th><?php echo lang('app.field_date')?></th>
 														<th><?php echo lang('app.field_last_name')?></th>	
-														<th><?php echo lang('app.field_first_name')?></th>	  
+														<!--th><?php echo lang('app.field_first_name')?></th-->	  
 														 <th><?php echo lang('app.field_credentiel')?></th>
 														<th><?php echo lang('app.field_total')?></th>		
-														<th><?php echo lang('app.field_date')?></th>
+														<th><?php echo lang('app.field_method_payment')?></th>	
 														<th><?php echo lang('app.field_status')?></th>																
 														<th>&nbsp;</th>
                                                     </tr>
@@ -60,19 +61,20 @@
                                                     <?php foreach($list as $k=>$arg) { ?>
                                                     <tr>
 														<td><?= $arg['id'] ?></td>
-                                                        <td><?= $arg['participante'] ?></td>
-                                                        <td><?= $arg['participant_cognome'] ?></td>
+														<td><?php echo date('d/m/Y',strtotime($arg['date'])) ?></td>
+                                                        <td><?= $arg['participante'].' '.$arg['participant_cognome'] ?></td>
+                                                        <!--td><?= $arg['participant_cognome'] ?></td-->
                                                         <td><?= $arg['credentiel'] ?></td>
 														<td><?= number_format($arg['total_paid'],2,',','.') ?>€</td>
-														<td><?php echo date('d/m/Y',strtotime($arg['date'])) ?></td>
+														 <td><?= $arg['payment'] ?></td>
 														 <td><?= $arg['status_label'] ?></td>
 														<td class="row pt-1">
                                                             <a  data-toggle="modal" data-target="#payment-modal" onclick="get_payments('<?php echo $arg['id']?>')" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-dollar-sign"></i>
                                                             </a>
-															<a  data-toggle="modal" data-target="#items-modal" onclick="get_items('<?php echo $arg['id']?>')" class="btn p-1 mr-2" style="font-size: 1rem">
+															<!--a  data-toggle="modal" data-target="#items-modal" onclick="get_items('<?php echo $arg['id']?>')" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-list"></i>
-                                                            </a>
+                                                            </a-->
 															<?php if(strtolower($arg['status'])=='pending'){?>
                                                             <a data-toggle="modal" data-target="#status-modal" onclick="get_update_status('<?php echo $arg['id']?>','<?php echo $arg['status']?>')" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
                                                                 <i class="fe-edit-1"></i>
@@ -131,10 +133,10 @@
             </div><!-- /.modal -->
 
 <div id="payment-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog  modal-dialog-centered">
+                <div class="modal-dialog modal-lg  modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.title_modal_cart_payments') ?></h4>
+                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.title_modal_cart_details') ?></h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                         <div class="modal-body" id="list_payment">

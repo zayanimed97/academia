@@ -270,6 +270,7 @@ class CartController extends BaseController
                                                 'total_vat'=> $total_vat,
                                                 'id_professione' => session('user_data')['profile']['professione'],
                                                 'status' => 'pending',
+												'fatturazione'=>json_encode($tab,true)
                                             ]);
         foreach ($cartItems as &$item) {
             $item['id_cart'] = $cartId;

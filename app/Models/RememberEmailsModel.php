@@ -7,7 +7,7 @@ class RememberEmailsModel extends Model
 	
     protected $table = 'remember_emails';
 	protected $primaryKey = 'id';
-    protected $allowedFields = ['nb_days', 'tipologia_corsi','subject','text','enable','banned','id_ente'];
+    protected $allowedFields = ['nb_days', 'tipologia_corsi','subject','text','enable','banned','id_ente','type_days'];
 	
 	protected $returnType = 'array';
 	

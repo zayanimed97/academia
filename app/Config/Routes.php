@@ -125,7 +125,7 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 	$routes->add('settings/cms/edit/(:any)', 'Settings::cms_edit/$1');
 	$routes->add('settings/cms/add', 'Settings::cms_add');
 	$routes->add('settings/cms', 'Settings::cms');
-	
+	$routes->add('settings/social', 'Settings::social');
 	// Participation 
 	$routes->add('send_credential/(:any)/(:any)', 'Participation::send_credential/$1/$2');
 	$routes->add('participation/(:any)', 'Participation::index/$1');
@@ -145,7 +145,8 @@ $routes->group("admin", ["filter" => "auth_expiration:ente"], function ($routes)
 	$routes->get('remember_emails/add', 'Settings::remember_emails_add');
 	$routes->add('remember_emails/remember_emails_send_test', 'Settings::remember_emails_send_test');
 	$routes->add('remember_emails', 'Settings::remember_emails');
-
+	//report & extraction
+	$routes->add('report/list_participanti', 'Report::list_participanti');
 });
 
 $routes->group("admin", ["filter" => "auth:ente"], function ($routes) {

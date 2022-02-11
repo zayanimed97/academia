@@ -70,7 +70,7 @@
 												<tr class="odd gradeX">
 													<!--td><?php echo $one_customer['id']?></td-->
 													
-													<td><?php echo $one_customer['nb_days']?></td>
+													<td><?php if($one_customer['type_days']=='after') echo '+'; else echo '-'; echo $one_customer['nb_days']?></td>
 													 <td><?php echo $one_customer['tipologia_corsi']?></td>
 													  <td><?php echo $one_customer['subject']?></td>
 													  

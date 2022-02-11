@@ -15,6 +15,23 @@
                 </div>
 				
             </div>
+			<?php if($settings['social']!=""){
+				$social=json_decode($settings['social'],true);?>
+			 <div class="flex flex-col justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
+			 <?php foreach($social as $kk=>$vv){
+				 if($vv!=""){?>
+			 <a target="_blank" href="<?php echo $vv?>" ><?php switch($kk){
+				 case 'site_web':?><span class="icon-material-outline-language"></span><?php break;
+				  case 'twitter':?><span class="icon-brand-twitter"></span><?php break;
+				   case 'facebook':?><span class="icon-brand-facebook"></span><?php break;
+				    case 'linkedin':?><span class="icon-brand-linkedin"></span><?php break;
+					 case 'youtube':?><span class="icon-brand-youtube"></span><?php break;
+					  case 'instagram':?><span class="icon-brand-instagram"></span><?php break;
+					   case 'blog':?><span class="icon-material-outline-assignment"></span><?php break;
+			 } }?></a>
+			 <?php } ?>
+			 </div>
+			<?php } ?>
         </div>
 
     </div>

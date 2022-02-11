@@ -19,6 +19,24 @@ class Participation extends BaseController
 		
 		if(!is_null($this->request->getVar('action'))){
 				switch($this->request->getVar('action')){
+					case 'send_notification_multiple':
+						$list_p=$this->request->getVar('id');
+						$subject=$this->request->getVar('notification_subject');
+						$msg=$this->request->getVar('notification_message');
+						
+						if(!empty($list_p)){
+							foreach($list_p as $kk=>$vv){
+								if($vv!=""){
+									$inf_p=$this->ParticipationModel->find($vv);
+
+									 $this->send_notification($inf_p['id_user'],$id_modulo,$inf_p,$subject,$msg);
+								}
+							}
+						}
+						
+						$data['success']=lang('app.success_send_notification');
+					break;
+					
 					case 'send_credential_multiple':
 						$list_p=$this->request->getVar('id');
 						if(!empty($list_p)){
@@ -77,12 +95,16 @@ class Participation extends BaseController
 					$total_paid=$inf_cart['total_ht']+$inf_cart['total_vat'];
 					if(!empty($inf_payment)) $inf_method=$this->MethodPaymentModel->find($inf_payment[0]['id_method']);
 					else $inf_method['title']="--";
-					$quota=number_format($total_paid,2,',','.').'€ <br/>'.date('d/m/Y',strtotime($inf_cart['date'])).'<br/>'.$inf_method['title'];
+					$quota=number_format($total_paid,2,',','.').'€ <br/>'.date('d/m/Y',strtotime($inf_cart['date'])).'<br/>'.$inf_method['title'].'<br/>'.' <a  data-toggle="modal" data-target="#payment-modal" onclick="get_payments('.$v['id_cart'].')" class="btn p-1 mr-2" style="font-size: 1rem">
+                                                                <i class="fe-dollar-sign"></i>
+                                                            </a>';
 					
 				}
 				$v['total_paid']=$total_paid;
 				$v['quota']=$quota;
+				
 				if($inf_corsi['tipologia_corsi']=='webinar'){
+					
 					if($v['confirm_zoom']!=""){
 						$det=json_decode($v['confirm_zoom'],true);
 						$v['confirm_zoom']="";
@@ -92,6 +114,22 @@ class Participation extends BaseController
 						}
 						
 					}
+					else $v['confirm_zoom']=lang('app.no');
+				}
+				if($inf_corsi['tipologia_corsi']=='online'){
+					$list_vimeo=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$v['id_modulo'])->orderBy('ord','ASC')->find();
+					//$last_status=$this->ParticipationOnlineStatusModel->where('id_participation',$v['id'])->where('vimeo_id',$vimeo_id)->orderBy('created_at','DESC')->first();
+					$total_vimeo_percent=0;
+					
+					//if(!empty($last_status)){
+						//$data['last_status']=$last_status; //else $data['last_status']=array();
+						foreach($list_vimeo as $kk=>$vv){
+							$inf_last_status=$this->ParticipationOnlineStatusModel->where('id_participation',$v['id'])->where('vimeo_id',$vv['vimeo'])->orderBy('created_at','DESC')->first();
+							//$data['inf_last_status'][$vv['vimeo']]=$inf_last_status;
+							$total_vimeo_percent+=$inf_last_status['status'] ?? 0;
+						}
+					//}
+						$v['total_vimeo_percent']=count($list_vimeo) == 0 ? 0 : round($total_vimeo_percent/count($list_vimeo));
 				}
 				$res[]=$v;
 			}
@@ -100,7 +138,81 @@ class Participation extends BaseController
 			$data['success']=$this->session->get('success');
 			$this->session->remove('success');
 		}
+		$temp=$this->TemplatesModel->where('module','notification')->where('id_ente',$common_data['user_data']['id'])->first();
+		if(empty($temp)) $temp=$this->TemplatesModel->where('module','notification')->first();
+		$data['temp']=$temp ?? array();
 		return view('admin/corsi_modulo_participation.php',$data);
+	}
+		public function send_notification($id_user,$id_modulo,$inf_p,$subject,$message){
+		
+		$common_data=$this->common_data();
+		
+		$user_data=$this->session->get('user_data');
+	
+			
+			$inf_module=$this->CorsiModuloModel->find($id_modulo);
+		
+			$inf=$this->UserModel->find($id_user);
+			
+			$inf_corsi=$this->CorsiModel->find($inf_module['id_corsi']);
+			$corsi_url=base_url('modulo/'.$inf_module['url']);
+			$list_docenti=explode(",",$inf_module['instructor']);
+					$docenti="";
+					foreach($list_docenti as $one_d){
+						$inf_doc=$this->UserModel->find($one_d);
+						$docenti.=$inf_doc['display_name'].",";
+					}
+					$docenti=substr($docenti,0,-1);
+					$sede="";$hotel="";
+					if($inf_corsi['tipologia_corsi']=='aula'){
+						if(intval($inf_corsi['id_luoghi'])>0){
+								$inf_l=$this->LuoghiModel->find($inf_corsi['id_luoghi']);
+								$sede=$inf_l['nome'];
+						}
+						if(intval($inf_corsi['id_alberghi'])>0){
+							$inf_l=$this->AlberghiModel->find($inf_corsi['id_alberghi']);
+							$hotel=$inf_l['nome'];
+						}
+					}
+			$inf_profile=$this->UserProfileModel->where('user_id',$id_user)->first();
+			$name=$inf_profile['nome'].' '.$inf_profile['cognome'];
+			
+			$email = \Config\Services::email();
+			
+			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+				if($SMTP!="") $vals=json_decode($SMTP,true);
+			 $sender_name=$common_data['settings']['sender_name'];
+			 $sender_email=$common_data['settings']['sender_email'];
+				if(!empty($vals)){
+					if(isset($vals['sender_name'])  && $vals['sender_name']!="") $sender_name=$vals['sender_name']; else $sender_name=$common_data['settings']['sender_name'];
+					if(isset($vals['sender_email']) && $vals['sender_email']!="") $sender_email=$vals['sender_email']; else $sender_email=$common_data['settings']['sender_email'];
+					
+					$email->SMTPHost=$vals['host'];
+					$email->SMTPUser=$vals['username'];
+					$email->SMTPPass=$vals['password'];
+					$email->SMTPPort=$vals['port'];
+				}
+		
+			
+				$email->setFrom($sender_email,$sender_name);
+			$email->setTo($inf['email']);
+			//$email->setBCC('segreteria@dentalcampus.it');
+			$link=base_url('user/login');
+			
+		
+			 $html=str_replace(array("{var_link}","{var_password}","{var_email}","{var_user_name}","{modulo_titolo}","{date}","{CORSI_URL}","{DOCENTI}", "{SEDE}", "{HOTEL}"),
+			array($link,$inf['pass'],$inf['email'],$name,$inf_module['sotto_titolo'],date('d/m/Y',strtotime($inf_p['date'])),$corsi_url,$docenti,$sede,$hotel),
+			$message);
+			$email->setSubject($subject);
+			$email->setMessage($html);
+			$email->setAltMessage(strip_tags($html));
+			$xxx=$email->send();
+			
+			$yy=$this->NotifLogModel->insert(array('id_participant'=>$id_user,'type'=>'email','user_to'=>$inf['email'],'subject'=>$subject,'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+	//var_dump($email); exit;
+	/*if($redirect=='yes')
+			return redirect()->back()->with('success', lang('app.success_send_credential'));
+		else return true;*/
 	}
 	
 		public function send_credential($id_user,$redirect='no'){

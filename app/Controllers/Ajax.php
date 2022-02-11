@@ -690,8 +690,191 @@ if($this->request->getVar('Password')!=""){
 		$id=$this->request->getVar('id');
 		$verif=$this->CartModel->where('id_ente',$common_data['user_data']['id'])->where('id',$id)->find();
 		if(!empty($verif)){
+			$inf_profile=$this->UserProfileModel->where('user_id',$verif[0]['id_user'])->first();
+		
+		$inf_country_residenza=$this->NazioniModel->find($inf_profile['residenza_stato']);
+		
+		if($inf_profile['residenza_stato']==106){
+			$inf_provincia_residenza=$this->ProvinceModel->find($inf_profile['residenza_stato']);
+			$residenza_provincia=$inf_provincia_residenza['provincia'];
+			$inf_provincia_residenza=$this->ComuniModel->find($inf_profile['residenza_provincia']);
+			$residenza_comune=$inf_provincia_residenza['comune'];
+		}
+		else{
+			$residenza_provincia=$inf_profile['residenza_provincia'];
+			$residenza_comune=$inf_profile['residenza_comune'];
+		}
+		
+		?>
+		
+		
+			
+		<h5><?php echo lang('app.title_modal_cart_profile')?></h5>
+			<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_first_name')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['nome']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_last_name')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['cognome']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_phone')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['telefono']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_mobile')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['mobile']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_country')?></b></div>
+			<div class="col-8"><?php echo $inf_country_residenza['nazione']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_provincia')?></b></div>
+			<div class="col-8"><?php echo $residenza_provincia?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_city')?></b></div>
+			<div class="col-8"><?php echo $residenza_comune?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_address')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['residenza_indirizzo']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_zip')?></b></div>
+			<div class="col-8"><?php echo $inf_profile['residenza_cap']?></div>
+		</div>
+		<?php
+		
+		$inf_fatturazione=json_decode($verif[0]['fatturazione'],true);
+		
+		if(!empty($inf_fatturazione)){
+		
+		
+		$inf_country_residenza=$this->NazioniModel->find($inf_fatturazione['fattura_stato']);
+		
+		if($inf_fatturazione['fattura_stato']==106){
+			$inf_provincia_residenza=$this->ProvinceModel->find($inf_fatturazione['fattura_stato']);
+			$residenza_provincia=$inf_provincia_residenza['provincia'];
+			$inf_provincia_residenza=$this->ComuniModel->find($inf_fatturazione['fattura_provincia']);
+			$residenza_comune=$inf_provincia_residenza['comune'];
+		}
+		else{
+			$residenza_provincia=$inf_fatturazione['fattura_provincia'];
+			$residenza_comune=$inf_fatturazione['fattura_comune'];
+		}
+		
+		?>
+	
+		<h5><?php echo lang('front.title_section_profile_fatturazione')?></h5>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_type')?></b></div>
+			<div class="col-8"><?php switch($inf_fatturazione['type']){
+				case 'private': echo lang('front.field_private');break;
+				case 'professional': echo lang('front.field_prof');break;
+				case 'company': echo lang('front.field_azienda');break;
+			}?></div>
+		</div>
+		<?php if($inf_fatturazione['type']!='company'){?>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_first_name')?></b></div>
+			<div class="col-8"><?php echo $inf_fatturazione['fattura_nome']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_last_name')?></b></div>
+			<div class="col-8"><?php echo $inf_fatturazione['fattura_cognome']?></div>
+		</div>
+		<?php } else{?>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_company')?></b></div>
+			<div class="col-8"><?php echo $inf_fatturazione['ragione_sociale']?></div>
+		</div>
+		
+		<?php } ?>
+		<?php if($inf_fatturazione['fattura_cf']!=''){?>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_cf')?></b></div>
+			<div class="col-8"><?php echo $inf_fatturazione['fattura_cf']?></div>
+		</div>
+		<?php } ?>
+		<?php if($inf_fatturazione['fattura_piva']!=''){?>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_piva')?></b></div>
+			<div class="col-8"><?php echo $inf_fatturazione['fattura_piva']?></div>
+		</div>
+		<?php } ?>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_phone')?></b></div>
+			<div class="col-8"><?php echo $inf_fatturazione['fattura_phone']?></div>
+		</div>
+		
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_country')?></b></div>
+			<div class="col-8"><?php echo $inf_country_residenza['nazione']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_provincia')?></b></div>
+			<div class="col-8"><?php echo $residenza_provincia?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_city')?></b></div>
+			<div class="col-8"><?php echo $residenza_comune?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_address')?></b></div>
+			<div class="col-8"><?php echo $inf_fatturazione['fattura_indirizzo']?></div>
+		</div>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_zip')?></b></div>
+			<div class="col-8"><?php echo $inf_fatturazione['fattura_cap']?></div>
+		</div>
+			<?php if($inf_fatturazione['fattura_pec']!=''){?>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_pec')?></b></div>
+			<div class="col-8"><?php echo $inf_fatturazione['fattura_pec']?></div>
+		</div>
+		<?php } ?>
+		<?php if($inf_fatturazione['fattura_sdi']!=''){?>
+		<div class="row">
+			<div class="col-4"><b><?php echo lang('app.field_sdi')?></b></div>
+			<div class="col-8"><?php echo $inf_fatturazione['fattura_sdi']?></div>
+		</div>
+		<?php } ?>
+			<?php 
+		}// end if fatturazione
+		
+			$list=$this->CartItemsModel->where('id_cart',$id)->where('banned','no')->find();
+			?>
+			<h5><?php echo lang('app.title_modal_cart_items')?></h5>
+			<table  class="table dt-responsive nowrap w-100">
+				<tr>	
+					<th><?php echo lang('app.field_item_type')?></th>
+					<th><?php echo lang('app.field_item')?></th>
+					<th><?php echo lang('app.field_amount')?></th>
+				</tr>
+				<?php foreach($list as $k=>$v){
+					switch($v['item_type']){
+						case 'corsi': $st= lang('app.field_per_corsi');
+							$inf_corsi=$this->CorsiModel->find($v['item_id']);
+							$corso=$inf_corsi['sotto_titolo'];
+						break;
+						default: $st=lang('app.field_per_modulo');
+							$inf_corsi=$this->CorsiModuloModel->find($v['item_id']);
+							$corso=$inf_corsi['sotto_titolo'];
+					}?>
+				<tr>
+					<td><?php echo $st ?></td>
+					<td><?php echo $corso ?></td>
+					<td><?php echo number_format($v['price_ht']+($v['price_ht']*$v['vat']/100),2,',','.') ?>€</td>
+				</tr>
+				<?php } ?>
+			</table>
+		<?php
 			$list=$this->CartPaymentModel->where('id_cart',$id)->where('banned','no')->find();
 			?>
+			<h5><?php echo lang('app.title_modal_cart_payments')?></h5>
 			<table  class="table dt-responsive nowrap w-100">
 				<tr>	
 					
@@ -972,4 +1155,33 @@ if($this->request->getVar('Password')!=""){
 		}
 	}
 	
+	public function get_video_details(){
+		$common_data=$this->common_data();
+		 $id_participation=$this->request->getVar('id');
+		$inf_p=$this->ParticipationModel->find($id_participation);
+		?>
+		<table class="table">
+		<tr>
+			<th><?php echo lang('app.field_vimeo')?></th>
+			<th><?php echo lang('app.field_date')?></th>
+			<th><?php echo lang('app.field_progress_video')?></th>
+		</tr>
+		<?php
+		$list_vimeo=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$inf_p['id_modulo'])->orderBy('ord','ASC')->find();
+		if(!empty($list_vimeo)){
+		foreach($list_vimeo as $kk=>$vv){
+			$inf_last_status=$this->ParticipationOnlineStatusModel->where('id_participation',$id_participation)->where('vimeo_id',$vv['vimeo'])->orderBy('created_at','DESC')->first();
+			if(!empty($inf_last_status)){
+			$total_vimeo_percent=$inf_last_status['status'] ?? 0;
+			?>
+			<tr>
+				<td><?php echo $vv['vimeo']?></td>
+				<td><?php echo date('d/m/Y H:i',strtotime($inf_last_status['created_at']))?></td>
+				<td><div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: <?= round($total_vimeo_percent) ?>%" aria-valuenow="<?= round($total_vimeo_percent) ?>" aria-valuemin="0" aria-valuemax="100"></div>
+</div></td>
+			</tr>
+		<?php } }
+		}
+	}
 }//end class
