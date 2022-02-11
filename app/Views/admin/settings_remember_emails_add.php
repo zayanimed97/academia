@@ -63,6 +63,30 @@
 										?>
 												<form method="post" onsubmit="return test();" id="form_add">
 												<div class="row">
+									<div class="col-md-12">
+														<div class="form-group">
+															<label for="acc-mname"><?php echo lang('app.field_type_cours')?>  <span class="text-danger">*</span></label>
+														 <?php $input = [
+												
+																'name'  => 'tipologia_corsi',
+																'id'    => 'tipologia_corsi',
+																'placeholder' =>lang('app.field_type_cours'),
+																'class' => 'form-control'
+														];
+														$options=array();
+														$options['']=lang('app.field_select');
+														foreach($ente_package['type_cours'] as $k=>$v){
+																$options[$v]=$type_cours[$v] ?? $v;
+															}
+														$js='onchange="aa(this.value)"';
+														echo form_dropdown($input, $options,'aula',$js);
+														?>
+													
+														</div>
+													</div>
+										
+									</div>
+												<div class="row">
 												
 												<div class="col-md-6">
 														<div class="form-group required-field">
@@ -70,9 +94,9 @@
 														 <input class="form-control" type="number" min="1" step="1" max="90" id="nb_days" name="nb_days" value="<?php echo $inf['nb_days'] ?? '7'?>" />
 														</div>
 													</div>
-													<div class="col-md-6">
+													<div class="col-md-6" id="div_type_days">
 													<div class="form-group">
-															<label for="acc-mname"><?php echo lang('app.field_type_days')?></label>
+															<label for="acc-mname"><?php echo lang('app.field_type_days')?> <span class="text-danger">*</span></label>
 														 <?php $input = [
 												
 																'name'  => 'type_days',
@@ -92,30 +116,7 @@
 													</div>
 													
 										</div>		
-									<div class="row">
-									<div class="col-md-12">
-														<div class="form-group">
-															<label for="acc-mname"><?php echo lang('app.field_type_cours')?></label>
-														 <?php $input = [
-												
-																'name'  => 'tipologia_corsi',
-																'id'    => 'tipologia_corsi',
-																'placeholder' =>lang('app.field_type_cours'),
-																'class' => 'form-control'
-														];
-														$options=array();
-														$options['']=lang('app.field_select');
-														foreach($ente_package['type_cours'] as $k=>$v){
-																$options[$v]=$type_cours[$v] ?? $v;
-															}
-														$js='';
-														echo form_dropdown($input, $options,'aula',$js);
-														?>
-													
-														</div>
-													</div>
-										
-									</div>
+									
 									<div class="row">
 												
 												<div class="col-md-12">
@@ -266,6 +267,14 @@
 				alert("<?php echo lang('app.msg_send_mail_test')?>");
 				
 			});
+		}
+		
+		function aa(v){
+			switch(v){
+				case 'aula':
+				case 'webinar': $("#div_type_days").show(0); break;
+				default:  $("#div_type_days").hide(0);  $("#type_days").val('after');
+			}
 		}
 	 </script>
 		
