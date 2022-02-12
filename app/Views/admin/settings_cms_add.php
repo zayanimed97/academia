@@ -231,6 +231,30 @@
 														</div>
 													</div>
 											</div>	
+
+											<div class="row">
+												<div class="col-md-12">
+														<div class="form-group required-field">
+															<label for="acc-mname"> header image</label>
+														 <?php $val=""; 
+													$input = [
+															'type'  => 'file',
+															'name'  => 'headerImage',
+															'id'    => 'headerImage',
+															
+														
+															'placeholder' =>lang('app.field_image'),
+															'class' => 'form-control'
+															
+													];
+
+													echo form_input($input);
+													?>
+														</div>
+													</div>
+											</div>
+
+
 									<div class="row" id="div_content">
 									<div class="col-md-12">
 														<div class="form-group">

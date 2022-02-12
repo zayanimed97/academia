@@ -350,9 +350,30 @@ class Settings extends BaseController
 							 $logo_name = $avatar_logo->getRandomName();
 							
 							$avatar_logo->move(ROOTPATH.'public/uploads/pages/',$logo_name);
+
+							$header_image = $this->request->getFile('headerImage');
+							$header_image_name = $avatar_logo->getRandomName();
+							
+							$header_image->move(ROOTPATH.'public/uploads/pages/',$header_image_name);
 						}
 						else $logo_name =null;
-						
+
+						$this->validator->reset();
+						$validate_header = $this->validate([
+							'headerImage' => [
+								'uploaded[headerImage]',
+								'mime_in[headerImage,image/jpg,image/jpeg,image/gif,image/png,image/ico]',
+								'max_size[headerImage,4096]',
+							],
+						]);
+						if ($validate_header) { 
+						$header_image = $this->request->getFile('headerImage');
+							$header_image_name = $header_image->getRandomName();
+							
+							$header_image->move(ROOTPATH.'public/uploads/pages/',$header_image_name);
+						}
+						else $header_image_name =null;
+
 						if($this->request->getVar('enable')!==null) $enable="yes"; else $enable="no";
 						if($this->request->getVar('is_externel')!==null){
 							$url=$this->request->getVar('url');
@@ -376,6 +397,7 @@ class Settings extends BaseController
 						"enable"=>$enable,
 						"id_ente"=>$user_data['id'],
 						'image'=>$logo_name,
+						'header_image'=>$header_image_name,
 						);
 						
 						$this->PagesModel->insert($tab);
@@ -442,7 +464,24 @@ class Settings extends BaseController
 							 $logo_name = $avatar_logo->getRandomName();
 							$tab['image']=$logo_name;
 							$avatar_logo->move(ROOTPATH.'public/uploads/pages/',$logo_name);
-						}	
+						}
+						$this->validator->reset();
+						$validate_header = $this->validate([
+							'headerImage' => [
+								'uploaded[headerImage]',
+								'mime_in[headerImage,image/jpg,image/jpeg,image/gif,image/png,image/ico]',
+								'max_size[headerImage,4096]',
+							],
+						]);
+						if ($validate_header) { 
+						$header_image = $this->request->getFile('headerImage');
+							$header_image_name = $header_image->getRandomName();
+							$tab['header_image']=$header_image_name;
+							
+							$header_image->move(ROOTPATH.'public/uploads/pages/',$header_image_name);
+						}
+
+
 						if($this->request->getVar('is_externel')!==null){
 							$url=$this->request->getVar('url');
 							$is_externel="yes";
