@@ -1,7 +1,12 @@
 <?= view($view_folder.'/common/header') ?>
 	<div class="uk-sticky-placeholder" style="height: 72px; margin: 0px;"></div>
 	<!--  breadcrumb -->
-	<div class="from-blue-500 bg-grey breadcrumb-area py-6 text-black">
+	<?php if(strlen($inf_page['header_image'])==0) { ?>
+		<div class="from-blue-500 bg-grey breadcrumb-area py-6 text-black">
+	<?php } else { ?>
+
+		<div class="from-blue-500 bg-local bg-cover bg-no-repeat bg-center breadcrumb-area py-24 text-black" style="background-image: url(<?php echo base_url('uploads/pages/'.$inf_page['header_image'])?>)">
+	<?php } ?>
 		<div class="container mx-auto lg:pt-5">
 			<div class="breadcrumb text-black">
 				<ul class="m-0">

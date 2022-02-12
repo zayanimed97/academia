@@ -17,7 +17,7 @@
             </div>
 			<?php if($settings['social']!=""){
 				$social=json_decode($settings['social'],true);?>
-			 <div class="flex flex-col justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
+			 <div class="flex justify-end lg:flex-row max-w-6xl mx-auto space-x-3">
 			 <?php foreach($social as $kk=>$vv){
 				 if($vv!=""){?>
 			 <a target="_blank" href="<?php echo $vv?>" ><?php switch($kk){

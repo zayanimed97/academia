@@ -239,6 +239,33 @@
 														<?php } ?>
 													</div>
 											</div>	
+
+										<div class="row">
+												<div class="col-md-9">
+														<div class="form-group required-field">
+															<label for="acc-mname">Aggiungi un'<?php echo lang('app.field_image')?> (1200x628px) che permette la condivizione della header</label>
+														 <?php $val=""; 
+													$input = [
+															'type'  => 'file',
+															'name'  => 'headerImage',
+															'id'    => 'headerImage',
+															
+														
+															'placeholder' =>lang('app.field_image'),
+															'class' => 'form-control'
+															
+													];
+
+													echo form_input($input);
+													?>
+														</div>
+													</div>
+													<div class="col-md-3">
+														<?php if($inf_page['header_image']!=""){?>
+															<img src="<?php echo base_url('uploads/pages/'.$inf_page['header_image'])?>" style="width:100%">
+														<?php } ?>
+													</div>
+										</div>
 	<?php if($inf_page['type']=='dynamic'){?>										
 									<div class="row" id="div_content" <?php if($inf_page['is_externel']=='yes'){?> style="display:none" <?php } ?>>
 									<div class="col-md-12">
