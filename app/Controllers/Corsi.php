@@ -318,7 +318,7 @@ class Corsi extends BaseController
 				$luoghi_label=$inf_luoghi['nome'];
 				if( $inf_corsi['id_alberghi']!==null){
 					$inf_luoghi=$this->AlberghiModel->find($inf_corsi['id_alberghi']);
-					$luoghi_label.=" - ".$inf_luoghi['nome'];
+					$luoghi_label.=" - ".$inf_luoghi['nome'] ?? '';
 				}
 			}
 			$data['luoghi_label']=$luoghi_label;

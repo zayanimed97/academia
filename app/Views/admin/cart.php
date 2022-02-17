@@ -51,9 +51,9 @@
 														<!--th><?php echo lang('app.field_first_name')?></th-->	  
 														 <th><?php echo lang('app.field_credentiel')?></th>
 														<th><?php echo lang('app.field_total')?></th>		
-														<th><?php echo lang('app.field_method_payment')?></th>	
-														<th><?php echo lang('app.field_status')?></th>																
-														<th>&nbsp;</th>
+														<th>&nbsp;</th>	
+														<th><?php echo lang('app.field_status')?></th>
+														<th>Dettagli</th>
                                                     </tr>
                                                 </thead>
                                             
@@ -69,8 +69,8 @@
 														 <td><?= $arg['payment'] ?></td>
 														 <td><?= $arg['status_label'] ?></td>
 														<td class="row pt-1">
-                                                            <a  data-toggle="modal" data-target="#payment-modal" onclick="get_payments('<?php echo $arg['id']?>')" class="btn p-1 mr-2" style="font-size: 1rem">
-                                                                <i class="fe-dollar-sign"></i>
+                                                            <a  data-toggle="modal" data-target="#payment-modal" onclick="get_payments('<?php echo $arg['id']?>')" class="btn p-1 mr-2" style="font-size: 1.30rem;color:#99c355;">
+																<i class="fe-eye"></i>
                                                             </a>
 															<!--a  data-toggle="modal" data-target="#items-modal" onclick="get_items('<?php echo $arg['id']?>')" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-list"></i>

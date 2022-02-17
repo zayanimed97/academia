@@ -111,7 +111,7 @@
                 <div class="modal-dialog  modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.new_category') ?></h4>
+                            <h4 class="modal-title" id="standard-modalLabel">Codice promozionale</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                         <div class="modal-body">
@@ -122,7 +122,7 @@
 											 <?php if(isset($error)) echo $error?>
 											</div>
 						<div class="form-group required-field">
-							<label for="acc-name"><?php echo lang('app.field_code')?> *</label>
+							<label for="acc-name">Nome coupon *</label>
 							<?php $val=""; 
 							$input = [
 									'type'  => 'text',
@@ -140,7 +140,7 @@
                                               
                          </div>
 						 <div class="form-group required-field">
-							<label for="acc-name"><?php echo lang('app.field_start_date')?></label>
+							<label for="acc-name">Valido dal</label>
 							<?php $val=""; 
 							$input = [
 									'type'  => 'text',
@@ -158,7 +158,7 @@
                                               
                          </div>
 						  <div class="form-group required-field">
-							<label for="acc-name"><?php echo lang('app.field_end_date')?></label>
+							<label for="acc-name">Valido fino al</label>
 							<?php $val="";
 							$input = [
 									'type'  => 'text',

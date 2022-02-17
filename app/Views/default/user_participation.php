@@ -1,8 +1,14 @@
 <?php require_once 'common/header.php'; use CodeIgniter\I18n\Time; ?>
 <style>
-    table th{
-        padding-bottom: 1em;
-    }
+    table th{padding-bottom: 1em;}
+	.table th{padding: 0.5em;}
+	.table td{padding-right: 0.5em;padding-left: 0.5em;}
+	.uk-accordion-title {border-bottom: 1px solid #e5e5e5;}
+	.uk-accordion-title:hover {color: #03b5d2;text-decoration: none;border-bottom: 1px solid #e5e5e5;}
+	.uk-accordion-title .title {padding: 1em 1.5em 1em 0;text-align: left;width: 100%;color: #7288a2;font-size: 1.15rem;}
+	.uk-accordion-title[aria-expanded='true'] {border-bottom: 1px solid #03b5d2;}
+	.uk-accordion-title[aria-expanded='true'] {color: #03b5d2;}
+
 </style>
 
         <div class="from-blue-500 bg-grey breadcrumb-area py-6 text-black">
@@ -46,11 +52,28 @@
                 <div class="bg-white rounded-md col-span-2">
 <?php if(!empty($list)){?>
                     <div class="grid  gap-3 lg:p-6 p-4">					
-                         <div uk-accordion="multiple: false" class="divide-y space-y-3">
-						 <?php foreach($list as $id_corsi=>$ll){?>
+                         <div uk-accordion="multiple: false" class="space-y-3">
+						 <?php $type_cours=json_decode($settings['type_cours'] ?? '',true);
+						 foreach($list as $id_corsi=>$ll){?> 
 								<div  class="pt-2">
-									<a class="uk-accordion-title text-md mx-2 font-semibold" href="#">  <div class="mb-1 text-sm font-medium"> <?php echo $ll[0]['corso_title'] ?? 'Corso #'.$id_corsi?> <?php echo $k+1?> </div><span > &nbsp;</span> </a>
-									<div class="uk-accordion-content mt-3">
+									<a class="uk-accordion-title text-md mx-2 font-semibold" href="#">  <div class="mb-1 text-sm font-medium title flex">
+									<?php $default_image=base_url('front/assets/images/courses/img-4.jpg');
+								switch($ll[0]['tipologia_corsi']){
+									case 'online': if(isset( $settings['default_img_online']) && $settings['default_img_online']!="") $default_image=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if(isset( $settings['default_img_aula']) && $settings['default_img_aula']!="") $default_image=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'webinar': if(isset( $settings['default_img_webinar']) && $settings['default_img_webinar']!="") $default_image=base_url('uploads/'.$settings['default_img_webinar']); break;
+								}?>
+								<img style="display:inline;width:100px;margin-right: 20px;" src="<?= $ll[0]['inf_corsi']['foto'] ? base_url('uploads/corsi/'.$ll[0]['inf_corsi']['foto']) : $default_image ?>" alt="" class="">
+								<div class="flex justify-between items-center w-full">
+									<span><?php	 echo $ll[0]['corso_title'] ?? 'Corso #'.$id_corsi?> <?php echo $k+1?></span>
+									<div>
+									<span><?php echo $type_cours[$ll[0]['tipologia_corsi']] ?? $ll[0]['tipologia_corsi']?></span>
+									</div>
+								</div>
+								
+								
+								</div> </a>
+									<div class="uk-accordion-content mt-0 mx-2" style="background-color:#f3f6f7;">
 									  <table id="basic-datatable" class="table col-span-2 w-full">
 											<thead class="border-b">
 												<tr>
@@ -59,6 +82,9 @@
 													<th><?php echo lang('front.field_type_cours')?></th>
 													<th><?php echo lang('front.field_date_session')?></th>
 													<th><?php echo lang('front.field_type_payment')?></th>
+													<?php if($ll[0]['tipologia_corsi'] == 'eBook'){ ?>
+													<th><?php echo lang('front.btn_download_attachment')?></th>
+													<?php } ?>
 												</tr>
 											</thead>
 											<tbody class="mt-8">
@@ -66,7 +92,8 @@
 												foreach($ll as $k=>$v){?>
 												 <tr>
 													<td class="py-6 border-b flex items-center">
-														<span class="icon-material-outline-shopping-cart text-lg mr-4"></span>
+													<img style="display:inline;width:100px;margin-right: 20px;" src="<?= $v['foto'] ? base_url('uploads/corsi/'.$v['foto']) : $default_image ?>" alt="" class="">
+														<!--span class="icon-material-outline-shopping-cart text-lg mr-4"></span-->
 														<a class="text-purple-600" href="<?php echo base_url('user/participation/'.$v['id'])?>">
 															<?php echo $v['title']?>
 														</a>
@@ -76,6 +103,20 @@
 													<td class="py-6 border-b"><?php echo $type_cours[$v['tipologia_corsi']] ?? $v['tipologia_corsi']?></td>
 													<td class="py-6 border-b"><?php if($v['session_date']!="") echo Time::parse($v['session_date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
 													<td class="py-6 border-b"><?php echo $v['payment_method']?></td>
+													<?php if($ll[0]['tipologia_corsi'] == 'eBook'){ ?>
+														<td class="py-6 border-b">
+														<div>
+														<button class="button" type="button"><span class="icon-feather-download"></span></button>
+															<div uk-dropdown="mode: click" class="card p-4 w-64">
+																<div class="space-y-2 flex flex-col">
+																	<?php foreach($v['pdfs'] as $pdf) {?>
+																		<a target="_blank" href="<?= base_url('user/getFile/'.$pdf['id']) ?>" class="hover:bg-gray-100 w-full h-5 rounded p-4 flex items-center" > <?= $pdf['pdfname'] ?> </a>
+																	<?php } ?>
+																</div>
+															</div>
+										
+														</div></td>
+													<?php } ?>
 												</tr>
 												<?php }?>
 											</tbody>

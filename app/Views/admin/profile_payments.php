@@ -18,7 +18,7 @@
                                         </ol>
                                     </div>
                                     <h4 class="page-title"><?php echo lang('app.title_page_profile_payment')?></h4>
-									<p>Indica qui sotto il metodo con il quale vuoi essere pagato.</p>
+									<p>In questa sezione puoi connettere i tuoi sistemi di pagamento per ricevere direttamente i guadagni dalle vendite.</p>
                                 </div>
                             </div>
                         </div>     
@@ -50,6 +50,8 @@
 															<?php switch($v['id']){
 																case 1:?>
 																	<div class="col-12"  <?php if($chk==false){?>style="display:none"<?php } ?> id="div_payment_<?php echo $v['id']?>">
+																		<p>Integra i dati del tuo conto corrente per inviarli in automatico agli utenti e ricevere pagamenti tramite bonifico bancario.</p>
+
 																		
 																		<div class="form-group row mb-3">
 																			<label class="col-md-3 col-form-label" for="name"> <?php echo lang('app.field_bank_name')?></label>

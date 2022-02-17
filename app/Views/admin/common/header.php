@@ -3,7 +3,7 @@
         $disabled =  $curdate > $mydate;
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
     <head>
         <meta charset="utf-8" />
         <title><?php echo $page_title?></title>
@@ -207,12 +207,7 @@
                             <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?>  href="<?= base_url('admin/modulo') ?>"><i data-feather="grid"></i> <span><?php echo lang('app.menu_all_module')?> </span></a>
                                         
                             </li>
-							 <li>
-                            
-                                
-                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?>  href="<?= base_url('admin/cart') ?>"><i data-feather="shopping-cart"></i> <span><?php echo lang('app.menu_cart')?> </span></a>
-                                        
-                            </li>
+							 
 							<?php if(in_array('test',$ente_package['extra'])){?>
 							 <li>
                             
@@ -222,14 +217,54 @@
                             </li>
 							<?php } ?>
 
-                            <li>
-                            
-                                
-                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/abandoned') ?>"><i data-feather="check-square"></i> <span> abandoned carts </span></a>
-                                        
-                            </li>
-
-
+							<li>
+                                <a href="#sidebarVendite" data-toggle="collapse">
+                                    <i data-feather="list"></i>
+                                    <span> Vendite </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarVendite">
+                                    <ul class="nav-second-level">
+                                        <li>
+											<a <?= $disabled ? 'class="btn disabled text-left"' : '' ?>  href="<?= base_url('admin/cart') ?>"><?php echo lang('app.menu_cart')?></a>
+										</li>
+										<?php if(in_array('coupon',$ente_package['extra'])){?>
+										<li>
+											 <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/coupon') ?>"><?php echo lang('app.menu_coupon')?></a>
+										</li>
+										<?php } ?>
+										<?php if(in_array('wallet',$ente_package['extra'])){?>
+										<li>
+											<a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/couponwallet') ?>"><?php echo lang('app.menu_coupon_wallet')?></a>
+										</li>
+										<?php } ?>
+									</ul>
+								</div>
+							</li>
+							
+							<li>
+								<a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/pdflib') ?>"><i data-feather="grid"></i> <span><?= lang('app.menu_pdflib') ?> </span></a>
+							</li>
+							
+							
+							<li>
+                                <a href="#sidebarMarketing" data-toggle="collapse">
+                                    <i data-feather="list"></i>
+                                    <span> Marketing </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarMarketing">
+                                    <ul class="nav-second-level">
+                                        <li>
+											<a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/abandoned') ?>">Carrello abbandonato</a>
+										</li>
+										<li><a href="<?php echo base_url('/admin/remember_emails')?>"><?php echo lang('app.menu_setting_remember_emails')?></a></li>
+										<li>
+											<a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/profile/settings') ?>">Integrazione</a>
+										</li>
+									</ul>
+								</div>
+							</li>
                             <li>
                                 <a href="#sidebarCourses" data-toggle="collapse">
                                     <i data-feather="list"></i>
@@ -249,9 +284,6 @@
                                         </li>
                                         <li>
                                             <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/obiettivi') ?>"><?= lang('app.menu_obiettivi') ?></a>
-                                        </li>
-										<li>
-                                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/pdflib') ?>"><?= lang('app.menu_pdflib') ?></a>
                                         </li>
 										<?php if(in_array('aula',$ente_package['type_cours'])){?>
 										<li>
@@ -309,31 +341,16 @@
                                 </a>
                                 <div class="collapse" id="menu_settings">
                                     <ul class="nav-second-level">
-									  <!--li><a href="<?php echo base_url().'/admin/settings'?>"><?php echo lang('app.menu_setting_info')?></a></li-->
+									  <li><a href="<?php echo base_url('/admin/settings/cms')?>"><?php echo lang('app.menu_setting_cms')?></a></li>
+										<!--li><a href="<?php echo base_url().'/admin/settings'?>"><?php echo lang('app.menu_setting_info')?></a></li-->
 										<li><a href="<?php echo base_url('/admin/emails')?>"><?php echo lang('app.menu_setting_email')?></a></li>
-										 <li><a href="<?php echo base_url('/admin/remember_emails')?>"><?php echo lang('app.menu_setting_remember_emails')?></a></li>
+										 
                                         <li><a href="<?php echo base_url('/admin/settings/media')?>"><?php echo lang('app.menu_setting_media')?></a></li>
-										 <li><a href="<?php echo base_url('/admin/settings/cms')?>"><?php echo lang('app.menu_setting_cms')?></a></li>
+										 
 										  <li><a href="<?php echo base_url('/admin/settings/social')?>"><?php echo lang('app.menu_setting_social')?></a></li>
                                     </ul>
                                 </div>
                             </li>
-							<?php if(in_array('coupon',$ente_package['extra'])){?>
-							 <li>
-                            
-                                
-                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/coupon') ?>"><i data-feather="tag"></i> <span><?php echo lang('app.menu_coupon')?> </span></a>
-                                        
-                            </li>
-							<?php } ?>
-							<?php if(in_array('wallet',$ente_package['extra'])){?>
-							 <li>
-                            
-                                
-                            <a <?= $disabled ? 'class="btn disabled text-left"' : '' ?> href="<?= base_url('admin/couponwallet') ?>"><i data-feather="gift"></i> <span><?php echo lang('app.menu_coupon_wallet')?> </span></a>
-                                        
-                            </li>
-							<?php } ?>
                         </ul>
 
                     </div>

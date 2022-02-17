@@ -26,7 +26,7 @@
                                         </ol>
                                     </div>
                                     <div class="row align-items-center">
-                                        <h4 class="page-title">abandoned carts</h4>
+                                        <h4 class="page-title">Carrelli abbondonati</h4>
                                     </div>
                                 </div>
                             </div>
@@ -35,6 +35,7 @@
 
                         <div class="row">
                             <div class="col-12">
+								<p class="sub-header">Lista di contattati che non hanno proceduto con l'acquisto.<br>Clicca su <i class="fe-mail"></i> per inviare una mail di promemoria.<br>Se non l'hai ancora fatto, vai <a href="/admin/emails">QUI</a> per personalizzare il tuo template email.</p>
                                 <div class="card">
                                     <div class="card-body">
                                         <?php if(session('error') ?? false){?>
@@ -111,7 +112,7 @@
                 <div class="modal-dialog  modal-dialog-centered justify-content-center">
                     <div class="modal-content" style="width: fit-content; max-width: 90vw">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="standard-modalLabel"> items </h4>
+                            <h4 class="modal-title" id="standard-modalLabel"> Lista Corsi </h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                         <div class="modal-body">
@@ -120,13 +121,13 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>image</th>
-                                            <th>title</th>
-                                            <th>type</th>
-                                            <th>Original Price</th>
-                                            <th>coupons</th>
-                                            <th>shares</th>
-                                            <th>Price</th>
+                                            <th>IMG</th>
+                                            <th>Titolo</th>
+                                            <th>Tipo</th>
+                                            <th>Prezzo</th>
+                                            <th>Coupon</th>
+                                            <th>Condiviso</th>
+                                            <th>Da pagare</th>
                                         </tr>
                                     </thead>
                                 

@@ -15,7 +15,7 @@
                 </div>
 				
             </div>
-			<?php if($settings['social']!=""){
+			<?php if(($settings['social'] ?? '') !=""){
 				$social=json_decode($settings['social'],true);?>
 			 <div class="flex justify-end lg:flex-row max-w-6xl mx-auto space-x-3">
 			 <?php foreach($social as $kk=>$vv){

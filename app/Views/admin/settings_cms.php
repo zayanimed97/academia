@@ -228,6 +228,7 @@
 								<div class="card">
                                     <div class="card-body">
 										<h3>GDPR</h3>
+										<p>General Data Protection Regulation</p>
 										 <form method="post" action="<?= base_url('admin/settings/cms/') ?>"  id='add_ente_form'>
 											<input type="hidden" name="action" value="GDPR">
 											<div class="row">

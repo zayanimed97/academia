@@ -210,7 +210,7 @@
 														</div>
 													</div>
 										</div>
-											<div class="row">
+											<div class="row" id="div_image">
 												<div class="col-md-12">
 														<div class="form-group required-field">
 															<label for="acc-mname"><?php echo lang('app.field_image')?> </label>
@@ -232,7 +232,7 @@
 													</div>
 											</div>	
 
-											<div class="row">
+											<div class="row" id="div_headerImage">
 												<div class="col-md-12">
 														<div class="form-group required-field">
 															<label for="acc-mname"> header image</label>
@@ -337,8 +337,8 @@
 			 (window.jQuery),function(){"use strict";window.jQuery.Summernote.init()}();
 	function is_ext(){
 		var x=$("#is_externel").is(':checked');
-		if(x==true){ $("#div_url").show(0); $("#div_content").hide(0);}
-		else{ $("#div_url").hide(0); $("#div_content").show(0);}
+		if(x==true){ $("#div_url").show(0); $("#div_content").hide(0); $("#div_image").hide(0); $("#div_headerImage").hide(0);}
+		else{ $("#div_url").hide(0); $("#div_content").show(0); $("#div_image").show(0); $("#div_headerImage").show(0);}
 	}
 	 </script>
 		

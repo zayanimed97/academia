@@ -328,6 +328,7 @@ class userListController extends BaseController
 												->join('cart', 'cart.id = cart_items.id_cart', 'left')
 												->where('cart.status', 'COMPLETED')
 												->where('cart.id_user', $id)
+												->orderBy('cart.date','desc')
 												->select('cart_items.*, (CASE WHEN cart_items.item_type = "corsi" THEN corsi.sotto_titolo ELSE cm.sotto_titolo END) AS st, cart.date')
 												->find();
 
