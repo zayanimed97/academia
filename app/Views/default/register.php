@@ -106,7 +106,7 @@
                                         </div>
                                         <div>
                                             <input type="checkbox" id="use_newsletter" name="newsletter" value="1">
-                                            <label for="use_newsletter" class="text-sm"><span class="checkbox-icon"></span> Vorrei ricevere gli aggiornamenti via email relativi al marketing diretto.</label>
+                                            <label for="use_newsletter" class="text-sm"><span class="checkbox-icon"></span> Mi interessa ricevere aggiornamenti su nuovi prodotti e servizi.</label>
                                         </div>
                                     </div>
                                 </form>

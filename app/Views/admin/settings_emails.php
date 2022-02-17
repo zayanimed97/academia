@@ -19,8 +19,8 @@
                                         </ol>
                                     </div>
                                     <h4 class="page-title"><?php echo lang('app.title_page_settings_emails')?></h4>
-									<p>Puoi personalizzare tutte le email del tuo CMS.</p>
-									<div class="alert alert-success m-b-20" role="alert">Hai configurato la posta in uscità? Se non l'hai ancora fatta, vai sul tuo profilo/configurazione SMTP</div>
+									<p>In questa sezione puoi impostare il modello per il testo delle mail con cui invii comunicazioni. Puoi utilizzare le variabili proposte per comporre il tuo modello.</p>
+									<div class="alert alert-success m-b-20" role="alert">Hai configurato la posta in uscità? Se non l'hai ancora fatta, vai sul <a href="/admin/profile/mailing">Server di posta elettronica</a></div>
                                 </div>
                             </div>
                         </div>     

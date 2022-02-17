@@ -82,9 +82,8 @@
 													<th><?php echo lang('front.field_type_cours')?></th>
 													<th><?php echo lang('front.field_date_session')?></th>
 													<th><?php echo lang('front.field_type_payment')?></th>
-													<?php if($ll[0]['tipologia_corsi'] == 'eBook'){ ?>
-													<th><?php echo lang('front.btn_download_attachment')?></th>
-													<?php } ?>
+
+													<th></th>
 												</tr>
 											</thead>
 											<tbody class="mt-8">
@@ -105,17 +104,22 @@
 													<td class="py-6 border-b"><?php echo $v['payment_method']?></td>
 													<?php if($ll[0]['tipologia_corsi'] == 'eBook'){ ?>
 														<td class="py-6 border-b">
-														<div>
-														<button class="button" type="button"><span class="icon-feather-download"></span></button>
-															<div uk-dropdown="mode: click" class="card p-4 w-64">
-																<div class="space-y-2 flex flex-col">
-																	<?php foreach($v['pdfs'] as $pdf) {?>
-																		<a target="_blank" href="<?= base_url('user/getFile/'.$pdf['id']) ?>" class="hover:bg-gray-100 w-full h-5 rounded p-4 flex items-center" > <?= $pdf['pdfname'] ?> </a>
-																	<?php } ?>
-																</div>
+															<div>
+																<a class="button flex items-center" href="<?php echo base_url('user/participation/'.$v['id'])?>"><span class="icon-feather-download mr-4"></span><span><?php echo lang('front.btn_download_attachment')?></span></a>
 															</div>
-										
-														</div></td>
+														</td>
+													<?php } else if($ll[0]['tipologia_corsi'] == 'online'){ ?>
+														<td class="py-6 border-b">
+															<div>
+																<a class="button flex items-center" href="<?php echo base_url('user/participation/'.$v['id'])?>"><span class="icon-feather-play mr-4"></span><span><?php echo lang('front.btn_play_video')?></span></a>
+															</div>
+														</td>
+													<?php } else { ?>
+														<td class="py-6 border-b">
+															<div>
+																<a class="button flex items-center" href="<?php echo base_url('user/participation/'.$v['id'])?>"><span><?php echo lang('front.btn_login')?></span></a>
+															</div>
+														</td>
 													<?php } ?>
 												</tr>
 												<?php }?>

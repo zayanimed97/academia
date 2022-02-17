@@ -208,6 +208,10 @@ class Ajax extends BaseController
 		$common_data=$this->common_data();
 		$resource = $this->CorsiPDFLibModel->where('id', $id)->where('id_ente', $common_data['selected_ente']['id'])->first();
 		if ($resource) {
+			$participation = $this->ParticipationModel->join('corsi_modulo cm', 'cm.id = participation.id_modulo')->where('id_user', $common_data['user_data']['id'])->where("find_in_set($id, cm.ids_pdf)")->first();
+				if (!empty($participation)) {
+					$participation = $this->ParticipationModel->update($participation['id'], ['downloaded_pdf'=>'si']);
+				}
 			if (strpos($resource['filename'], 'amazonaws') == false) {
 				header("Location: ".base_url("uploads/corsiPDF/{$resource['filename']}"));
 				exit;
@@ -234,6 +238,9 @@ class Ajax extends BaseController
 			
 				// Display the object in the browser.
 				$nameArray = explode('/', $keyname);
+
+				
+
 				header("Content-Type: {$result['ContentType']}");
 				header('Content-Disposition: attachment; filename="'.end($nameArray).'"');
 
