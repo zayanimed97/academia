@@ -122,7 +122,7 @@
                     <button class="uk-alert-close absolute bg-gray-100 bg-opacity-20 m-5 p-0.5 pb-0 right-0 rounded text-gray-200 text-xl top-0">
                         <i class="icon-feather-x"></i>
                     </button>
-                    <h3 class="text-lg font-semibold text-white">Success</h3>
+                    <h3 class="text-lg font-semibold text-white">Complimenti</h3>
                     <p class="text-white text-opacity-75"><?=$_SESSION['success']?></p>
                 </div>
             <?php } ?>
@@ -132,7 +132,7 @@
                     <button class="uk-alert-close absolute bg-gray-100 bg-opacity-20 m-5 p-0.5 pb-0 right-0 rounded text-gray-200 text-xl top-0">
                         <i class="icon-feather-x"></i>
                     </button>
-                    <h3 class="text-lg font-semibold text-white">Cancelled</h3>
+                    <h3 class="text-lg font-semibold text-white">Errore</h3>
                     <p class="text-white text-opacity-75"><?=$_SESSION['cancelled']?></p>
                 </div>
             <?php } ?>

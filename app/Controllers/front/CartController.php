@@ -329,7 +329,7 @@ class CartController extends BaseController
             }
             $this->RememberCartModel->where('id_user', session('user_data')['id'])->where('id_ente', $data['selected_ente']['id'])->delete();
             $this->cart->destroy();
-            session()->setFlashdata('success', 'Free cart added to your account');
+            session()->setFlashdata('success', 'Acquisto completato con successo. Accedi al tuo profilo e clicca su I miei corsi (che trovi cliccando sull’icona del tuo account sulla barra in alto a destra), per visualizzare ed effettuare il download dei contenuti. Consulta anche la tua mail.');
             $xxx = $this->OrderMail($cartId);
 			
             return redirect()->to(base_url());

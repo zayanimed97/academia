@@ -35,7 +35,8 @@
 
                         <div class="row">
                             <div class="col-12">
-								<p class="sub-header">Lista di contattati che non hanno proceduto con l'acquisto.<br>Clicca su <i class="fe-mail"></i> per inviare una mail di promemoria.<br>Se non l'hai ancora fatto, vai <a href="/admin/emails">QUI</a> per personalizzare il tuo template email.</p>
+								<p>Lista dei contatti che non hanno proceduto con l'acquisto.<br>Clicca su <i class="fe-mail"></i> per inviare una mail di promemoria.<br></p>
+								<div class="alert alert-success m-b-20" role="alert">Hai già creato il tuo email template?<br>Se non l'hai ancora fatto, vai <a href="/admin/emails">QUI</a> per personalizzare il tuo modello.</div>
                                 <div class="card">
                                     <div class="card-body">
                                         <?php if(session('error') ?? false){?>
