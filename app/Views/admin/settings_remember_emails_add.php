@@ -90,13 +90,13 @@
 												
 												<div class="col-md-6">
 														<div class="form-group required-field">
-															<label for="acc-mname"><?php echo lang('app.field_days')?> <span class="text-danger">*</span></label>
+															<label for="acc-mname">Inserisci quanti giorni <span class="text-danger">*</span></label>
 														 <input class="form-control" type="number" min="1" step="1" max="90" id="nb_days" name="nb_days" value="<?php echo $inf['nb_days'] ?? '7'?>" />
 														</div>
 													</div>
 													<div class="col-md-6" id="div_type_days">
 													<div class="form-group">
-															<label for="acc-mname"><?php echo lang('app.field_type_days')?> <span class="text-danger">*</span></label>
+															<label for="acc-mname">Invia prima o dopo (la data) <span class="text-danger">*</span></label>
 														 <?php $input = [
 												
 																'name'  => 'type_days',
@@ -142,9 +142,9 @@
 													
 										</div>		
 									<div class="row">
-									<div class="col-md-12">
+										<div class="col-md-12">
 														<div class="form-group">
-															<label for="acc-mname"><?php echo lang('app.field_content')?></label>
+															<label for="acc-mname">Corpo della mail</label>
 														 <?php $val=""; 
 													$input = [
 															
@@ -182,7 +182,7 @@
 																	<small>{CORSI_SOTTO_TITOLO}</small> <small>{CORSI_URL}</small> <small>{DATA_INIZIO}</small> <small>{PARTICIPAZIONI}</small> <small>{DOCENTI}</small> <small>{SEDE}</small> <small>{HOTEL}</small>  <small>{CONFIRMA_PARTICIPAZIONE}</small> <small>{EMAIL}</small> <small>{PASSWORD}</small>
 																</blockquote>
 															</div>
-														</div> <!-- end card-box-->
+														</div>
 													</div>		  
 											
                                         </div>
@@ -202,10 +202,6 @@
                 <!-- end Footer -->
 
             </div>
-
-            <!-- ============================================================== -->
-            <!-- End Page content -->
-            <!-- ============================================================== -->
 
 <?= view('admin/common/footer') ?>
 

@@ -631,9 +631,9 @@ class BaseController extends Controller
 							else{
 								$foto=base_url('front/assets/images/courses/img-4.jpg');
 								switch($inf_item['tipologia_corsi']){
-									case 'online': if($settings['default_img_online']!="") $foto=base_url('uploads/'.$settings['default_img_online']); break;
-									case 'aula': if($settings['default_img_aula']!="") $foto=base_url('uploads/'.$settings['default_img_aula']); break;
-									case 'webinar': if($settings['default_img_webinar']!="") $foto=base_url('uploads/'.$settings['default_img_webinar']); break;
+									case 'online': if(($settings['default_img_online'] ?? '')!="") $foto=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if(($settings['default_img_aula']??'')!="") $foto=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'webinar': if(($settings['default_img_webinar'] ?? '')!="") $foto=base_url('uploads/'.$settings['default_img_webinar']); break;
 								}
 							}
 							if($inf_item['tipologia_corsi']!='online'){
@@ -652,8 +652,8 @@ class BaseController extends Controller
 							else{
 								$foto=base_url('front/assets/images/courses/img-4.jpg');
 								switch($inf_corsi['tipologia_corsi']){
-									case 'online': if($settings['default_img_online']!="") $foto=base_url('uploads/'.$settings['default_img_online']); break;
-									case 'aula': if($settings['default_img_aula']!="") $foto=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'online': if(($settings['default_img_online']??'')!="") $foto=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if(($settings['default_img_aula']??'')!="") $foto=base_url('uploads/'.$settings['default_img_aula']); break;
 									case 'webinar': if(($settings['default_img_webinar'] ?? '')!="") $foto=base_url('uploads/'.$settings['default_img_webinar']); break;
 								}
 							}

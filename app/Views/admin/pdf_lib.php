@@ -31,6 +31,7 @@
                                         </button>
                                     </div>
                                 </div>
+								<div><p>Qui gestisci tutti i contenuti PDF che utilizzi nella piattaforma.</p></div>
                             </div>
                         </div>     
                         <!-- end page title --> 

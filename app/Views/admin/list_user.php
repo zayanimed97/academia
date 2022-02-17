@@ -76,7 +76,7 @@ else{
 														 <th><?php echo lang('app.field_cf')?></th>
 														  <th><?php echo lang('app.field_active_status')?></th>
                                                           <?php if($role == 'participant') { ?>
-														  <th>aquisito</th>
+														  <th>Acquisto</th>
                                                           <?php } ?>
                                                         <th>&nbsp;</th>
                                                     </tr>
@@ -305,7 +305,7 @@ else{
                 <div class="modal-dialog  modal-dialog-centered justify-content-center">
                     <div class="modal-content" style="width: fit-content; max-width: 90vw">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="standard-modalLabel"> acquisti </h4>
+                            <h4 class="modal-title" id="standard-modalLabel"> Lista degli acquisti </h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                         <div class="modal-body">
@@ -314,9 +314,9 @@ else{
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>item name</th>
-                                            <th>price</th>
-                                            <th>date</th>
+                                            <th>Corsi / Lezioni</th>
+                                            <th>Importo</th>
+                                            <th>data</th>
                                         </tr>
                                     </thead>
                                 
@@ -334,7 +334,7 @@ else{
                 <div class="modal-dialog  modal-dialog-centered justify-content-center">
                     <div class="modal-content" style="width: fit-content; max-width: 90vw">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="standard-modalLabel"> acquisti </h4>
+                            <h4 class="modal-title" id="standard-modalLabel"> Log email </h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                         <div class="modal-body" style="width: fit-content;">
@@ -343,10 +343,10 @@ else{
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>participant</th>
-                                            <th>type</th>
-                                            <th>email</th>
-                                            <th>subject</th>
+                                            <th>Tipo</th>
+                                            <th>Contatto</th>
+                                            <th>Oggetto</th>
+                                            <th>Data</th>
                                         </tr>
                                     </thead>
                                 

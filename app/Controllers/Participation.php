@@ -96,7 +96,7 @@ class Participation extends BaseController
 					if(!empty($inf_payment)) $inf_method=$this->MethodPaymentModel->find($inf_payment[0]['id_method']);
 					else $inf_method['title']="--";
 					$quota=number_format($total_paid,2,',','.').'€ <br/>'.date('d/m/Y',strtotime($inf_cart['date'])).'<br/>'.$inf_method['title'].'<br/>'.' <a  data-toggle="modal" data-target="#payment-modal" onclick="get_payments('.$v['id_cart'].')" class="btn p-1 mr-2" style="font-size: 1rem">
-                                                                <i class="fe-dollar-sign"></i>
+                                                                <i class="fe-eye"></i>
                                                             </a>';
 					
 				}
