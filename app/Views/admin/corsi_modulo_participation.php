@@ -3,18 +3,10 @@
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
- <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" /> 
- <!-- ============================================================== -->
-            <!-- Start Page Content here -->
-            <!-- ============================================================== -->
-
+ <link href="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
             <div class="content-page">
                 <div class="content">
-
-                    <!-- Start Content-->
                     <div class="container-fluid">
-                        
-                        <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box">
@@ -28,57 +20,57 @@
                                     </div>
                                     <div class="row align-items-center">
                                         <h4 class="page-title"><?= lang('app.title_page_participation') ?></h4>
-										
-                                       
                                     </div>
                                 </div>
                             </div>
                         </div>     
                         <!-- end page title --> 
 						<div class="row">
-							<div class="alert alert-primary col-6" role="alert">
-  <h4 class="alert-heading"><?php echo $inf_modulo['titolo']?></h4>
-  <p> 
-	<ul>
-		<li><b><?php echo lang('app.field_subtitle')?>: </b><?php echo $inf_modulo['sotto_titolo']?></li>
-		<li><b><?php echo lang('app.field_type_cours')?>: </b><?php echo $inf_corsi['tipologia_corsi']?></li>
-		<!--li><b><?php echo lang('app.field_type_formation')?>: </b><?php echo $inf_corsi['tipologia_formazione']?></li-->
-		<li><b><?php echo lang('app.field_doctors')?>: </b><?php echo $inf_doctor?></li>
-		<?php if($inf_modulo['free']=='yes'){?><li><b><?php echo lang('app.field_free_cours')?>: </b><?php echo lang('app.yes')?></li>
-		<?php } else{?>
-		<li><b><?php echo lang('app.field_buy_type')?>: </b><?php if($inf_corsi['buy_type']=='cours') echo lang('app.field_buy_type_cours'); elseif($inf_corsi['buy_type']=='module')  echo lang('app.field_buy_type_modulo'); else echo lang('app.field_buy_type_date');?></li>
-		<?php } ?>
-	</ul>
-  </p>
-  
-</div>
-<div class="col-6" >
-<div class="row">
-										
-										 <div class="col-lg-4 m-b-15 m-t-15">
+							<div class="col-12">
+								<div class="alert alert-primary col-12" role="alert">
+								  <h4 class="alert-heading"><?php echo $inf_modulo['titolo']?></h4>
+								  <p> 
+									<ul>
+										<li><b><?php echo lang('app.field_subtitle')?>: </b><?php echo $inf_modulo['sotto_titolo']?></li>
+										<li><b><?php echo lang('app.field_type_cours')?>: </b><?php echo $inf_corsi['tipologia_corsi']?></li>
+										<!--li><b><?php echo lang('app.field_type_formation')?>: </b><?php echo $inf_corsi['tipologia_formazione']?></li-->
+										<li><b><?php echo lang('app.field_doctors')?>: </b><?php echo $inf_doctor?></li>
+										<?php if($inf_modulo['free']=='yes'){?><li><b><?php echo lang('app.field_free_cours')?>: </b><?php echo lang('app.yes')?></li>
+										<?php } else{?>
+										<li><b><?php echo lang('app.field_buy_type')?>: </b><?php if($inf_corsi['buy_type']=='cours') echo lang('app.field_buy_type_cours'); elseif($inf_corsi['buy_type']=='module')  echo lang('app.field_buy_type_modulo'); else echo lang('app.field_buy_type_date');?></li>
+										<?php } ?>
+									</ul>
+								  </p>
+
+								</div>
+								<div class="col-12" style="margin-bottom: 10px;">
+									<div class="row">
+										<div style="margin-right: 10px;"><b>Invia email</b></div>
+										 <div style="margin-right: 5px;">
 										
 											<form id="frm-send-credentiel" name="frm-send-credentiel" method="post">
 												<input type="hidden" name="action" value="send_credential_multiple">
-												<input type="submit" class="btn btn-info " name="generate" value="<?php echo lang('app.btn_send_credentials')?>">
+												<input type="submit" class="btn-sm btn btn-primary" name="generate" value="<?php echo lang('app.btn_send_credentials')?>">
 											</form>
 										
 										</div>
-										<div class="col-lg-4 m-b-15 m-t-15">
+										<div style="margin-right: 5px;">
 									
 											<form id="frm-send-promo" name="frm-send-promo" method="post">
 												<input type="hidden" name="action" value="send_promo_multiple">
-												<input type="submit" class="btn btn-warning" name="generate" value="<?php echo lang('app.btn_send_promo')?>">
+												<input type="submit" class="btn-sm btn btn-primary" name="generate" value="<?php echo lang('app.btn_send_promo')?>">
 											</form>
 										
 										</div>
 										
-										<div class="col-lg-4 m-b-15 m-t-15">
-											<input type="button" onclick="get_notif();" class="btn btn-primary" name="generate" value="<?php echo lang('app.btn_send_notification')?>">
+										<div>
+											<input type="button" onclick="get_notif();" class="btn-sm btn btn-primary" name="generate" value="<?php echo lang('app.btn_send_notification')?>">
 											
 										
 										</div>
 									</div>
 								</div>
+						</div>
 						</div>
 						 <?php 
 										 if(isset($error)){?>
@@ -197,10 +189,10 @@
 
                         </div>
 						<div class="modal-footer">
-							<a href="javascript:;" class="btn width-100 btn-danger" data-dismiss="modal"><?php echo lang('app.btn_cancel')?></a>
+							<a href="javascript:;" class="btn width-100 btn-light" data-dismiss="modal"><?php echo lang('app.btn_close')?></a>
 							<?php $data=["name"=>"save",
 												"value"=>lang('app.btn_delete'),
-												'class' => 'btn btn-success'
+												'class' => 'btn btn-danger'
 									];
 								
 									echo form_submit($data,lang('app.btn_delete'));?>

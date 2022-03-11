@@ -99,7 +99,7 @@
             <!-- <li> -->
                 <div class="lg:pt-20 container relative">
                     <?php if($settings['banner_home']["image"]!=""){?><img src="<?= base_url('uploads/banner/'.$settings['banner_home']["image"]) ?>" class="object-cover" style="max-width: 100%;" alt="" uk-cover><?php } ?>
-                    <div class="container relative p-20 lg:mt-12 h-full uk-overlay"> 
+                    <div class="container relative pt-20 pb-20 lg:mt-12 h-full uk-overlay"> 
                         <div  class="flex flex-col justify-center h-full w-full space-y-3">
                             <h1  class="lg:text-4xl text-2xl text-black font-semibold"> <?= $settings['banner_home']["title"] ?? ''?> </h1>
                             <p  class="text-base text-black font-medium pb-4 lg:w-1/2"> <?= $settings['banner_home']["subtitle"] ?? '' ?> </p>

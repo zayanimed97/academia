@@ -12,8 +12,8 @@ class Cron extends BaseController
 					 $dd= intval($interval->format('%R%a'));
 	}
 	public function remember(){
-		$common_data=$this->common_data();
-		$settings=$common_data['settings'];
+		/*$common_data=$this->common_data();	
+		$settings=$common_data['settings'];*/
 		$db = \Config\Database::connect();
 		
 		
@@ -23,6 +23,13 @@ class Cron extends BaseController
 		//$list=$this->RememberEmailsModel->where('id',3)->findAll();
 	//	var_dump($list);
 		foreach($list as $k=>$one_remember){
+			$settings=$this->SettingModel->getByMetaKey($one_remember['id']);
+			
+			$common_data['settings']=$settings;
+			
+			//$SMTP=$this->SettingModel->getByMetaKeyEnte($one_remember['id'],'SMTP')['SMTP'];
+	
+		
 			
 			$inf_ente=$this->UserModel->find($one_remember['id_ente']);
 			
@@ -34,11 +41,11 @@ class Cron extends BaseController
 			if($one_remember['tipologia_corsi']!="") $req_corsi.=" and tipologia_corsi='".$one_remember['tipologia_corsi']."'";
 			$req_corsi.=")";
 			
-		//	echo $req_corsi;
+			//echo $req_corsi;
 			$query = $db->query($req_corsi);
 			$list_corsi = $query->getResultArray();
-		//	var_dump($list_corsi);
-			
+			//var_dump($list_corsi);
+				
 			foreach($list_corsi as $kk=>$one_corsi){
 				
 				$inf_corsi=$this->CorsiModel->find($one_corsi['id_corsi']);
@@ -100,10 +107,11 @@ class Cron extends BaseController
 						$sender_name=$settings['sender_name'];
 						$sender_email=$settings['sender_email'];
 						
-						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
+						//if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
-						$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						$SMTP=$this->SettingModel->getByMetaKeyEnte($one_remember['id_ente'],'SMTP')['SMTP'] ?? '';
+							
 							if($SMTP!="") $vals=json_decode($SMTP,true);
 						
 							if(!empty($vals)){
@@ -116,12 +124,12 @@ class Cron extends BaseController
 								$email->SMTPPort=$vals['port'];
 							}
 							
-						}
+						//}
 					$email->setFrom($sender_email,$sender_name);
 						 $to=$inf_user['email'];
 						$email->setTo($to);
 					
-				
+					
 					 $html=str_replace(array("{CORSI_SOTTO_TITOLO}","{CORSI_URL}","{DATA_INIZIO}","{PARTICIPAZIONI}","{DOCENTI}","{EMAIL}","{PASSWORD}","{SEDE}","{HOTEL}","{CONFIRMA_PARTICIPAZIONE}"),
 						array($one_corsi['sotto_titolo'],$corsi_url,date('d/m/Y',strtotime($first_date['date'])),$inf_user['display_name'],$docenti,$inf_user['email'],$inf_user['pass'],$sede,$hotel,$confirm_participation_link),
 						$one_remember['text']);
@@ -130,7 +138,7 @@ class Cron extends BaseController
 						$email->setMessage($html);
 						$email->setAltMessage(strip_tags($html));
 						$xxx=$email->send();
-						
+						$email->clear();
 						$this->NotifLogModel->insert(array('id_participant'=>$inf_user['id'],'type'=>'email','user_to'=>$inf_user['email'],'subject'=>str_replace(array("{CORSI_SOTTO_TITOLO}"),array($one_corsi['sotto_titolo']),$one_remember['subject']),'message'=>$html,'date'=>date('Y-m-d H:i:s')));
 					} // end foreach list participant
 				}// end days control
@@ -196,10 +204,10 @@ class Cron extends BaseController
 						$sender_name=$settings['sender_name'];
 						$sender_email=$settings['sender_email'];
 						
-						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
+						//if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
-						$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						$SMTP=$this->SettingModel->getByMetaKeyEnte($one_remember['id_ente'],'SMTP')['SMTP'] ?? '';
 							if($SMTP!="") $vals=json_decode($SMTP,true);
 						
 							if(!empty($vals)){
@@ -212,7 +220,7 @@ class Cron extends BaseController
 								$email->SMTPPort=$vals['port'];
 							}
 							
-						}
+						//}
 					$email->setFrom($sender_email,$sender_name);
 						 $to=$inf_user['email'];
 						$email->setTo($to);
@@ -226,7 +234,7 @@ class Cron extends BaseController
 						$email->setMessage($html);
 						$email->setAltMessage(strip_tags($html));
 						$xxx=$email->send();
-						
+						$email->clear();
 						$this->NotifLogModel->insert(array('id_participant'=>$inf_user['id'],'type'=>'email','user_to'=>$inf_user['email'],'subject'=>str_replace(array("{CORSI_SOTTO_TITOLO}"),array($one_corsi['sotto_titolo']),$one_remember['subject']),'message'=>$html,'date'=>date('Y-m-d H:i:s')));
 					} // end foreach list participant
 				}// end days control
@@ -278,10 +286,10 @@ class Cron extends BaseController
 						$sender_name=$settings['sender_name'];
 						$sender_email=$settings['sender_email'];
 						
-						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
+					//	if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
-						$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						$SMTP=$this->SettingModel->getByMetaKeyEnte($one_remember['id_ente'],'SMTP')['SMTP'] ?? "";
 							if($SMTP!="") $vals=json_decode($SMTP,true);
 						
 							if(!empty($vals)){
@@ -294,7 +302,7 @@ class Cron extends BaseController
 								$email->SMTPPort=$vals['port'];
 							}
 							
-						}
+					//	}
 					$email->setFrom($sender_email,$sender_name);
 						 $to=$inf_user['email'];
 						$email->setTo($to);
@@ -315,6 +323,11 @@ class Cron extends BaseController
 			}				
 		}
 		} // end list email remember
+		
+		//var_dump($email);
 	} // end function
+	
+	
 }// end class
+
 ?>

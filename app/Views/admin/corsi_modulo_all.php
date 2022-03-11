@@ -200,10 +200,10 @@
 
                         </div>
 						<div class="modal-footer">
-							<a href="javascript:;" class="btn width-100 btn-danger" data-dismiss="modal"><?php echo lang('app.btn_cancel')?></a>
+							<a href="javascript:;" class="btn width-100 btn-light" data-dismiss="modal"><?php echo lang('app.btn_close')?></a>
 							<?php $data=["name"=>"save",
 												"value"=>lang('app.btn_delete'),
-												'class' => 'btn btn-success'
+												'class' => 'btn btn-danger'
 									];
 								
 									echo form_submit($data,lang('app.btn_delete'));?>

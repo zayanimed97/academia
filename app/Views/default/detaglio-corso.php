@@ -62,6 +62,47 @@ use CodeIgniter\I18n\Time;
                             <li> <span class="lg:block hidden mx-3 text-2xl">·</span> </li>
                             <li> <?= $corsi['nomeargomento'] ?></li>
                         </ul>
+                        
+
+                        <?php
+                            $min_date ='9999-01-01';
+                            $max_date ='';
+                            foreach ($module as $mod) {
+                                // die(print_r($mod));
+                                if (!empty($mod['dates'])) {
+                                  //  var_dump($mod['dates']);
+									//   $min_date=$mod['dates'][0]['date'];
+									// 	$max_date=$mod['dates'][0]['date'];
+                                    foreach ($mod['dates'] as $date) {
+										
+										// if(strtotime($min_date)>(strtotime($date['date']))) $min_date=$date['date'];
+										// else $max_date=$date['date'];
+                                        if ( \Carbon\Carbon::parse($date['date'])->lte($min_date) ) {
+                                            if (\Carbon\Carbon::parse($date['date'])->gte(date('Y-m-d'))) {
+                                                $min_date = $date['date'];
+                                            }
+                                        }
+                                        if (\Carbon\Carbon::parse($date['date'])->gte($max_date) ) {
+                                            if (\Carbon\Carbon::parse($date['date'])->gte(date('Y-m-d'))) {
+                                                $max_date = $date['date'];
+                                            }
+                                        }
+                                    }
+									
+									$minmax = [$min_date == '9999-01-01' ? $max_date : \Carbon\Carbon::parse($min_date)->format('d/m/Y')];
+									if ($min_date != $max_date) {
+                                        $minmax[] = \Carbon\Carbon::parse($max_date)->format('d/m/Y');
+                                    }
+                                 
+                                }
+                            }
+                            // die($max_date);
+							
+                        ?>
+                    
+                        <?php if(!empty($minmax??[])){ ?>
+                            <p class="pt-3 text-moduli"> <?=(count($minmax)>1 ? 'dal ' : '') . implode(' al ', $minmax) ?> </p>
+                        <?php } ?>
  
                     </div>
 
@@ -574,7 +615,7 @@ use CodeIgniter\I18n\Time;
                         </div> -->
                         <div class="tube-card p-5 lg:p-8" id="Moduli">
                             <h3 class="text-xl font-semibold lg:mb-5"> <?php  if($corsi['tipologia_corsi']=='eBook') echo lang('front.field_tab_ebook'); else echo lang('front.field_tab_modulo')?> </h3>
-                            <?php foreach($module as $mod){ if(strlen(trim($mod['id'])) > 0 ){ if($corsi['buy_type'] != 'date'){ ?>
+                            <?php foreach($module as $mod){ if(strlen(trim($mod['id'])) > 0 ){ if(empty($dates)){ ?>
                             <div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2 pb-2">
                                 <div class="md:w-1/5 md:h-24 h-40 overflow-hidden relative flex justify-center" @click="<?= $mod['video_promo']  ? 'videoPromo(\'https://www.youtube.com/embed/'.$mod['video_promo'].'\', \''.$mod['sotto_titolo'].'\')' : ''?>">
                                     <img src="<?= $mod['foto'] ? base_url('uploads/corsi/'.$mod['foto']) : base_url('front/assets/images/courses/img-2.jpg') ?>" alt="" class="h-full">
@@ -618,7 +659,7 @@ use CodeIgniter\I18n\Time;
                                 </div> 
                                 
                             </div>
-                            <?php } if($corsi['buy_type'] == 'date') { foreach($dates as $date) { if(strtotime(date('Y-m-d H:i:s')) < strtotime($date['date']. ' '. $date['end_time'] . ':00')){ ?>
+                            <?php } if(!empty($dates)) { foreach($mod['dates'] as $date) { if(strtotime(date('Y-m-d H:i:s')) < strtotime($date['date']. ' '. $date['end_time'] . ':00')){ ?>
 
 
                             <div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2 pb-2">
@@ -633,6 +674,7 @@ use CodeIgniter\I18n\Time;
                                     <?php if($mod['prezzo']){ ?>
                                         <div class="text-xl font-semibold w-full text-center"> <?= $mod['prezzo'] ?></div>
                                     <?php } ?>
+                                    <?php if($corsi['buy_type'] != 'cours'){ ?>
                                         <template x-if="!inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')">
                                             <button type="button" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" @click="addToCart('<?= $mod['id'] ?>', '<?= $mod['prezzo'] ?>', '', '<?= $mod['url'] ?>', 'modulo', <?= $date['id'] ?>)"> <?php echo lang('front.btn_add_cart')?> </button>
                                         </template>
@@ -640,6 +682,7 @@ use CodeIgniter\I18n\Time;
                                         <template x-if="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')">
                                             <button @click="location.href='<?= base_url('/order/checkout') ?>'" :disabled="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>', '<?= $date['id'] ?>') == 'disabled'" class="w-full flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white" x-text="inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>', '<?= $date['id'] ?>') == 'disabled' ? '<?php echo lang('front.btn_add_cart')?>' : inCart('<?= $corsi['id'] ?>', '<?= $mod['id'] ?>')"> </button>
                                         </template>
+                                    <?php } ?>
                                 </div> 
                                 
                             </div>
@@ -696,6 +739,10 @@ use CodeIgniter\I18n\Time;
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?php echo lang('front.field_attestation')?>: <?= $corsi['attestato'] ?> </div>
                                     <?php if(strlen($corsi['difficulte']) > 0){ ?>
                                         <div class="flex items-center px-5 py-3">  <ion-icon name="speedometer-outline" class="text-2xl mr-2"></ion-icon> Difficoltà : <?= $corsi['difficulte'] ?> </div>
+                                    <?php } ?>
+                                    <?php if(!empty($minmax??[])){ ?>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="calendar-outline" class="text-2xl mr-2"></ion-icon>  <?=(count($minmax)>1 ? 'dal ' : '') . implode(' al ', $minmax) ?> </div>
+                                        <p class="pt-3 text-moduli"> </p>
                                     <?php } ?>
                                 </div>
                                 

@@ -181,26 +181,26 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
 							<h3 class="text-lg font-semibold mb-1"> <?php echo lang('front.field_position')?> </h3>
 							<div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2 pb-2">
                                 <div class="md:w-1/5 md:h-24 h-40 overflow-hidden relative flex justify-center" >
-                                    <img src="<?= $inf_alberghi['foto'] ? base_url('uploads/alberghi/'.$inf_alberghi['foto']) : base_url('front/assets/images/courses/img-2.jpg') ?>" alt="" class="h-full">
+                                    <img src="<?= ($inf_alberghi['foto']??null) ? base_url('uploads/alberghi/'.($inf_alberghi['foto']??'')) : base_url('front/assets/images/courses/img-2.jpg') ?>" alt="" class="h-full">
                                    
                                 </div>
                                 <div class="flex-1 px-4">
                                     <a href="<?= $inf_alberghi['sito'] ?? '#' ?>" class="font-semibold line-clamp-2 md:text-lg md:leading-relaxed">
-                                        <?= $inf_alberghi['nome'] .' - '.$inf_luoghi['nome']?>
+                                        <?= ($inf_alberghi['nome'] ?? "") .' - '.($inf_luoghi['nome'] ?? "")?>
                                     </a>
                                     <!-- <div class="line-clamp-2 mt-2 md:block hidden">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</div> -->
-                                    <div class="mt-1"> <?= $inf_alberghi['indirizzo'].' '.$inf_alberghi['cap'].' '.$inf_alberghi['citta'].' ('.$inf_alberghi['provincia'].')' ?> </div>
-                                     <div class="mt-1"><?php echo $inf_alberghi['telefono']?></div>
-									 <div class="mt-1"><?php echo $inf_alberghi['email']?></div>
+                                    <div class="mt-1"> <?= ($inf_alberghi['indirizzo'] ?? "").' '.($inf_alberghi['cap']??"").' '.($inf_alberghi['citta']??"").' ('.($inf_alberghi['provincia']??"").')' ?> </div>
+                                     <div class="mt-1"><?php echo ($inf_alberghi['telefono']??"")?></div>
+									 <div class="mt-1"><?php echo ($inf_alberghi['email']??"")?></div>
                                 </div>
 							</div>
-							<?php if($inf_alberghi['gmap']!=""){?>
+							<?php if(($inf_alberghi['gmap']??"")!=""){?>
 								<div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2 pb-2">
-									<?php echo $inf_alberghi['gmap']?>
+									<?php echo ($inf_alberghi['gmap']??"")?>
 								</div>
-							<?php }  elseif($inf_alberghi['testo']!=""){?>
+							<?php }  elseif(($inf_alberghi['testo']??"")!=""){?>
 								<div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2 pb-2">
-									<?php echo $inf_alberghi['testo']?>
+									<?php echo ($inf_alberghi['testo']??"")?>
 								</div>
 							<?php } ?>
 						 </div>

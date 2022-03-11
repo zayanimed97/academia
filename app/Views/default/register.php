@@ -102,7 +102,8 @@
                                     <div class="col-span-2 checkbox my-2">
                                         <div>
                                             <input type="checkbox" id="use_privacy" name="privacy" value="1" data-parsley-checkmin="1" required>
-                                            <label for="use_privacy" class="text-sm"><span class="checkbox-icon"></span> Accetto le <a target="_blank" href="https://academy.creazioneimpresa.it/page/condizioni" class="font-semibold">Condizioni</a>. Scopri come utilizziamo e proteggiamo i tuoi dati nelle nostre <a target="_blank" href="https://www.iubenda.com/privacy-policy/63306874" class="font-semibold">Norme sulla privacy</a>.</label>
+                                            <!-- <label for="use_privacy" class="text-sm"><span class="checkbox-icon"></span> Accetto le <a target="_blank" href="https://academy.creazioneimpresa.it/page/condizioni" class="font-semibold">Condizioni</a>. Scopri come utilizziamo e proteggiamo i tuoi dati nelle nostre <a target="_blank" href="https://www.iubenda.com/privacy-policy/63306874" class="font-semibold">Norme sulla privacy</a>.</label> -->
+                                            <label for="use_privacy" class="text-sm"><span class="checkbox-icon"></span> <?= $settings['privacy'] ?? 'Accetto le <a target="_blank" href="https://academy.creazioneimpresa.it/page/condizioni" class="font-semibold">Condizioni</a>. Scopri come utilizziamo e proteggiamo i tuoi dati nelle nostre <a target="_blank" href="https://www.iubenda.com/privacy-policy/63306874" class="font-semibold">Norme sulla privacy</a>.' ?></label>
                                         </div>
                                         <div>
                                             <input type="checkbox" id="use_newsletter" name="newsletter" value="1">

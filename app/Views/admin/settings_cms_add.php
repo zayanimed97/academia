@@ -67,7 +67,7 @@
 												
 												<div class="col-md-6">
 														<div class="form-group required-field">
-															<label for="acc-mname"><?php echo lang('app.field_title')?> <span class="text-danger">*</span></label>
+															<label for="acc-mname">Nome della pagina <span class="text-danger">*</span></label>
 														 <?php $val=""; 
 													$input = [
 															'type'  => 'text',
@@ -210,32 +210,12 @@
 														</div>
 													</div>
 										</div>
-											<div class="row" id="div_image">
-												<div class="col-md-12">
-														<div class="form-group required-field">
-															<label for="acc-mname"><?php echo lang('app.field_image')?> </label>
-														 <?php $val=""; 
-													$input = [
-															'type'  => 'file',
-															'name'  => 'image',
-															'id'    => 'image',
-															
-														
-															'placeholder' =>lang('app.field_image'),
-															'class' => 'form-control'
-															
-													];
-
-													echo form_input($input);
-													?>
-														</div>
-													</div>
-											</div>	
+												
 
 											<div class="row" id="div_headerImage">
 												<div class="col-md-12">
 														<div class="form-group required-field">
-															<label for="acc-mname"> header image</label>
+															<label for="acc-mname">Immagine copertina (dimensione consigliata: 1920x380px)</label>
 														 <?php $val=""; 
 													$input = [
 															'type'  => 'file',
@@ -253,34 +233,56 @@
 														</div>
 													</div>
 											</div>
+											<div class="row mt-2" id="div_content">
+												<div class="col-md-12">
+													<div class="form-group">
+														<label for="acc-mname"><?php echo lang('app.field_content')?> <span class="text-danger">*</span></label>
+																 <?php $val=""; 
+															$input = [
 
+																	'name'  => 'html',
+																	'id'    => 'summernote-basic',
 
-									<div class="row" id="div_content">
-									<div class="col-md-12">
-														<div class="form-group">
-															<label for="acc-mname"><?php echo lang('app.field_content')?> <span class="text-danger">*</span></label>
+																	'value' => $val,
+																	'placeholder' =>lang('app.field_content'),
+																	'class' => 'form-control'
+
+															];
+
+															echo form_textarea($input);
+															?>
+													</div>
+												</div>
+											</div>
+											<div class="row mt-4" id="div_image">
+												<div class="col-md-12">
+													<h4 class="header-title">Facebook</h4>
+													<div class="form-group required-field">
+														<label for="acc-mname">Aggiungi un'<?php echo lang('app.field_image')?> (1200x628px) che permette la condivizione della homepage su Facebook</label>
 														 <?php $val=""; 
 													$input = [
+															'type'  => 'file',
+															'name'  => 'image',
+															'id'    => 'image',
 															
-															'name'  => 'html',
-															'id'    => 'summernote-basic',
 														
-															'value' => $val,
-															'placeholder' =>lang('app.field_content'),
+															'placeholder' =>lang('app.field_image'),
 															'class' => 'form-control'
 															
 													];
 
-													echo form_textarea($input);
+													echo form_input($input);
 													?>
-														</div>
 													</div>
-										
-									</div>
-									  <div class="checkbox form-check-inline">
-																			<input type="checkbox" name="enable" id="enable" value="yes" checked>
-																			<label for="enable"> <?php echo lang('app.field_active_status')?> </label>
-																		</div>
+												</div>
+											</div>
+
+
+									
+												<div class="checkbox form-check-inline">
+													<input type="checkbox" name="enable" id="enable" value="yes" checked>
+													<label for="enable"> <?php echo lang('app.field_active_status')?> </label>
+												</div>
 										
 
 							

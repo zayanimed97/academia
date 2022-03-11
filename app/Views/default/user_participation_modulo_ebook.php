@@ -99,7 +99,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                                                 <span class="icon-material-outline-picture-as-pdf text-xl mr-4"></span> 
                                                 <span><?= $pdf['pdfname'] ?></span> 
                                                 <span class="text-sm ml-auto">
-                                                    <a target="_blank" href="<?= base_url('user/getFile/'.$pdf['id']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> <?php echo lang('front.btn_download_attachment')?> </a>
+                                                    <a target="_blank" href="<?= base_url('user/getFile/'.$pdf['id']).'?participation='.(\Config\Services::request())->uri->getSegment(3) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> <?php echo lang('front.btn_download_attachment')?> </a>
                                                 </span>
                                             </li>
                                             <?php } ?>
@@ -209,7 +209,7 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                                 <div class="-m-5 divide-y divide-gray-200 text-sm">
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?>: <?= $type_cours[$module['tipologia_corsi']] ?? $module['tipologia_corsi'] ?> </div>
                                     <!-- <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $module['ECM'] ?? '0' ?> Credits </div> -->
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $module['duration'] ?? '0min' ?> <?php echo lang('front.field_total')?> </div>
+                                    <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $module['duration'] ?? '0 ora/e' ?> <?php echo lang('front.field_total')?> </div>
                                     <?php if($module['inscrizione_aula']=='si'){?><div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $module['nb_person_aula'] ?? '0' ?> <?php echo lang('front.field_participant')?> </div><?php } ?>
                                     <!-- <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> Moduli </div> -->
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?php echo lang('front.field_attestation')?> : <?= $module['attestato'] ?> </div>

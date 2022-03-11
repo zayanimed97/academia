@@ -60,7 +60,8 @@
 											<input type="hidden" name="action" value="logo">
 													<div class="col-md-12">
 													  <div class="form-group">
-														<label class="col-form-label " for="logo"><?php echo lang("app.field_logo")?> (370x80 jpg o png) </label>
+														<label class="col-form-label " for="logo"><?php echo lang("app.field_logo")?> (dimensione consigliate: 370x80 jpg o png) </label>
+														 
 														<div class="row">
 															<div class="col-8">
 															<input class="form-control" type="file" id="logo" name="logo"  />
@@ -73,7 +74,7 @@
 													 </div>
 													 <div class="col-md-12">
 													  <div class="form-group">
-														<label class="col-form-label " for="faveicon"><?php echo lang("app.field_faveicon")?> (32x32 jpg o png) </label>
+														<label class="col-form-label " for="faveicon"><?php echo lang("app.field_faveicon")?> (dimensione consigliate: 32x32 jpg o png) </label>
 														<div class="row">
 															<div class="col-8">
 															<input class="form-control" type="file" id="faveicon" name="faveicon"  />
@@ -101,8 +102,8 @@
                                 <div class="card">
 								 
                                     <div class="card-body">
-                                        <h4 class="header-title"><?php echo lang('app.title_section_media_corso')?> (400x227 jpg)</h4>
-										<p>Sostituirà la foto del corso nel caso o non è stato ancora aggiunta </p>
+                                        <h4 class="header-title"><?php echo lang('app.title_section_media_corso')?> (dimensione consigliate: 400x227 jpg)</h4>
+										<p>Sostituirà la foto del corso nel caso non è stato ancora aggiunta </p>
                                        
 										<?php $attributes = ['class' => 'form-input-flat', 'id' => 'add_corsi_form','method'=>'post'];
 											echo form_open_multipart('', $attributes);?>
@@ -172,6 +173,7 @@
 								 
                                     <div class="card-body">
                                         <h4 class="header-title"><?php echo lang('app.title_section_banner')?></h4>
+										<p>Modifica la copertina dell'homepage</p>
 										<?php $attributes = ['class' => 'form-input-flat', 'id' => 'add_corsi_form','method'=>'post'];
 											echo form_open_multipart('', $attributes);?>
 											<input type="hidden" name="action" value="banner">
@@ -180,7 +182,7 @@
 											<div class="row">
 													<div class="col-md-6">
 													  <div class="form-group">
-														<label class="col-form-label " for="title"><?php echo lang('app.field_title')?> </label>
+														<label class="col-form-label " for="title">Titolo H1 </label>
 														
 															
 															<input class="form-control" type="text" id="title" name="title" value="<?php echo $banner['title'] ?? ''?>" />
@@ -190,7 +192,7 @@
 													 </div>
 													 <div class="col-md-6">
 													  <div class="form-group">
-														<label class="col-form-label " for="subtitle"><?php echo lang('app.field_description')?> </label>
+														<label class="col-form-label " for="subtitle">Sottotitolo </label>
 														
 															
 															<input class="form-control" type="text" id="subtitle" name="subtitle"  value="<?php echo $banner['subtitle'] ?? ''?>" />
@@ -200,7 +202,7 @@
 													 </div>
 													 <div class="col-md-12">
 													  <div class="form-group">
-														<label class="col-form-label " for="image"><?php echo lang('app.field_image')?> </label>
+														<label class="col-form-label " for="image"><?php echo lang('app.field_image')?> (dimensione consigliata: 1280x414px)</label>
 														<div class="row">
 															<div class="col-10">
 															<input class="form-control" type="file" id="image" name="image"  />
