@@ -523,6 +523,16 @@ class Settings extends BaseController
 					$data=$this->common_data();
 					$data['success']=lang('app.success_update');
 				break;
+				case 'privacy':
+					$privacy=$this->request->getVar('privacy');
+					$id=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'privacy')->first();
+							if($id==null) $this->SettingModel->insert(array('id_ente'=>$this->session->get('user_data')['id'],'meta_key'=>'privacy','meta_value'=>$privacy));
+							else{
+								$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'privacy')->update($id['id'],array('meta_value'=>$privacy));
+							}
+					$data=$this->common_data();
+					$data['success']=lang('app.success_update');
+				break;
 				case 'css':
 					$styles=$this->SettingModel->where('id_ente', $this->session->get('user_data')['id'])->where('meta_key', 'css')->first();
 					$css = json_decode($styles['meta_value'] ?? "", true) ?? [];

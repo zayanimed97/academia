@@ -28,6 +28,7 @@
             background-color: #000;
         }
         </style>
+		
     </head>
 
     <body class="loading">

@@ -88,6 +88,11 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+														<div class="row">
+															<div class="col-12">
+																<a href="#testsmtp-modal-dialog"  class="btn btn-warning" data-toggle="modal"><?php echo lang('app.btn_test_smtp')?></a>	
+															</div>
+														</div>
                                                    <hr/>
                                                 	<h4>Pagina contatti</h4>
 											<p>In questa sezione puoi impostare una mail di destinazione quando quelcuno ti scrive dalla tua pagina contatti.</p>
@@ -95,7 +100,7 @@
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-6 col-form-label" for="cognome"> <?php echo lang('app.field_receiver_email')?></label>
                                                                     <div class="col-md-6">
-                                                                        <input placeholder="es.: mail@nomedominio.it" type="text" id="email" name="email" class="form-control" value="<?= $settings['email'] ?? '' ?>">
+                                                                        <input placeholder="es.: mail@nomedominio.it" type="text" id="email" name="email" class="form-control" value="<?= $email ?? '' ?>">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -119,6 +124,36 @@
                 <!-- Footer Start -->
                   <?php echo view('admin/common/footer_bar')?>
                 <!-- end Footer -->
+
+
+<?php $attributes = ['class' => 'form-input-flat', 'id' => 'testsmtpform','method'=>'post'];
+		echo form_open("", $attributes);?>
+		
+		<div class="modal fade"id="testsmtp-modal-dialog" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" >
+                <div class="modal-content">
+                    <div class="modal-header bg-light">
+                        <h4 class="modal-title" id="myCenterModalLabel"><?php echo lang('app.modal_title_test_smtp')?></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="form-group">
+                         <label>Email</label>
+						  <input placeholder="es.: test@test.it" type="text" id="smtp_test_email" name="smtp_test_email" class="form-control" >
+						  <div id="result_smtp">
+						  
+						  </div>
+						  </div>
+                            <div class="text-right">
+                                <button type="button" data-dismiss="modal" class="btn btn-success waves-effect waves-light"><?php echo lang('app.btn_close')?></button>
+                                <button type="button" onclick="return send_test_smtp()" class="btn btn-danger waves-effect waves-light" ><?php echo lang('app.btn_send')?></button>
+                            </div>
+                        
+                    </div>
+                </div><!-- /.modal-content -->
+            </div>
+		</div>
+       <?php echo form_close();?>
 
             </div>
 
@@ -160,7 +195,22 @@
         <!-- Init js-->
         <script>
             // form repeater Initialization
-        
+  function send_test_smtp(){
+	
+	var fields = $( "#add_ente_form" ).serializeArray();
+	var smtp_test_email=$("#smtp_test_email").val();
+	fields.push({name: 'smtp_test_email', value: smtp_test_email});
+	$.ajax({
+				  url:"<?php echo base_url('ProfileController/send_test_smtp')?>",
+				  method:"POST",
+				  data:fields
+				  
+			}).done(function(data){
+				//console.log(data);
+				$("#result_smtp").html(data);
+			
+			});
+  }      
 function save_ente(){
 	var fields = $( "#add_ente_form" ).serializeArray();
 	

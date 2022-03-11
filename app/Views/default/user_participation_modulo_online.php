@@ -229,7 +229,7 @@ let player_current =new Object ;//player;
 		cuepoint_block:'<?php echo $module["cuepoint_block"]?>',
         loop: false
     };
-
+	//console.log(options);
     var player = new Vimeo.Player('iframe_vimeo_<?php echo $one_vimeo["id"]?>', options);
 
     player.setVolume(1);
@@ -258,9 +258,12 @@ let player_current =new Object ;//player;
 		 $('#vimeo_title_<?php echo $one_vimeo["id"]?>').html(title);
 		});
 	player.getChapters().then(function(chapters) {
+		//console.log(chapters);
 		if(chapters.length>0){
+			console.log("1");
 		jQuery.each( chapters, function( i, val ) {
-			console.log(val);
+		//	console.log(val);
+			var str="";
 			let totalSeconds = val.startTime;
 			let hours = Math.floor(totalSeconds / 3600);
 			totalSeconds %= 3600;
@@ -271,9 +274,10 @@ let player_current =new Object ;//player;
 			hours = String(hours).padStart(2, "0");
 			seconds = String(seconds).padStart(2, "0");
 		
-			var str=minutes + ":" + seconds;
+			str=minutes + ":" + seconds;
 			if(hours>0) str=hours + ":"+str;
-			if(i==0 && val.startTime>0){
+			//console.log(str);
+			if(i==0 && val.startTime>0){  
 				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\"><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> 00:00</span></a></li>");
 			}
 			if(options.cuepoint_block=='yes'){
@@ -284,12 +288,23 @@ let player_current =new Object ;//player;
 				}
 			}
 			else{
+				
 				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li id='<?php echo $one_vimeo['id']?>_cue_point_"+i+"' onclick=\"clk_chapter('"+val.startTime+"','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\" ><a class='next_chapter'>"+val.title+"<span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
 			}
 		});
 		}
 		else{
+			//console.log("2");
+			//$("#list_chapter_module_<?php echo $one_vimeo['id']?>").parent().removeClass('uk-accordion-content');
+				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\" ><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i></span></a></li>");
+			
+			
+			//$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li uk-toggle=\"target: #modal-example \" ><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
+		}
+		/*else{
+			console.log("2",player.getVideoTitle());
 			player.getDuration().then(function(duration) {
+				console.log(duration)
 						let totalSeconds = duration;
 			let hours = Math.floor(totalSeconds / 3600);
 			totalSeconds %= 3600;
@@ -299,9 +314,10 @@ let player_current =new Object ;//player;
 			minutes = String(minutes).padStart(2, "0");
 			hours = String(hours).padStart(2, "0");
 			seconds = String(seconds).padStart(2, "0");
-		
-			var str=minutes + ":" + seconds;
+			var str="";
+			 str=minutes + ":" + seconds;
 			if(hours>0) str=hours + ":"+str;
+			//console.log(str);
 			//if(val.startTime<=<?php echo $vimeo_position?>)
 
                 let sezione = $($("#list_chapter_module_<?php echo $one_vimeo['id']?>") .parent()
@@ -314,24 +330,14 @@ let player_current =new Object ;//player;
                                                                         .find('span')[0]).text();
 				$($("#list_chapter_module_<?php echo $one_vimeo['id']?>") .parent()
                                                                                     .parent()[0])
-                                                                                    .html("\
-                                                                                                    <div class=\" flex items-center justify-start \">\
-                                                                                                        <div class=\"one_chap_play_icon\"></div>\
-                                                                                                        <div onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\" class=\"one_chap text-md mx-2 font-semibold cursor-pointer\">\
-                                                                                                            <div class=\" flex justify-between mb-1 text-sm font-medium \"><div>"+str+"</div></div>\
-                                                                                                            <span id=\"vimeo_title_38\">"+ title.replace('title:', '') +"</span>\
-                                                                                                        </div>\
-                                                                                                    </div>\
-                                                                                                ");
+                                                                                    .html("\<div class=\" flex items-center justify-start \">\<div class=\"one_chap_play_icon\"></div>\ <div onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\" class=\"one_chap text-md mx-2 font-semibold cursor-pointer\">\<div class=\" flex justify-between mb-1 text-sm font-medium \"><div>"+str+"</div></div>\<span id=\"vimeo_title_38\">"+ title.replace('title:', '') +"</span>\</div>\</div>\");
                                    
-                // <li onclick=\"clk_chapter('0','<?php echo $one_vimeo['id']?>','<?php echo $one_vimeo['vimeo']?>')\"><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>
+               
 
-			/*else{
-				$("#list_chapter_module_<?php echo $one_vimeo['id']?>").append("<li uk-toggle=\"target: #modal-example \" ><a href='#' ><?php echo lang('front.btn_play_video')?><span style='font-weight:normal;'><i class='fa fa-clock'></i> "+str+"</span></a></li>");
-			}*/
+			
 			});
 			
-		}
+		}*/
 	}).catch(function(error) {
 		// an error occurred
 	});

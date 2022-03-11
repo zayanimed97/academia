@@ -31,6 +31,7 @@ class CartController extends BaseController
                                         ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, GROUP_CONCAT(distinct cm.id) as modules")
                                         ->groupBy('corsi.id')
                                         ->first();
+                
         } elseif($type == 'modulo'){
             $corsi = $this->CorsiModuloModel    ->where('corsi.id_ente', $data['selected_ente']['id'])
                                                 ->where('corsi_modulo.id', $id)
@@ -86,8 +87,9 @@ class CartController extends BaseController
         }
         
         if ($exist == false) {
+            
             $this->cart->insert([
-                'id' => $type.$id,
+                'id' => "$type.$id",
                 'url' => $this->request->getVar('date') ? base_url('/corsi/'.$corsi['corsi_url']) : base_url("/$type/{$corsi['url']}"),
                 'type' => $type,
                 'qty' => 1,

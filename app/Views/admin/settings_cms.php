@@ -92,12 +92,12 @@
 														<td><?php if( $one_customer['type']=='static') echo lang('app.field_static'); else echo lang('app.field_dynamic');?></td>
 														<td><?php echo $one_customer['menu_title']?></td>
 														<td><?php if( $one_customer['menu_position']=='header') echo lang('app.menu_position_header'); else echo lang('app.menu_position_footer');?></td>
-															<td><?php if( $one_customer['is_externel']=='yes') echo lang('app.yes'); else echo lang('app.no');?></td>
+														<td><?php if( $one_customer['is_externel']=='yes') echo "<span class='badge-primary badge-pill'>".lang('app.yes')."</span>"; else echo "<span class='badge-pink badge-pill'>".lang('app.no')."</span>";?></td>
 														<td><?php echo $one_customer['title']?></td>
 														<td><?php echo $one_customer['seo_title']?></td>
 														<td><?php echo $one_customer['seo_description']?></td>
 														<td><?php echo $one_customer['ord']?></td>
-														<td><?php if( $one_customer['enable']=='yes') echo lang('app.yes'); else echo lang('app.no');?></td>  
+														<td><?php if( $one_customer['enable']=='yes') echo "<span class='badge-success badge-pill'>".lang('app.yes')."</span>"; else echo "<span class='badge-danger badge-pill'>".lang('app.no')."</span>";?></td>  
 													   
 													</tr>
 												<?php } ?>
@@ -279,7 +279,7 @@
 															'required'=>true,
 															'value' => $val,
 															
-															'class' => 'form-control hexa-colorpicker'
+															'class' => 'form-control'
 															
 													];
 
@@ -399,6 +399,38 @@
 										 </form>
 									</div>
 								</div>
+
+								<!-- text under banner -->
+								<div class="card">
+                                    <div class="card-body">
+										<h3>Privacy Label</h3>
+										 <form method="post" action="<?= base_url('admin/settings/cms/') ?>"  id='add_ente_form'>
+											<input type="hidden" name="action" value="privacy">
+											<div class="row">
+												
+												<div class="col-md-12">
+														<div class="form-group required-field">
+															<label for="acc-mname">Label for privacy checkbox (registration page) <span class="text-danger">*</span></label>
+														 <?php 
+													$input = [
+															'type'  => 'text',
+															'name'  => 'privacy',
+															'id'    => 'privacy',
+															'value' => $settings['privacy'] ?? 'Accetto le Condizioni. Scopri come utilizziamo e proteggiamo i tuoi dati nelle nostre Norme sulla privacy.',
+															'placeholder' =>lang('app.field_label'),
+															'class' => 'form-control'
+															
+													];
+
+													echo form_textarea($input);
+													?>
+														</div>
+													</div>
+											</div>
+											    <button type="submit" name="submit" class="btn btn-secondary" ><?php echo lang('app.btn_save')?></button>
+										 </form>
+									</div>
+								</div>
 								
 								
 							</div>
@@ -495,6 +527,16 @@
 		 "use strict";function e(){this.$body=n("body")}
 		 e.prototype.init=function(){
 			 n("#textTitle").summernote({lang: 'it-IT',placeholder:"Write something...",height:230,callbacks:{onInit:function(e){n(e.editor).find(".custom-control-description").addClass("custom-control-label").parent().removeAttr("for")}}})
+			  }
+			 ,n.Summernote=new e,n.Summernote.Constructor=e}
+			 (window.jQuery),function(){"use strict";window.jQuery.Summernote.init()}();
+	 </script>
+
+<script>
+	 !function(n){
+		 "use strict";function e(){this.$body=n("body")}
+		 e.prototype.init=function(){
+			 n("#privacy").summernote({lang: 'it-IT',placeholder:"Write something...",height:230,callbacks:{onInit:function(e){n(e.editor).find(".custom-control-description").addClass("custom-control-label").parent().removeAttr("for")}}})
 			  }
 			 ,n.Summernote=new e,n.Summernote.Constructor=e}
 			 (window.jQuery),function(){"use strict";window.jQuery.Summernote.init()}();

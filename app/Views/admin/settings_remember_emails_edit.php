@@ -176,19 +176,26 @@
 											</div>
 											
                                     				<div class="col-4">
-														<div class="card text-white bg-info text-xs-center">
+														<div class="card text-black text-xs-center">
 															<div class="card-body">
-															<h5 class="card-title text-white"><?php echo lang('app.title_section_help_email')?></h5>
+															<h5 class="card-title text-black">LEGENDA VARIABILI</h5>
 																<blockquote class="card-bodyquote">
-																	<small>{CORSI_SOTTO_TITOLO}</small> <small>{CORSI_URL}</small> <small>{DATA_INIZIO}</small> <small>{PARTICIPAZIONI}</small> <small>{DOCENTI}</small> <small>{SEDE}</small> <small>{HOTEL}</small>  <small>{CONFIRMA_PARTICIPAZIONE}</small> <small>{EMAIL}</small> <small>{PASSWORD}</small>
+																	<small>{CORSI_SOTTO_TITOLO}</small> sostituito con il totolo del corso<br>
+																	<small>{CORSI_URL}</small> crea un link del corso<br>
+																	<small>{DATA_INIZIO}</small> data dell'inzio del corso<br>
+																	<small>{PARTICIPAZIONI}</small> sostituito con il nome e cognome del participante<br>
+																	<small>{DOCENTI}</small> nome del docente del corso<br>
+																	<small>{SEDE}</small> sostituito con il luodo del svolgimento del corso<br>
+																	<small>{HOTEL}</small> Informazioni sull'hotel<br>
+																	<small>{CONFIRMA_PARTICIPAZIONE}</small> crea un bottone per la conferma alla participazione<br>
+																	<small>{EMAIL}</small> email del partipante<br>
+																	<small>{PASSWORD}</small> password del partipante
 																</blockquote>
 															</div>
-														</div> <!-- end card-box-->
+														</div>
 													</div>		  
 											
                                         </div>
-										
-                                        <!-- end row-->
 									
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->

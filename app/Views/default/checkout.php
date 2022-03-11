@@ -152,26 +152,26 @@
                                     <template x-if="type != 'private'">
                                         <div>
                                             <label for="piva" class="text-sm font-medium"><?php echo lang('front.field_piva')?></label>
-                                            <input type="text" class="with-border" id="piva" name="piva" value="<?= $user['fattura_piva'] ?>" required>
+                                            <input type="text" class="with-border" id="piva" name="piva" value="<?= $user['fattura_piva'] ?? "" ?>" required>
                                         </div>
                                     </template>
                                     <template x-if="type == 'company'">
                                         <div>
                                             <label for="regione" class="text-sm font-medium"> <?php echo lang('front.field_company_name')?> </label>
-                                            <input type="text" class="with-border" id="regione" name="regione" value="<?= $user['ragione_sociale'] ?>" required>
+                                            <input type="text" class="with-border" id="regione" name="regione" value="<?= $user['ragione_sociale'] ?? "" ?>" required>
                                         </div>
                                     </template>
                                     <div>
                                         <label for="cf" class="text-sm font-medium"> <?php echo lang('front.field_cf')?> </label>
-                                        <input type="text" class="with-border" id="cf" name="cf" value="<?= $user['fattura_cf'] ?>" required>
+                                        <input type="text" class="with-border" id="cf" name="cf" value="<?= $user['fattura_cf'] ?? "" ?>" required>
                                     </div>
                                     <div>
                                         <label for="name" class="text-sm font-medium"> <?php echo lang('front.field_first_name')?></label>
-                                        <input type="text" class="with-border" id="name" name="name" value="<?= $user['fattura_nome'] ?>" required>
+                                        <input type="text" class="with-border" id="name" name="name" value="<?= $user['fattura_nome'] ?? "" ?>" required>
                                     </div>
                                     <div>
                                         <label for="cognome" class="text-sm font-medium"> <?php echo lang('front.field_last_name')?></label>
-                                        <input type="text" class="with-border" id="cognome" name="cognome" value="<?= $user['fattura_cognome'] ?>" required>
+                                        <input type="text" class="with-border" id="cognome" name="cognome" value="<?= $user['fattura_cognome'] ?? "" ?>" required>
                                     </div>
                                     <div>
                                         <label for="residenza_stato" class="text-sm font-medium"> <?php echo lang('front.field_country')?> </label>
@@ -192,24 +192,24 @@
                                     </div>
                                     <div>
                                         <label for="indirizzo" class="text-sm font-medium"> <?php echo lang('front.field_address')?></label>
-                                        <input type="text" class="with-border" id="indirizzo" name="indirizzo" value="<?= $user['fattura_indirizzo'] ?>" required>
+                                        <input type="text" class="with-border" id="indirizzo" name="indirizzo" value="<?= $user['fattura_indirizzo'] ?? "" ?>" required>
                                     </div>
                                     <div>
                                         <label for="cap" class="text-sm font-medium"> <?php echo lang('front.field_zip')?></label>
-                                        <input type="text" class="with-border" id="cap" name="cap" value="<?= $user['fattura_cap'] ?>" required>
+                                        <input type="text" class="with-border" id="cap" name="cap" value="<?= $user['fattura_cap'] ?? "" ?>" required>
                                     </div>
                                     <div>
                                         <label for="telefono" class="text-sm font-medium"> <?php echo lang('front.field_phone')?> </label>
-                                        <input type="text" class="with-border" id="telefono" name="telefono" value="<?= $user['fattura_phone'] ?>" required>
+                                        <input type="text" class="with-border" id="telefono" name="telefono" value="<?= $user['fattura_phone'] ?? "" ?>" required>
                                     </div>
                                     <div>
                                         <label for="pec" class="text-sm font-medium"> <?php echo lang('front.field_pec')?> </label>
-                                        <input type="text" class="with-border" id="pec" name="pec" value="<?= $user['fattura_pec'] ?>" :required="type != 'private'">
+                                        <input type="text" class="with-border" id="pec" name="pec" value="<?= $user['fattura_pec'] ?? "" ?>" :required="type != 'private'">
                                     </div>
                                     <template x-if="type != 'private'">
                                         <div>
                                             <label for="sdi" class="text-sm font-medium"> <?php echo lang('front.field_sdi')?> </label>
-                                            <input type="text" class="with-border" id="sdi" name="sdi" value="<?= $user['fattura_sdi'] ?>" required>
+                                            <input type="text" class="with-border" id="sdi" name="sdi" value="<?= $user['fattura_sdi'] ?? "" ?>" required>
                                         </div>
                                     </template>
                                     <template x-if="total > 0">
@@ -408,19 +408,19 @@
             
             init(){
                 Promise.allSettled([
-                            new Promise((resolve, reject) => setTimeout(() => {if ('<?= $user['fattura_stato'] ?>' == '106') {
+                            new Promise((resolve, reject) => setTimeout(() => {if ('<?= $user['fattura_stato'] ?? "" ?>' == '106') {
                                 // $('#loading').modal('show');
                                 
-                                return fetch(`<?php echo base_url()?>/getProv?country=106&selected=<?= $user['fattura_provincia'] ?>&name=residenza_provincia`, 
+                                return fetch(`<?php echo base_url()?>/getProv?country=106&selected=<?= $user['fattura_provincia'] ?? "" ?>&name=residenza_provincia`, 
                                     {method: "get",  headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
                                     .then( el => el.text() ).then(res => {this.provincia = res; setTimeout(() => {$('select').selectpicker('render');}, 50); resolve()})
                             } resolve();})) ,
 
 
-                            new Promise((resolve, reject) => setTimeout(() => {if ('<?= $user['fattura_stato'] ?>' == '106' && '<?= $user['fattura_provincia'] ?>') {
+                            new Promise((resolve, reject) => setTimeout(() => {if ('<?= $user['fattura_stato'] ?? "" ?>' == '106' && '<?= $user['fattura_provincia'] ?? "" ?>') {
                                 // $('#loading').modal('show');
 
-                                return fetch(`<?php echo base_url()?>/getComm?prov=<?= $user['fattura_provincia'] ?>&selected=<?= $user['fattura_comune'] ?>&name=residenza_comune`, 
+                                return fetch(`<?php echo base_url()?>/getComm?prov=<?= $user['fattura_provincia'] ?? "" ?>&selected=<?= $user['fattura_comune'] ?? "" ?>&name=residenza_comune`, 
                                     {method: "get",  headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }})
                                     .then( el => el.text() ).then(res => {this.comuni = res; setTimeout(() => {$('select').selectpicker('render');}, 50); resolve()})
                             } resolve();})),

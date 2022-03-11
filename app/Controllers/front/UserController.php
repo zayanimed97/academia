@@ -86,7 +86,7 @@ class UserController extends BaseController
 					if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
-						 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'] ?? "";
 						if($SMTP!="") $vals=json_decode($SMTP,true);
 					
 						if(!empty($vals)){
@@ -288,7 +288,7 @@ class UserController extends BaseController
 					if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
-						 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'] ?? "";
 						if($SMTP!="") $vals=json_decode($SMTP,true);
 					
 						if(!empty($vals)){
@@ -675,6 +675,7 @@ class UserController extends BaseController
 					case 'pending': $st=lang('app.status_pending'); break;
 					case 'completed': $st=lang('app.status_completed'); break;
 					case 'canceled': $st=lang('app.status_canceled'); break;
+					default: $st = ''; break;
 				}
 				$v['status_label']=$st;
 				$res[]=$v;
@@ -754,7 +755,7 @@ class UserController extends BaseController
 						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
-						$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'] ?? "";
 							if($SMTP!="") $vals=json_decode($SMTP,true);
 						
 							if(!empty($vals)){
