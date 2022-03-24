@@ -20,8 +20,8 @@ class Cron extends BaseController
 		$list=$this->RememberEmailsModel->where('banned','no')->where('enable','yes')->findAll();
 	
 	
-		//$list=$this->RememberEmailsModel->where('id',3)->findAll();
-	//	var_dump($list);
+		//$list=$this->RememberEmailsModel->where('id',1)->findAll();
+		//var_dump($list);exit;
 		foreach($list as $k=>$one_remember){
 			$settings=$this->SettingModel->getByMetaKey($one_remember['id']);
 			
@@ -37,15 +37,12 @@ class Cron extends BaseController
 			  $nb_days=$one_remember['nb_days'];
 			 if($one_remember['tipologia_corsi']!="" && in_array($one_remember['tipologia_corsi'],array('webinar','aula'))){
 			 
-			$req_corsi="select * from corsi_modulo where banned='no' and status='si' and id_corsi IN(select id from corsi where banned='no' and status='si'";
+			$req_corsi="select * from corsi_modulo where banned='no' and status='si' and id_corsi IN(select id from corsi where banned='no' and status='si' and id_ente='".$one_remember['id_ente']."'";
 			if($one_remember['tipologia_corsi']!="") $req_corsi.=" and tipologia_corsi='".$one_remember['tipologia_corsi']."'";
 			$req_corsi.=")";
 			
-			//echo $req_corsi;
 			$query = $db->query($req_corsi);
 			$list_corsi = $query->getResultArray();
-			//var_dump($list_corsi);
-				
 			foreach($list_corsi as $kk=>$one_corsi){
 				
 				$inf_corsi=$this->CorsiModel->find($one_corsi['id_corsi']);
@@ -245,8 +242,7 @@ class Cron extends BaseController
 			 }//end aula/online corsi
 		else{
 			
-			$list_p=$this->ParticipationModel->where("banned='no' and id_modulo IN (select id from corsi_modulo where banned='no' and status='si' and id_corsi IN(select id from corsi where banned='no' and `status`='si' and tipologia_corsi='".$one_remember['tipologia_corsi']."') )")->findAll();
-			//var_dump($list_p);
+			$list_p=$this->ParticipationModel->where("banned='no' and id_modulo IN (select id from corsi_modulo where banned='no' and status='si' and id_corsi IN(select id from corsi where banned='no' and `status`='si' and tipologia_corsi='".$one_remember['tipologia_corsi']."' and id_ente='".$one_remember['id_ente']."' ) )")->findAll();
 			
 			foreach($list_p as $kkk=>$one_p){
 				$inf_modulo=$this->CorsiModuloModel->find($one_p['id_modulo']);

@@ -590,7 +590,7 @@ use CodeIgniter\I18n\Time;
                                             <div>·</div>
                                             <div> <?= $module['categories'] ?> </div>
                                             <div>·</div>
-                                            <div> <?= $corsi['duration'] ?: 'indefinite' ?> </div>
+                                            <div> <?= $corsi['duration'] ?: 'indefinite' ?> or<?= floatVal(str_replace([',',':'], ['.', '.'], $corsi['duration'])) > 1 ? 'e totali' : 'a totale'?></div>
                                             <div>·</div>
                                             <div> <?= $corsi['nb_person_aula'] ?: 'not applicable' ?> </div>
                                         </div>
@@ -659,8 +659,8 @@ use CodeIgniter\I18n\Time;
                                 <div class="-m-5 divide-y divide-gray-200 text-sm">
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?>: <?= $type_cours[$module['tipologia_corsi']] ?? $module['tipologia_corsi'] ?> </div>
                                     <!-- <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $module['ECM'] ?? '0' ?> Credits </div> -->
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $module['duration'] ?? '0min' ?> <?php echo lang('front.field_total')?> </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $module['nb_person_aula'] ?? '0' ?> <?php echo lang('front.field_participant')?> </div>
+                                    <div class="flex items-center px-5 py-3">  <span class="icon-material-outline-access-time text-2xl mr-2"></span> <?= $module['duration'] ?? '0 ore totale' ?> or<?= floatVal(str_replace([',',':'], ['.', '.'], $module['duration'])) > 1 ? 'e totali' : 'a totale'?></div>
+                                    <div class="flex items-center px-5 py-3">  <span class="icon-material-outline-school text-2xl mr-2"></span> <?= $participation['count'] ?? '0' ?> <?php echo lang('front.field_participant')?> </div>
                                     <!-- <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> Moduli </div> -->
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?php echo lang('front.field_attestation')?> : <?= $module['attestato'] ?> </div>
                                     <?php if(strlen($module['difficulte']) > 0){ ?>

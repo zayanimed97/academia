@@ -271,7 +271,7 @@
 				  data:fields
 				  
 			}).done(function(data){
-				
+				//console.log(data);
 				alert("<?php echo lang('app.msg_send_mail_test')?>");
 				
 			});

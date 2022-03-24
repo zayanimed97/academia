@@ -58,9 +58,9 @@
         <div class="lg:py-10 py-5" x-data="getResData">
             <div class="container">
 
-                <div class="lg:flex">
+                <div class="flex flex-col md:flex-row">
          
-                    <div class="w-full lg:pr-24"> 
+                    <div class="w-full lg:pr-24 order-1 md:order-0"> 
         
                         <h2 class="text-xl font-semibold md:mb-6 mb-3"> <?php echo lang('front.title_section_profile_fatturazione')?></h2>
 
@@ -130,50 +130,50 @@
                             </ul> -->
 
                             <form method="POST" action="<?= base_url('/order/checkout') ?>" class="grid sm:grid-cols-2 gap-x-6 gap-y-4 mt-4 p-6">
-                                    <div class="col-span-2 flex justify-around">
-                                        <div class="radio">
+                                    <div class="col-span-2 md:flex justify-around">
+                                        <div class="radio w-full md:w-1/3">
                                             <input id="radio-1" name="type" type="radio" x-model="type" value="company">
                                             <label for="radio-1"><span class="radio-label" ></span> <?php echo lang('front.field_azienda')?>
                                             </label>
                                         </div>
                                         <br>
-                                        <div class="radio">
+                                        <div class="radio w-full md:w-1/3">
                                             <input id="radio-2" name="type" type="radio" x-model="type" value="professional">
                                             <label for="radio-2"><span class="radio-label"></span> <?php echo lang('front.field_prof')?>
                                             </label>
                                         </div>
                                         <br>
-                                        <div class="radio">
+                                        <div class="radio w-full md:w-1/3">
                                             <input id="radio-3" name="type" type="radio" x-model="type" value="private">
                                             <label for="radio-3"><span class="radio-label"></span> <?php echo lang('front.field_private')?>
                                             </label>
                                         </div>
                                     </div>
                                     <template x-if="type != 'private'">
-                                        <div>
+                                        <div class="col-span-2 md:col-span-1">
                                             <label for="piva" class="text-sm font-medium"><?php echo lang('front.field_piva')?></label>
                                             <input type="text" class="with-border" id="piva" name="piva" value="<?= $user['fattura_piva'] ?? "" ?>" required>
                                         </div>
                                     </template>
                                     <template x-if="type == 'company'">
-                                        <div>
+                                        <div class="col-span-2 md:col-span-1">
                                             <label for="regione" class="text-sm font-medium"> <?php echo lang('front.field_company_name')?> </label>
                                             <input type="text" class="with-border" id="regione" name="regione" value="<?= $user['ragione_sociale'] ?? "" ?>" required>
                                         </div>
                                     </template>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="cf" class="text-sm font-medium"> <?php echo lang('front.field_cf')?> </label>
                                         <input type="text" class="with-border" id="cf" name="cf" value="<?= $user['fattura_cf'] ?? "" ?>" required>
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="name" class="text-sm font-medium"> <?php echo lang('front.field_first_name')?></label>
                                         <input type="text" class="with-border" id="name" name="name" value="<?= $user['fattura_nome'] ?? "" ?>" required>
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="cognome" class="text-sm font-medium"> <?php echo lang('front.field_last_name')?></label>
                                         <input type="text" class="with-border" id="cognome" name="cognome" value="<?= $user['fattura_cognome'] ?? "" ?>" required>
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="residenza_stato" class="text-sm font-medium"> <?php echo lang('front.field_country')?> </label>
                                         <select class="selectpicker border rounded-md" id="residenza_stato" name="residenza_stato" x-model="stato" @change="handleCountry" required>
                                             <option value="0"><?php echo lang('front.field_select')?></option>
@@ -182,32 +182,32 @@
                                             <?php } ?>
                                         </select>
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="residenza_provincia" class="text-sm font-medium"> <?php echo lang('front.field_provincia')?> </label>
                                         <div x-html="provincia"></div>
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="residenza_comune" class="text-sm font-medium"> <?php echo lang('front.field_city')?> </label>
                                         <div x-html="comuni"></div>
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="indirizzo" class="text-sm font-medium"> <?php echo lang('front.field_address')?></label>
                                         <input type="text" class="with-border" id="indirizzo" name="indirizzo" value="<?= $user['fattura_indirizzo'] ?? "" ?>" required>
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="cap" class="text-sm font-medium"> <?php echo lang('front.field_zip')?></label>
                                         <input type="text" class="with-border" id="cap" name="cap" value="<?= $user['fattura_cap'] ?? "" ?>" required>
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="telefono" class="text-sm font-medium"> <?php echo lang('front.field_phone')?> </label>
                                         <input type="text" class="with-border" id="telefono" name="telefono" value="<?= $user['fattura_phone'] ?? "" ?>" required>
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="pec" class="text-sm font-medium"> <?php echo lang('front.field_pec')?> </label>
                                         <input type="text" class="with-border" id="pec" name="pec" value="<?= $user['fattura_pec'] ?? "" ?>" :required="type != 'private'">
                                     </div>
                                     <template x-if="type != 'private'">
-                                        <div>
+                                        <div class="col-span-2 md:col-span-1">
                                             <label for="sdi" class="text-sm font-medium"> <?php echo lang('front.field_sdi')?> </label>
                                             <input type="text" class="with-border" id="sdi" name="sdi" value="<?= $user['fattura_sdi'] ?? "" ?>" required>
                                         </div>
@@ -286,7 +286,7 @@
                     </div>
         
                     <!-- Sidebar -->
-                    <div class="lg:w-7/12 lg:-ml-12 lg:mt-0 mt-8">
+                    <div class="lg:w-7/12 lg:-ml-12 lg:mt-0 mt-8 order-0 md:order-1 mb-12 md:mb-0">
                         <div class="bg-white rounded-md shadow-lg lg:p-6 p-3" uk-sticky="offset:; offset:90 ; media: 1024 ; bottom: true">
         
                             <div class="font-semibold px-5 pb-3 text-lg text-center"> <?php echo lang('front.title_section_order_summary')?> </div>

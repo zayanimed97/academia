@@ -694,12 +694,32 @@ class Settings extends BaseController
 		$subject=$this->request->getVar('subject');
 		$html=$this->request->getVar('html');
 		$email = \Config\Services::email();					
-		$email->setFrom($settings['sender_email'],$settings['sender_name']);
+		//$email->setFrom($settings['sender_email'],$settings['sender_name']);
+		$sender_email=$settings['sender_email'];
+		$sender_name=$settings['sender_name'];
+		$SMTP=$this->SettingModel->getByMetaKeyEnte($data['user_data']['id'],'SMTP')['SMTP'] ?? "";
+							if($SMTP!="") $vals=json_decode($SMTP,true);
+						
+							if(!empty($vals)){
+									if(isset($vals['sender_name'])  && $vals['sender_name']!="") $sender_name=$vals['sender_name']; else $sender_name=$common_data['settings']['sender_name'];
+									if(isset($vals['sender_email']) && $vals['sender_email']!="") $sender_email=$vals['sender_email']; else $sender_email=$common_data['settings']['sender_email'];
+					
+								$email->SMTPHost=$vals['host'];
+								$email->SMTPUser=$vals['username'];
+								$email->SMTPPass=$vals['password'];
+								$email->SMTPPort=$vals['port'];
+							}
+							
+						
+		
+		$email->setFrom($sender_email,$sender_name);
 		 $to=$data['user_data']['email'];
 		$email->setTo($to);
+	//$email->setTo('s.benia@gmail.com');
 		$email->setSubject('(TEST) '.$subject);
 		$email->setMessage($html);
 		$email->setAltMessage(strip_tags($html));
+		//var_dump($email);
 		$xxx=$email->send();
 		
 	}

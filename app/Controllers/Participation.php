@@ -1,5 +1,5 @@
 <?php namespace App\Controllers;
-
+use CodeIgniter\I18n\Time;
 class Participation extends BaseController
 {
 	public function index($id_modulo)
@@ -180,7 +180,7 @@ class Participation extends BaseController
 			
 			$email = \Config\Services::email();
 			
-			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['user_data']['id'],'SMTP')['SMTP'];
 				if($SMTP!="") $vals=json_decode($SMTP,true);
 			 $sender_name=$common_data['settings']['sender_name'];
 			 $sender_email=$common_data['settings']['sender_email'];
@@ -232,7 +232,7 @@ class Participation extends BaseController
 			
 			$email = \Config\Services::email();
 			
-			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['user_data']['id'],'SMTP')['SMTP'];
 				if($SMTP!="") $vals=json_decode($SMTP,true);
 			 $sender_name=$common_data['settings']['sender_name'];
 			 $sender_email=$common_data['settings']['sender_email'];
@@ -251,7 +251,7 @@ class Participation extends BaseController
 			$email->setTo($inf['email']);
 			//$email->setBCC('segreteria@dentalcampus.it');
 			$link=base_url('user/login');
-			$temp=$this->TemplatesModel->where('module','send_credential')->where('id_ente',$common_data['selected_ente']['id'])->find();
+			$temp=$this->TemplatesModel->where('module','send_credential')->where('id_ente',$common_data['user_data']['id'])->find();
 			if(empty($temp)) $temp=$this->TemplatesModel->where('module','send_credential')->where('id_ente IS NULL')->find();
 		
 			$html=str_replace(array("{var_link}","{var_password}","{var_email}","{var_name}"),
@@ -290,7 +290,8 @@ class Participation extends BaseController
 			$email = \Config\Services::email();
 		$sender_name=$common_data['settings']['sender_name'];
 		$sender_email=$common_data['settings']['sender_email'];
-			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+	
+			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['user_data']['id'],'SMTP')['SMTP'];
 				if($SMTP!="") $vals=json_decode($SMTP,true);
 			
 				if(!empty($vals)){
@@ -306,7 +307,7 @@ class Participation extends BaseController
 			$email->setTo($inf['email']);
 
 		
-			$temp=$this->TemplatesModel->where('module',$module)->where('id_ente',$common_data['selected_ente']['id'])->find();
+			$temp=$this->TemplatesModel->where('module',$module)->where('id_ente',$common_data['user_data']['id'])->find();
 			if(empty($temp)) $temp=$this->TemplatesModel->where('module',$module)->where('id_ente IS NULL')->find();
 			
 				ob_start();
@@ -359,7 +360,7 @@ if(!empty($tab_incontro)){
 			$email = \Config\Services::email();
 			$sender_name=$common_data['settings']['sender_name'];
 		$sender_email=$common_data['settings']['sender_email'];
-			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['user_data']['id'],'SMTP')['SMTP'];
 				if($SMTP!="") $vals=json_decode($SMTP,true);
 			
 				if(!empty($vals)){
@@ -384,8 +385,8 @@ if(!empty($tab_incontro)){
 		
 			$html=str_replace(array("{CORSI_SOTTO_TITOLO}","{var_cart_details}","{var_password}","{var_email}","{var_name}","{CORSI_DATE}","{var_ecm}","{HOTEL}","{SEDE}","{CONFIRMA_PARTICIPAZIONE}","{var_login_page}"),
 			array($inf_corsi['sotto_titolo'],$inf_corsi['titolo'],$inf['pass'],$inf['email'],$name,$corsi_date,$ecm,$hotel,$sede,$link_confirm,$link),
-			$temp[0]['html']);
-			$email->setSubject($temp[0]['subject']);
+			$temp[0]['html'] ?? '');
+			$email->setSubject($temp[0]['subject' ?? '']);
 			$email->setMessage($html);
 			$email->setAltMessage(strip_tags($html));
 			$xxx=$email->send();

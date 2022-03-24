@@ -527,6 +527,9 @@ class UserController extends BaseController
 			  $vv['foto']=$inf_modulo['foto'];
 			 $inf_corsi=$this->CorsiModel->find($inf_modulo['id_corsi']);
 			 $vv['inf_corsi']=$inf_corsi;
+			 if($inf_corsi['tipologia_corsi']=='eBook'){
+				$vv['pdfs'] = $this->CorsiPDFLibModel->where("FIND_IN_SET(corsi_pdf_lib.id, {$inf_modulo['ids_pdf']})>0")->find();
+				}
 			  $vv['corso_title']=$inf_corsi['sotto_titolo'];
 			 $vv['title']=$inf_modulo['sotto_titolo'];
 			 $vv['tipologia_corsi']=$inf_corsi['tipologia_corsi'];

@@ -636,7 +636,7 @@ use CodeIgniter\I18n\Time;
                                             <div>·</div>
                                             <div> <?= $corsi['categories'] ?> </div>
                                             <div>·</div>
-                                            <div> <?= $mod['duration'] ?: 'indefinite' ?> </div>
+                                            <div> <?= $mod['duration'] ?: 'indefinite' ?> or<?= floatVal(str_replace([',',':'], ['.', '.'], $mod['duration'])) >= 2 ? 'e totali' : 'a totale'?> </div>
                                             <div>·</div>
                                             <div> <?= $mod['nb_person_aula'] ?: 'not applicable' ?> </div>
                                         </div>
@@ -659,7 +659,7 @@ use CodeIgniter\I18n\Time;
                                 </div> 
                                 
                             </div>
-                            <?php } if(!empty($dates)) { foreach($mod['dates'] as $date) { if(strtotime(date('Y-m-d H:i:s')) < strtotime($date['date']. ' '. $date['end_time'] . ':00')){ ?>
+                            <?php } if(!empty($dates)) { foreach($mod['dates'] as $date) { if(strtotime(date('Y-m-d H:i:s')) < strtotime($date['date']. ' '. $date['end_time'] . ':00')){ $nbpart = array_filter($participation, function($el) use ($date){return ($el['id_date'] ?: $date['id']) == $date['id'];})?>
 
 
                             <div class="bg-white shadow-sm uk-transition-toggle md:flex mb-2 pb-2">
@@ -669,6 +669,7 @@ use CodeIgniter\I18n\Time;
                                     <!-- <div class="line-clamp-2 mt-2 md:block hidden">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</div> -->
                                     <div class="font-semibold mt-1"> <?= $mod['sotto_titolo'] ?> </div>
                                     <div class="mt-1"> A cura di: <?= $mod['display_name'] ?></div>
+                                    <div class="mt-1"><b>Attuale disponibilità: <?=($corsi['nb_person_aula'] ?? 0)  - (reset($nbpart)['count'] ?? 0)?></b></div>
                                 </div>
                                 <div class="flex justify-between flex-col p-2">
                                     <?php if($mod['prezzo']){ ?>
@@ -733,9 +734,9 @@ use CodeIgniter\I18n\Time;
                                 <div class="-m-5 divide-y divide-gray-200 text-sm">
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="play-outline" class="text-2xl mr-2"></ion-icon><?php echo lang('front.field_type_cours')?> : <?= $type_cours[$corsi['tipologia_corsi']] ?? $corsi['tipologia_corsi'] ?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="key-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['ECM'] ?? '0' ?> <?= $settings['credits'] ?? 'crediti'?> </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="download-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['duration'] ?? '0min' ?> <?php echo lang('front.field_total')?> </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['nb_person_aula'] ?? '0' ?> <?php echo lang('front.field_participant')?> </div>
-                                    <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?= count($module) ?> <?php if($corsi['tipologia_corsi']=='eBook') echo lang('front.field_tab_ebook'); else echo lang('front.field_modules')?> </div>
+                                    <div class="flex items-center px-5 py-3">  <span class="icon-material-outline-access-time text-2xl mr-2"></span> <?= $corsi['duration'] ?? '0 ore totale' ?> or<?= floatVal(str_replace([',',':'], ['.', '.'], $corsi['duration'])) > 1 ? 'e totali' : 'a totale'?> <?php echo lang('front.field_total')?> </div>
+                                    <!-- <div class="flex items-center px-5 py-3">  <ion-icon name="help-circle-outline" class="text-2xl mr-2"></ion-icon> <?= $corsi['nb_person_aula'] ?? '0' ?> <?php echo lang('front.field_participant')?> </div> -->
+                                    <div class="flex items-center px-5 py-3">  <span class="icon-material-outline-book text-2xl mr-2"></span> <?= count($module) ?> <?php if($corsi['tipologia_corsi']=='eBook') echo lang('front.field_tab_ebook'); else echo lang('front.field_modules')?> </div>
                                     <div class="flex items-center px-5 py-3">  <ion-icon name="medal-outline" class="text-2xl mr-2"></ion-icon> <?php echo lang('front.field_attestation')?>: <?= $corsi['attestato'] ?> </div>
                                     <?php if(strlen($corsi['difficulte']) > 0){ ?>
                                         <div class="flex items-center px-5 py-3">  <ion-icon name="speedometer-outline" class="text-2xl mr-2"></ion-icon> Difficoltà : <?= $corsi['difficulte'] ?> </div>

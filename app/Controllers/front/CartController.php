@@ -89,7 +89,7 @@ class CartController extends BaseController
         if ($exist == false) {
             
             $this->cart->insert([
-                'id' => "$type.$id",
+                'id' => "$type$id",
                 'url' => $this->request->getVar('date') ? base_url('/corsi/'.$corsi['corsi_url']) : base_url("/$type/{$corsi['url']}"),
                 'type' => $type,
                 'qty' => 1,
@@ -331,7 +331,7 @@ class CartController extends BaseController
             }
             $this->RememberCartModel->where('id_user', session('user_data')['id'])->where('id_ente', $data['selected_ente']['id'])->delete();
             $this->cart->destroy();
-            session()->setFlashdata('success', 'Acquisto completato con successo. Accedi al tuo profilo e clicca su I miei corsi (che trovi cliccando sull’icona del tuo account sulla barra in alto a destra), per visualizzare ed effettuare il download dei contenuti. Consulta anche la tua mail.');
+            session()->setFlashdata('success', 'Free cart added to your account');
             $xxx = $this->OrderMail($cartId);
 			
             return redirect()->to(base_url());
@@ -865,10 +865,7 @@ class CartController extends BaseController
     {
         $data = $this->common_data();
         
-        // echo '<pre>';
-        // print_r($this->cart->contents());
-        // echo '</pre>';
-        // exit;
+        
 
         $id = $this->request->getVar('rowid');
         $platform = $this->request->getVar('platform');
@@ -877,8 +874,13 @@ class CartController extends BaseController
         $item = $row['type'] == 'corsi' ? $this->CorsiModel : $this->CorsiModuloModel;
         $item = $item->where('id', str_replace($row['type'], '', $row['id']))->where('banned', 'no')->first();
 
+        // echo '<pre>';
+        // print_r(array_keys($row['share']));
+        // echo '</pre>';
+        // exit;
+
         if ($item && !empty($row)) {
-            if (in_array($platform,array_map(function($el){return $el['platform'] ?? '';},array_keys($row['share'])))) {
+            if (in_array($platform,array_keys(array_filter($row['share'], function($el){return $el != 'cancelled';})))) {
                 $tax = 0;
                 foreach ($this->cart->contents() as $item) {
                     if ($item['price'] != 'ND') {

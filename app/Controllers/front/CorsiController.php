@@ -249,6 +249,12 @@ class CorsiController extends BaseController
         }
 
         $data['dates'] = $this->CorsiModuloDateModel->whereIn('id_modulo', $idsModulo ?: ['impossible value'])->where('banned', 'no')->find();
+        $data['participation'] = $this->ParticipationModel->whereIn('id_modulo', $idsModulo)->groupBy('id_date')->select('count(id) as count, id_date')->find();
+
+        // echo '<pre>';
+        // print_r($data['participation']);
+        // echo '</pre>';
+        // exit;
 
         foreach ($data['module'] as &$mod) {
             $mod['dates'] = array_filter($data['dates'], function($el) use ($mod){return $el['id_modulo'] == $mod['id'];});
@@ -257,10 +263,7 @@ class CorsiController extends BaseController
         foreach ($data['module'] as &$mod) {
             $this->discounts($mod, $discountsModulo ?? []);
         }
-        // echo '<pre>';
-        // print_r($data['module']);
-        // echo '</pre>';
-        // exit;
+        
 		$data['seo_title']=$data['corsi']['seo_title'];
 		$data['seo_description']=$data['corsi']['seo_description'];
 		if($data['corsi']['foto']!=""){ $seo_image=base_url('uploads/corsi/'.$data['corsi']['foto']);
@@ -363,6 +366,7 @@ class CorsiController extends BaseController
         if ($data['corsi']['tipologia_corsi'] != 'online') {
             $data['dates'] = $this->CorsiModuloDateModel->where('id_modulo', $data['module']['id'])->where('banned', 'no')->find();
         }
+        $data['participation'] = $this->ParticipationModel->where('id_modulo', $data['module']['id'])->groupBy('id_user')->select('count(id) as count')->first();
 
         $data['doctors'] = $this->UserModel->join('user_cv cv', 'cv.user_id = users.id', 'left')->join('user_profile profile', 'profile.user_id = users.id', 'left')->where("find_in_set(users.id, '{$data['module']['instructor']}') > 0")->select('users.*,profile.logo ,cv.cv as cv')->find();
         // $data['doctors'] = $this->UserModel->where("find_in_set(id, '{$data['module']['instructor']}') > 0")->find();

@@ -32,15 +32,15 @@
             <?php unset($_SESSION['error']); } ?>
                                 <!-- <p> Sign up to  Courseplus  to get started. </p> -->
                                 <form action="<?= base_url() ?>/register" id="form" method="POST" class="grid sm:grid-cols-2 gap-x-6 gap-y-4 mt-4">
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="nome" class="text-sm font-medium"> <?php echo lang('front.field_first_name')?></label>
                                         <input type="text" class="with-border" required id="nome" name="nome" data-parsley-trigger="focusout" value="<?php echo old('nome') ?? ''?>">
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="cognome" class="text-sm font-medium"> <?php echo lang('front.field_last_name')?> </label>
                                         <input type="text" class="with-border"id="cognome" required id="cognome" name="cognome" data-parsley-trigger="focusout" value="<?php echo old('cognome') ?? ''?>">
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="email" class="text-sm font-medium"> <?php echo lang('front.field_email')?> </label>
                                         <input type="text" class="with-border" id="email" name="email" required data-parsley-trigger="focusout" id="email" value="<?php echo old('email') ?? ''?>">
                                     </div>
@@ -49,16 +49,16 @@
                                         <input type="text" class="with-border" name="telefono" id="telefono" value="<?php //echo old('telefono') ?? ''?>">
                                     </div-->
 
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="password" class="text-sm font-medium"> <?php echo lang('front.field_password')?> </label>
                                         <input type="password" class="with-border" name="password" required data-parsley-trigger="focusout" id="password" value="<?php echo old('password') ?? ''?>">
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="confirm-password" class="text-sm font-medium"> <?php echo lang('front.field_confirm_password')?> </label>
                                         <input type="password" class="with-border" name="confirm" data-parsley-equalto="#password" required data-parsley-trigger="focusout" id="confirm-password" value="<?php echo old('password') ?? ''?>">
                                     </div>
                                     <?php if(!empty($prof)){ ?>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label for="professione" class="text-sm font-medium"> <?php echo lang('front.field_professione')?> </label>
                                         <select class="selectpicker border rounded-md" id="professione" name="professione">
                                             <option value=""><?php echo lang('front.field_select')?></option>

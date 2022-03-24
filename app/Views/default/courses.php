@@ -376,7 +376,7 @@ $tipo=implode(',', $tipo);
                                     </div>
                                     <div> . </div>
                                     <div class="text-moduli">
-                                        <?= $c['duration'] ?> ore totali
+                                        <?= $c['duration'] ?> or<?= floatVal(str_replace([',',':'], ['.', '.'], $c['duration'])) > 1 ? 'e totali' : 'a totale'?>
                                     </div>
                                     <?php if($c['difficulte']){ ?>
                                     <div> . </div>
@@ -456,7 +456,7 @@ $tipo=implode(',', $tipo);
                                             </div>
                                             <?php if(strlen($c['duration']) > 0){ ?>
                                             <div class="md:block hidden">·</div>
-                                            <div class="flex items-center"> <?= $c['duration'] ?> </div>
+                                            <div class="flex items-center"> <?= $c['duration'] ?> or<?= floatVal(str_replace([',',':'], ['.', '.'], $c['duration'])) > 1 ? 'e totali' : 'a totale'?> </div>
                                             <?php } ?>
                                             <div class="md:block hidden">·</div>
                                             <div class="flex items-center">
@@ -647,4 +647,3 @@ function getFilters($watch) {
     }
 }
 </script>
-<?= view($view_folder.'/common/close') ?>
