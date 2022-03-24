@@ -245,6 +245,9 @@ class Ajax extends BaseController
 			
 				// Display the object in the browser.
 				$nameArray = explode('/', $keyname);
+
+				
+
 				header("Content-Type: {$result['ContentType']}");
 				header('Content-Disposition: attachment; filename="'.end($nameArray).'"');
 

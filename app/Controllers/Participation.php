@@ -116,6 +116,7 @@ class Participation extends BaseController
 					}
 					else $v['confirm_zoom']=lang('app.no');
 				}
+
 				if($inf_corsi['tipologia_corsi']=='online'){
 					$list_vimeo=$this->CorsiModuloVimeoModel->where('banned','no')->where('enable','yes')->where('id_modulo',$v['id_modulo'])->orderBy('ord','ASC')->find();
 					//$last_status=$this->ParticipationOnlineStatusModel->where('id_participation',$v['id'])->where('vimeo_id',$vimeo_id)->orderBy('created_at','DESC')->first();

@@ -41,10 +41,8 @@ class Cron extends BaseController
 			if($one_remember['tipologia_corsi']!="") $req_corsi.=" and tipologia_corsi='".$one_remember['tipologia_corsi']."'";
 			$req_corsi.=")";
 			
-			
 			$query = $db->query($req_corsi);
 			$list_corsi = $query->getResultArray();
-		
 			foreach($list_corsi as $kk=>$one_corsi){
 				
 				$inf_corsi=$this->CorsiModel->find($one_corsi['id_corsi']);

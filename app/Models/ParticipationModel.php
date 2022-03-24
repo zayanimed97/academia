@@ -7,7 +7,7 @@ class ParticipationModel extends Model
 	
     protected $table = 'participation';
 	protected $primaryKey = 'id';
-    protected $allowedFields = ['id_cart', 'id_ente','id_user','id_modulo','id_date','date','banned','confirm_mail','confirm_zoom'];
+    protected $allowedFields = ['id_cart', 'id_ente','id_user','id_modulo','id_date','date','banned','confirm_mail','confirm_zoom','downloaded_pdf'];
 	
 	protected $returnType = 'array';
 	

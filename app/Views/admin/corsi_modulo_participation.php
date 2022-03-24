@@ -111,7 +111,10 @@
 														<?php } ?>	
 													<?php if($inf_corsi['tipologia_corsi']=='online'){?>
 														<th><?php echo lang('app.field_progress_video')?></th>
-													<?php } ?>														
+													<?php } ?>		
+													<?php if($inf_corsi['tipologia_corsi']=='eBook'){?>
+														<th><?php echo lang('app.action_download')?></th>
+													<?php } ?>													
                                                     </tr>
                                                 </thead>
                                             
@@ -138,6 +141,11 @@
   <div class="progress-bar" role="progressbar" style="width: <?= round($arg['total_vimeo_percent']) ?>%" aria-valuenow="<?= round($arg['total_vimeo_percent']) ?>" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
 <a data-toggle="modal" data-target="#video-status-modal" onclick="get_video_details('<?php echo $arg['id']?>')"><?php echo lang('app.field_details')?></a>
+															</td>
+														<?php } ?>	
+														<?php if($inf_corsi['tipologia_corsi']=='eBook'){?>
+															<td>
+															<?= $arg['downloaded_pdf'] ?>
 															</td>
 														<?php } ?>		
 													</tr>
