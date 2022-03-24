@@ -65,7 +65,7 @@
 								}?>
 								<img style="display:inline;width:100px;margin-right: 20px;" src="<?= $ll[0]['inf_corsi']['foto'] ? base_url('uploads/corsi/'.$ll[0]['inf_corsi']['foto']) : $default_image ?>" alt="" class="">
 								<div class="flex justify-between items-center w-full">
-									<span><?php	 echo $ll[0]['corso_title'] ?? 'Corso #'.$id_corsi?> <?php echo $k+1?></span>
+									<span><?php	 echo $ll[0]['corso_title'] ?? ('Corso #'.$id_corsi)?></span>
 									<div>
 									<span><?php echo $type_cours[$ll[0]['tipologia_corsi']] ?? $ll[0]['tipologia_corsi']?></span>
 									</div>

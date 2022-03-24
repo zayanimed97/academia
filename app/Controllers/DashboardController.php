@@ -50,7 +50,7 @@ class DashboardController extends BaseController
 			$luoghi_label="";
 			if($inf_corsi['tipologia_corsi']=="aula" && $inf_corsi['id_luoghi']!==null){
 				$inf_luoghi=$this->LuoghiModel->find($inf_corsi['id_luoghi']);
-				$luoghi_label=$inf_luoghi['nome'];
+				$luoghi_label=$inf_luoghi['nome'] ?? '';
 			}
 			$inf_modulo['luoghi_label']=$luoghi_label;
 			$inf_doctor=$this->UserProfileModel->where('user_id',$inf_modulo['instructor'])->first();

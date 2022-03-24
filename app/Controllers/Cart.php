@@ -69,12 +69,14 @@ class Cart extends BaseController
 		foreach($ll as $k=>$v){
 				
 				$inf_user=$this->UserModel->withDeleted()->find($v['id_user']);
+				
 				$inf_user_profile=$this->UserProfileModel->where('user_id',$v['id_user'])->first();
-				$v['participante']=$inf_user_profile['nome'];		
-				$v['participant_cognome']=$inf_user_profile['cognome'];
-				$v['participante_phone']=$inf_user_profile['mobile'];
-				$v['participante_email']=$inf_user_profile['email'];
-				$v['credentiel']="User:".$inf_user['email'].'<br>Password:'.$inf_user['pass'].'<br>Cell:'.$inf_user_profile['mobile'];
+				//var_dump($inf_user_profile); exit;
+				$v['participante']=$inf_user_profile['nome'] ?? "";		
+				$v['participant_cognome']=$inf_user_profile['cognome'] ?? "";
+				$v['participante_phone']=$inf_user_profile['mobile'] ?? "";
+				$v['participante_email']=$inf_user_profile['email'] ?? "";
+				$v['credentiel']="User:".$inf_user['email'] ?? ''.'<br>Password:'.$inf_user['pass'].'<br>Cell:'.$inf_user_profile['mobile']?? '';
 				
 				$quota="";
 				

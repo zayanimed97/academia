@@ -51,6 +51,7 @@ class ProfileController extends BaseController
 			break;
 			case 'mailing':
 			$data['SMTP']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'SMTP')['SMTP'] ?? "";
+			$data['email']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'email')['email'] ?? "";
 			$p='profile_mailing.php';
 			break;
 			case 'settings':
@@ -73,7 +74,8 @@ class ProfileController extends BaseController
 		switch($this->request->getVar('profile_menu')){
 			case 'account':
 				$val = $this->validate([
-				'email' => ['label' => lang('app.field_email'), 'rules' => 'trim|required|valid_email|is_unique[users.email,id,'.$user_data['id'].']'],	
+				//'email' => ['label' => lang('app.field_email'), 'rules' => 'trim|required|valid_email|is_unique[users.email,id,'.$user_data['id'].']'],	
+				'password' => ['label' => lang('app.field_password'), 'rules' => 'trim|required'],	
 				]);
 				
 				if (!$val)
@@ -85,10 +87,10 @@ class ProfileController extends BaseController
 				}
 				
 				else{
-					$dataUser = [
+				/*	$dataUser = [
 						'email' => $this->request->getVar('email'),
 					];
-
+*/
 					if ($this->request->getVar('password')) {
 						$dataUser['password'] = md5($this->request->getVar('password'));
 						$dataUser['pass']=$this->request->getVar('password');
@@ -431,6 +433,8 @@ else{
 				
 			break;
 			case 'mailing':
+			$val=true;
+			if($this->request->getVar('host')!=""){
 				$val = $this->validate([
 				
 						'host' => ['label' =>  lang('app.field_smtp_host') ,'rules' => 'trim|required'],	
@@ -440,6 +444,15 @@ else{
 						'sender_email' => ['label' =>  lang('app.field_sender_email') ,'rules' => 'trim|required'],
 						'sender_name' => ['label' =>  lang('app.field_sender_name') ,'rules' => 'trim|required'],
 				]);
+			}
+			/*else{
+				$_POST['host']="";
+				$_POST['username']="";
+				$_POST['password']="";
+				$_POST['sender_email']="";
+				$_POST['sender_name']="";
+				$_POST['port']="";
+			}*/
 				if (!$val)
 				{
 						
@@ -541,6 +554,32 @@ else{
 
 		return redirect()->to($_SERVER['HTTP_REFERER']);
 		*/
+	}
+	
+	public function send_test_smtp(){
+		$host=$this->request->getVar('host');
+		$username=$this->request->getVar('username');
+		$password=$this->request->getVar('password');
+		$port=$this->request->getVar('port');
+		$sender_email=$this->request->getVar('sender_email');
+		$sender_name=$this->request->getVar('sender_name');
+		$smtp_test_email=$this->request->getVar('smtp_test_email');
+		
+		$email = \Config\Services::email();
+		$email->SMTPHost=$host;
+		$email->SMTPUser=$username;
+		$email->SMTPPass=$password;
+		$email->SMTPPort=$port;
+		$email->setFrom($sender_email,$sender_name);
+		
+		$email->setTo($smtp_test_email);
+		$html="test smtp config";
+		$email->setSubject("test smtp config");
+		$email->setMessage($html);
+		$email->setAltMessage(strip_tags($html));
+		$xxx=$email->send();
+		print_r($email);
+		//echo json_encode($email);
 	}
 }
 ?>

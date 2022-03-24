@@ -60,13 +60,15 @@ class Home extends BaseController
 	public function contact_page(){
 		$data = $this->common_data();
 		$common_data=$data;
+	//	var_dump($common_data);exit;
 		$inf_page=$this->PagesModel->where('url','contact')->where('id_ente',$data['selected_ente']['id'])->first();
 		if(empty($inf_page)){
 			return redirect()->to(base_url());
 		}
 		if($this->request->getVar('submit')!==null){
 			$email = \Config\Services::email();
-					$subscribe_email=$common_data['selected_ente']['email'] ?? '';
+					$subscribe_email=$common_data['settings']['email'];
+					if($subscribe_email=="") $subscribe_email=$common_data['selected_ente']['email'] ?? '';
 					$inf_profile=$this->UserProfileModel->where('user_id',$common_data['selected_ente']['id'])->first();
 					if($inf_profile['email']!="" && $subscribe_email=="") $subscribe_email=$inf_profile['email'];
 					$sender_name=$this->request->getVar('nome').' '.$this->request->getVar('cognome');
@@ -75,7 +77,7 @@ class Home extends BaseController
 					if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
-					/*	 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						 $SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
 						if($SMTP!="") $vals=json_decode($SMTP,true);
 					
 						if(!empty($vals)){
@@ -86,14 +88,15 @@ class Home extends BaseController
 							$email->SMTPUser=$vals['username'];
 							$email->SMTPPass=$vals['password'];
 							$email->SMTPPort=$vals['port'];
-						}*/
+						}
 						
 					}
+					
+					
 					$email->setFrom($sender_email,$sender_name);
 					
 					$email->setTo($subscribe_email);
 				
-				 
 					
 					
 					$email->setSubject($this->request->getVar('subject').' - Contatti Form');

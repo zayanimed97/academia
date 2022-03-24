@@ -125,7 +125,7 @@
                                                 <div class="tab-pane" id="tab_info">
                                                     <div id="accountForm" >
                                                         <div class="row">
-														<div class="col-md-2">
+															<div class="col-md-2">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_sort')?> <span class="text-danger">*</span></label>
 																	<?php $val="1"; 
@@ -146,17 +146,17 @@
 																  
 																</div>
 															</div>
-														<div class="col-md-5">
+															<div class="col-md-5">
 																<div class="form-group required-field">
-																	<label for="acc-name"><?php echo lang('app.field_title')?> <span class="text-danger">*</span></label>
-																	<?php $val=""; 
+																	<label for="acc-name">Titolo della lezione <span class="text-danger">*</span></label>
+																	<?php $val="";
 															$input = [
 																	'type'  => 'text',
-																	'name'  => 'titolo',
-																	'id'    => 'titolo',
+																	'name'  => 'sotto_titolo',
+																	'id'    => 'sotto_titolo',
 																	'required' =>true,
 																	'value' => $val,
-																	'placeholder' =>lang('app.field_title'),
+																	'placeholder' =>lang('app.field_subtitle'),
 																	'class' => 'form-control'
 																	
 															];
@@ -166,17 +166,17 @@
 																  
 																</div>
 															</div>
-																<div class="col-md-5">
+															<div class="col-md-5">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_subtitle')?> <span class="text-danger">*</span></label>
-																	<?php $val="";
+																	<?php $val=""; 
 															$input = [
 																	'type'  => 'text',
-																	'name'  => 'sotto_titolo',
-																	'id'    => 'sotto_titolo',
+																	'name'  => 'titolo',
+																	'id'    => 'titolo',
 																	'required' =>true,
 																	'value' => $val,
-																	'placeholder' =>lang('app.field_subtitle'),
+																	'placeholder' =>lang('app.field_title'),
 																	'class' => 'form-control'
 																	
 															];
@@ -856,7 +856,7 @@
 													<div class="row">
 														<div class="col-md-6">
 														  <div class="form-group">
-															<label class="col-form-label " for="logo"><?php echo lang("app.field_image")?> </label>
+															<label class="col-form-label " for="logo"><?php echo lang("app.field_image")?> (dimensione consigliate: 400x227 jpg o png)</label>
 															
 																<input class="form-control" type="file" id="logo" name="logo"  />
 															

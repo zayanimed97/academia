@@ -208,6 +208,17 @@ class Ajax extends BaseController
 		$common_data=$this->common_data();
 		$resource = $this->CorsiPDFLibModel->where('id', $id)->where('id_ente', $common_data['selected_ente']['id'])->first();
 		if ($resource) {
+			if ($this->request->getVar('participation')) {
+				$participation = $this->ParticipationModel->where('id', $this->request->getVar('participation'))->first();
+				if (!empty($participation)) {
+					// echo '<pre>';
+					// print_r($participation);
+					// echo '</pre>';
+					// exit;
+					$participation = $this->ParticipationModel->update($participation['id'], ['downloaded_pdf'=>'si']);
+					
+				}
+			}
 			if (strpos($resource['filename'], 'amazonaws') == false) {
 				header("Location: ".base_url("uploads/corsiPDF/{$resource['filename']}"));
 				exit;
@@ -691,9 +702,11 @@ if($this->request->getVar('Password')!=""){
 		$verif=$this->CartModel->where('id_ente',$common_data['user_data']['id'])->where('id',$id)->find();
 		if(!empty($verif)){
 			$inf_profile=$this->UserProfileModel->where('user_id',$verif[0]['id_user'])->first();
-		
-		$inf_country_residenza=$this->NazioniModel->find($inf_profile['residenza_stato']);
-		
+		if($inf_profile['residenza_stato']!=""){
+			$inf_country_residenza=$this->NazioniModel->find($inf_profile['residenza_stato']);
+		}
+		else $inf_country_residenza=$this->NazioniModel->find(106);
+		 
 		if($inf_profile['residenza_stato']==106){
 			$inf_provincia_residenza=$this->ProvinceModel->find($inf_profile['residenza_stato']);
 			$residenza_provincia=$inf_provincia_residenza['provincia'];

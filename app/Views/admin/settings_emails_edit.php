@@ -119,9 +119,9 @@
 											</div>
 											<?php if($list['helps']!=""){?>
                                     				<div class="col-4">
-														<div class="card text-white bg-info text-xs-center">
+														<div class="card text-xs-center">
 															<div class="card-body">
-															<h5 class="card-title text-white"><?php echo lang('app.title_section_help_email')?></h5>
+															<h5 class="card-title"><?php echo lang('app.title_section_help_email')?></h5>
 																<blockquote class="card-bodyquote">
 																	<?php echo $list['helps']?>
 																</blockquote>

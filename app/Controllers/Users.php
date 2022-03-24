@@ -22,6 +22,10 @@ class Users extends BaseController
 			default:$redirect=base_url();
 		}
 		
+		setcookie('password', '', 2147483647 , '/');
+
+		setcookie('email', '', 2147483647 , '/');
+
 		$this->session->destroy();
 		return redirect()->to( $redirect );
 	}

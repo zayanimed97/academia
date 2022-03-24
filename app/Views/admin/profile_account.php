@@ -45,7 +45,7 @@
                                                                     <label class="col-md-3 col-form-label" for="Email">Email</label>
                                                                     <div class="col-md-9">
 																		Il tuo indirizzo email è
-                                                                        <input type="text" class="form-control" id="Email" name="email" value="<?= $user['user_email'] ?>">
+                                                                        <input type="text" class="form-control" disabled id="Email" name="email" value="<?= $user['user_email'] ?>">
                                                                     </div>
                                                                 </div>
                                                                

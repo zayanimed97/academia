@@ -40,7 +40,7 @@ class Corsi extends BaseController
 			$luoghi_label="";
 			if($vv['tipologia_corsi']=="aula" && $vv['id_luoghi']!==null){
 				$inf_luoghi=$this->LuoghiModel->find($vv['id_luoghi']);
-				$luoghi_label=$inf_luoghi['nome'];
+				$luoghi_label=$inf_luoghi['nome'] ?? "";
 			}
 			$vv['luoghi_label']=$luoghi_label;
 			$res[]=$vv;

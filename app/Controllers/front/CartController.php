@@ -31,6 +31,7 @@ class CartController extends BaseController
                                         ->select("corsi.*, MAX(prezz.prezzo) as max_price, MIN(prezz.prezzo) as min_price, GROUP_CONCAT(distinct cm.id) as modules")
                                         ->groupBy('corsi.id')
                                         ->first();
+                
         } elseif($type == 'modulo'){
             $corsi = $this->CorsiModuloModel    ->where('corsi.id_ente', $data['selected_ente']['id'])
                                                 ->where('corsi_modulo.id', $id)
@@ -86,8 +87,9 @@ class CartController extends BaseController
         }
         
         if ($exist == false) {
+            
             $this->cart->insert([
-                'id' => $type.$id,
+                'id' => "$type$id",
                 'url' => $this->request->getVar('date') ? base_url('/corsi/'.$corsi['corsi_url']) : base_url("/$type/{$corsi['url']}"),
                 'type' => $type,
                 'qty' => 1,
@@ -863,10 +865,7 @@ class CartController extends BaseController
     {
         $data = $this->common_data();
         
-        // echo '<pre>';
-        // print_r($this->cart->contents());
-        // echo '</pre>';
-        // exit;
+        
 
         $id = $this->request->getVar('rowid');
         $platform = $this->request->getVar('platform');
@@ -875,8 +874,13 @@ class CartController extends BaseController
         $item = $row['type'] == 'corsi' ? $this->CorsiModel : $this->CorsiModuloModel;
         $item = $item->where('id', str_replace($row['type'], '', $row['id']))->where('banned', 'no')->first();
 
+        // echo '<pre>';
+        // print_r(array_keys($row['share']));
+        // echo '</pre>';
+        // exit;
+
         if ($item && !empty($row)) {
-            if (in_array($platform,array_map(function($el){return $el['platform'] ?? '';},array_keys($row['share'])))) {
+            if (in_array($platform,array_keys(array_filter($row['share'], function($el){return $el != 'cancelled';})))) {
                 $tax = 0;
                 foreach ($this->cart->contents() as $item) {
                     if ($item['price'] != 'ND') {

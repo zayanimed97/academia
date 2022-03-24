@@ -26,6 +26,7 @@ class CorsiController extends BaseController
                                         ->where('corsi.status', 'si')
                                         ->join('users u', 'find_in_set(u.id, corsi.ids_doctors) > 0')
                                         ->join('corsi_modulo cm', 'cm.id_corsi = corsi.id AND cm.banned = "no" AND cm.status = "si"')
+                                        ->join('corsi_modulo_date cmd', 'cmd.id_modulo = cm.id AND cmd.banned = "no"', 'left')
                                         ->groupBy('corsi.id')
                                         ->select($for == 'corsi' ? 
                                                 "   corsi.video_promo, 
@@ -40,9 +41,11 @@ class CorsiController extends BaseController
                                                     corsi.have_def_price, 
                                                     corsi.free, 
                                                     corsi.duration, 
+                                                    corsi.difficulte, 
                                                     MAX(prezz.prezzo) as max_price, 
                                                     MIN(prezz.prezzo) as min_price, 
-                                                    GROUP_CONCAT(DISTINCT u.display_name) doctor_names, 
+                                                    GROUP_CONCAT(DISTINCT u.display_name) doctor_names,
+                                                    GROUP_CONCAT(DISTINCT cmd.id) dates,
                                                     count(DISTINCT cm.id) as modulo_count,
                                                     corsi.ids_professione,
                                                     '' as corsiSottoTitoloForModulo,
@@ -80,10 +83,12 @@ class CorsiController extends BaseController
                                                             corsi_modulo.obiettivi, 
                                                             corsi_modulo.have_def_price, 
                                                             corsi_modulo.free, 
-                                                            corsi_modulo.duration, 
+                                                            corsi_modulo.duration,
+                                                            corsi_modulo.difficulte,  
                                                             MAX(prezz.prezzo) as max_price, 
                                                             MIN(prezz.prezzo) as min_price,
                                                             u.display_name as doctor_names, 
+                                                            GROUP_CONCAT(DISTINCT cmd.id) dates,
                                                             corsi.url as corsi_url,
                                                             corsi.ids_professione,
                                                             corsi.sotto_titolo,
@@ -92,6 +97,7 @@ class CorsiController extends BaseController
                                                 ->join('corsi', "corsi.id = corsi_modulo.id_corsi AND corsi_modulo.id_corsi in ({$courses('modulo')}) AND corsi.buy_type <> 'cours'")
                                                 ->join('users u', 'u.id = corsi_modulo.instructor', 'left')
                                                 ->join('corsi_modulo_prezzo_prof prezz', 'corsi_modulo.id = prezz.id_modulo', 'left')
+                                                ->join('corsi_modulo_date cmd', 'cmd.id_modulo = corsi_modulo.id AND cmd.banned = "no"', 'left')
                                                 ->where('corsi_modulo.banned', 'no')
                                                 ->where('corsi_modulo.status', 'si')
                                                 ->groupBy('corsi_modulo.id')
@@ -169,16 +175,25 @@ class CorsiController extends BaseController
         }
 
 
+        $dates = array_map(function($el){return explode(',',$el['dates']);},$data['corsi']);
+        $dateIds = [];
+        foreach ($dates as $date) {
+            foreach ($date as $d) {
+                array_push($dateIds,$d);
+            }
+        }
+        $dates = $this->CorsiModuloDateModel->whereIn('id', $dateIds ?: ['impossible value'])->find();
         foreach ($data['corsi'] as $key => &$course) {
+            $course['available_dates'] = array_filter($dates, function($el) use ($course){return in_array($el['id'], explode(',', $course['dates']));});
             // get profs for this course
             $this->discounts($course, $discounts ?? []);
         }
-        // $db      = \Config\Database::connect();
+        $db      = \Config\Database::connect();
         // echo '<pre>';
-        // print_r("SELECT * FROM ({$courses('corsi')} UNION $moduloQuery) as a_table LIMIT $perPage OFFSET $offset");
+        // print_r($data['corsi']);
         // echo '</pre>';
         // exit;
-        // // die(var_dump($data['category']));
+        // die(var_dump($data['category']));
 		$inf_page=$this->PagesModel->where('url','corsi')->where('id_ente',$data['selected_ente']['id'])->first();
 		$data['seo_title']=$inf_page['seo_title'];
 		$data['seo_description']=$inf_page['seo_description'];
@@ -234,15 +249,21 @@ class CorsiController extends BaseController
         }
 
         $data['dates'] = $this->CorsiModuloDateModel->whereIn('id_modulo', $idsModulo ?: ['impossible value'])->where('banned', 'no')->find();
+        $data['participation'] = $this->ParticipationModel->whereIn('id_modulo', $idsModulo)->groupBy('id_date')->select('count(id) as count, id_date')->find();
 
+        // echo '<pre>';
+        // print_r($data['participation']);
+        // echo '</pre>';
+        // exit;
+
+        foreach ($data['module'] as &$mod) {
+            $mod['dates'] = array_filter($data['dates'], function($el) use ($mod){return $el['id_modulo'] == $mod['id'];});
+        }
         $this->discounts($data['corsi'], $discounts ?? []);
         foreach ($data['module'] as &$mod) {
             $this->discounts($mod, $discountsModulo ?? []);
         }
-        // echo '<pre>';
-        // print_r($data['module']);
-        // echo '</pre>';
-        // exit;
+        
 		$data['seo_title']=$data['corsi']['seo_title'];
 		$data['seo_description']=$data['corsi']['seo_description'];
 		if($data['corsi']['foto']!=""){ $seo_image=base_url('uploads/corsi/'.$data['corsi']['foto']);
@@ -286,7 +307,8 @@ class CorsiController extends BaseController
 		
 			
 			$data['seo_image_info']=$info;
-		$data['seo_image']=$seo_image;
+        $data['seo_image']=$seo_image;
+        // die(print_r($data['dates']));
         return view($data['view_folder'].'/detaglio-corso', $data);
         
     }
@@ -344,6 +366,7 @@ class CorsiController extends BaseController
         if ($data['corsi']['tipologia_corsi'] != 'online') {
             $data['dates'] = $this->CorsiModuloDateModel->where('id_modulo', $data['module']['id'])->where('banned', 'no')->find();
         }
+        $data['participation'] = $this->ParticipationModel->where('id_modulo', $data['module']['id'])->groupBy('id_user')->select('count(id) as count')->first();
 
         $data['doctors'] = $this->UserModel->join('user_cv cv', 'cv.user_id = users.id', 'left')->join('user_profile profile', 'profile.user_id = users.id', 'left')->where("find_in_set(users.id, '{$data['module']['instructor']}') > 0")->select('users.*,profile.logo ,cv.cv as cv')->find();
         // $data['doctors'] = $this->UserModel->where("find_in_set(id, '{$data['module']['instructor']}') > 0")->find();

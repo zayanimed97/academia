@@ -215,91 +215,91 @@
 										</div>	
 											
 
-										<div class="row" id="div_headerImage"  <?php if($inf_page['is_externel']=='yes'){?> style="display:none" <?php } ?>>
-											
-												<div class="col-md-9">
+												<div class="row" id="div_headerImage"  <?php if($inf_page['is_externel']=='yes'){?> style="display:none" <?php } ?>>
+
+													<div class="col-md-9">
 														<div class="form-group required-field">
 															<label for="acc-mname">Immagine copertina (dimensione consigliata: 1920x380px)</label>
-														 <?php $val=""; 
-													$input = [
-															'type'  => 'file',
-															'name'  => 'headerImage',
-															'id'    => 'headerImage',
-															
-														
-															'placeholder' =>lang('app.field_image'),
-															'class' => 'form-control'
-															
-													];
+															<?php $val=""; 
+															$input = [
+																'type'  => 'file',
+																'name'  => 'headerImage',
+																'id'    => 'headerImage',
 
-													echo form_input($input);
-													?>
+
+																'placeholder' =>lang('app.field_image'),
+																'class' => 'form-control'
+
+															];
+
+															echo form_input($input);
+															?>
 														</div>
 													</div>
 													<div class="col-md-3">
 														<?php if($inf_page['header_image']!=""){?>
-															<img src="<?php echo base_url('uploads/pages/'.$inf_page['header_image'])?>" style="width:100%">
+														<img src="<?php echo base_url('uploads/pages/'.$inf_page['header_image'])?>" style="width:100%">
 														<?php } ?>
 													</div>
-										</div>
+												</div>
 												
-								<div class="row mt-5" id="div_image"  <?php if($inf_page['is_externel']=='yes'){?> style="display:none" <?php } ?>>
-									
-									
-												<div class="col-md-9">
-													
-												<h4 class="header-title">Facebook</h4>
+												<div class="row mt-4" id="div_image"  <?php if($inf_page['is_externel']=='yes'){?> style="display:none" <?php } ?>>
+
+
+													<div class="col-md-9">
+
+														<h4 class="header-title">Facebook</h4>
 														<div class="form-group required-field">
 															<label for="acc-mname">Aggiungi un'<?php echo lang('app.field_image')?> (1200x628px) che permette la condivizione della homepage su Facebook</label>
-														 <?php $val=""; 
-													$input = [
-															'type'  => 'file',
-															'name'  => 'image',
-															'id'    => 'image',
-															
-														
-															'placeholder' =>lang('app.field_image'),
-															'class' => 'form-control'
-															
-													];
+															<?php $val=""; 
+																$input = [
+																	'type'  => 'file',
+																	'name'  => 'image',
+																	'id'    => 'image',
 
-													echo form_input($input);
-													?>
+
+																	'placeholder' =>lang('app.field_image'),
+																	'class' => 'form-control'
+
+																];
+
+																echo form_input($input);
+															?>
 														</div>
 													</div>
 													<div class="col-md-3">
 														<?php if($inf_page['image']!=""){?>
-															<img src="<?php echo base_url('uploads/pages/'.$inf_page['image'])?>" style="width:100%">
+														<img src="<?php echo base_url('uploads/pages/'.$inf_page['image'])?>" style="width:100%">
 														<?php } ?>
 													</div>
-											</div>
+												</div>
 	<?php if($inf_page['type']=='dynamic'){?>										
-									<div class="row" id="div_content" <?php if($inf_page['is_externel']=='yes'){?> style="display:none" <?php } ?>>
-									<div class="col-md-12">
+												<div class="row mt-2" id="div_content" <?php if($inf_page['is_externel']=='yes'){?> style="display:none" <?php } ?>>
+													<div class="col-md-12">
 														<div class="form-group">
 															<label for="acc-mname"><?php echo lang('app.field_content')?> <span class="text-danger">*</span></label>
-														 <?php $val=$inf_page['content']; 
-													$input = [
-															
-															'name'  => 'html',
-															'id'    => 'summernote-basic',
-														
-															'value' => $val,
-															'placeholder' =>lang('app.field_content'),
-															'class' => 'form-control'
-															
-													];
+															<?php $val=$inf_page['content']; 
+										   $input = [
 
-													echo form_textarea($input);
-													?>
+											   'name'  => 'html',
+											   'id'    => 'summernote-basic',
+
+											   'value' => $val,
+											   'placeholder' =>lang('app.field_content'),
+											   'class' => 'form-control'
+
+										   ];
+
+										   echo form_textarea($input);
+															?>
 														</div>
 													</div>
-										
-									</div>
-									  <div class="checkbox form-check-inline">
-																			<input type="checkbox" name="enable" id="enable" value="yes" <?php if($inf_page['enable']=='yes') echo 'checked'?>>
-																			<label for="enable"> <?php echo lang('app.field_active_status')?> </label>
-																		</div>
+
+												</div>	
+												<div class="checkbox form-check-inline">
+													<input type="checkbox" name="enable" id="enable" value="yes" <?php if($inf_page['enable']=='yes') echo 'checked'?>>
+													<label for="enable"> <?php echo lang('app.field_active_status')?> </label>
+												</div>
 										
 	<?php } ?>
 							

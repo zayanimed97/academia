@@ -6,6 +6,14 @@
 /*font-family: 'Frank Ruhl Libre', serif;
 font-family: 'Libre Franklin', sans-serif;
 */
+
+
+/* Lista corsi */
+.txt-color{color:#FF7700;}
+.text-docenti {font-size: .750rem;line-height: 1.25rem;font-style: italic;color:#9b9999;}
+.text-prezzo {font-size: 14px;line-height: 1.75rem;font-weight: 600;color: #000;}
+.text-moduli {font-size: 12px; color:#444;}
+
 .text-xl {font-family: 'Frank Ruhl Libre', serif;}
 .font-semibold {font-weight: 600;font-family: 'Frank Ruhl Libre', serif;}
 button {vertical-align: middle;}
@@ -28,6 +36,7 @@ a.button, span.button, button.button {background-color: #ff7700;height: 38px;pad
   border: none;
   border-radius: 7px;
 }
+.lg\:pt-20{padding-top:5rem !important}
 .bg-grey{background-color:#e6e9ec !important;}
 input[type="button"], input[type="submit"] {
   background-color: #ff7700;
@@ -155,7 +164,8 @@ input[type="button"].gray:hover, input[type="submit"].gray:hover {
 a.button.gray:hover {
   background-color: rgba(241, 243, 244, 0.8);
 }
-
+.tube-card ol, .tube-card ul{list-style: inside !important;margin: 0 0 1rem 0 !important;padding-left:30px !important;}
+.tube-card ul.uk-slider-items {list-style: none !important;}
 body .button i.icon-material-outline-arrow-right-alt {
   font-size: 22px;
   top: 4px;
@@ -8654,7 +8664,7 @@ header .header_inner,
     margin-right: auto;
   }
   .horizontal .container {
-    padding-top: 20px;
+    padding-top: 15px;
   }
   .page-spacer {
     margin-top: 60px;

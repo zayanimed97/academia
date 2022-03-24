@@ -480,7 +480,7 @@ class BaseController extends Controller
 						if(!empty($common_data['selected_ente']) && isset($common_data['selected_ente'])){
 						
 					
-						$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+						$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'] ?? "";
 							if($SMTP!="") $vals=json_decode($SMTP,true);
 						
 							if(!empty($vals)){
@@ -724,9 +724,9 @@ class BaseController extends Controller
 			$email = \Config\Services::email();
 			$sender_name=$settings['sender_name'];
 			$sender_email=$settings['sender_email'];
+				$inf_ente=$this->UserModel->find($common_data['selected_ente']['id']);
 			
-			
-			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'] ?? "";
 				if($SMTP!="") $vals=json_decode($SMTP,true);
 			
 				if(!empty($vals)){
@@ -743,6 +743,7 @@ class BaseController extends Controller
 				$email->setFrom($sender_email,$sender_name);
 				
 			$email->setTo($inf_participant['email']);
+				$email->setCc($inf_ente['email']);
 			$email->setSubject($temp[0]['subject']);
 			$email->setMessage($html);
 			$email->setAltMessage(strip_tags($html));

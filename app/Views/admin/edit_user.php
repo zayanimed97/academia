@@ -78,7 +78,7 @@ else{
                                                     </li>
                                                    <?php if($role=='participant'){?>
 												    <li class="nav-item">
-                                                        <a href="#basictab4" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                                        <a href="#basictab4" data-toggle="tab" id="basic4" class="nav-link rounded-0 pt-2 pb-2">
                                                             <i class="mdi mdi-cart mr-1"></i>
                                                             <span class="d-none d-sm-inline"><?php echo lang('app.menu_corsi')?></span>
                                                         </a>
@@ -513,7 +513,6 @@ else{
         <script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
         
         <!-- Plugins js-->
-        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/jquery.repeater/jquery.repeater.min.js"></script>
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -526,6 +525,7 @@ else{
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
+        <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
         <!-- Init js-->
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/flatpickr/flatpickr.min.js"></script>
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/form-pickers.init.js"></script>
@@ -533,18 +533,23 @@ else{
 		<script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/summernote/lang/summernote-it-IT.min.js"></script>
 
         <script>
-		var table =$('#basic-datatable').DataTable({
-            responsive: false,
-			language: {
-				url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json'
-			},
-			scrollY:600,
-			scrollX:!0,
-			scrollCollapse:!0,
-			paging:!1,
+        $('#basic4').click(()=>{
+            if ( ! $.fn.DataTable.isDataTable( '#basic-datatable' ) ) {
+                var table =$('#basic-datatable').DataTable({
+                    responsive: false,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json'
+                    },
+                    scrollY:600,
+                    scrollX:!0,
+                    scrollCollapse:!0,
+                    paging:!1,
 		
           
-        });
+                });
+            }
+        })
+		
 		
 		$('#cv').summernote({
 	   disableDragAndDrop: true,

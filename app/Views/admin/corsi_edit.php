@@ -96,17 +96,17 @@
                                                 <div class="tab-pane" id="tab_info">
                                                     <div id="accountForm" >
                                                         <div class="row">
-														<div class="col-md-6">
+															<div class="col-md-6">
 																<div class="form-group required-field">
-																	<label for="acc-name"><?php echo lang('app.field_title')?> <span class="text-danger">*</span></label>
-																	<?php $val=$inf_corsi['titolo']; 
+																	<label for="acc-name">Titolo del corso <span class="text-danger">*</span></label>
+																	<?php $val=$inf_corsi['sotto_titolo']; 
 															$input = [
 																	'type'  => 'text',
-																	'name'  => 'titolo',
-																	'id'    => 'titolo',
+																	'name'  => 'sotto_titolo',
+																	'id'    => 'sotto_titolo',
 																	'required' =>true,
 																	'value' => $val,
-																	'placeholder' =>lang('app.field_title'),
+																	'placeholder' =>lang('app.field_subtitle'),
 																	'class' => 'form-control'
 																	
 															];
@@ -116,17 +116,17 @@
 																  
 																</div>
 															</div>
-																<div class="col-md-6">
+															<div class="col-md-6">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_subtitle')?> <span class="text-danger">*</span></label>
-																	<?php $val=$inf_corsi['sotto_titolo']; 
+																	<?php $val=$inf_corsi['titolo']; 
 															$input = [
 																	'type'  => 'text',
-																	'name'  => 'sotto_titolo',
-																	'id'    => 'sotto_titolo',
+																	'name'  => 'titolo',
+																	'id'    => 'titolo',
 																	'required' =>true,
 																	'value' => $val,
-																	'placeholder' =>lang('app.field_subtitle'),
+																	'placeholder' =>lang('app.field_title'),
 																	'class' => 'form-control'
 																	
 															];
@@ -904,7 +904,7 @@
 													<div class="row">
 														<div class="col-md-6">
 														  <div class="form-group">
-															<label class="col-form-label " for="logo"><?php echo lang("app.field_image")?> </label>
+															<label class="col-form-label " for="logo"><?php echo lang("app.field_image")?> (dimensione consigliate: 400x227 jpg o png)</label>
 															
 																<input class="form-control" type="file" id="logo" name="logo"  />
 															
@@ -1177,7 +1177,7 @@
                                                 <ul class="list-inline wizard mb-0" style="margin-top:10px">
                                                     <li class="previous list-inline-item"><a href="javascript: void(0);" class="btn btn-secondary"><?php echo lang('app.btn_prev');?></a>
                                                     </li>
-													 <li class="next list-inline-item float-right ml-1"><a href="javascript: void(0);" onclick="save_corsi();" class="btn btn-success btn-finish"><?php echo lang('app.btn_finish');?></a></li>
+													 <li class="list-inline-item float-right ml-1"><a href="javascript: void(0);" onclick="save_corsi();" class="btn btn-success btn-finish"><?php echo lang('app.btn_finish');?></a></li>
                                                     <li class="next list-inline-item float-right"><a href="javascript: void(0);" class="btn btn-secondary btn-next"><?php echo lang('app.btn_next');?></a></li>
 													
                                                 </ul>
@@ -1408,8 +1408,9 @@
                                                         <div class="text-center">
                                                             <i class="dripicons-checkmark h1 text-white"></i>
                                                             <h4 class="mt-2 text-white"><?php echo lang('app.success_update')?></h4>
-                                                           <a href="<?php echo base_url('admin/corsi')?>" class="btn btn-info my-2" ><?php echo lang('app.btn_return')?></a>
-															<a href="<?php echo base_url('admin/corsi/'.$inf_corsi['id'].'/modulo')?>" class="btn btn-light my-2" ><?php echo lang('app.btn_continue_to_modulo')?></a>
+                                                           <a href="<?php echo base_url('admin/corsi')?>" class="btn btn-info my-2" >Torna alla lista corsi</a>
+															<a href="<?php echo base_url('admin/corsi/'.$inf_corsi['id'].'/modulo')?>" class="btn btn-light my-2" >Vai alle lezioni</a>
+															<button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-danger my-2 ">Continua a modificare</button>
                                                         </div>
                                                     </div>
                                                 </div><!-- /.modal-content -->

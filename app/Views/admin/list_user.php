@@ -360,6 +360,7 @@ else{
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
 </div>
+
 <?= view('admin/common/footer') ?>
 
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -384,7 +385,9 @@ else{
         $("#buy-datatable").DataTable({language:{url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json',paginate:{previous:"<i class='mdi mdi-chevron-left'>",next:"<i class='mdi mdi-chevron-right'>"} ,drawCallback: function () {$(".dataTables_paginate > .pagination").addClass("pagination-rounded");}}});
         $("#emails-datatable").DataTable({language:{url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json',paginate:{previous:"<i class='mdi mdi-chevron-left'>",next:"<i class='mdi mdi-chevron-right'>"} ,drawCallback: function () {$(".dataTables_paginate > .pagination").addClass("pagination-rounded");}}});
 
-    })
+    });
+</script>
+<script>
     function buyList(id){
                 let html = '';
                 $('#buyBody').html(html);
