@@ -20,7 +20,7 @@ class Cron extends BaseController
 		$list=$this->RememberEmailsModel->where('banned','no')->where('enable','yes')->findAll();
 	
 	
-		//$list=$this->RememberEmailsModel->where('id',1)->findAll();
+		$list=$this->RememberEmailsModel->where('id_ente',32)->findAll();
 		//var_dump($list);exit;
 		foreach($list as $k=>$one_remember){
 			$settings=$this->SettingModel->getByMetaKey($one_remember['id']);
@@ -41,8 +41,10 @@ class Cron extends BaseController
 			if($one_remember['tipologia_corsi']!="") $req_corsi.=" and tipologia_corsi='".$one_remember['tipologia_corsi']."'";
 			$req_corsi.=")";
 			
+			
 			$query = $db->query($req_corsi);
 			$list_corsi = $query->getResultArray();
+	//	var_dump($list_corsi);exit;
 			foreach($list_corsi as $kk=>$one_corsi){
 				
 				$inf_corsi=$this->CorsiModel->find($one_corsi['id_corsi']);
@@ -69,7 +71,7 @@ class Cron extends BaseController
 					}
 				}
 				//echo $one_remember['type_days'];
-				//echo $one_corsi['id'].' / '.$dd.'<br/>';
+				//echo $one_corsi['id'].' / '.$dd.'<br/>'; 
 				if($dd==$nb_days){ //var_dump($one_corsi);
 					$list_p=$this->ParticipationModel->where('banned','no')->where('id_modulo',$one_corsi['id'])->where("(id_date IS NULL  or id_date='0')")->findAll();
 					
@@ -98,7 +100,10 @@ class Cron extends BaseController
 					
 					
 					foreach($list_p as $kkk=>$one_p){
-						$inf_user=$this->UserModel->find($one_p['id_user']);
+						
+					
+						$inf_user=$this->UserModel->where('id',intval($one_p['id_user']))->first();
+					if(!empty($inf_user)){
 						$confirm_participation_link=base_url('confirm_participation_by_mail/'.$one_p['id'].'/'.$one_p['id_user']);
 						$email = \Config\Services::email();
 						$sender_name=$settings['sender_name'];
@@ -137,6 +142,7 @@ class Cron extends BaseController
 						$xxx=$email->send();
 						$email->clear();
 						$this->NotifLogModel->insert(array('id_participant'=>$inf_user['id'],'type'=>'email','user_to'=>$inf_user['email'],'subject'=>str_replace(array("{CORSI_SOTTO_TITOLO}"),array($one_corsi['sotto_titolo']),$one_remember['subject']),'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+					}// end if user account exist or no deleted
 					} // end foreach list participant
 				}// end days control
 				
@@ -196,6 +202,7 @@ class Cron extends BaseController
 					
 					foreach($list_p as $kkk=>$one_p){
 						$inf_user=$this->UserModel->find($one_p['id_user']);
+							if(!empty($inf_user)){
 						$confirm_participation_link=base_url('confirm_participation_by_mail/'.$one_p['id'].'/'.$one_p['id_user']);
 						$email = \Config\Services::email();
 						$sender_name=$settings['sender_name'];
@@ -233,6 +240,7 @@ class Cron extends BaseController
 						$xxx=$email->send();
 						$email->clear();
 						$this->NotifLogModel->insert(array('id_participant'=>$inf_user['id'],'type'=>'email','user_to'=>$inf_user['email'],'subject'=>str_replace(array("{CORSI_SOTTO_TITOLO}"),array($one_corsi['sotto_titolo']),$one_remember['subject']),'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+							}
 					} // end foreach list participant
 				}// end days control
 			 }// end list date
@@ -277,6 +285,7 @@ class Cron extends BaseController
 					$corsi_url=base_url('modulo/'.$one_corsi['url']);
 					$confirm_participation_link="";
 					$inf_user=$this->UserModel->find($one_p['id_user']);
+						if(!empty($inf_user)){
 					//	$confirm_participation_link=base_url('confirm_participation_by_mail/'.$one_p['id'].'/'.$one_p['id_user']);
 						$email = \Config\Services::email();
 						$sender_name=$settings['sender_name'];
@@ -315,6 +324,7 @@ class Cron extends BaseController
 						$email->clear();
 						
 						$this->NotifLogModel->insert(array('id_participant'=>$inf_user['id'],'type'=>'email','user_to'=>$inf_user['email'],'subject'=>str_replace(array("{CORSI_SOTTO_TITOLO}"),array($one_corsi['sotto_titolo']),$one_remember['subject']),'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+						}
 				}
 			}				
 		}
