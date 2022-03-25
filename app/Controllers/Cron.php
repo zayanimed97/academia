@@ -20,7 +20,7 @@ class Cron extends BaseController
 		$list=$this->RememberEmailsModel->where('banned','no')->where('enable','yes')->findAll();
 	
 	
-		$list=$this->RememberEmailsModel->where('id_ente',32)->findAll();
+		//$list=$this->RememberEmailsModel->where('id_ente',32)->findAll();
 		//var_dump($list);exit;
 		foreach($list as $k=>$one_remember){
 			$settings=$this->SettingModel->getByMetaKey($one_remember['id']);
