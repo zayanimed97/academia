@@ -123,12 +123,14 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th><?php echo lang('app.field_title')?></th>
-                                                       <th><?php echo lang('app.field_cuors_title')?></th>
+                                                      
+													   <th><?php echo lang('app.field_active_status')?></th>
+														<th><?php echo lang('app.field_achat')?></th>
+														 <th><?php echo lang('app.field_cuors_title')?></th>
 													    <th><?php echo lang('app.field_type_cours')?></th>
 													   <th><?php echo lang('app.field_price')?></th>
 														<th><?php echo lang('app.field_instructor')?></th>
-														<th><?php echo lang('app.field_active_status')?></th>
-														<th><?php echo lang('app.field_achat')?></th>
+														
                                                         <th>&nbsp;</th>
                                                     </tr>
                                                 </thead>
@@ -138,7 +140,10 @@
                                                     <tr>
                                                         <td><?= $arg['id'] ?></td>
                                                         <td><?= $arg['sotto_titolo'] ?></td>
-                                                       <td><?= $arg['cour'] ?></td>
+                                                   
+													   <td><?php if($arg['status']=='si') echo lang('app.yes'); else echo lang('app.no'); ?></td>
+														  <td><a href="<?php echo base_url('admin/participation/'.$arg['id'])?>"><?= $arg['achat'] ?></a></td>
+														      <td><?= $arg['cour'] ?></td>
 													      <td><?= $type_cours[$arg['tipologia_corsi']] ?? $arg['tipologia_corsi'];?>
 														<?php if($arg['tipologia_corsi']=='aula'){
 															if($arg['luoghi_label']!=""){?>
@@ -147,8 +152,7 @@
 														<?php } }?></td>
                                                        <td><?= $arg['price'] ?></td>
 														 <td><?= $arg['instructor'] ?></td>
-														 <td><?php if($arg['status']=='si') echo lang('app.yes'); else echo lang('app.no'); ?></td>
-														  <td><a href="<?php echo base_url('admin/participation/'.$arg['id'])?>"><?= $arg['achat'] ?></a></td>
+														 
                                                         <td class="row pt-1">
                                                           <a href="<?php echo base_url('admin/corsi/'.$arg['id_corsi'].'/modulo/edit/'.$arg['id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fe-edit"></i>
