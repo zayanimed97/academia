@@ -825,13 +825,7 @@ use CodeIgniter\I18n\Time;
 
 
                     <div class="uk-modal-body">
-                        <!-- <h3 class="text-lg font-semibold mb-2">Build Responsive Websites </h3>
-                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                            dolore
-                            eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                            proident,
-                            sunt
-                            in culpa qui officia deserunt mollit anim id est laborum.</p> -->
+                        <!-- <h3 class="text-lg font-semibold mb-2">Build Responsive Websites </h3-->
                     </div>
                 </div>
             </div>
@@ -842,7 +836,7 @@ use CodeIgniter\I18n\Time;
         <div class="uk-modal-dialog shadow-lg rounded-md">
             <button class="uk-modal-close-default m-2.5" type="button" uk-close></button>
             <div class="uk-modal-header  rounded-t-md">
-                <h4 class="text-lg font-semibold mb-2"> Trailer video </h4>
+                <h4 class="text-lg font-semibold mb-2"> <?= $corsi['sotto_titolo'] ?> </h4>
             </div>
           
             <div class="embed-video">
@@ -852,13 +846,7 @@ use CodeIgniter\I18n\Time;
 
 
             <div class="uk-modal-body">
-                <h3 class="text-lg font-semibold mb-2">Build Responsive Websites </h3>
-                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore
-                    eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                    proident,
-                    sunt
-                    in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <!--h3 class="text-lg font-semibold mb-2">Build Responsive Websites </h3-->
             </div>
         </div>
     </div>

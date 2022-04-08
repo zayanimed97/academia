@@ -108,7 +108,7 @@ class Cart extends BaseController
 	{
 		$data=$this->common_data();
 		
-		$data['cart'] = $this->RememberCartModel->where('remember_cart.id_ente', $data['selected_ente']['id'] ?? '')
+		$data['cart'] = $this->RememberCartModel->where('remember_cart.id_ente', $data['user_data']['id'] ?? '')
 												->join('users', 'users.id = remember_cart.id_user')
 												->where('JSON_EXTRACT(cart, "$.total_items") > 0')
 												->select('remember_cart.*, users.display_name, users.email as user_email')

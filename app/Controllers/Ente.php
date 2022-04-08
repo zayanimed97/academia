@@ -97,7 +97,7 @@ class Ente extends BaseController
 				'cognome'=>$this->request->getVar('cognome'),
 				'telefono' =>$this->request->getVar('telefono'),	
 				'mobile' =>$this->request->getVar('mobile'),							
-				'email' => $this->request->getVar('email'),	
+				'email' => strtolower(trim($this->request->getVar('email'))),	
 				'email_private' => $this->request->getVar('email_private'),						
 				'residenza_stato' =>$this->request->getVar('residenza_stato'),			
 				'residenza_provincia' => $this->request->getVar('residenza_provincia'),
@@ -228,7 +228,7 @@ class Ente extends BaseController
 				
 				if($this->request->getVar('type')=='company') $subscribe_name=$this->request->getVar('ragione_sociale');
 				else $subscribe_name=$this->request->getVar('nome').' '.$this->request->getVar('cognome');
-				$id_user =$this->UserModel->edit($this->request->getVar('id'),array('email'=>$this->request->getVar('email'),'display_name'=>$subscribe_name,'domain_ente'=>$this->request->getVar('domain_ente')));
+				$id_user =$this->UserModel->edit($this->request->getVar('id'),array('email'=>strtolower(trim($this->request->getVar('email'))),'display_name'=>$subscribe_name,'domain_ente'=>$this->request->getVar('domain_ente')));
 				$tab=array( 		
 				
 				'type' => $this->request->getVar('type'),

@@ -141,6 +141,23 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
+			
+			
+			  <div id="modalEmail" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" >
+                <div class="modal-dialog  modal-dialog-centered justify-content-center">
+                    <div class="modal-content" >
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="standard-modalLabel">Email notification</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body" style="width: fit-content;">
+                            <?php echo lang('app.success_send_contact')?>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+			
+			
 </div>
 <?= view('admin/common/footer') ?>
 
@@ -174,8 +191,8 @@
 				  
 			}).done(function(data){
 				//console.log(data);
-				alert("<?php echo lang('app.success_send_contact')?>");
-			
+				//alert("<?php echo lang('app.success_send_contact')?>");
+			$("#modalEmail").modal('show');
 			});
 	}
     function cartItems(id){

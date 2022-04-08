@@ -75,7 +75,7 @@
 														<h4>Pixel e Codice di monitiraggio</h4>
 														
                                                         <div class="row">
-															  <div class="col-12 col-md-6">
+															  <div class="col-12 col-md-4">
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="cognome">Pixel di Facebook</label>
                                                                     <div class="col-md-9">
@@ -84,11 +84,19 @@
                                                                 </div>
                                                             </div>
 															
-															<div class="col-12 col-md-6">
+															<div class="col-12 col-md-4">
                                                                 <div class="form-group row mb-3">
                                                                     <label class="col-md-3 col-form-label" for="cognome"> Google Analytic ID</label>
                                                                     <div class="col-md-9">
                                                                         <input placeholder="UA-xxxxxxxxx" type="text" id="google_analytic" name="google_analytic" class="form-control" value="<?= $google_analytic ?? '10' ?>">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+															<div class="col-12 col-md-4">
+                                                                <div class="form-group row mb-3">
+                                                                    <label class="col-md-3 col-form-label" for="cognome"> Google Tag Manager ID</label>
+                                                                    <div class="col-md-9">
+                                                                        <input placeholder="GTM-xxxxxxxxx" type="text" id="google_manager_ID" name="google_manager_ID" class="form-control" value="<?= $google_manager_ID ?? '10' ?>">
                                                                     </div>
                                                                 </div>
                                                             </div>

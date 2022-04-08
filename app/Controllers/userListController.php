@@ -11,6 +11,59 @@ class userListController extends BaseController
 		$common_data=$this->common_data();
 		$data=$common_data;
 
+	if(!is_null($this->request->getVar('action'))){
+				switch($this->request->getVar('action')){
+					case 'send_notification_multiple':
+						$list_p=$this->request->getVar('id');
+					
+						
+						if(!empty($list_p)){
+							foreach($list_p as $kk=>$vv){
+								if($vv!=""){
+									$inf=$this->UserModel->find($vv);
+									$inf_profile=$this->UserProfileModel->where('user_id',$vv)->first();
+			$name=$inf_profile['nome'].' '.$inf_profile['cognome'];
+			
+			$email = \Config\Services::email();
+			
+			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['user_data']['id'],'SMTP')['SMTP'];
+				if($SMTP!="") $vals=json_decode($SMTP,true);
+			 $sender_name=$common_data['settings']['sender_name'];
+			 $sender_email=$common_data['settings']['sender_email'];
+				if(!empty($vals)){
+					if(isset($vals['sender_name'])  && $vals['sender_name']!="") $sender_name=$vals['sender_name']; else $sender_name=$common_data['settings']['sender_name'];
+					if(isset($vals['sender_email']) && $vals['sender_email']!="") $sender_email=$vals['sender_email']; else $sender_email=$common_data['settings']['sender_email'];
+					
+					$email->SMTPHost=$vals['host'];
+					$email->SMTPUser=$vals['username'];
+					$email->SMTPPass=$vals['password'];
+					$email->SMTPPort=$vals['port'];
+				}
+		
+			
+				$email->setFrom($sender_email,$sender_name);
+			$email->setTo($inf['email']);
+			//$email->setBCC('segreteria@dentalcampus.it');
+			$link=base_url('user/login');
+			
+		
+			 $html=$this->request->getVar('notification_message');
+				$subject=$this->request->getVar('notification_subject');
+			$email->setSubject($subject);
+			$email->setMessage($html);
+			$email->setAltMessage(strip_tags($html));
+			$xxx=$email->send();
+			$email->clear();
+			$yy=$this->NotifLogModel->insert(array('id_participant'=>$vv,'type'=>'email','user_to'=>$inf['email'],'subject'=>$subject,'message'=>$html,'date'=>date('Y-m-d H:i:s')));
+								}
+							}
+						}
+						
+						$data['success']=lang('app.success_send_notification');
+					break;
+				}
+	}
+
 		 $users = $this->UserModel->where('users.id_ente', $user_data['id'])	->join('user_profile up', 'up.user_id = users.id', 'left')
 																				->join('comuni cr', 'cr.id = up.residenza_comune', 'left')
 																				->join('nazioni sr', 'sr.id = up.residenza_stato', 'left')
@@ -40,6 +93,10 @@ class userListController extends BaseController
         // exit;
 		$data['users'] = $users;
 		$data['role']=$this->request->getVar('role');
+		
+		/*$temp=$this->TemplatesModel->where('module','notification')->where('id_ente',$common_data['user_data']['id'])->first();
+		if(empty($temp)) $temp=$this->TemplatesModel->where('module','notification')->first();
+		$data['temp']=$temp ?? array();*/
 		return view('admin/list_user.php',$data);
 	}
 
@@ -80,6 +137,12 @@ class userListController extends BaseController
 			$list_achat[$k]['quota']=$quota;
 		}
 		$data['list_achat']=$list_achat;
+		
+		$data['list_nazioni']=$this->NazioniModel->where('status','enable')->orderby("nazione",'asc')->findAll();
+				if($user['residenza_stato']==106){
+					$data['list_provincia']=$this->ProvinceModel->findAll();
+					if($user['residenza_provincia']>0) $data['list_comuni']=$this->ComuniModel->where('id_prov',$user['residenza_provincia'])->findAll();
+				}
 		return view('admin/edit_user', $data);
 	}
 
@@ -106,7 +169,7 @@ class userListController extends BaseController
 	public function create()
 	{if($this->request->getVar('active')!==null) $active="yes"; else $active="no";
 		$dataUser = [
-			'email' => $this->request->getVar('email'),
+			'email' => strtolower(trim($this->request->getVar('email'))),
 			// 'password' => $this->request->getVar('Password'),
 			'display_name' => $this->request->getVar('nome') . ' ' . $this->request->getVar('cognome'),
 			'id_ente' => $this->session->get('user_data')['id'],
@@ -213,7 +276,7 @@ class userListController extends BaseController
 		$user = $this->UserModel->where('id', $this->request->getVar('id'))->first();
 		if ($user['id_ente'] == $this->session->get('user_data')['id']) {
 			$dataUser = [
-				'email' => $this->request->getVar('email'),
+				'email' => strtolower(trim($this->request->getVar('email'))),
 				// 'password' => $this->request->getVar('Password'),
 				'display_name' => $this->request->getVar('nome') . ' ' . $this->request->getVar('cognome'),
 				'id_ente' => $this->session->get('user_data')['id'],
@@ -249,6 +312,20 @@ class userListController extends BaseController
 					'description' => $this->request->getVar('description'),
 					'prof_albo' => $this->request->getVar('prof_albo'),
 					'qualifica' => $this->request->getVar('qualifica'),
+					'type' => $this->request->getVar('type'),
+				'ragione_sociale' => $this->request->getVar('ragione_sociale'),
+				'fattura_stato' => $this->request->getVar('fattura_stato'),			
+				'fattura_provincia' => $this->request->getVar('fattura_provincia'),
+				'fattura_comune' => $this->request->getVar('fattura_comune'),
+				'fattura_indirizzo' => $this->request->getVar('fattura_indirizzo'),				
+				'fattura_cap' => $this->request->getVar('fattura_cap'),
+				'fattura_pec' =>$this->request->getVar('fattura_pec'),
+				'fattura_sdi' => $this->request->getVar('fattura_sdi'),
+				'fattura_cf' =>$this->request->getVar('fattura_cf'),
+				'fattura_piva' => $this->request->getVar('fattura_piva'),
+			
+				'fattura_nome'=>$this->request->getVar('fattura_nome'),
+				'fattura_cognome'=>$this->request->getVar('fattura_cognome'),
 			];
 		if($this->request->getVar('delete_foto')=='yes'){
 					$data['logo']="";

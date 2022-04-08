@@ -59,6 +59,7 @@ class ProfileController extends BaseController
 			$data['facebook_discount']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'facebook_discount')['facebook_discount'] ?? "";
 			$data['facebook_pixel']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'facebook_pixel')['facebook_pixel'] ?? "";
 			$data['google_analytic']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'google_analytic')['google_analytic'] ?? "";
+			$data['google_manager_ID']=$this->SettingModel->getByMetaKeyEnte($user_data['id'],'google_manager_ID')['google_manager_ID'] ?? "";
 			$p='settings_general.php';
 			break;
 			default:$p='profile.php';
@@ -115,6 +116,13 @@ class ProfileController extends BaseController
 						$this->SettingModel->where('id_ente',$this->session->get('user_data')['id'])->where('meta_key', 'google_analytic')->set('meta_value', $this->request->getVar('google_analytic'))->update();
 					} else {
 						$this->SettingModel->insert(['meta_key'=>'google_analytic', 'meta_value'=>$this->request->getVar('google_analytic'), 'id_ente'=>$this->session->get('user_data')['id']]);
+					}
+					
+					$id = $this->SettingModel->where('id_ente',$this->session->get('user_data')['id'])->where('meta_key', 'google_manager_ID')->find();
+					if ($id) {
+						$this->SettingModel->where('id_ente',$this->session->get('user_data')['id'])->where('meta_key', 'google_manager_ID')->set('meta_value', $this->request->getVar('google_manager_ID'))->update();
+					} else {
+						$this->SettingModel->insert(['meta_key'=>'google_manager_ID', 'meta_value'=>$this->request->getVar('google_manager_ID'), 'id_ente'=>$this->session->get('user_data')['id']]);
 					}
 						$res=array("error"=>false);
 			}

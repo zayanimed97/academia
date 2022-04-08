@@ -50,11 +50,32 @@
             <div class="grid lg:grid-cols-2 gap-8 md:mt-12" >
                
                 <div class="bg-white rounded-md col-span-2">
-<?php if(!empty($list)){?>
+				
+				<ul class="uk-tab" data-uk-tab="{connect:'#my-id'}">
+				<?php $type_cours=json_decode($settings['type_cours'] ?? '',true);
+				
+				if(in_array('online',$ente_package['type_cours'])) {?>
+					<li><a href=""><?php echo $type_cours['online'] ?? 'Online'?> - <?php echo count($list['online'] ?? array())?></a></li>
+				<?php }
+				if(in_array('webinar',$ente_package['type_cours']) ){?>
+					<li><a href=""><?php echo $type_cours['webinar'] ?? 'Webinar'?> - <?php echo count($list['webinar'] ?? array())?></a></li>
+				<?php }
+				if(in_array('aula',$ente_package['type_cours']) ){?>
+					<li><a href=""><?php echo $type_cours['aula'] ?? 'Aula'?> - <?php echo count($list['aula'] ?? array())?></a></li>
+				<?php }
+				if(in_array('eBook',$ente_package['type_cours']) ){?>
+					<li><a href=""><?php echo $type_cours['eBook'] ?? 'eBook'?> - <?php echo count($list['eBook'] ?? array())?></a></li>
+				<?php }?>
+				  </ul>
+			  <ul id="my-id" class="uk-switcher uk-margin">
+			
+				<li>
+				
                     <div class="grid  gap-3 lg:p-6 p-4">					
                          <div uk-accordion="multiple: false" class="space-y-3">
-						 <?php $type_cours=json_decode($settings['type_cours'] ?? '',true);
-						 foreach($list as $id_corsi=>$ll){?> 
+						 <?php 
+						 if(!empty($list['online'])){
+						 foreach($list['online'] as $id_corsi=>$ll){?> 
 								<div  class="pt-2">
 									<a class="uk-accordion-title text-md mx-2 font-semibold" href="#">  <div class="mb-1 text-sm font-medium title flex">
 									<?php $default_image=base_url('front/assets/images/courses/img-4.jpg');
@@ -67,7 +88,7 @@
 								<div class="flex justify-between items-center w-full">
 									<span><?php	 echo $ll[0]['corso_title'] ?? ('Corso #'.$id_corsi)?></span>
 									<div>
-									<span><?php echo $type_cours[$ll[0]['tipologia_corsi']] ?? $ll[0]['tipologia_corsi']?></span>
+									<!--span><?php echo $type_cours[$ll[0]['tipologia_corsi']] ?? $ll[0]['tipologia_corsi']?></span-->
 									</div>
 								</div>
 								
@@ -127,9 +148,264 @@
 										</table>
 									</div>
 								</div>
-						 <?php } ?>
+						 <?php } }?>
 						 </div>
-<?php } ?>
+
+				  </li>
+				<li>
+				
+                    <div class="grid  gap-3 lg:p-6 p-4">					
+                         <div uk-accordion="multiple: false" class="space-y-3">
+						 <?php 
+						 if(!empty($list['webinar'])){
+						 foreach($list['webinar'] as $id_corsi=>$ll){?> 
+								<div  class="pt-2">
+									<a class="uk-accordion-title text-md mx-2 font-semibold" href="#">  <div class="mb-1 text-sm font-medium title flex">
+									<?php $default_image=base_url('front/assets/images/courses/img-4.jpg');
+								switch($ll[0]['tipologia_corsi']){
+									case 'online': if(isset( $settings['default_img_online']) && $settings['default_img_online']!="") $default_image=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if(isset( $settings['default_img_aula']) && $settings['default_img_aula']!="") $default_image=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'webinar': if(isset( $settings['default_img_webinar']) && $settings['default_img_webinar']!="") $default_image=base_url('uploads/'.$settings['default_img_webinar']); break;
+								}?>
+								<img style="display:inline;width:100px;margin-right: 20px;" src="<?= $ll[0]['inf_corsi']['foto'] ? base_url('uploads/corsi/'.$ll[0]['inf_corsi']['foto']) : $default_image ?>" alt="" class="">
+								<div class="flex justify-between items-center w-full">
+									<span><?php	 echo $ll[0]['corso_title'] ?? ('Corso #'.$id_corsi)?></span>
+									<div>
+									<!--span><?php echo $type_cours[$ll[0]['tipologia_corsi']] ?? $ll[0]['tipologia_corsi']?></span-->
+									</div>
+								</div>
+								
+								
+								</div> </a>
+									<div class="uk-accordion-content mt-0 mx-2" style="background-color:#f3f6f7;">
+									  <table id="basic-datatable" class="table col-span-2 w-full">
+											<thead class="border-b">
+												<tr>
+													<th><?php echo lang('front.field_modulo')?></th>
+													<th><?php echo lang('front.field_date_inscrit')?></th>
+													<th><?php echo lang('front.field_type_cours')?></th>
+													<th><?php echo lang('front.field_date_session')?></th>
+													<th><?php echo lang('front.field_type_payment')?></th>
+
+													<th></th>
+												</tr>
+											</thead>
+											<tbody class="mt-8">
+													<?php
+												foreach($ll as $k=>$v){?>
+												 <tr>
+													<td class="py-6 border-b flex items-center">
+													<img style="display:inline;width:100px;margin-right: 20px;" src="<?= $v['foto'] ? base_url('uploads/corsi/'.$v['foto']) : $default_image ?>" alt="" class="">
+														<!--span class="icon-material-outline-shopping-cart text-lg mr-4"></span-->
+														<a class="text-purple-600" href="<?php echo base_url('user/participation/'.$v['id'])?>">
+															<?php echo $v['title']?>
+														</a>
+													</td>
+
+													<td class="py-6 border-b"><?php echo Time::parse($v['date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
+													<td class="py-6 border-b"><?php echo $type_cours[$v['tipologia_corsi']] ?? $v['tipologia_corsi']?></td>
+													<td class="py-6 border-b"><?php if($v['session_date']!="") echo Time::parse($v['session_date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
+													<td class="py-6 border-b"><?php echo $v['payment_method']?></td>
+													<?php if($ll[0]['tipologia_corsi'] == 'eBook'){ ?>
+														<td class="py-6 border-b">
+															<div>
+																<a class="button flex items-center" href="<?php echo base_url('user/participation/'.$v['id'])?>"><span class="icon-feather-download mr-4"></span><span><?php echo lang('front.btn_download_attachment')?></span></a>
+															</div>
+														</td>
+													<?php } else if($ll[0]['tipologia_corsi'] == 'online'){ ?>
+														<td class="py-6 border-b">
+															<div>
+																<a class="button flex items-center" href="<?php echo base_url('user/participation/'.$v['id'])?>"><span class="icon-feather-play mr-4"></span><span><?php echo lang('front.btn_play_video')?></span></a>
+															</div>
+														</td>
+													<?php } else { ?>
+														<td class="py-6 border-b">
+															<div>
+																<a class="button flex items-center" href="<?php echo base_url('user/participation/'.$v['id'])?>"><span><?php echo lang('front.btn_login')?></span></a>
+															</div>
+														</td>
+													<?php } ?>
+												</tr>
+												<?php }?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+						 <?php } }?>
+						 </div>
+
+				  </li>
+				  <li>
+				
+                    <div class="grid  gap-3 lg:p-6 p-4">					
+                         <div uk-accordion="multiple: false" class="space-y-3">
+						 <?php 
+						 if(!empty($list['aula'])){
+						 foreach($list['aula'] as $id_corsi=>$ll){?> 
+								<div  class="pt-2">
+									<a class="uk-accordion-title text-md mx-2 font-semibold" href="#">  <div class="mb-1 text-sm font-medium title flex">
+									<?php $default_image=base_url('front/assets/images/courses/img-4.jpg');
+								switch($ll[0]['tipologia_corsi']){
+									case 'online': if(isset( $settings['default_img_online']) && $settings['default_img_online']!="") $default_image=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if(isset( $settings['default_img_aula']) && $settings['default_img_aula']!="") $default_image=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'webinar': if(isset( $settings['default_img_webinar']) && $settings['default_img_webinar']!="") $default_image=base_url('uploads/'.$settings['default_img_webinar']); break;
+								}?>
+								<img style="display:inline;width:100px;margin-right: 20px;" src="<?= $ll[0]['inf_corsi']['foto'] ? base_url('uploads/corsi/'.$ll[0]['inf_corsi']['foto']) : $default_image ?>" alt="" class="">
+								<div class="flex justify-between items-center w-full">
+									<span><?php	 echo $ll[0]['corso_title'] ?? ('Corso #'.$id_corsi)?></span>
+									<div>
+									<!--span><?php echo $type_cours[$ll[0]['tipologia_corsi']] ?? $ll[0]['tipologia_corsi']?></span-->
+									</div>
+								</div>
+								
+								
+								</div> </a>
+									<div class="uk-accordion-content mt-0 mx-2" style="background-color:#f3f6f7;">
+									  <table id="basic-datatable" class="table col-span-2 w-full">
+											<thead class="border-b">
+												<tr>
+													<th><?php echo lang('front.field_modulo')?></th>
+													<th><?php echo lang('front.field_date_inscrit')?></th>
+													<th><?php echo lang('front.field_type_cours')?></th>
+													<th><?php echo lang('front.field_date_session')?></th>
+													<th><?php echo lang('front.field_type_payment')?></th>
+
+													<th></th>
+												</tr>
+											</thead>
+											<tbody class="mt-8">
+													<?php
+												foreach($ll as $k=>$v){?>
+												 <tr>
+													<td class="py-6 border-b flex items-center">
+													<img style="display:inline;width:100px;margin-right: 20px;" src="<?= $v['foto'] ? base_url('uploads/corsi/'.$v['foto']) : $default_image ?>" alt="" class="">
+														<!--span class="icon-material-outline-shopping-cart text-lg mr-4"></span-->
+														<a class="text-purple-600" href="<?php echo base_url('user/participation/'.$v['id'])?>">
+															<?php echo $v['title']?>
+														</a>
+													</td>
+
+													<td class="py-6 border-b"><?php echo Time::parse($v['date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
+													<td class="py-6 border-b"><?php echo $type_cours[$v['tipologia_corsi']] ?? $v['tipologia_corsi']?></td>
+													<td class="py-6 border-b"><?php if($v['session_date']!="") echo Time::parse($v['session_date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
+													<td class="py-6 border-b"><?php echo $v['payment_method']?></td>
+													<?php if($ll[0]['tipologia_corsi'] == 'eBook'){ ?>
+														<td class="py-6 border-b">
+															<div>
+																<a class="button flex items-center" href="<?php echo base_url('user/participation/'.$v['id'])?>"><span class="icon-feather-download mr-4"></span><span><?php echo lang('front.btn_download_attachment')?></span></a>
+															</div>
+														</td>
+													<?php } else if($ll[0]['tipologia_corsi'] == 'online'){ ?>
+														<td class="py-6 border-b">
+															<div>
+																<a class="button flex items-center" href="<?php echo base_url('user/participation/'.$v['id'])?>"><span class="icon-feather-play mr-4"></span><span><?php echo lang('front.btn_play_video')?></span></a>
+															</div>
+														</td>
+													<?php } else { ?>
+														<td class="py-6 border-b">
+															<div>
+																<a class="button flex items-center" href="<?php echo base_url('user/participation/'.$v['id'])?>"><span><?php echo lang('front.btn_login')?></span></a>
+															</div>
+														</td>
+													<?php } ?>
+												</tr>
+												<?php }?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+						 <?php } }?>
+						 </div>
+
+				  </li>
+				  <li>
+				
+                    <div class="grid  gap-3 lg:p-6 p-4">					
+                         <div uk-accordion="multiple: false" class="space-y-3">
+						 <?php 
+						 if(!empty($list['eBook'])){
+						 foreach($list['eBook'] as $id_corsi=>$ll){?> 
+								<div  class="pt-2">
+									<a class="uk-accordion-title text-md mx-2 font-semibold" href="#">  <div class="mb-1 text-sm font-medium title flex">
+									<?php $default_image=base_url('front/assets/images/courses/img-4.jpg');
+								switch($ll[0]['tipologia_corsi']){
+									case 'online': if(isset( $settings['default_img_online']) && $settings['default_img_online']!="") $default_image=base_url('uploads/'.$settings['default_img_online']); break;
+									case 'aula': if(isset( $settings['default_img_aula']) && $settings['default_img_aula']!="") $default_image=base_url('uploads/'.$settings['default_img_aula']); break;
+									case 'webinar': if(isset( $settings['default_img_webinar']) && $settings['default_img_webinar']!="") $default_image=base_url('uploads/'.$settings['default_img_webinar']); break;
+								}?>
+								<img style="display:inline;width:100px;margin-right: 20px;" src="<?= $ll[0]['inf_corsi']['foto'] ? base_url('uploads/corsi/'.$ll[0]['inf_corsi']['foto']) : $default_image ?>" alt="" class="">
+								<div class="flex justify-between items-center w-full">
+									<span><?php	 echo $ll[0]['corso_title'] ?? ('Corso #'.$id_corsi)?></span>
+									<div>
+									<!--span><?php echo $type_cours[$ll[0]['tipologia_corsi']] ?? $ll[0]['tipologia_corsi']?></span-->
+									</div>
+								</div>
+								
+								
+								</div> </a>
+									<div class="uk-accordion-content mt-0 mx-2" style="background-color:#f3f6f7;">
+									  <table id="basic-datatable" class="table col-span-2 w-full">
+											<thead class="border-b">
+												<tr>
+													<th><?php echo lang('front.field_modulo')?></th>
+													<th><?php echo lang('front.field_date_inscrit')?></th>
+													<th><?php echo lang('front.field_type_cours')?></th>
+													<th><?php echo lang('front.field_date_session')?></th>
+													<th><?php echo lang('front.field_type_payment')?></th>
+
+													<th></th>
+												</tr>
+											</thead>
+											<tbody class="mt-8">
+													<?php
+												foreach($ll as $k=>$v){?>
+												 <tr>
+													<td class="py-6 border-b flex items-center">
+													<img style="display:inline;width:100px;margin-right: 20px;" src="<?= $v['foto'] ? base_url('uploads/corsi/'.$v['foto']) : $default_image ?>" alt="" class="">
+														<!--span class="icon-material-outline-shopping-cart text-lg mr-4"></span-->
+														<a class="text-purple-600" href="<?php echo base_url('user/participation/'.$v['id'])?>">
+															<?php echo $v['title']?>
+														</a>
+													</td>
+
+													<td class="py-6 border-b"><?php echo Time::parse($v['date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
+													<td class="py-6 border-b"><?php echo $type_cours[$v['tipologia_corsi']] ?? $v['tipologia_corsi']?></td>
+													<td class="py-6 border-b"><?php if($v['session_date']!="") echo Time::parse($v['session_date'], 'Europe/Rome', 'it_IT')->toLocalizedString('d MMMM Y')?></td>
+													<td class="py-6 border-b"><?php echo $v['payment_method']?></td>
+													<?php if($ll[0]['tipologia_corsi'] == 'eBook'){ ?>
+														<td class="py-6 border-b">
+															<div>
+																<a class="button flex items-center" href="<?php echo base_url('user/participation/'.$v['id'])?>"><span class="icon-feather-download mr-4"></span><span><?php echo lang('front.btn_download_attachment')?></span></a>
+															</div>
+														</td>
+													<?php } else if($ll[0]['tipologia_corsi'] == 'online'){ ?>
+														<td class="py-6 border-b">
+															<div>
+																<a class="button flex items-center" href="<?php echo base_url('user/participation/'.$v['id'])?>"><span class="icon-feather-play mr-4"></span><span><?php echo lang('front.btn_play_video')?></span></a>
+															</div>
+														</td>
+													<?php } else { ?>
+														<td class="py-6 border-b">
+															<div>
+																<a class="button flex items-center" href="<?php echo base_url('user/participation/'.$v['id'])?>"><span><?php echo lang('front.btn_login')?></span></a>
+															</div>
+														</td>
+													<?php } ?>
+												</tr>
+												<?php }?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+						 <?php } }?>
+						 </div>
+
+				  </li>
+			  </ul>
+				
+				
+				
+
                         
                     </div> 
                     
