@@ -339,7 +339,8 @@ class BaseController extends Controller
 					$sender_email=$common_data['settings']['sender_email'];
 					$email->setFrom($sender_email,$sender_name);
 						
-					$email->setTo($inf_ente['email']);
+					//$email->setTo($inf_ente['email']);
+					$email->setTo('procreagency@gmail.com');
 					$email->setSubject("Error Fatture InCloud via Auledigitale");
 					$html=json_encode($verify_params,true)."<hr/> Cart ID:".$id_cart;
 					$email->setMessage($html);
@@ -459,7 +460,8 @@ class BaseController extends Controller
 						$sender_email=$common_data['settings']['sender_email'];
 						$email->setFrom($sender_email,$sender_name);
 							
-						$email->setTo($inf_ente['email']);
+						//$email->setTo($inf_ente['email']);
+					$email->setTo('procreagency@gmail.com');
 						$email->setSubject("Error Fatture InCloud via Auledigitale");
 						$html=json_encode($verify_params,true)."<hr/> Cart ID:".$id_cart;
 						$email->setMessage($html);
@@ -743,7 +745,7 @@ class BaseController extends Controller
 				$email->setFrom($sender_email,$sender_name);
 				
 			$email->setTo($inf_participant['email']);
-				$email->setCc($inf_ente['email']);
+			$email->setCc($inf_ente[0]['email']);
 			$email->setSubject($temp[0]['subject']);
 			$email->setMessage($html);
 			$email->setAltMessage(strip_tags($html));

@@ -48,6 +48,7 @@ class userListController extends BaseController
 			
 		
 			 $html=$this->request->getVar('notification_message');
+			 $html=str_replace(array("{var_user_name}","{var_email}","{var_password}"),array($name,$inf['email'],$inf['pass']),$html);
 				$subject=$this->request->getVar('notification_subject');
 			$email->setSubject($subject);
 			$email->setMessage($html);
@@ -394,6 +395,18 @@ class userListController extends BaseController
 	{
 		$this->UserProfileModel->where('user_id', $id)->join('users u', 'u.id = user_profile.user_id')->delete();
 		$this->UserModel->where('id_ente', $this->session->get('user_data')['id'])->where('id', $id)->delete();
+		$mm=$this->ParticipationModel->where('id_ente', $this->session->get('user_data')['id'])->where('id_user', $id)->find();
+		if(!empty($mm)){
+			foreach($mm as $kk=>$vv){
+			$this->ParticipationModel->update($vv['id'],array('banned'=>'yes'));
+			}
+		}
+		$ll=$this->CartModel->where('id_ente', $this->session->get('user_data')['id'])->where('id_user', $id)->find();
+		if(!empty($ll)){
+			foreach($ll as $kk=>$vv){
+			$this->CartModel->update($vv['id'],array('banned'=>'yes'));
+			}
+		}
 		return redirect()->to($_SERVER['HTTP_REFERER']);
 	}
 

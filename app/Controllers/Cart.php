@@ -9,6 +9,15 @@ class Cart extends BaseController
 		$data=$common_data;
 		if($this->request->getVar('action')!==null){
 			switch($this->request->getVar('action')){
+				case 'create_invoice':
+					$id=$this->request->getVar('id');
+					if(in_array('fatturecloud',$common_data['ente_package']['extra'])){
+								//ob_clean();
+								 $xx=$this->createFattureCloud($id);
+	//var_dump($xx);
+							 }
+						$data['success']=lang('app.success_create_invoice');
+				break;
 				case 'update_status':
 					$id=$this->request->getVar('id');
 					$status=$this->request->getVar('update_status');
@@ -66,6 +75,7 @@ class Cart extends BaseController
 		
 		$ll=$this->CartModel->where('banned','no')->where('id_ente',$common_data['user_data']['id'])->find();
 		$res=array();
+		$tot=0;
 		foreach($ll as $k=>$v){
 				
 				$inf_user=$this->UserModel->withDeleted()->find($v['id_user']);
@@ -100,6 +110,7 @@ class Cart extends BaseController
 				
 				$res[]=$v;
 			}
+			
 		$data['list']=$res;
 		return view('admin/cart.php',$data);
 	}

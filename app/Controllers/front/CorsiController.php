@@ -159,6 +159,9 @@ class CorsiController extends BaseController
 
         $data['pagination'] = $pagination;
         $data['corsi'] = $db->query("SELECT * FROM ({$courses('corsi')} UNION $moduloQuery) as a_table LIMIT $perPage OFFSET $offset")->getResultArray();
+	/*	echo "<pre>";
+		var_dump($data['corsi']);
+		exit;*/
         // $pag = Paginator::createFromResult($data['corsi'], 1, 3);
         // $data['pagination'] = $corsi->pager->links('corsi','front_courses_pagination');
 
@@ -305,9 +308,13 @@ class CorsiController extends BaseController
 			
 		}
 		
+		$pdf_ids = explode(',',$data['corsi']['ids_pdf']);
+				
+				$data['pdfs'] = $this->CorsiPDFLibModel->whereIn('id', $pdf_ids ?: ['impossible value'])->where('enable', 'yes')->where('id_ente', $data['selected_ente']['id'])->where('accesso','public')->where('banned', 'no')->find();
 			
 			$data['seo_image_info']=$info;
         $data['seo_image']=$seo_image;
+		
         // die(print_r($data['dates']));
         return view($data['view_folder'].'/detaglio-corso', $data);
         
@@ -326,6 +333,7 @@ class CorsiController extends BaseController
                                                     ->join('corsi', 'corsi.id = corsi_modulo.id_corsi')
                                                     ->join('corsi_modulo_prezzo_prof prezz', '(corsi_modulo.id = prezz.id_modulo)'. $joinLoggedIn, 'left')
                                                     ->join('categorie cat', 'find_in_set(cat.id, corsi.id_categorie) > 0', 'left')
+													
                                                     ->select('  corsi_modulo.*,
                                                                 corsi.tipologia_corsi,
                                                                 u.display_name,
@@ -338,7 +346,10 @@ class CorsiController extends BaseController
                                                     ->where('corsi_modulo.status', 'si')
                                                     ->groupBy('corsi_modulo.id')
                                                     ->first();
-
+													
+$pdf_ids = explode(',',$data['module']['ids_pdf']);
+				
+				$data['pdfs'] = $this->CorsiPDFLibModel->whereIn('id', $pdf_ids ?: ['impossible value'])->where('enable', 'yes')->where('id_ente', $data['selected_ente']['id'])->where('accesso','public')->where('banned', 'no')->find();
         // echo '<pre>';
         // print_r($data['module']);
         // echo '</pre>';
@@ -362,6 +373,9 @@ class CorsiController extends BaseController
                                                             ")
                                                     ->groupBy('corsi.id')
                                                     ->first();
+													
+													
+
 
         if ($data['corsi']['tipologia_corsi'] != 'online') {
             $data['dates'] = $this->CorsiModuloDateModel->where('id_modulo', $data['module']['id'])->where('banned', 'no')->find();

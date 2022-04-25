@@ -174,5 +174,8 @@ $lang['menu_wallet']="Portafoglio";
 $lang['no_result']="Siamo spiacenti, nessun risultato trovato";
 $lang['no_result_text']="Ricontrolla più tardi";
 $lang['text_last_activity']="Attività";
+
+$lang['title_modal_block_video']="Capitolo bloccato";
+$lang['msg_modal_block_video']="Non puoi saltare un capitolo!";
 return $lang;
 ?>

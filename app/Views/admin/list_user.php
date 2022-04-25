@@ -123,10 +123,12 @@ else{
                                                                 <i class="fe-user"></i>
                                                             </button>
 
-                                                            <a href="<?= base_url() ?>/admin/deleteUser/<?= $user['idu'] ?>" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
+                                                            <!--a href="<?= base_url() ?>/admin/deleteUser/<?= $user['idu'] ?>" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
+                                                                <i class="fe-x-circle"></i>
+                                                            </a-->
+															<a data-toggle="modal" data-target="#delete-modal-dialog" onclick="del_data('<?php echo $user['idu']?>')" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red">
                                                                 <i class="fe-x-circle"></i>
                                                             </a>
-
                                                             <a href="<?= base_url() ?>/admin/edit_user/<?= $user['idu'] ?>" class="p-1" style="height: fit-content; font-size: 1rem">
                                                                 <i class="fe-edit"></i>
                                                             </a>
@@ -165,7 +167,30 @@ else{
             <!-- ============================================================== -->
 
 
-
+<?php $attributes = ['class' => 'form-input-flat', 'id' => 'deleteform','method'=>'get'];
+		echo form_open("", $attributes);?>
+		
+		<div class="modal fade"id="delete-modal-dialog" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" >
+                <div class="modal-content">
+                    <div class="modal-header bg-light">
+                        <h4 class="modal-title" id="myCenterModalLabel"><?php echo lang('app.modal_title_delete_user')?></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="form-group">
+                           <?php  echo lang('app.alert_msg_delete_user')?>
+						  </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success waves-effect waves-light"><?php echo lang('app.btn_delete')?></button>
+                                <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal"><?php echo lang('app.btn_close')?></button>
+                            </div>
+                        
+                    </div>
+                </div><!-- /.modal-content -->
+            </div>
+		</div>
+       <?php echo form_close();?>
 
             <!-- update professione modal content -->
             <div id="user-info-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" >
@@ -394,7 +419,12 @@ else{
                               <input type="text" name="notification_subject" id="notification_subject" class="form-control" value="<?php echo $temp['subject'] ?? ""?>">
 							<label><?php echo lang('app.field_message')?></label>
 							  <textarea name="notification_message" id="notification_message" class="form-control"><?php echo $temp['html'] ?? ""?></textarea>
-							
+							<div class="alert alert-warning">
+							name => {var_user_name}<br/>
+
+							Username => {var_email}<br/>
+							Password => {var_password}<br/>
+							</div>
 							 
                         </div>
 						<div class="modal-footer">
@@ -460,7 +490,9 @@ else{
 			});
 		}
    });
-   
+   function del_data(id){
+			$("#deleteform").attr('action',"<?= base_url() ?>/admin/deleteUser/"+id);
+		}
 </script>
 <script>
 	 !function(n){

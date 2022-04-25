@@ -1362,4 +1362,11 @@ if($this->request->getVar('Password')!=""){
 		 
 		 
 	}
+	
+	public function get_info_cart(){
+		$id=$this->request->getVar('id');
+		$inf=$this->CartModel->find($id);
+		$amount=number_format($inf['total_ht']+$inf['total_vat'],2,',','.');
+		echo str_replace(array("{amount}"),array($amount),lang('app.alert_msg_creat_invoice'));
+	}
 }//end class

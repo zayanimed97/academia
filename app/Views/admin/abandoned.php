@@ -57,10 +57,10 @@
                                                     <tr>
 														<th>ID</th>
                                                         <th><?php echo lang('app.field_first_name')?></th>
-                                                        <th><?php echo lang('app.field_email')?></th>
+                                                        <!--th><?php echo lang('app.field_email')?></th-->
                                                         <th><?php echo lang('app.field_date')?></th>
                                                         <th>nb prod</th>
-														
+														<th>Items</th>
 														 <th>prezzo</th>
 
                                                         <th>&nbsp;</th>
@@ -71,13 +71,17 @@
                                                     <?php foreach($cart as $c) { ?>
                                                     <tr>
 														 <td><?= $c['id'] ?></td>
-                                                        <td><?= $c['display_name'] ?></td>
-                                                        <td>
-                                                            <div class="d-flex flex-column">
-                                                                <p><?= $c['user_email'] ?></p>
-                                                            </div></td>
-                                                        <td><?= $c['updated_at'] ?></td>
+                                                        <td><?= $c['display_name'] ?><br/><?= $c['user_email'] ?></td>
+                                                      
+                                                        <td><?= date('d/m/Y H:i',strtotime($c['updated_at'])) ?></td>
 														  <td><button class="btn btn-primary p-1" onclick="cartItems(<?= $c['id'] ?>)"><?= json_decode($c['cart'])->total_items ?></button></td>
+														  <td><?php 
+															//var_dump(json_decode($c['cart']));
+															foreach(json_decode($c['cart'],true) as $item){
+																	//var_dump($item);
+																	if(isset($item['name'])) echo "<li>".$item['name']."</li>";
+															}
+														  ?></td>
 														   <td><?= json_decode($c['cart'])->cart_total ?></td>
                                                             
                                                         <td class="row pt-1">
