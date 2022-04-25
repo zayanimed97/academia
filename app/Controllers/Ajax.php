@@ -1325,8 +1325,8 @@ if($this->request->getVar('Password')!=""){
 </table>
 <?php
 			 $cart_items=ob_get_clean();
-   $html=str_replace(array("{var_name}","{var_email}","{var_date}","{var_total_ht}","{var_discount_row}","{var_total_tax}","{var_total}","{var_payment_status}","{var_coupon}","{var_invoice_data}","{var_cart_details}","{var_payment_details}","{cart_url}"),
-			array($inf_participant['display_name'],$inf_participant['email'],date('d/m/Y',strtotime($inf_cart['created_at'])),number_format($cart_total,2,',','.'),$discount_row,number_format($cart_total,2,',','.'),number_format($cart_total+$cart_vat,2,',','.'),$payment_status,$coupon,$invoice_data,$cart_items,$payment_details,$cart_url ),
+   $html=str_replace(array("{var_name}","{var_email}","{var_date}","{var_total_ht}","{var_discount_row}","{var_total_tax}","{var_total}","{var_payment_status}","{var_coupon}","{var_invoice_data}","{var_cart_details}","{var_payment_details}","{cart_url}","{var_password}"),
+			array($inf_participant['display_name'],$inf_participant['email'],date('d/m/Y',strtotime($inf_cart['created_at'])),number_format($cart_total,2,',','.'),$discount_row,number_format($cart_total,2,',','.'),number_format($cart_total+$cart_vat,2,',','.'),$payment_status,$coupon,$invoice_data,$cart_items,$payment_details,$cart_url,$inf_participant['pass'] ),
 			$temp[0]['html']);
 			
 			$email = \Config\Services::email();
@@ -1334,7 +1334,7 @@ if($this->request->getVar('Password')!=""){
 			$sender_email=$settings['sender_email'];
 			
 			
-			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['selected_ente']['id'],'SMTP')['SMTP'];
+			$SMTP=$this->SettingModel->getByMetaKeyEnte($common_data['user_data']['id'],'SMTP')['SMTP'];
 				if($SMTP!="") $vals=json_decode($SMTP,true);
 			
 				if(!empty($vals)){
@@ -1361,5 +1361,12 @@ if($this->request->getVar('Password')!=""){
 		
 		 
 		 
+	}
+	
+	public function get_info_cart(){
+		$id=$this->request->getVar('id');
+		$inf=$this->CartModel->find($id);
+		$amount=number_format($inf['total_ht']+$inf['total_vat'],2,',','.');
+		echo str_replace(array("{amount}"),array($amount),lang('app.alert_msg_creat_invoice'));
 	}
 }//end class

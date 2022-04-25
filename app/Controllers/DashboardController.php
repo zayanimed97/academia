@@ -17,9 +17,10 @@ class DashboardController extends BaseController
 	{ 	
 		$common_data=$this->common_data();
 		$data=$common_data;
-		
+	
 		$ht=$this->CartModel->where('id_ente',$common_data['user_data']['id'])->where('status','COMPLETED')->where('banned','no')->selectSum('total_ht')->find();
 		$tva=$this->CartModel->where('id_ente',$common_data['user_data']['id'])->where('status','COMPLETED')->where('banned','no')->selectSum('total_vat')->find();
+	
 		$data['incomes']=number_format($ht[0]['total_ht']+$tva[0]['total_vat'],2,'.','');
 		
 		$tot_orders=$this->CartModel->where('id_ente',$common_data['user_data']['id'])->where('banned','no')->countAllResults();

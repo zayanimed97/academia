@@ -57,10 +57,10 @@
                                                     <tr>
 														<th>ID</th>
                                                         <th><?php echo lang('app.field_first_name')?></th>
-                                                        <th><?php echo lang('app.field_email')?></th>
+                                                        <!--th><?php echo lang('app.field_email')?></th-->
                                                         <th><?php echo lang('app.field_date')?></th>
                                                         <th>nb prod</th>
-														
+														<th>Items</th>
 														 <th>prezzo</th>
 
                                                         <th>&nbsp;</th>
@@ -71,13 +71,17 @@
                                                     <?php foreach($cart as $c) { ?>
                                                     <tr>
 														 <td><?= $c['id'] ?></td>
-                                                        <td><?= $c['display_name'] ?></td>
-                                                        <td>
-                                                            <div class="d-flex flex-column">
-                                                                <p><?= $c['user_email'] ?></p>
-                                                            </div></td>
-                                                        <td><?= $c['updated_at'] ?></td>
+                                                        <td><?= $c['display_name'] ?><br/><?= $c['user_email'] ?></td>
+                                                      
+                                                        <td><?= date('d/m/Y H:i',strtotime($c['updated_at'])) ?></td>
 														  <td><button class="btn btn-primary p-1" onclick="cartItems(<?= $c['id'] ?>)"><?= json_decode($c['cart'])->total_items ?></button></td>
+														  <td><?php 
+															//var_dump(json_decode($c['cart']));
+															foreach(json_decode($c['cart'],true) as $item){
+																	//var_dump($item);
+																	if(isset($item['name'])) echo "<li>".$item['name']."</li>";
+															}
+														  ?></td>
 														   <td><?= json_decode($c['cart'])->cart_total ?></td>
                                                             
                                                         <td class="row pt-1">
@@ -141,6 +145,23 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
+			
+			
+			  <div id="modalEmail" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" >
+                <div class="modal-dialog  modal-dialog-centered justify-content-center">
+                    <div class="modal-content" >
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="standard-modalLabel">Email notification</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body" style="width: fit-content;">
+                            <?php echo lang('app.success_send_contact')?>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+			
+			
 </div>
 <?= view('admin/common/footer') ?>
 
@@ -174,8 +195,8 @@
 				  
 			}).done(function(data){
 				//console.log(data);
-				alert("<?php echo lang('app.success_send_contact')?>");
-			
+				//alert("<?php echo lang('app.success_send_contact')?>");
+			$("#modalEmail").modal('show');
 			});
 	}
     function cartItems(id){

@@ -257,7 +257,7 @@
 															<div class="col-md-3">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_code')?></label>
-																	<?php $val=""; 
+																	<?php $val=$inf_corsi['codice'] ?? ""; 
 															$input = [
 																	'type'  => 'text',
 																	'name'  => 'codice',
@@ -294,14 +294,14 @@
 										$options['no']='no';
 										
 										
-										echo form_dropdown($input, $options,'si');
+										echo form_dropdown($input, $options,$inf_corsi['inscrizione_aula'] ?? 'si');
 										?>
                                             </div>
 										 </div>
 										  <div class="col-md-2" id="div_nb_person_aula" >
 											 <div class="form-group">
                                                 <label for="acc-mname"><?php echo lang('app.field_nb_person_aula')?></label>
-                                             <?php $val="1"; 
+                                             <?php $val=$inf_corsi['nb_person_aula'] ??  "1"; 
 										$input = [
 												'type'  => 'number',
 												'name'  => 'nb_person_aula',
@@ -324,7 +324,7 @@
 										  			<div class="col-md-4">
 																<div class="form-group required-field">
 																	<label for="acc-name"><?php echo lang('app.field_duration')?> </label>
-																	<?php $val="";
+																	<?php $val=$inf_corsi['duration'] ?? "";
 															$input = [
 																	'type'  => 'text',
 																	'name'  => 'duration',
@@ -358,7 +358,7 @@
 																$options['Intermedia']='Intermedia';
 																$options['Avanzata']='Avanzata';
 															
-																echo form_dropdown($input, $options, '');
+																echo form_dropdown($input, $options, $inf_corsi['difficulte'] ?? "");
 																?>
 
 																	</div>
@@ -409,7 +409,7 @@
                             <div class="tab-content m-b-0">
                                
 								 <div class="tab-pane fade show active" id="default-tab-2">
-								 <?php $val="";
+								 <?php $val=$inf_corsi['descizione'] ?? "" ;
 										$input = [
 												'rows'=>3,
 												'name'  => 'descizione',
@@ -425,7 +425,7 @@
 												
 								 </div>
 								 <div class="tab-pane fade" id="default-tab-3">
-								 <?php $val=""; 
+								 <?php $val=$inf_corsi['obiettivi'] ?? "" ;
 										$input = [
 												'rows'=>3,
 												'name'  => 'obiettivi',
@@ -440,7 +440,7 @@
 										?>
 								 </div>
 								 <div class="tab-pane fade" id="default-tab-4">
-								  <?php $val=""; 
+								  <?php $val=$inf_corsi['programa'] ?? "" ;
 										$input = [
 												'rows'=>3,
 												'name'  => 'programa',
@@ -455,7 +455,7 @@
 										?>
 								 </div>
 								 <div class="tab-pane fade" id="default-tab-5">
-								  <?php $val=""; 
+								  <?php $val=$inf_corsi['note'] ?? "" ;
 										$input = [
 												'rows'=>3,
 												'name'  => 'note',
@@ -470,7 +470,7 @@
 										?>
 								 </div>
 								 <div class="tab-pane fade" id="default-tab-6">
-								  <?php $val=""; 
+								  <?php $val=$inf_corsi['riferimenti'] ?? "" ;
 										$input = [
 												'rows'=>3,
 												'name'  => 'riferimenti',
@@ -485,7 +485,7 @@
 										?>
 								 </div>
 								 <div class="tab-pane fade" id="default-tab-7">
-								  <?php $val=""; 
+								  <?php $val=$inf_corsi['indrizzato_a'] ?? "" ;
 										$input = [
 												'rows'=>3,
 												'name'  => 'indrizzato_a',
@@ -500,7 +500,7 @@
 										?>
 								 </div>
 								 <div class="tab-pane fade" id="default-tab-8">
-								  <?php $val=""; 
+								  <?php $val=$inf_corsi['avvisi'] ?? "" ;
 										$input = [
 												'rows'=>3,
 												'name'  => 'avvisi',
@@ -582,7 +582,7 @@
                                              <div class="form-group row mb-3">
                                                 <label class="col-md-3 col-form-label" for="email"><?php echo lang('app.field_price')?></label>
 												<div class="col-md-9">
-												<?php $val=""; 
+												<?php $val=$inf_corsi['prezzo'] ?? "" ;; 
 										$input = [
 												'type'  => 'text',
 												'name'  => 'prezzo',
@@ -869,7 +869,7 @@
 													  <div class="input-group-prepend">
 														<span class="input-group-text" id="basic-addon3">https://www.youtube.com/embed/</span>
 													  </div>
-																<?php $val=""; 
+																<?php $val=$inf_corsi['video_promo'] ?? "" ; 
 														$input = [
 																'type'  => 'text',
 																'name'  => 'video_promo',
@@ -933,7 +933,7 @@
 									 <div class="col-md-12">
                                              <div class="form-group required-field">
                                                 <label for="acc-name"><?php echo lang('app.field_seo_title')?></label>
-												<?php $val=""; 
+												<?php $val=$inf_corsi['seo_title'] ?? "" ;
 										$input = [
 												'type'  => 'text',
 												'name'  => 'seo_title',
@@ -955,7 +955,7 @@
 										 <div class="col-md-12">
                                             <div class="form-group ">
 											<label for="acc-mname"><?php echo lang('app.field_seo_description')?></label>
-											 <?php $val=""; 
+											 <?php $val=$inf_corsi['seo_description'] ?? "" ;
 										$input = [
 												'rows'=>3,
 												'name'  => 'seo_description',

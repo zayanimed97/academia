@@ -394,6 +394,8 @@ $lang['field_cart']="Carello";
 $lang['field_date_session']="Data Evento";
 $lang['field_total']="Importo";
 
+$lang['field_cuepoint_block']="Bloccare i Cuepoint.<br>Questa funziona serve per controllare che il participante visualizzare tutto il video senza passare da un capitolo ad un altro.";
+
 $lang['status_completed']="Completato";
 $lang['status_canceled']="Annullato";
 $lang['status_pending']="In sospeso pagamento";
@@ -605,6 +607,8 @@ $lang['title_page_settings_social']="Configurazione Social";
 $lang['title_modal_video_status']="Dettagli video progress";
 $lang['title_modal_send_notification']="Invia notificazione";
 $lang['modal_title_test_smtp']="Invia Test SMTP";
+$lang['title_modal_create_invoice']="Crea Fattura";
+$lang['modal_title_delete_user']="Eleminare Utente";
 ############### errors ####################
 $lang['error_captcha']="Errore captcha!";
 $lang['error_required']="I campi obbligatori sono vuoti!";
@@ -651,6 +655,7 @@ $lang['scc_mail_subscribed_newsletter']="la tua email è iscritta nel sistema di
 $lang['success_send_credential']="Credenziali inviati correttamente";
 $lang['success_send_promo']="Promemoria Email inviati correttamente";
 $lang['success_send_notification']="Notificazione Email inviati correttamente";
+$lang['success_create_invoice']="viene creata la fattura";
 #############alert msg ####################
 $lang['alert_msg_delete_user']="Sei sicuro di volere eliminare questo utente?";
 $lang['alert_msg_delete_price_prof']="sei sicuro di voler cancellare questo prezzo per profesisone?";
@@ -679,5 +684,7 @@ $lang['help_forgot_password']="Hai dimenticato la password?";
 $lang['modal_title_help_form']="Invia un messaggio all'amministratore";
 $lang['msg_select_participation']="devi scegliere almeno una partecipazione!";
 $lang['msg_send_mail_test']="viene inviata un'email di prova";
+$lang['alert_msg_creat_invoice']="Sei sicuro di creare fattura (<b>{amount}€</b>)?";
+$lang['alert_msg_delete_user']="Sei sicuro di eliminare questo utente e il suo carrello?";
 return $lang;
 ?>

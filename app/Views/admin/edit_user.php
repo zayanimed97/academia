@@ -76,7 +76,14 @@ else{
                                                             <span class="d-none d-sm-inline"><?php echo lang('app.menu_media')?></span>
                                                         </a>
                                                     </li>
+													
                                                    <?php if($role=='participant'){?>
+												    <li class="nav-item">
+                                                        <a href="#basictab5" data-toggle="tab" id="basic5" class="nav-link rounded-0 pt-2 pb-2">
+                                                            <i class="mdi mdi-file-pdf mr-1"></i>
+                                                            <span class="d-none d-sm-inline"><?php echo lang('app.menu_fattura')?></span>
+                                                        </a>
+                                                    </li>
 												    <li class="nav-item">
                                                         <a href="#basictab4" data-toggle="tab" id="basic4" class="nav-link rounded-0 pt-2 pb-2">
                                                             <i class="mdi mdi-cart mr-1"></i>
@@ -459,7 +466,335 @@ else{
 																</table>
 														
 												 </div>
-                                                   
+                                                    <div class="tab-pane" id="basictab5">
+													<div class="row">
+																<div class="col-12 mb-3">
+                                                                	<div class="alert alert-warning help_type text-primary" role="alert"><b>La fattura verrà intestata:</b></div>
+                                                                        <div class="radio form-check-inline">
+																			<input type="radio" name="type" id="type_private" value="private" onclick="return get_type('private')" <?php if($user['type']=='private') echo 'checked'?>>
+																			<label for="type_private"> <?php echo lang('app.field_type_private')?> </label>
+																		
+																		</div>
+																		<div class="radio form-check-inline">
+																			<input type="radio" name="type" id="type_professional" value="professional"  onclick="return get_type('professional')"  <?php if($user['type']=='professional') echo 'checked'?>>
+																			<label for="type_professional"> <?php echo lang('app.field_type_professional')?> </label>
+																		
+																		</div>
+																		 <div class="radio form-check-inline">
+																		<input type="radio" name="type" id="type_company" value="company" onclick="return get_type('company')"  <?php if($user['type']=='company') echo 'checked'?>>
+																			<label for="type_company"> <?php echo lang('app.field_type_company')?> </label>
+																		
+																		</div>
+															</div>
+														</div>
+
+														<div class="row">
+															 <div class="col-6" id="div_company"  <?php if($user['type']!='company'){?>style="display:none" <?php } ?>>
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_company_name')?></label>
+									<div class="col-md-9">
+										<?php $val=$user['ragione_sociale']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'ragione_sociale',
+												'id'    => 'ragione_sociale',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_company_name'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+                                  <div class="col-6" id="div_piva" <?php if($user['type']=='private'){?>style="display:none" <?php } ?>>
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_piva')?></label>
+                                   <div class="col-md-9">
+								        <?php $val=$user['fattura_piva']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_piva',
+												'id'    => 'fattura_piva',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_piva'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+								<div class="col-6" id="div_cf" >
+														 <div class="form-group row mb-3">
+													<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_cf')?></label>
+													<div class="col-md-9">
+														<?php $val=$val=$user['fattura_cf']; 
+														$input = [
+																'type'  => 'text',
+																'name'  => 'fattura_cf',
+																'id'    => 'fattura_cf',
+																'required' =>true,
+																'value' => $val,
+																'placeholder' =>lang('app.field_cf'),
+																'class' => 'form-control'
+																
+														];
+
+														echo form_input($input);
+														?>
+													</div>
+												</div>
+										</div>
+									</div>
+									<div class="row">
+																  <div class="col-6" id="div_fattura_nome" <?php if($user['type']=='company'){?>style="display:none" <?php } ?>>
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_first_name')?></label>
+									<div class="col-md-9">
+										<?php $val=$user['fattura_nome']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_nome',
+												'id'    => 'fattura_nome',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_first_name'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+                                  <div class="col-6" id="div_fattura_cognome" <?php if($user['type']=='company'){?>style="display:none" <?php } ?>>
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_last_name')?></label>
+                                   <div class="col-md-9">
+								        <?php $val=$user['fattura_cognome']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_cognome',
+												'id'    => 'fattura_cognome',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_last_name'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+                              
+								
+								<div class="col-6">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_country')?></label>
+                                    <div class="col-md-9">
+										<?php $input = [
+												
+												'name'  => 'fattura_stato',
+												'id'    => 'fattura_stato',
+												'placeholder' =>lang('app.field_country'),
+												'class' => 'form-control'
+										];
+										$options=array();
+										$options['']=lang('app.field_select');
+										foreach($list_nazioni as $k=>$v){
+											$options[$v['id']]=$v['nazione'];
+										}
+										$js = ' onChange="get_provincia(\'fattura_stato\',this.value);"';
+										echo form_dropdown($input, $options,$user['fattura_stato'],$js);
+										?>
+
+									</div>
+								</div>
+                               </div>
+                                   <div class="col-6" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_provincia')?></label>
+                                    <div class="col-md-9" id="div_fattura_provincia">
+										<?php $input = [
+												
+												'name'  => 'fattura_provincia',
+												'id'    => 'fattura_provincia',
+												'placeholder' =>lang('app.field_provincia'),
+												'class' => 'form-control'
+										];
+										
+											if($user['fattura_stato']==106){
+										$options=array();
+										$options['']=lang('app.field_select');
+										if(!empty($list_provincia)){
+										foreach($list_provincia as $k=>$v){
+											$options[$v['id']]=$v['provincia'];
+										}
+										}
+										$js = ' onChange="get_comune(\'fattura_provincia\',this.value);"';
+										echo form_dropdown($input, $options,$user['fattura_provincia'],$js);
+										}
+										else{
+											$input['value']=$user['fattura_provincia'];
+											echo form_input($input);
+										}
+										
+										?>
+									</div>
+								</div>
+							</div>
+                                   <div class="col-6" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_city')?></label>
+									<div class="col-md-9" id="div_fattura_comune">
+										<?php $input = [
+												
+												'name'  => 'fattura_comune',
+												'id'    => 'fattura_comune',
+												'placeholder' =>lang('app.field_city'),
+												'class' => 'form-control'
+										];
+										
+											if($user['fattura_stato']==106){
+											$options=array();
+											$options['']=lang('app.field_select');
+											if(!empty($list_comuni)){
+											foreach($list_comuni as $k=>$v){
+												$options[$v['id']]=$v['comune'];
+											}
+											}
+											echo form_dropdown($input, $options,$user['fattura_comune']);
+										}
+										else{
+											$input['value']=$user['fattura_comune'];
+											echo form_input($input);
+										}
+									
+										?>
+                                    </div>
+								</div>
+								</div>
+                                 <div class="col-6" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_address')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$user['fattura_indirizzo']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_indirizzo',
+												'id'    => 'fattura_indirizzo',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_address'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+								</div>
+                                   <div class="col-6" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_zip')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$user['fattura_cap']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_cap',
+												'id'    => 'fattura_cap',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_zip'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+                               </div>
+							    <div class="col-6">
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_phone')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$user['fattura_phone']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_phone',
+												'id'    => 'fattura_phone',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_phone'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+							</div>
+								<div class="col-6" >
+														 <div class="form-group row mb-3">
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_pec')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$user['fattura_pec']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_pec',
+												'id'    => 'fattura_pec',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_pec'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+                               </div>
+<div class="col-6" >
+														 <div class="form-group row mb-3" id="div_sdi" <?php if($user['type']=='private'){?>style="display:none" <?php } ?>>
+									<label class="col-md-3 col-form-label" for="acc-name"><?php echo lang('app.field_sdi')?></label>
+                                    <div class="col-md-9">
+										<?php $val=$user['fattura_sdi']; 
+										$input = [
+												'type'  => 'text',
+												'name'  => 'fattura_sdi',
+												'id'    => 'fattura_sdi',
+												'required' =>true,
+												'value' => $val,
+												'placeholder' =>lang('app.field_sdi'),
+												'class' => 'form-control'
+												
+										];
+
+										echo form_input($input);
+										?>
+									</div>
+								</div>
+                               </div>							   
+								
+								
+								   
+														</div>
+                                      
+													</div>
                                                     <ul class="list-inline wizard mb-0">
                                                         <!-- <li class="previous list-inline-item">
                                                             <a href="javascript: void(0);" class="btn btn-secondary">Previous</a>
@@ -700,6 +1035,74 @@ function del_prima(){
 		$("#delete_prima").val('yes');
 	}
 }
+
+function get_type(v){
+	$("#div_company").hide(0);
+	$("#div_cf").hide(0);
+	$("#div_piva").hide(0);
+	$("#div_sdi").hide(0);
+	$("#div_fattura_cognome").hide(0);
+	$("#div_fattura_nome").hide(0);
+	switch(v){
+		case 'private':
+			$("#div_cf").show(0);
+			$("#div_fattura_cognome").show(0);
+			$("#div_fattura_nome").show(0);
+		break;
+		case 'professional':
+			$("#div_cf").show(0);
+			$("#div_piva").show(0);
+			$("#div_sdi").show(0);
+			$("#div_fattura_cognome").show(0);
+			$("#div_fattura_nome").show(0);
+		break;
+		case 'company':
+			$("#div_cf").show(0);
+			$("#div_piva").show(0);
+			$("#div_company").show(0);
+			$("#div_sdi").show(0);
+		break;
+	}
+}
+
+function get_provincia(t,v,selected=''){
+	
+			$.ajax({
+				  url:"<?php echo base_url()?>/ajax/get_provincia_by_nazione",
+				  method:"POST",
+				  data:{id_nazione:v,t:t,selected:selected}
+				  
+			}).done(function(data){
+				if(t=='residenza_stato'){
+					$("#div_residenza_provincia").html(data);
+				/*	var xxx="<label class='col-form-label col-sm-3'><?php echo lang('app.field_city')?></label><div class='col-sm-6'><input type='text' name='residenza_comune' id='residenza_comune' class='form-control form-control-sm'></div>";*/
+					var xxx="<input type='text' name='residenza_comune' id='residenza_comune' class='form-control'>";
+					$("#div_residenza_comune").html(xxx);
+				}
+				if(t=='fattura_stato'){
+					$("#div_fattura_provincia").html(data);
+					var xxx="<label class='col-form-label col-sm-3'><?php echo lang('app.field_city')?></label><div class='col-sm-6'><input type='text' name='fattura_comune' id='fattura_comune' class='form-control form-control-sm'></div>";
+					$("#div_fattura_comune").html(xxx);
+				}
+			});
+		}
+function get_comune(t,v,selected=''){
+	
+			$.ajax({
+				  url:"<?php echo base_url()?>/ajax/get_comune_by_provincia",
+				  method:"POST",
+				  data:{id_provincia:v,t:t,selected:selected}
+				  
+			}).done(function(data){
+				console.log(data);
+				if(t=='residenza_provincia'){
+					$("#div_residenza_comune").html(data);
+				}
+				if(t=='fattura_provincia'){
+					$("#div_fattura_comune").html(data);
+				}
+			});
+		}
         </script>
         <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/js/pages/form-wizard.init.js"></script>
 

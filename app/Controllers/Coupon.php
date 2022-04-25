@@ -293,7 +293,7 @@ class Coupon extends BaseController
                          </div>
 						 <div class="form-group required-field">
 							<label for="acc-name"><?php echo lang('app.field_start_date')?></label>
-							<?php $val=""; if($data['start_date']!=null) $val=date('d/m/Y',strtotime($data['start_date']));
+							<?php $val=""; if($data['start_date']!=null) $val=date('Y-m-d',strtotime($data['start_date']));
 							$input = [
 									'type'  => 'text',
 									'name'  => 'start_date',
@@ -311,7 +311,7 @@ class Coupon extends BaseController
                          </div>
 						  <div class="form-group required-field">
 							<label for="acc-name"><?php echo lang('app.field_end_date')?></label>
-							<?php $val="";  if($data['end_date']!=null) $val=date('d/m/Y',strtotime($data['end_date']));
+							<?php $val="";  if($data['end_date']!=null) $val=date('Y-m-d',strtotime($data['end_date']));
 							$input = [
 									'type'  => 'text',
 									'name'  => 'end_date',

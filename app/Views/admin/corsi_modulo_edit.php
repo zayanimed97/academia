@@ -2019,3 +2019,4 @@ function del_corsi_date(id){
 	$("#add_corsi_form").append("<input type='hidden' name='ids_delete_date[]' value='"+id+"'>");
 }
 </script>
+<?= view('admin/common/endtag') ?>

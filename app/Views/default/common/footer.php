@@ -32,6 +32,12 @@
 			 <?php } ?>
 			 </div>
 			<?php } ?>
+			
+			<div class="justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
+                <div class="space-x-4 text-gray-300 text-center">
+					Piattaforma di E-learning realizzata da <a href="https://auledigitali.it/"><b>Auledigitali.it</b></a>
+                </div>
+            </div>
         </div>
 
     </div>

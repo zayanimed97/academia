@@ -107,10 +107,11 @@ class Participation extends BaseController
 					
 					if($v['confirm_zoom']!=""){
 						$det=json_decode($v['confirm_zoom'],true);
+						//var_dump($det);
 						$v['confirm_zoom']="";
 						foreach($det as $kk=>$vv){
 							$inf_date=$this->CorsiModuloDateModel->find($kk);
-							$v['confirm_zoom'].=date('d/m/Y H:i',strtotime($inf_date['date'].' '.$inf_date['start_time']));
+							$v['confirm_zoom'].=date('d/m/Y H:i',strtotime($vv));
 						}
 						
 					}

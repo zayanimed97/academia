@@ -647,3 +647,4 @@ function getFilters($watch) {
     }
 }
 </script>
+<?= view($view_folder.'/common/close') ?>

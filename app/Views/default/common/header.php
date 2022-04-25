@@ -66,6 +66,17 @@
 <?php if(isset($settings['fb_app_ID']) && $settings['fb_app_ID']!=""){?>
 <meta property="fb:app_id" content="<?php echo $settings['fb_app_ID'] ?? ''?>">
 <?php } ?>
+
+<?php if(isset($settings['google_manager_ID']) && $settings['google_manager_ID']!=""){?>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','<?php echo  $settings["google_manager_ID"]?>');</script>
+<!-- End Google Tag Manager -->
+<?php } ?>
+
 <?php if(isset($settings['google_analytic']) && $settings['google_analytic']!=""){?>
 <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $settings['google_analytic']?>"></script>
 <script>
@@ -163,8 +174,12 @@
 </head>
 
 <body class="bg-white"  x-data="headerData($watch)">
-
-
+<?php if(isset($settings['google_manager_ID']) && $settings['google_manager_ID']!=""){?>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo $settings['google_manager_ID']?>"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<?php } ?>
     <div id="wrapper" class="horizontal flex flex-col relative min-h-screen">
         
         <!--  Header  -->

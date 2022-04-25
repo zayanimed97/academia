@@ -31,8 +31,8 @@ class Report extends BaseController
 					if($inf_user_profile['residenza_stato']=='106'){
 						$inf_provincia=$this->ProvinceModel->find($inf_user_profile['residenza_provincia']);
 						$inf_comune=$this->ComuniModel->find($inf_user_profile['residenza_comune']);
-						if(!empty($inf_provincia)) $residenza_provincia=$inf_provincia['provincia'];
-						if(!empty($inf_comune)) $residenza_comune=$inf_comune['comune'];
+						if(!empty($inf_provincia)) $residenza_provincia=$inf_provincia['provincia'] ?? '';
+						if(!empty($inf_comune)) $residenza_comune=$inf_comune['comune'] ?? '';
 					}
 					else{
 						$residenza_provincia=$inf_user_profile['residenza_provincia'];
@@ -45,6 +45,7 @@ class Report extends BaseController
 					$l[$k]['nascita_luogo']=$inf_user_profile['nascita_provincia'];//$residenza_provincia;
 					$l[$k]['nascita_data']=$inf_user_profile['nascita_data'];
 			}
+			
 			$sheet->mergeCells("A1:Z1");
 			$sheet->setCellValue('A1', "Lista participanti");
 			$sheet->mergeCells("A2:Z2");

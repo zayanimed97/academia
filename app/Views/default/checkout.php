@@ -157,8 +157,8 @@
                                     </template>
                                     <template x-if="type == 'company'">
                                         <div class="col-span-2 md:col-span-1">
-                                            <label for="regione" class="text-sm font-medium"> <?php echo lang('front.field_company_name')?> </label>
-                                            <input type="text" class="with-border" id="regione" name="regione" value="<?= $user['ragione_sociale'] ?? "" ?>" required>
+                                            <label for="ragione_sociale" class="text-sm font-medium"> <?php echo lang('front.field_company_name')?> </label>
+                                            <input type="text" class="with-border" id="ragione_sociale" name="ragione_sociale" value="<?= $user['ragione_sociale'] ?? "" ?>" required>
                                         </div>
                                     </template>
                                     <div class="col-span-2 md:col-span-1">

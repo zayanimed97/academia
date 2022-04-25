@@ -75,6 +75,7 @@ use CodeIgniter\I18n\Time;
                                     <!-- <li><a href="#Contenuto" uk-scroll>Contenuto del corso</a></li>  -->
                                     <li><a href="#Moduli" uk-scroll><?php if($corsi['tipologia_corsi']=='eBook') echo lang('front.field_tab_ebook'); else echo lang('front.field_tab_modulo')?></a></li>
                                     <li><a href="#Curriculum"><?php echo lang('front.field_cv')?> </a></li>
+									  <li><a href="#pdfs"><?php echo lang('front.materiel_cours')?> </a></li>
                                     <!-- <li><a href="#reviews">Reviews</a></li> -->
                                 </ul>
                             </nav>
@@ -635,7 +636,19 @@ use CodeIgniter\I18n\Time;
                             <?php } ?>
         
                         </div>
-
+					 <div id="pdfs" class="tube-card p-5 lg:p-8">
+					 <ul class="course-curriculum-list font-medium">
+                                            <?php foreach($pdfs as $pdf){ ?>
+                                            <li class=" hover:bg-gray-100 p-2 flex rounded-md items-center mb-4 border-b">
+                                                <span class="icon-material-outline-picture-as-pdf text-xl mr-4"></span> 
+                                                <span><?= $pdf['pdfname'] ?></span> 
+                                                <span class="text-sm ml-auto">
+                                                    <a href="<?= base_url('user/getFile/'.$pdf['id']) ?>" class="flex items-center justify-center h-9 px-6 rounded-md bg-blue-600 text-white"> <?php echo lang('front.btn_download_attachment')?> </a>
+                                                </span>
+                                            </li>
+                                            <?php } ?>
+                                        </ul>
+					 </div>
                     </div>
                     <div class="lg:w-4/12 space-y-4">
                         

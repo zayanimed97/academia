@@ -39,7 +39,12 @@
                                 <div class="card">
                                     <div class="card-body">
         
-                                     
+                                      <?php 
+										 if($success ?? false){?>
+										 <div class="alert alert-success" role="alert">
+											 <?php echo $success?>
+											</div>
+										 <?php }?>
                                         <!-- <p class="sub-header">Inline edit like a spreadsheet, toolbar column with edit button only and without focus on first input.</p> -->
                                         <div class="table-responsive">
                                             <table id="basic-datatable" class="table dt-responsive nowrap w-100">
@@ -87,7 +92,12 @@
 														   <a target="_blank" href="<?php echo base_url('getInvoiceFattureCloud/'.$det['new_id'])?>" class="btn p-1 mr-2" style="font-size: 1rem">
                                                                 <i class="fas fa-file-invoice-dollar"></i>
                                                             </a>
-														   <?php } }?>
+														   <?php } }
+														   elseif($arg['status']=='COMPLETED' && in_array('fatturecloud',$ente_package['extra'])){?>
+														   <a data-toggle="modal" data-target="#create-invoice-modal" onclick="get_info_cart('<?php echo $arg['id']?>')" class="p-1 mr-2" style="height: fit-content; font-size: 1rem; color: red" >
+                                                                <i class="fas fa-file-pdf"></i>
+                                                            </a>
+														   <?php } ?>
                                                         </td>
                                                     </tr>
                                                     <?php } ?>
@@ -199,6 +209,36 @@
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
     <?php echo form_close();?>	
+	
+	    <?php $attributes = ['class' => '', 'id' => 'creat_invoice','method'=>'post'];
+				echo form_open_multipart( base_url('admin/cart/'), $attributes);?>
+				  <input type="hidden" value="" id="cart2InvoiceID" name="id">
+				    <input type="hidden" value="create_invoice" id="action" name="action">
+	<div id="create-invoice-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="standard-modalLabel"><?= lang('app.title_modal_create_invoice') ?></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body" id="div_cart_details">
+
+                            
+
+                        </div>
+						<div class="modal-footer">
+							<a href="javascript:;" class="btn width-100 btn-danger" data-dismiss="modal"><?php echo lang('app.btn_cancel')?></a>
+							<?php $data=["name"=>"save",
+												"value"=>lang('app.btn_save'),
+												'class' => 'btn btn-success'
+									];
+								
+									echo form_submit($data,lang('app.btn_save'));?>
+						</div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+	 <?php echo form_close();?>	
 <?= view('admin/common/footer') ?>
 
 <script src="<?php echo base_url('UBold_v4.1.0')?>/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -256,6 +296,20 @@
 			return false;
 		}
 		else return true;
+	}
+	
+	function get_info_cart(id){
+		$.ajax({
+				  url:"<?php echo base_url()?>/ajax/get_info_cart",
+				  method:"POST",
+				  data:{id:id}
+				  
+			}).done(function(data){
+				$("#cart2InvoiceID").val(id);
+				$("#div_cart_details").html(data);
+				
+			
+			});
 	}
 </script>
 <?= view('admin/common/endtag') ?>

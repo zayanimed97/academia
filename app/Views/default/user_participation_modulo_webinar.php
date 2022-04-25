@@ -97,10 +97,11 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                               <?php if(strtotime(date('Y-m-d H:i:s')) < (strtotime($inf_date['date']. ' '. $inf_date['start_time'] . ':00')-3600) || strtotime(date('Y-m-d H:i:s')) > strtotime($inf_date['date']. ' '. $inf_date['end_time'] . ':00')){?>
                             <div>
 							  <button class="uk-button bg-gray-600 text-white disabled" disabled><?php echo lang('front.btn_webinar')?></button>
+							   
                             </div>
 							  <?php } else{?>
                             <div>
-							  <a href="<?php echo $inf_date['zoom_url']?>" class="uk-button uk-button-primary"><?php echo lang('front.btn_webinar')?></a>
+							  <a target="_blank"  href="<?php echo $inf_date['zoom_url']?>" class="uk-button uk-button-primary zoom_confirm_btn" data-id="<?php echo $inf_date['id']?>"><?php echo lang('front.btn_webinar')?></a>
                             </div>
                             <?php } ?>
 							</div>
@@ -114,10 +115,11 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
                               <?php if(strtotime($v['date'])>strtotime(date('Y-m-d'))){?>
                             <div>
                               <button class="uk-button bg-gray-600 text-white disabled" disabled><?php echo lang('front.btn_webinar')?></button>
+							  
                             </div>
 							  <?php } else{?>
                             <div>
-							  <a href="<?php echo $v['zoom_url']?>" class="uk-button uk-button-primary"><?php echo lang('front.btn_webinar')?></a>
+							  <a target="_blank" href="<?php echo $v['zoom_url']?>" class="uk-button uk-button-primary zoom_confirm_btn" data-id="<?php echo $v['id']?>"><?php echo lang('front.btn_webinar')?></a>
                             </div>
 							  <?php } ?>
 							</div>
@@ -343,6 +345,23 @@ $type_cours=json_decode($settings['type_cours'] ?? '',true); ?>
     </div>
     
 <?= view($view_folder.'/common/footer') ?>
+<script>
 
-
+$(document).ready(function(){
+	//alert("");
+	$(".zoom_confirm_btn").click(function(){
+		var id=$(this).data('id');
+	
+		$.ajax({
+				  url:"<?php echo base_url()?>/ajax/set_zoom_confirm",
+				  method:"POST",
+				  data:{id:id,id_participation:'<?php echo $inf_participation["id"]?>'}
+				  
+			}).done(function(data){
+				console.log(data);
+			
+			});
+	});
+});
+</script>
     <?= view($view_folder.'/common/close') ?>

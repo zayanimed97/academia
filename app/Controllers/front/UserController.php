@@ -30,6 +30,7 @@ class UserController extends BaseController
     {
 		// var_dump(strlen($this->request->getVar('privacy'))); exit;
         $request = $this->request->getVar();
+		$request['email']=strtolower(trim($request['email']));
 		$verif=$this->UserModel->where('id_ente',$this->common_data()['selected_ente']['id'])->where('email',$request['email'])->find();
 		$verif2=$this->UserModel->where('role','ente')->where('email',$request['email'])->find();
 		if(!empty($verif) || !empty($verif2)){
@@ -155,7 +156,7 @@ class UserController extends BaseController
         $data = $this->common_data();
         
         // $settings=$this->SettingModel->getByMetaKey();
-		$email=$this->request->getVar('email');
+		$email=trim($this->request->getVar('email'));
 		if (preg_match('/^[a-f0-9]{32}$/', $this->request->getVar('password'))) {
 			$password=$this->request->getVar('password');
 		} else {
@@ -486,13 +487,13 @@ class UserController extends BaseController
 		}
 		
 		else{
-			$exist=$this->UserModel->where('email',$this->request->getVar('email'))->where('id_ente',$common_data['selected_ente']['id'])->where('id !=',$common_data['user_data']['id'])->first();
-			$verif2=$this->UserModel->where('role','ente')->where('email',$this->request->getVar('email'))->find();
+			$exist=$this->UserModel->where('email',strtolower(trim($this->request->getVar('email'))))->where('id_ente',$common_data['selected_ente']['id'])->where('id !=',$common_data['user_data']['id'])->first();
+			$verif2=$this->UserModel->where('role','ente')->where('email',strtolower(trim($this->request->getVar('email'))))->find();
 			if(!empty($exist)){
 				$res=array("error"=>true,"validation"=>lang('front.error_mail_exist'));
 			}
 			else{
-				$tab=array('email'=>$this->request->getVar('email'));
+				$tab=array('email'=>strtolower(trim($this->request->getVar('email'))));
 				if($this->request->getVar('password')!=""){
 					$tab['pass']=$this->request->getVar('password');
 					$tab['password']=md5($this->request->getVar('password'));
@@ -527,25 +528,29 @@ class UserController extends BaseController
 			  $vv['foto']=$inf_modulo['foto'];
 			 $inf_corsi=$this->CorsiModel->find($inf_modulo['id_corsi']);
 			 $vv['inf_corsi']=$inf_corsi;
-			 if($inf_corsi['tipologia_corsi']=='eBook'){
-				$vv['pdfs'] = $this->CorsiPDFLibModel->where("FIND_IN_SET(corsi_pdf_lib.id, {$inf_modulo['ids_pdf']})>0")->find();
-				}
 			  $vv['corso_title']=$inf_corsi['sotto_titolo'];
 			 $vv['title']=$inf_modulo['sotto_titolo'];
 			 $vv['tipologia_corsi']=$inf_corsi['tipologia_corsi'];
 			 if(!is_null($vv['id_date']) && $vv['id_date']>0){
 				$inf_date=$this->CorsiModuloDateModel->find($vv['id_date']); 
 				if(!empty($inf_date)) $vv['session_date']=$inf_date['date'];
-				 else $vv['session_date']="";
+				else{ $vv['session_date']="";
+				
+				}
 			 }
-			 else $vv['session_date']="";
-			$res[$inf_modulo['id_corsi']][]=$vv; 
+			 else{
+				 $vv['session_date']="";
+				/* if(in_array($inf_corsi['tipologia_corsi'],array('aula','webinar')){
+					 $fist_date=$this->CorsiModuloDateModel->where('id_modulo',$vv['id_modulo'])->orderBy('date','asc')first();
+				 }*/
+			 }
+			$res[$inf_corsi['tipologia_corsi']][$inf_modulo['id_corsi']][]=$vv; 
 		 }
 		 $data['list']=$res;
-		  	// echo '<pre>';
-			// print_r($res);
-			// echo '</pre>';
-			// exit;
+		/*  	 echo '<pre>';
+		 print_r($res);
+			 echo '</pre>';
+			 exit;*/
 		return view($common_data['view_folder'].'/user_participation.php',$data);
 	}
 	
